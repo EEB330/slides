@@ -1,0 +1,8 @@
+---
+title: "Introduction to the computer and programming logic"
+author: Diogo Melo
+date: Week 1
+runtime: static
+output:
+  xaringan::moon_reader:
+---
