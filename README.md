@@ -1,3 +1,3 @@
 ## Week 1 
 
-[Why learn Programming?](00_Why_Programming.html)
+[Why learn Programming?](https://eeb330.github.io/slides/00_Why_Programming.html)
