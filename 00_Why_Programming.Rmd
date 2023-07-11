@@ -1,0 +1,63 @@
+---
+title: "Why should biologist learn programming?"
+author: Diogo Melo
+date: Week 1
+runtime: static
+output:
+  xaringan::moon_reader:
+---
+
+```{r, echo = FALSE}
+# clipboard
+htmltools::tagList(
+  xaringanExtra::use_clipboard(
+    button_text = "Copy code <i class=\"fa fa-clipboard\"></i>",
+    success_text = "Copied! <i class=\"fa fa-check\" style=\"color: #90BE6D\"></i>",
+    error_text = "Not copied 😕 <i class=\"fa fa-times-circle\" style=\"color: #F94144\"></i>"
+  ),
+  rmarkdown::html_dependency_font_awesome())
+```
+
+# New slide
+
+This is a slide.
+
+```{r}
+x = 1
+x
+```
+---
+
+# Slide with image
+
+```{r}
+library(leaflet)
+leaflet() %>% addTiles() %>% setView(-93.65, 42.0285, zoom = 17)
+```
+
+---
+
+# For real images
+
+```{r, fig.show='hold', out.width='50%'}
+par(mar = c(4, 4, .2, .1))
+plot(cars, pch = 19)
+plot(pressure, pch = 17)
+```
+---
+
+
+# Slide with image
+
+```{r, out.width='25%', fig.align='center', fig.cap='...'}
+knitr::include_graphics('figures/areas.png')
+```
+
+---
+
+# Writting code
+
+---
+
+
+
