@@ -4,5 +4,5 @@ author: Diogo Melo
 date: Sept. 8, 2023
 runtime: static
 output:
-  xaringan::moon_reader:
+  xaringan::moon_reader
 ---

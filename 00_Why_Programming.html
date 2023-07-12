@@ -4,24 +4,15 @@
     <title>Why should biologist learn programming?</title>
     <meta charset="utf-8" />
     <meta name="author" content="Diogo Melo" />
-    <script src="00_Why_Programming_files/header-attrs-2.23/header-attrs.js"></script>
+    <script src="00_Why_Programming_files/header-attrs-2.21/header-attrs.js"></script>
     <link href="00_Why_Programming_files/remark-css-0.0.1/default.css" rel="stylesheet" />
     <link href="00_Why_Programming_files/remark-css-0.0.1/default-fonts.css" rel="stylesheet" />
     <script src="00_Why_Programming_files/clipboard-2.0.6/clipboard.min.js"></script>
     <link href="00_Why_Programming_files/xaringanExtra-clipboard-0.2.6/xaringanExtra-clipboard.css" rel="stylesheet" />
     <script src="00_Why_Programming_files/xaringanExtra-clipboard-0.2.6/xaringanExtra-clipboard.js"></script>
     <script>window.xaringanExtraClipboard(null, {"button":"Copy code <i class=\"fa fa-clipboard\"><\/i>","success":"Copied! <i class=\"fa fa-check\" style=\"color: #90BE6D\"><\/i>","error":"Not copied 😕 <i class=\"fa fa-times-circle\" style=\"color: #F94144\"><\/i>"})</script>
-    <link href="00_Why_Programming_files/font-awesome-6.2.1/css/all.min.css" rel="stylesheet" />
-    <link href="00_Why_Programming_files/font-awesome-6.2.1/css/v4-shims.min.css" rel="stylesheet" />
-    <script src="00_Why_Programming_files/htmlwidgets-1.6.1/htmlwidgets.js"></script>
-    <script src="00_Why_Programming_files/jquery-1.12.4/jquery.min.js"></script>
-    <link href="00_Why_Programming_files/leaflet-1.3.1/leaflet.css" rel="stylesheet" />
-    <script src="00_Why_Programming_files/leaflet-1.3.1/leaflet.js"></script>
-    <link href="00_Why_Programming_files/leafletfix-1.0.0/leafletfix.css" rel="stylesheet" />
-    <script src="00_Why_Programming_files/proj4-2.6.2/proj4.min.js"></script>
-    <script src="00_Why_Programming_files/Proj4Leaflet-1.0.1/proj4leaflet.js"></script>
-    <link href="00_Why_Programming_files/rstudio_leaflet-1.3.1/rstudio_leaflet.css" rel="stylesheet" />
-    <script src="00_Why_Programming_files/leaflet-binding-2.1.2/leaflet.js"></script>
+    <link href="00_Why_Programming_files/font-awesome-6.4.0/css/all.min.css" rel="stylesheet" />
+    <link href="00_Why_Programming_files/font-awesome-6.4.0/css/v4-shims.min.css" rel="stylesheet" />
   </head>
   <body>
     <textarea id="source">
@@ -42,62 +33,76 @@ class: center, middle, inverse, title-slide
 
 
 
-# New slide
+## Reproducible Research
 
-This is a slide.
-
-
-```r
-x = 1
-x
-```
-
-```
-## [1] 1
-```
----
-
-# Slide with image
-
-
-```r
-library(leaflet)
-leaflet() %&gt;% addTiles() %&gt;% setView(-93.65, 42.0285, zoom = 17)
-```
-
-<div class="leaflet html-widget html-fill-item-overflow-hidden html-fill-item" id="htmlwidget-edec285ce1e6bb24c3a4" style="width:504px;height:504px;"></div>
-<script type="application/json" data-for="htmlwidget-edec285ce1e6bb24c3a4">{"x":{"options":{"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}}},"calls":[{"method":"addTiles","args":["https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",null,null,{"minZoom":0,"maxZoom":18,"tileSize":256,"subdomains":"abc","errorTileUrl":"","tms":false,"noWrap":false,"zoomOffset":0,"zoomReverse":false,"opacity":1,"zIndex":1,"detectRetina":false,"attribution":"&copy; <a href=\"https://openstreetmap.org\">OpenStreetMap<\/a> contributors, <a href=\"https://creativecommons.org/licenses/by-sa/2.0/\">CC-BY-SA<\/a>"}]}],"setView":[[42.0285,-93.65],17,[]]},"evals":[],"jsHooks":[]}</script>
+- Reproducible research aims to make research transparent and verifiable.
+- Key principles of reproducible research include:
+    - Organization of code and data.
+    - Version control.
+    - Documentation.
+- R Markdown is an excellent tool for creating reproducible reports.
 
 ---
 
-# For real images
+## Bespoke Custom Analysis
 
-
-```r
-par(mar = c(4, 4, .2, .1))
-plot(cars, pch = 19)
-plot(pressure, pch = 17)
-```
-
-&lt;img src="/Users/diogro/Documents/GitHub/EEB330/slides/00_Why_Programming_files/figure-html/unnamed-chunk-4-1.png" width="50%" /&gt;&lt;img src="/Users/diogro/Documents/GitHub/EEB330/slides/00_Why_Programming_files/figure-html/unnamed-chunk-4-2.png" width="50%" /&gt;
----
-
-
-# Slide with image
-
-
-```r
-knitr::include_graphics('figures/areas.png')
-```
-
-&lt;div class="figure" style="text-align: center"&gt;
-&lt;img src="figures/areas.png" alt="..." width="25%" /&gt;
-&lt;p class="caption"&gt;...&lt;/p&gt;
-&lt;/div&gt;
+- Bespoke custom analysis refers to tailored analyses for specific problems.
+- R provides a flexible environment for creating custom analyses.
+- With R, you can:
+    - Write custom functions.
+    - Utilize various statistical packages.
+    - Apply advanced techniques to unique data challenges.
 
 ---
 
-# Writting code
+## Independence for Creating Models
+
+- R allows you to create models independently, without relying on proprietary software.
+- You have full control over the modeling process.
+- R provides a wide range of modeling techniques, including:
+    - Linear regression.
+    - Logistic regression.
+    - Decision trees.
+    - Random forests.
+    - Support vector machines.
+
+---
+
+## Effective Visualization
+
+- Visualization is essential for understanding and communicating data.
+- R offers powerful visualization libraries, such as ggplot2.
+- Key features of effective visualization include:
+    - Choosing appropriate plots for the data type.
+    - Using colors, labels, and annotations to enhance understanding.
+    - Creating interactive visualizations with packages like plotly.
+
+---
+
+## Sharing Analytical Tools
+
+- R allows you to share your analytical tools with others.
+- You can create custom R packages that encapsulate your code and functions.
+- Sharing analytical tools promotes collaboration and reproducibility.
+- Packages like devtools and roxygen2 facilitate package development in R.
+
+---
+
+## Package Ecosystems
+
+- R has a rich ecosystem of packages for various data analysis tasks.
+- Packages like dplyr, tidyr, and lubridate provide powerful data manipulation capabilities.
+- Bioconductor offers a comprehensive collection of packages for bioinformatics.
+- CRAN (Comprehensive R Archive Network) hosts thousands of packages for diverse domains.
+
+---
+
+## Conclusion
+
+- Reproducible research ensures transparency and verifiability.
+- R enables bespoke custom analysis and independence in model creation.
+- Effective visualization enhances data understanding and communication.
+- Sharing analytical tools and leveraging package ecosystems promote collaboration.
 
 ---
 
@@ -106,7 +111,9 @@ knitr::include_graphics('figures/areas.png')
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
-<script>var slideshow = remark.create();
+<script>var slideshow = remark.create({
+"highlightLines": true
+});
 if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
   window.dispatchEvent(new Event('resize'));
 });
@@ -184,7 +191,24 @@ if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
       links[i].target = '_blank';
     }
   }
-})();</script>
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
 
 <script>
 slideshow._releaseMath = function(el) {

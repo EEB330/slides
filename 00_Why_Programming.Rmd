@@ -5,6 +5,8 @@ date: Sept. 6, 2023
 runtime: static
 output:
   xaringan::moon_reader:
+    nature:
+      highlightLines: true
 ---
 
 ```{r, echo = FALSE}
@@ -18,44 +20,91 @@ htmltools::tagList(
   rmarkdown::html_dependency_font_awesome())
 ```
 
-# New slide
+## Reproducible Research
 
-This is a slide.
-
-```{r}
-x = 1
-x
-```
----
-
-# Slide with image
-
-```{r}
-library(leaflet)
-leaflet() %>% addTiles() %>% setView(-93.65, 42.0285, zoom = 17)
-```
+- Reproducible research aims to make research transparent and verifiable.
+- Key principles of reproducible research include:
+    - Organization of code and data.
+    - Version control.
+    - Documentation.
+- R Markdown is an excellent tool for creating reproducible reports.
 
 ---
 
-# For real images
+## Bespoke Custom Analysis
 
-```{r, fig.show='hold', out.width='50%'}
-par(mar = c(4, 4, .2, .1))
-plot(cars, pch = 19)
-plot(pressure, pch = 17)
-```
----
-
-
-# Slide with image
-
-```{r, out.width='25%', fig.align='center', fig.cap='...'}
-knitr::include_graphics('figures/areas.png')
-```
+- Bespoke custom analysis refers to tailored analyses for specific problems.
+- R provides a flexible environment for creating custom analyses.
+- With R, you can:
+    - Write custom functions.
+    - Utilize various statistical packages.
+    - Apply advanced techniques to unique data challenges.
 
 ---
 
-# Writting code
+## Growth in the time of Debt
+
+---
+
+## Coding errors in spreadsheets are common
+
+
+---
+
+## Spreadsheet software have poor numerical accuracy
+
+Almiron, M. G., Lopes, B., Oliveira, A. L. C., Medeiros, A. C., & Frery, A. C. (2010). On the Numerical Accuracy of Spreadsheets. Journal of Statistical Software, 34(4), 1–29. https://doi.org/10.18637/jss.v034.i04
+
+https://www.jstatsoft.org/article/view/v034i04
+
+## Independence for Creating Models
+
+- R allows you to create models independently, without relying on proprietary software.
+- You have full control over the modeling process.
+- R provides a wide range of modeling techniques, including:
+    - Linear regression.
+    - Logistic regression.
+    - Decision trees.
+    - Random forests.
+    - Support vector machines.
+
+---
+
+## Effective Visualization
+
+- Visualization is essential for understanding and communicating data.
+- R offers powerful visualization libraries, such as ggplot2.
+- Key features of effective visualization include:
+    - Choosing appropriate plots for the data type.
+    - Using colors, labels, and annotations to enhance understanding.
+    - Creating interactive visualizations with packages like plotly.
+
+---
+
+## Sharing Analytical Tools
+
+- R allows you to share your analytical tools with others.
+- You can create custom R packages that encapsulate your code and functions.
+- Sharing analytical tools promotes collaboration and reproducibility.
+- Packages like devtools and roxygen2 facilitate package development in R.
+
+---
+
+## Package Ecosystems
+
+- R has a rich ecosystem of packages for various data analysis tasks.
+- Packages like dplyr, tidyr, and lubridate provide powerful data manipulation capabilities.
+- Bioconductor offers a comprehensive collection of packages for bioinformatics.
+- CRAN (Comprehensive R Archive Network) hosts thousands of packages for diverse domains.
+
+---
+
+## Conclusion
+
+- Reproducible research ensures transparency and verifiability.
+- R enables bespoke custom analysis and independence in model creation.
+- Effective visualization enhances data understanding and communication.
+- Sharing analytical tools and leveraging package ecosystems promote collaboration.
 
 ---
 
