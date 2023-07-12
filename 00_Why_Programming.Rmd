@@ -7,6 +7,8 @@ output:
   xaringan::moon_reader:
     nature:
       highlightLines: true
+      chakra: libs/remark-latest.min.js
+      beforeInit: "macros.js"
 ---
 
 ```{r, echo = FALSE}
@@ -20,21 +22,31 @@ htmltools::tagList(
   rmarkdown::html_dependency_font_awesome())
 ```
 
-## Reproducible Research
+## Modern biology is computational biology
 
-- Reproducible research aims to make research transparent and verifiable.
-- Key principles of reproducible research include:
-    - Organization of code and data.
-    - Version control.
-    - Documentation.
-- R Markdown is an excellent tool for creating reproducible reports.
+- Biology has become an eminently computational field
+- Bioinformatics, statistics, handling large data are now basic tools of biological practice
+
+![](figures/foamtree.png)
+
+---
+
+## Replication crisis
+
+![](figures/ioannidis.png)
+
+
+
+## Excel is very popular
+
+![](figures/eve_online.png)
 
 ---
 
 ## Bespoke Custom Analysis
 
 - Bespoke custom analysis refers to tailored analyses for specific problems.
-- R provides a flexible environment for creating custom analyses.
+- Programming provides a flexible environment for creating custom analyses.
 - With R, you can:
     - Write custom functions.
     - Utilize various statistical packages.
@@ -44,10 +56,17 @@ htmltools::tagList(
 
 ## Growth in the time of Debt
 
+Reinhart, Carmen M., and Kenneth S. Rogoff. 2010. "Growth in a Time of Debt." American Economic Review, 100 (2): 573-78. DOI: 10.1257/aer.100.2.573
+
+![:scale 50%](figures/figure2.png)
+
 ---
 
 ## Coding errors in spreadsheets are common
 
+Thomas Herndon et al. "Does high public debt consistently stifle economic growth? A critique of Reinhart and Rogoff", Cambridge Journal of Economics, Volume 38, Issue 2, March 2014, Pages 257–279, https://doi.org/10.1093/cje/bet075
+
+![](figures/excel_error.png)
 
 ---
 
@@ -55,7 +74,9 @@ htmltools::tagList(
 
 Almiron, M. G., Lopes, B., Oliveira, A. L. C., Medeiros, A. C., & Frery, A. C. (2010). On the Numerical Accuracy of Spreadsheets. Journal of Statistical Software, 34(4), 1–29. https://doi.org/10.18637/jss.v034.i04
 
-https://www.jstatsoft.org/article/view/v034i04
+![:scale 100%](figures/spreadsheet_tests.png)
+
+---
 
 ## Independence for Creating Models
 
