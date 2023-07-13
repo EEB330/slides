@@ -1,4 +1,4 @@
-pak::pkg_install(c("xaringan", "xaringanExtra", "leaflet", 'knitr', "stringi"))
+# pak::pkg_install(c("xaringan", "xaringanExtra", "leaflet", 'knitr', "stringi"))
 # xaringan::summon_remark()
 
 library(rmarkdown)
