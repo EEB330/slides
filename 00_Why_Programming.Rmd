@@ -22,6 +22,26 @@ htmltools::tagList(
   rmarkdown::html_dependency_font_awesome())
 ```
 
+## Course structure
+
+- Diogo Melo - [damelo@princeton.edu](damelo@princeton.edu)
+- Scott Wolf - [swwolf@princeton.edu](damelo@princeton.edu)
+
+- Website: [eeb330.github.io](http://eeb330.github.io)
+
+- Two lectures per week 
+  - some presentations and some in class exercises
+
+- One precept with Scott
+
+- Evaluation:
+  - No exams
+  - Weekly-ish coding exercises (xx%)
+  - Class and precept participation (xx%)
+  - 2 larger coding projects (xx%)
+
+---
+
 ## Modern biology is computational biology
 
 - Biology has become an eminently computational field
@@ -43,22 +63,20 @@ htmltools::tagList(
 
 ---
 
-## Bespoke Custom Analysis
+## A recent Excel debacle
 
-- Bespoke custom analysis refers to tailored analyses for specific problems.
-- Programming provides a flexible environment for creating custom analyses.
-- With R, you can:
-    - Write custom functions.
-    - Utilize various statistical packages.
-    - Apply advanced techniques to unique data challenges.
+"Growth in the time of Debt" controversy
 
----
+Reinhart, Carmen M., and Kenneth S. Rogoff. 2010. American Economic Review, 100 (2): 573-78. DOI: 10.1257/aer.100.2.573
+.pull-left[
 
-## Growth in the time of Debt
+- Super influential, around 5k citations
+- Used to justify economic policy
+]
+.pull-right[
+![:scale 70%](figures/figure2.png)
+]
 
-Reinhart, Carmen M., and Kenneth S. Rogoff. 2010. "Growth in a Time of Debt." American Economic Review, 100 (2): 573-78. DOI: 10.1257/aer.100.2.573
-
-![:scale 50%](figures/figure2.png)
 
 ---
 
@@ -78,47 +96,64 @@ Almiron, M. G., Lopes, B., Oliveira, A. L. C., Medeiros, A. C., & Frery, A. C. (
 
 ---
 
-## Independence for Creating Models
+## Code and analysis sharing
 
-- R allows you to create models independently, without relying on proprietary software.
-- You have full control over the modeling process.
-- R provides a wide range of modeling techniques, including:
-    - Linear regression.
-    - Logistic regression.
-    - Decision trees.
-    - Random forests.
-    - Support vector machines.
+.pull-left[
+- Reproducibility
+
+- Reuse
+
+- For academics: 
+  - Post-publication peer-review
+  - Community can modify and extend an analysis
+]
+.pull-right[
+![:scale 90%](figures/repro_code.png)
+]
 
 ---
 
-## Effective Visualization
+## Bespoke Custom Analysis
+
+.pull-left[
+- Bespoke custom analysis refers to tailored analyses for specific problems.
+
+- Programming provides a flexible environment for creating custom analyses.
+]
+.pull-right[
+![](figures/Tailor.png)
+]
+---
+
+## Why R and/or python?
+
+- Great package ecosystem (CRAN, conda, bioconductor, ...)
+- Easy to learn
+- Good balance of easy-to-write and fast-to-run code
+- Both can easily call code from faster languages if needed
+
+.pull-left[
+  ![:scale 75%](figures/mamba.webp)
+]
+.pull-right[
+  ![:scale 60%](figures/CRANlogo.png)
+]
+---
+
+## Effective Visualization 
 
 - Visualization is essential for understanding and communicating data.
 - R offers powerful visualization libraries, such as ggplot2.
-- Key features of effective visualization include:
-    - Choosing appropriate plots for the data type.
-    - Using colors, labels, and annotations to enhance understanding.
-    - Creating interactive visualizations with packages like plotly.
+
+```{r iris plot, out.height = 300}
+library(ggplot2)
+library(cowplot)
+ggplot(iris, aes(Sepal.Width, Sepal.Length, color = Species)) + 
+geom_point() + stat_ellipse() + theme_cowplot()
+```
 
 ---
 
-## Sharing Analytical Tools
-
-- R allows you to share your analytical tools with others.
-- You can create custom R packages that encapsulate your code and functions.
-- Sharing analytical tools promotes collaboration and reproducibility.
-- Packages like devtools and roxygen2 facilitate package development in R.
-
----
-
-## Package Ecosystems
-
-- R has a rich ecosystem of packages for various data analysis tasks.
-- Packages like dplyr, tidyr, and lubridate provide powerful data manipulation capabilities.
-- Bioconductor offers a comprehensive collection of packages for bioinformatics.
-- CRAN (Comprehensive R Archive Network) hosts thousands of packages for diverse domains.
-
----
 
 ## Conclusion
 
@@ -129,5 +164,11 @@ Almiron, M. G., Lopes, B., Oliveira, A. L. C., Medeiros, A. C., & Frery, A. C. (
 
 ---
 
+## Some Suggested Reading material
 
+- [A (very) short introduction to R](https://cran.r-project.org/doc/contrib/Torfs+Brauer-Short-R-Intro.pdf)
+- [Advanced R](https://adv-r.hadley.nz/)
+- [British Ecological Society Guides](https://www.britishecologicalsociety.org/publications/guides-to/)
+- [Bioinformatics Data Skills](https://vincebuffalo.com/book/)
 
+---
