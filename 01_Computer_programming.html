@@ -25,19 +25,22 @@ class: center, middle, inverse, title-slide
 ---
 
 
+class: title-slide, left, top
+background-image: url(figures/art.jpg)
+background-position: center right
+background-size:  50%
+
 ## What is programming?
+
+
+
+.pull-left[
 
 Never forget:
 
-.center[
-.large[Computers are absurdly, mind-numbingly dumb]
-]
+- Computers are absurdly, mind-numbingly dumb
 
-.pull-left[
-Programming is the art (?) of telling the computer what to do so that the screen shines in the correct patterns.]
-
-.pull-right[
-  ![](figures/art.jpg)
+- Programming is the art (?) of telling the computer what to do so that the screen shines in the correct patterns.
 ]
 
 ---
@@ -47,14 +50,19 @@ class: inverse, center, middle
 
 ---
 
+
+class: title-slide, left, top
+background-image: url(figures/ram.jpeg)
+background-position: center right
+background-size:  50%
+
 ## Random Access Memory (RAM)
 
-.pull-right[![:scale 50%](figures/ram.jpeg)]
-
+.pull-left[
 - RAM stands for Random Access Memory.
 - It is a type of computer memory that is used to store data and instructions that the CPU needs to access quickly.
 - RAM is volatile memory, meaning it loses its contents when the computer is powered off.
-- It plays a crucial role in determining a computer's performance, as it allows for fast data access and retrieval.
+- It plays a crucial role in determining a computer's performance, as it allows for fast data access and retrieval.]
 
 ---
 
@@ -114,6 +122,28 @@ class: inverse, center, middle
 
 
 ## History of computer languages
+
+---
+
+class: title-slide, left, top
+background-image: url(figures/source.png)
+background-position: center right
+background-size:  45%
+
+## Source code 
+
+.pull-left[
+- Programming works using plain-text source files
+- We need a text editor to produce these files (not word)
+- There are two types of editors we can use:
+ 1. Plain text editors: vim, emacs, vscode, notepad++, sublime...
+ 2. Integrated developement environments (IDEs): Rstudio 
+ 3. (Honorable mention: jupyter notebooks)
+
+- vscode is our usual choice, but Rstudio is great too:
+  - https://code.visualstudio.com/docs/languages/r
+  - https://posit.co/download/rstudio-desktop/
+]
 
 ---
 
@@ -322,7 +352,7 @@ main = do
 
 ---
 
-## Some madmen used Haskell for bioinformatics for a week of
+## Some madmen used Haskell for bioinformatics for a week
 
 Daniels, N. M., Gallant, A. &amp; Ramsey, N. Experience report: Haskell in computational biology. SIGPLAN Not. 47, 227–234 (2012)
 
@@ -331,7 +361,14 @@ Daniels, N. M., Gallant, A. &amp; Ramsey, N. Experience report: Haskell in compu
 ---
 
 
-## R and python as examples
+
+## IDE and text editors
+
+---
+
+## Compiling and running code
+
+---
 
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
@@ -420,6 +457,51 @@ if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
     }
   }
 })();
+(function(time) {
+  var d2 = function(number) {
+    return ('0' + number).slice(-2); // left-pad 0 to minutes/seconds
+  },
+
+  time_format = function(total) {
+    var secs = Math.abs(total) / 1000;
+    var h = Math.floor(secs / 3600);
+    var m = Math.floor(secs % 3600 / 60);
+    var s = Math.round(secs % 60);
+    var res = d2(m) + ':' + d2(s);
+    if (h > 0) res = h + ':' + res;
+    return res;  // [hh:]mm:ss
+  },
+
+  slide_number_div = function(i) {
+    return document.getElementsByClassName('remark-slide-number').item(i);
+  },
+
+  current_page_number = function(i) {
+    return slide_number_div(i).firstChild.textContent;  // text "i / N"
+  };
+
+  var timer = document.createElement('span'); timer.id = 'slide-time-left';
+  var time_left = time, k = slideshow.getCurrentSlideIndex(),
+      last_page_number = current_page_number(k);
+
+  setInterval(function() {
+    time_left = time_left - 1000;
+    timer.innerHTML = ' ' + time_format(time_left);
+    if (time_left < 0) timer.style.color = 'red';
+  }, 1000);
+
+  slide_number_div(k).appendChild(timer);
+
+  slideshow.on('showSlide', function(slide) {
+    var i = slide.getSlideIndex(), n = current_page_number(i);
+    // reset timer when a new slide is shown and the page number is changed
+    if (last_page_number !== n) {
+      time_left = time; last_page_number = n;
+      timer.innerHTML = ' ' + time_format(time); timer.style.color = null;
+    }
+    slide_number_div(i).appendChild(timer);
+  });
+})(60000);
 // adds .remark-code-has-line-highlighted class to <pre> parent elements
 // of code chunks containing highlighted lines with class .remark-code-line-highlighted
 (function(d) {

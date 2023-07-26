@@ -10,21 +10,25 @@ output:
       chakra: libs/remark-latest.min.js
       beforeInit: "macros.js"
       ratio: "16:9"
+      countdown: 60000
 ---
+
+class: title-slide, left, top
+background-image: url(figures/art.jpg)
+background-position: center right
+background-size:  50%
 
 ## What is programming?
 
-Never forget:
 
-.center[
-.large[Computers are absurdly, mind-numbingly dumb]
-]
 
 .pull-left[
-Programming is the art (?) of telling the computer what to do so that the screen shines in the correct patterns.]
 
-.pull-right[
-  ![](figures/art.jpg)
+Never forget:
+
+- Computers are absurdly, mind-numbingly dumb
+
+- Programming is the art (?) of telling the computer what to do so that the screen shines in the correct patterns.
 ]
 
 ---
@@ -34,14 +38,19 @@ class: inverse, center, middle
 
 ---
 
+
+class: title-slide, left, top
+background-image: url(figures/ram.jpeg)
+background-position: center right
+background-size:  50%
+
 ## Random Access Memory (RAM)
 
-.pull-right[![:scale 50%](figures/ram.jpeg)]
-
+.pull-left[
 - RAM stands for Random Access Memory.
 - It is a type of computer memory that is used to store data and instructions that the CPU needs to access quickly.
 - RAM is volatile memory, meaning it loses its contents when the computer is powered off.
-- It plays a crucial role in determining a computer's performance, as it allows for fast data access and retrieval.
+- It plays a crucial role in determining a computer's performance, as it allows for fast data access and retrieval.]
 
 ---
 
@@ -101,6 +110,28 @@ class: inverse, center, middle
 
 
 ## History of computer languages
+
+---
+
+class: title-slide, left, top
+background-image: url(figures/source.png)
+background-position: center right
+background-size:  45%
+
+## Source code 
+
+.pull-left[
+- Programming works using plain-text source files
+- We need a text editor to produce these files (not word)
+- There are two types of editors we can use:
+ 1. Plain text editors: vim, emacs, vscode, notepad++, sublime...
+ 2. Integrated developement environments (IDEs): Rstudio 
+ 3. (Honorable mention: jupyter notebooks)
+
+- vscode is our usual choice, but Rstudio is great too:
+  - https://code.visualstudio.com/docs/languages/r
+  - https://posit.co/download/rstudio-desktop/
+]
 
 ---
 
@@ -304,7 +335,7 @@ main = do
 
 ---
 
-## Some madmen used Haskell for bioinformatics for a week of
+## Some madmen used Haskell for bioinformatics for a week
 
 Daniels, N. M., Gallant, A. & Ramsey, N. Experience report: Haskell in computational biology. SIGPLAN Not. 47, 227–234 (2012)
 
@@ -313,5 +344,12 @@ Daniels, N. M., Gallant, A. & Ramsey, N. Experience report: Haskell in computati
 ---
 
 
-## R and python as examples
+
+## IDE and text editors
+
+---
+
+## Compiling and running code
+
+---
 
