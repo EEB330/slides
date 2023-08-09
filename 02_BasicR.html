@@ -1,191 +1,118 @@
 <!DOCTYPE html>
 <html lang="" xml:lang="">
   <head>
-    <title>Why should biologist learn programming?</title>
+    <title>Basic Interactions with R</title>
     <meta charset="utf-8" />
-    <meta name="author" content="Diogo Melo" />
-    <script src="00_Why_Programming_files/header-attrs-2.21/header-attrs.js"></script>
-    <link href="00_Why_Programming_files/remark-css-0.0.1/default.css" rel="stylesheet" />
-    <link href="00_Why_Programming_files/remark-css-0.0.1/default-fonts.css" rel="stylesheet" />
-    <script src="00_Why_Programming_files/clipboard-2.0.6/clipboard.min.js"></script>
-    <link href="00_Why_Programming_files/xaringanExtra-clipboard-0.2.6/xaringanExtra-clipboard.css" rel="stylesheet" />
-    <script src="00_Why_Programming_files/xaringanExtra-clipboard-0.2.6/xaringanExtra-clipboard.js"></script>
-    <script>window.xaringanExtraClipboard(null, {"button":"Copy code <i class=\"fa fa-clipboard\"><\/i>","success":"Copied! <i class=\"fa fa-check\" style=\"color: #90BE6D\"><\/i>","error":"Not copied 😕 <i class=\"fa fa-times-circle\" style=\"color: #F94144\"><\/i>"})</script>
-    <link href="00_Why_Programming_files/font-awesome-6.4.0/css/all.min.css" rel="stylesheet" />
-    <link href="00_Why_Programming_files/font-awesome-6.4.0/css/v4-shims.min.css" rel="stylesheet" />
+    <script src="02_BasicR_files/header-attrs-2.21/header-attrs.js"></script>
+    <link href="02_BasicR_files/remark-css-0.0.1/default.css" rel="stylesheet" />
+    <link href="02_BasicR_files/remark-css-0.0.1/default-fonts.css" rel="stylesheet" />
   </head>
   <body>
     <textarea id="source">
 class: center, middle, inverse, title-slide
 
 .title[
-# Why should biologist learn programming?
-]
-.author[
-### Diogo Melo
-]
-.date[
-### Sept. 6, 2023
+# Basic Interactions with R
 ]
 
 ---
 
 
+## Introduction
 
-
-## Course structure
-
-- Diogo Melo - [damelo@princeton.edu](damelo@princeton.edu)
-- Scott Wolf - [swwolf@princeton.edu](swwolf@princeton.edu)
-
-- Website: [eeb330.github.io](http://eeb330.github.io)
-
-- Two lectures per week 
-  - some presentations and some in class exercises
-
-- One precept with Scott
-
-- Evaluation:
-  - No exams
-  - Weekly-ish coding exercises (30%)
-  - Class and precept participation (15%)
-  - Two coding projects (35%)
-  - Open-science exercise (20%)
-
+In this presentation, we will cover some basic interactions with R.
 
 ---
 
-## Modern biology is computational biology
+## Loading Packages
 
-- Biology has become an eminently computational field
-- Bioinformatics, statistics, handling large data are now basic tools of biological practice
-
-![](figures/foamtree.png)
-
----
-
-## Replication crisis
-
-![](figures/ioannidis.png)
-
-
-
-## Excel is very popular
-
-![](figures/eve_online.png)
-
----
-
-## A recent Excel debacle
-
-"Growth in the time of Debt" controversy
-
-Reinhart, Carmen M., and Kenneth S. Rogoff. 2010. American Economic Review, 100 (2): 573-78. DOI: 10.1257/aer.100.2.573
-.pull-left[
-
-- Super influential, around 5k citations
-- Used to justify economic policy
-]
-.pull-right[
-![:scale 70%](figures/figure2.png)
-]
-
-
----
-
-## Coding errors in spreadsheets are common
-
-Thomas Herndon et al. "Does high public debt consistently stifle economic growth? A critique of Reinhart and Rogoff", Cambridge Journal of Economics, Volume 38, Issue 2, March 2014, Pages 257–279, https://doi.org/10.1093/cje/bet075
-
-![](figures/excel_error.png)
-
----
-
-## Spreadsheet software have poor numerical accuracy
-
-Almiron, M. G., Lopes, B., Oliveira, A. L. C., Medeiros, A. C., &amp; Frery, A. C. (2010). On the Numerical Accuracy of Spreadsheets. Journal of Statistical Software, 34(4), 1–29. https://doi.org/10.18637/jss.v034.i04
-
-![:scale 100%](figures/spreadsheet_tests.png)
-
----
-
-## Code and analysis sharing
-
-.pull-left[
-- Reproducibility
-
-- Reuse
-
-- For academics: 
-  - Post-publication peer-review
-  - Community can modify and extend an analysis
-]
-.pull-right[
-![:scale 90%](figures/repro_code.png)
-]
-
----
-
-## Bespoke Custom Analysis
-
-.pull-left[
-- Bespoke custom analysis refers to tailored analyses for specific problems.
-
-- Programming provides a flexible environment for creating custom analyses.
-]
-.pull-right[
-![](figures/Tailor.png)
-]
----
-
-## Why R and/or python?
-
-- Great package ecosystem (CRAN, conda, bioconductor, ...)
-- Easy to learn
-- Good balance of easy-to-write and fast-to-run code
-- Both can easily call code from faster languages if needed
-
-.pull-left[
-  ![:scale 75%](figures/mamba.webp)
-]
-.pull-right[
-  ![:scale 60%](figures/CRANlogo.png)
-]
----
-
-## Effective Visualization 
-
-- Visualization is essential for understanding and communicating data.
-- R offers powerful visualization libraries, such as ggplot2.
-
+To load packages in R, use the `library()` function.
 
 ```r
+library(dplyr)
 library(ggplot2)
-library(cowplot)
-ggplot(iris, aes(Sepal.Width, Sepal.Length, color = Species)) + 
-geom_point() + stat_ellipse() + theme_cowplot()
 ```
 
-&lt;img src="00_Why_Programming_files/figure-html/iris plot-1.png" height="300" /&gt;
+---
+
+
+## Assigning Variables
+
+Variables can be assigned using the assignment operator `&lt;-` or `=`.
+
+```r
+x &lt;- 10
+y = 5
+```
 
 ---
+
+
+## Manipulating Variables
+
+Basic arithmetic operations can be performed on variables.
+
+```r
+sum &lt;- x + y
+difference &lt;- x - y
+```
+
+---
+
+
+## Creating Functions
+
+Functions can be defined using the `function()` keyword.
+
+```r
+multiply &lt;- function(a, b) {
+  result &lt;- a * b
+  return(result)
+}
+
+product &lt;- multiply(x, y)
+```
+
+---
+
+
+## Removing Objects
+
+To remove objects from the workspace, use the `rm()` function.
+
+```r
+rm(sum, difference)
+```
+
+---
+
+
+## Checking Working Directory
+
+To check the current working directory, use `getwd()`.
+
+```r
+current_dir &lt;- getwd()
+```
+
+---
+
+
+## Setting Working Directory
+
+To set the working directory, use `setwd()`.
+
+```r
+setwd("/path/to/directory")
+```
+
+---
+
 
 
 ## Conclusion
 
-- Reproducible research ensures transparency and verifiability.
-- R enables bespoke custom analysis and independence in model creation.
-- Effective visualization enhances data understanding and communication.
-- Sharing analytical tools and leveraging package ecosystems promote collaboration.
-
----
-
-## Some Suggested Reading material
-
-- [A (very) short introduction to R](https://cran.r-project.org/doc/contrib/Torfs+Brauer-Short-R-Intro.pdf)
-- [Advanced R](https://adv-r.hadley.nz/)
-- [British Ecological Society Guides](https://www.britishecologicalsociety.org/publications/guides-to/)
-- [Bioinformatics Data Skills](https://vincebuffalo.com/book/)
+These are some fundamental interactions with R that can help you get started with data analysis and programming in R.
 
 ---
     </textarea>

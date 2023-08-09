@@ -25,7 +25,7 @@ htmltools::tagList(
 ## Course structure
 
 - Diogo Melo - [damelo@princeton.edu](damelo@princeton.edu)
-- Scott Wolf - [swwolf@princeton.edu](damelo@princeton.edu)
+- Scott Wolf - [swwolf@princeton.edu](swwolf@princeton.edu)
 
 - Website: [eeb330.github.io](http://eeb330.github.io)
 
@@ -36,9 +36,11 @@ htmltools::tagList(
 
 - Evaluation:
   - No exams
-  - Weekly-ish coding exercises (xx%)
-  - Class and precept participation (xx%)
-  - 2 larger coding projects (xx%)
+  - Weekly-ish coding exercises (30%)
+  - Class and precept participation (15%)
+  - Two coding projects (35%)
+  - Open-science exercise (20%)
+
 
 ---
 

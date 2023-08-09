@@ -4,3 +4,5 @@
 library(rmarkdown)
 render("00_Why_Programming.Rmd")
 render("01_Computer_programming.Rmd")
+render("02_BasicR.Rmd")
+render("03_BasicGit.Rmd")

@@ -343,10 +343,30 @@ Daniels, N. M., Gallant, A. & Ramsey, N. Experience report: Haskell in computati
 
 ---
 
+# IDE and text editors
 
+## Text Editors
 
-## IDE and text editors
+A text editor is a tool used for creating and editing plain text files. It's a fundamental tool for developers.
 
+.pull-left[
+### Features of Text Editors
+
+- Syntax highlighting
+- Auto-indentation
+- Code completion
+- Multiple themes
+- Plugins and extensions
+]
+.pull-right[
+### Examples of Text Editors
+
+- Visual Studio Code
+- Sublime Text
+- Atom
+- Notepad++
+- Vim
+]
 ---
 
 ## Compiling and running code

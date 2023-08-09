@@ -1,0 +1,108 @@
+---
+title: "Basic Interactions with R"
+runtime: static
+output:
+  xaringan::moon_reader:
+    nature:
+      highlightLines: true
+      chakra: libs/remark-latest.min.js
+      beforeInit: "macros.js"
+---
+
+## Introduction
+
+In this presentation, we will cover some basic interactions with R.
+
+---
+
+## Loading Packages
+
+To load packages in R, use the `library()` function.
+
+```r
+library(dplyr)
+library(ggplot2)
+```
+
+---
+
+
+## Assigning Variables
+
+Variables can be assigned using the assignment operator `<-` or `=`.
+
+```r
+x <- 10
+y = 5
+```
+
+---
+
+
+## Manipulating Variables
+
+Basic arithmetic operations can be performed on variables.
+
+```r
+sum <- x + y
+difference <- x - y
+```
+
+---
+
+
+## Creating Functions
+
+Functions can be defined using the `function()` keyword.
+
+```r
+multiply <- function(a, b) {
+  result <- a * b
+  return(result)
+}
+
+product <- multiply(x, y)
+```
+
+---
+
+
+## Removing Objects
+
+To remove objects from the workspace, use the `rm()` function.
+
+```r
+rm(sum, difference)
+```
+
+---
+
+
+## Checking Working Directory
+
+To check the current working directory, use `getwd()`.
+
+```r
+current_dir <- getwd()
+```
+
+---
+
+
+## Setting Working Directory
+
+To set the working directory, use `setwd()`.
+
+```r
+setwd("/path/to/directory")
+```
+
+---
+
+
+
+## Conclusion
+
+These are some fundamental interactions with R that can help you get started with data analysis and programming in R.
+
+---
