@@ -81,7 +81,7 @@ background-size:  65%
 
 ---
 
-## R arithmetics and math functions   
+## R arithmetic and math functions   
   
 ```{r, echo = TRUE}
 # This is a comment, which is ignored by R because it's after the #  
@@ -115,9 +115,10 @@ The [1] in the output refers to the position
 
 ## Vectors
 
+.pull-left[
 - Vectors are the main data structure in R
-- All objects in a vector are of the same type (numeric, character, logical, ...)
-- Single objects are length-one vectors
+- All objects in a vector are of the same type
+- Single variables are length-one vectors
 
 ```{r}
 # Concatenate function
@@ -134,6 +135,15 @@ x <- 1:4
 # seq function 
 x <- seq(1, 4, by = 1)
 ```
+
+```{r}
+# rep function 
+one_four_times <- rep(1, 4)
+```
+]
+.pull-right[
+![:scale 75%](figures/summary-tree-atomic.png)
+]
 
 ---
 
@@ -187,7 +197,7 @@ sqrt(x)
 
 ## Indexing objects
 
-Values inside an object can be accessed by the bracket [] operator
+Values inside an object can be accessed by the bracket `[]` operator
 
 ```{r}
 x = 1:6
@@ -241,19 +251,25 @@ mat[1,] # First row
 
 ---
 
-## Vectors and matrices are homogenenous
+## Vectors and matrices are homogeneous
 
-- All the elements in a vector or matrix must be of the same type
+.pull-left[
+- All the elements in an (atomic) vector or matrix must be of the same type
+
 
 ```{r}
 (num_x = rnorm(3))
 (char_y = letters[1:3])
 (logic_z = num_x > 0)
 ```
+]
+.pull-right[
+![:scale 75%](figures/summary-tree-atomic.png)
+]
 
 ---
 
-## Autoconversion of types
+## Auto-conversion of types
 
 ```{r}
 num_x[4] <- "a"
@@ -273,9 +289,108 @@ Error in `num_x + 1`:
 
 ## Lists
 
+
+.pull-left[
+
+- Lists are a vector of references to variables of any kind
+
+```{r}
+l1 <- list(1, 2, 3)
+```
+
+![:scale 50%](figures/list.png)
+]
+.pull-right[
+
+- List positions are indexed using the double bracket `[[]]`
+
+```{r}
+l1[[2]] <- "a"
+l1
+```
+]
+
+---
+
+## Names attributes
+
+.pull-left[
+- Vectors, matrices, list, and other objects can have names associated with their contents.
+
+- You can name a vector in three ways:
+
+```{r}
+# When creating it: 
+x <- c(a = 1, b = 2, c = 3)
+
+# By assigning a character vector to names()
+x <- 1:3
+names(x) <- c("a", "b", "c")
+
+# Inline, with setNames():
+x <- setNames(1:3, c("a", "b", "c"))
+x
+```
+]
+.pull-right[
+![:scale 60%](figures/attr-names-1.png)
+
+![:scale 30%](figures/attr-names-2.png)
+]
+
+---
+
+## Objects can be indexed by their names
+
+.pull-left[
+- Vectors
+
+```{r}
+x <- c(a = 1, b = 2, c = 3)
+x["a"]
+x[c("c", "b")]
+```
+]
+.pull-right[
+- Lists
+```{r}
+l <- list(a = 1, b = 2, c = 3)
+l[["a"]]
+l[c("c", "b")]
+```
+
+]
 ---
 
 ## Dataframes
+
+
+.pull-left[
+
+- The secret sauce of R for biology
+
+- Basically a list of vectors of the same length
+
+- Each column is an atomic vector of a given type
+
+```{r}
+d1 <- data.frame(x = c(1, 5, 6), 
+                 y = c(2, 4, 3), 
+                 id = c("a", "b", "c"))
+d1
+```
+]
+.pull-right[
+- Dataframes have 2 attributes:
+    - rownames (don't use these)
+    - names (column names)
+
+```r
+df = data.frame(x = 1:3,
+                y = letters[1:3])
+```
+![:scale 60%](figures/data-frame-1.png)
+]
 
 ---
 
@@ -309,6 +424,7 @@ mean(x = input, na.rm = TRUE)
 
 ```r
 help(apply)
+?apply
 ```
 
 ---

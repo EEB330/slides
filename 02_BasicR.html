@@ -93,7 +93,7 @@ background-size:  65%
 
 ---
 
-## R arithmetics and math functions   
+## R arithmetic and math functions   
   
 
 ```r
@@ -143,9 +143,10 @@ The [1] in the output refers to the position
 
 ## Vectors
 
+.pull-left[
 - Vectors are the main data structure in R
-- All objects in a vector are of the same type (numeric, character, logical, ...)
-- Single objects are length-one vectors
+- All objects in a vector are of the same type
+- Single variables are length-one vectors
 
 
 ```r
@@ -165,6 +166,16 @@ x &lt;- 1:4
 # seq function 
 x &lt;- seq(1, 4, by = 1)
 ```
+
+
+```r
+# rep function 
+one_four_times &lt;- rep(1, 4)
+```
+]
+.pull-right[
+![:scale 75%](figures/summary-tree-atomic.png)
+]
 
 ---
 
@@ -252,7 +263,7 @@ sqrt(x)
 
 ## Indexing objects
 
-Values inside an object can be accessed by the bracket [] operator
+Values inside an object can be accessed by the bracket `[]` operator
 
 
 ```r
@@ -350,9 +361,11 @@ mat[1,] # First row
 
 ---
 
-## Vectors and matrices are homogenenous
+## Vectors and matrices are homogeneous
 
-- All the elements in a vector or matrix must be of the same type
+.pull-left[
+- All the elements in an (atomic) vector or matrix must be of the same type
+
 
 
 ```r
@@ -360,7 +373,7 @@ mat[1,] # First row
 ```
 
 ```
-## [1]  2.7793213  0.8206963 -0.1720332
+## [1] -1.41598026 -0.07783232  2.21240612
 ```
 
 ```r
@@ -376,12 +389,16 @@ mat[1,] # First row
 ```
 
 ```
-## [1]  TRUE  TRUE FALSE
+## [1] FALSE FALSE  TRUE
 ```
+]
+.pull-right[
+![:scale 75%](figures/summary-tree-atomic.png)
+]
 
 ---
 
-## Autoconversion of types
+## Auto-conversion of types
 
 
 ```r
@@ -390,7 +407,7 @@ num_x
 ```
 
 ```
-## [1] "2.77932126146194"   "0.820696347429894"  "-0.172033223629852"
+## [1] "-1.41598025942797"  "-0.077832322676906" "2.21240612046773"  
 ## [4] "a"
 ```
 
@@ -407,9 +424,166 @@ Error in `num_x + 1`:
 
 ## Lists
 
+
+.pull-left[
+
+- Lists are a vector of references to variables of any kind
+
+
+```r
+l1 &lt;- list(1, 2, 3)
+```
+
+![:scale 50%](figures/list.png)
+]
+.pull-right[
+
+- List positions are indexed using the double bracket `[[]]`
+
+
+```r
+l1[[2]] &lt;- "a"
+l1
+```
+
+```
+## [[1]]
+## [1] 1
+## 
+## [[2]]
+## [1] "a"
+## 
+## [[3]]
+## [1] 3
+```
+]
+
+---
+
+## Names attributes
+
+.pull-left[
+- Vectors, matrices, list, and other objects can have names associated with their contents.
+
+- You can name a vector in three ways:
+
+
+```r
+# When creating it: 
+x &lt;- c(a = 1, b = 2, c = 3)
+
+# By assigning a character vector to names()
+x &lt;- 1:3
+names(x) &lt;- c("a", "b", "c")
+
+# Inline, with setNames():
+x &lt;- setNames(1:3, c("a", "b", "c"))
+x
+```
+
+```
+## a b c 
+## 1 2 3
+```
+]
+.pull-right[
+![:scale 60%](figures/attr-names-1.png)
+
+![:scale 30%](figures/attr-names-2.png)
+]
+
+---
+
+## Objects can be indexed by their names
+
+.pull-left[
+- Vectors
+
+
+```r
+x &lt;- c(a = 1, b = 2, c = 3)
+x["a"]
+```
+
+```
+## a 
+## 1
+```
+
+```r
+x[c("c", "b")]
+```
+
+```
+## c b 
+## 3 2
+```
+]
+.pull-right[
+- Lists
+
+```r
+l &lt;- list(a = 1, b = 2, c = 3)
+l[["a"]]
+```
+
+```
+## [1] 1
+```
+
+```r
+l[c("c", "b")]
+```
+
+```
+## $c
+## [1] 3
+## 
+## $b
+## [1] 2
+```
+
+]
 ---
 
 ## Dataframes
+
+
+.pull-left[
+
+- The secret sauce of R for biology
+
+- Basically a list of vectors of the same length
+
+- Each column is an atomic vector of a given type
+
+
+```r
+d1 &lt;- data.frame(x = c(1, 5, 6), 
+                 y = c(2, 4, 3), 
+                 id = c("a", "b", "c"))
+d1
+```
+
+```
+##   x y id
+## 1 1 2  a
+## 2 5 4  b
+## 3 6 3  c
+```
+]
+.pull-right[
+- Dataframes have 2 attributes:
+    - rownames (don't use these)
+    - names (column names)
+
+```r
+df = data.frame(x = 1:3,
+                y = letters[1:3])
+```
+![:scale 60%](figures/data-frame-1.png)
+]
+
 
 ---
 
@@ -453,6 +627,7 @@ mean(x = input, na.rm = TRUE)
 
 ```r
 help(apply)
+?apply
 ```
 
 ---
@@ -484,7 +659,13 @@ multiply(x, y)
 ```
 
 ```
-## [1]  2 10  6 20 10 30
+## Warning in a * b: longer object length is not a multiple of shorter object
+## length
+```
+
+```
+##  a  b  c 
+##  2 10  6
 ```
 
 ---
