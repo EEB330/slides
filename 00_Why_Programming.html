@@ -45,12 +45,28 @@ class: center, middle, inverse, title-slide
 
 - One precept with Scott
 
-- Evaluation:
-  - No exams
+- Office hours:
+  - Guyot 301
+  - TBD
+
+---
+
+## Grading
+
+  - **No exams**
   - Weekly-ish coding exercises (30%)
+    - Graded for coherence, not correctness
+
   - Class and precept participation (15%)
+    - Participation and in-class quizzes
+
   - Two coding projects (35%)
+    - Midterm and Final projects
+    - Around 2-3 weeks 
+
   - Open-science exercise (20%)
+    - Small presentation during finals period reproducing the analysis and/or plots from a published paper. 
+    - More details later in the course
 
 
 ---
@@ -174,8 +190,11 @@ geom_point() + stat_ellipse() + theme_cowplot()
 ## Conclusion
 
 - Reproducible research ensures transparency and verifiability.
+
 - R enables bespoke custom analysis and independence in model creation.
+
 - Effective visualization enhances data understanding and communication.
+
 - Sharing analytical tools and leveraging package ecosystems promote collaboration.
 
 ---
@@ -194,7 +213,8 @@ geom_point() + stat_ellipse() + theme_cowplot()
 <script src="macros.js"></script>
 <script>var slideshow = remark.create({
 "highlightLines": true,
-"chakra": "libs/remark-latest.min.js"
+"chakra": "libs/remark-latest.min.js",
+"ratio": "16:9"
 });
 if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
   window.dispatchEvent(new Event('resize'));
@@ -274,6 +294,51 @@ if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
     }
   }
 })();
+(function(time) {
+  var d2 = function(number) {
+    return ('0' + number).slice(-2); // left-pad 0 to minutes/seconds
+  },
+
+  time_format = function(total) {
+    var secs = Math.abs(total) / 1000;
+    var h = Math.floor(secs / 3600);
+    var m = Math.floor(secs % 3600 / 60);
+    var s = Math.round(secs % 60);
+    var res = d2(m) + ':' + d2(s);
+    if (h > 0) res = h + ':' + res;
+    return res;  // [hh:]mm:ss
+  },
+
+  slide_number_div = function(i) {
+    return document.getElementsByClassName('remark-slide-number').item(i);
+  },
+
+  current_page_number = function(i) {
+    return slide_number_div(i).firstChild.textContent;  // text "i / N"
+  };
+
+  var timer = document.createElement('span'); timer.id = 'slide-time-left';
+  var time_left = time, k = slideshow.getCurrentSlideIndex(),
+      last_page_number = current_page_number(k);
+
+  setInterval(function() {
+    time_left = time_left - 1000;
+    timer.innerHTML = ' ' + time_format(time_left);
+    if (time_left < 0) timer.style.color = 'red';
+  }, 1000);
+
+  slide_number_div(k).appendChild(timer);
+
+  slideshow.on('showSlide', function(slide) {
+    var i = slide.getSlideIndex(), n = current_page_number(i);
+    // reset timer when a new slide is shown and the page number is changed
+    if (last_page_number !== n) {
+      time_left = time; last_page_number = n;
+      timer.innerHTML = ' ' + time_format(time); timer.style.color = null;
+    }
+    slide_number_div(i).appendChild(timer);
+  });
+})(60000);
 // adds .remark-code-has-line-highlighted class to <pre> parent elements
 // of code chunks containing highlighted lines with class .remark-code-line-highlighted
 (function(d) {

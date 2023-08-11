@@ -9,6 +9,8 @@ output:
       highlightLines: true
       chakra: libs/remark-latest.min.js
       beforeInit: "macros.js"
+      ratio: "16:9"
+      countdown: 60000
 ---
 
 ```{r, echo = FALSE}
@@ -34,12 +36,28 @@ htmltools::tagList(
 
 - One precept with Scott
 
-- Evaluation:
-  - No exams
+- Office hours:
+  - Guyot 301
+  - TBD
+
+---
+
+## Grading
+
+  - **No exams**
   - Weekly-ish coding exercises (30%)
+    - Graded for coherence, not correctness
+
   - Class and precept participation (15%)
+    - Participation and in-class quizzes
+
   - Two coding projects (35%)
+    - Midterm and Final projects
+    - Around 2-3 weeks 
+
   - Open-science exercise (20%)
+    - Small presentation during finals period reproducing the analysis and/or plots from a published paper. 
+    - More details later in the course
 
 
 ---
@@ -160,8 +178,11 @@ geom_point() + stat_ellipse() + theme_cowplot()
 ## Conclusion
 
 - Reproducible research ensures transparency and verifiability.
+
 - R enables bespoke custom analysis and independence in model creation.
+
 - Effective visualization enhances data understanding and communication.
+
 - Sharing analytical tools and leveraging package ecosystems promote collaboration.
 
 ---

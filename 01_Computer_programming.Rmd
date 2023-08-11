@@ -107,9 +107,15 @@ background-size:  50%
 
 ---
 
+class: inverse, center, middle
+# Programming languages
+
+---
 
 
-## History of computer languages
+## History of programming languages
+
+![](figures/TimelineOfProgrammingLanguages.webp)
 
 ---
 
@@ -135,10 +141,6 @@ background-size:  45%
 
 ---
 
-class: inverse, center, middle
-# Programming languages
-
----
 
 ## Interpreted and Compiled Languages
 
