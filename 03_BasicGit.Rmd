@@ -1,0 +1,283 @@
+---
+title: "Version Control with git"
+author: Diogo Melo
+date: Sept. 13, 2023
+runtime: static
+output:
+  xaringan::moon_reader:
+    nature:
+      highlightLines: true
+      chakra: libs/remark-latest.min.js
+      beforeInit: "macros.js"
+      ratio: "16:9"
+      countdown: 60000
+---
+
+# What it git?
+
+A version control system for any type of file
+
+
+- Like a track-changes-on-steroids for your life
+
+- A way to store the entire history of changes for a group of files
+
+---
+
+# Why does a programming class use with git?
+
+- Everything we do in R is saved in script files
+
+- This code is changed over time and these changes are often lost.
+
+### How to keep older versions of code?
+
+- Option 1: Save a gazillion files named:
+
+> -  script_1.R
+> -  script_2.R
+> -  script_2_modified.R
+> -  script_2_final.R
+> -  script_3_finalForReal.R
+> -  script_1_again_because_3_was_messed_up.R ...
+
+Or...
+
+- Option 2: <3 Use a version control system <3
+
+---
+
+## General idea of version control
+
+.pull-left[
+* Checkout: the version of the file that is accessible at that moment
+]
+.pull-right[
+![:scale 80%](figures/local.png)
+]
+
+---
+
+# How do I get a git to call my own?
+
+* Download:
+
+  * Linux: [http://git-scm.com/download/linux](http://git-scm.com/download/linux)
+```bash
+$ sudo apt install git
+$ sudo yum install git-all
+$ sudo pacman -S git
+```
+
+  * Mac: [http://git-scm.com/download/mac](http://git-scm.com/download/mac)
+  * Windows: [http://git-scm.com/download/win](http://git-scm.com/download/win)
+
+* Make it your own:
+```bash
+$ git config --global user.name "Diogo Melo"
+$ git config --global user.email diogro@gmail.com
+```
+---
+
+# Commits
+
+![:scale 90%](figures/snapshots.png)
+
+Each commit stores the state of all files in the repository at a given moment
+
+---
+
+
+
+# Your day to day in git
+
+![:scale 70%](figures/areas.png)
+
+* Stage: putting changes from a file into a commit
+* Commit: putting all staged changes into a commit
+
+---
+
+# The life cycle of a file in git
+
+![:scale 90%](figures/lifecycle.png)
+
+---
+
+# Cool! But how do I do all of this?
+
+1. Create a folder for each project (or use a project in RStudio)
+2. Navigate to that folder in the terminal/powershell
+3. Type:
+```bash
+$ git init
+```
+
+This will create a git repository inside the folder, and all changes in there will be tracked
+
+---
+
+# Your local day to day
+
+1. Edit a file "script.R" (or several files)
+2. In the terminal, add the file to the staging area:
+```bash
+$ git add script.R
+```
+3. Check if everything is correct
+```bash
+$ git status
+```
+4. Commit that group of changes
+```bash
+$ git commit
+```
+   - A text editor will open and ask for a "commit message," which is a description of everything that changed with that commit.
+   - Describe what you did VERY accurately, then save the commit file.
+
+---
+
+# After some time...
+
+```bash
+ $ git log --pretty=oneline
+d7e09f3de4a7be039da68aad30726aa53ae2890a removing phytools dependency
+25bb9f729935a851c828698e544f953cdc5c5c00 names in var.grad
+870b858dfb0a5ec856b7b41be64052c7a75e5aa2 bug in extend matrix
+8b915c4f9a32cbfbe106108d88087cb5fe7d326c new install instructions
+d8c11e029f3cb55d9039a1febba0ebe9f5c156f7 Better comparison of posteriors
+d4de5cd277c1977e74146aa2d4eb1a9d0323290a acctualy fast C++ implementation of RS
+2f335ed11bee08ecef6ef4a77a426f5f00120e09 More robust Bootstrap
+83b595845a9a68c014bd6dffa3d6df1eb421bd1c Trycatch in montecarlo
+8413d73b72b44e68b1b32e435328e61aeb083be7 Nem drift test for 2 populations and minor correction in AncestralStates help
+fb300f461247a042b1ab49d84ef8846c9d82e576 CRAN changes in imported functions during check.
+c6ec70a44ccef2a32ebab9451401b2fb5a291623 fixed bug in ExtendMatrix
+...
+```
+
+- We can also see exactly what changed in each version, the difference between two versions, recover old versions...
+- Everything that was once committed can be recovered!
+
+---
+
+# Mas eu quero usar o github!!11ONZE
+
+![github]
+
+<https://www.github.com/diogro/>
+
+[github]: figures/github_home.png "Version control" { width:600px; vertical-align:middle }
+
+# Depois que criou o repositório
+
+```
+$ git clone git@github.com:diogro/MEU_PRIMEIRO_REPO.git
+```
+
+* Vai criar uma pasta chamada MEU_PRIMEIRO_REPO já com um repositório git
+* Podemos incluir mais arquivos e continuar trabalhando, ocasionalmente mandando mudanças pro servidor
+
+```
+$ git pull (pega as mudanças do servidor)
+$ git push (manda as mudanças para o servidor)
+```
+
+# Branches
+
+* Branches: São "apontadores" para commits específicos
+  - O padrão chama "master", mas podia ser qualquer coisa
+* Branches permitem que várias versões dos arquivos em um repositório coesistam, e mudanças podem ser compartilhadas e "juntadas".
+* Se existe mais de uma cópia de um repositório (local e servidor) cada um tem os seus branches
+
+# Criando um branch
+
+![](figures/two-branches.png) 
+```
+$ git branch testing
+```
+
+# Escolhendo um branch
+
+~ Begin Framed { padding:1ex; margin-top:1ex }
+HEAD é quem vc está realmente vendo
+~ End Framed
+![](figures/head-to-master.png) 
+
+# Mudando o HEAD com checkout
+
+![](figures/head-to-testing.png) 
+```
+$ git checkout testing
+```
+
+# Alterando um branch
+
+![](figures/advance-testing.png) 
+```
+$ vim test.R
+$ git commit -a -m 'made a change'
+```
+
+# Mudando de branch
+
+![](figures/checkout-master.png) 
+```
+$ git checkout master
+```
+
+# Juntando dois branches
+
+~ Begin Framed { padding:1ex; margin-top:1ex }
+Podemos juntar modificações feitas de ponto de partida diferentes fazendo um merge!
+~ End Framed
+
+![](figures/basic-branching-6.png) 
+
+# Merge 
+
+![](figures/basic-merging-1.png) 
+
+# Merge 
+
+![](figures/basic-merging-2.png)
+
+```
+$ git checkout master
+$ git merge iss53
+``` 
+
+* Isso vai juntar as modificações feitas no commit 4 com as feitas nos commits 3 e 5
+
+# Git local e num servidor
+
+* Servidores são cópias do repostório (forks) com seus próprios branches.
+* Podemos usar os mesmos comandos localmente e remotamente, especificando o servidor.
+```
+$ git init
+$ git remote add origin git@github.com:diogro/MEU_PRIMEIRO_REPO.git
+$ git fetch origin master
+$ git merge origin/master
+```
+
+* Ou...
+```
+$ git init
+$ git remote add origin git@github.com:diogro/MEU_PRIMEIRO_REPO.git
+$ git branch --set-upstream-to=origin/master master
+$ git pull
+```
+
+# Exemplo ultra prático ao vivo
+
+<https://www.github.com/caetanods/workshop>
+
+# Referências
+
+* GITBOOK! O livro, the book, the only book, the book of love 
+  - <https://git-scm.com/book/en/v2>
+
+* Tutoriais do github
+  - <https://guides.github.com/>
+
+* Git e Rstudio
+  - <http://r-pkgs.had.co.nz/git.html>
