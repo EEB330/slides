@@ -160,57 +160,60 @@ c6ec70a44ccef2a32ebab9451401b2fb5a291623 fixed bug in ExtendMatrix
 
 ---
 
-# Mas eu quero usar o github!!11ONZE
+# But I want to use github!
 
-![github]
+![:scale 50%](figures/github_home.png)
 
 <https://www.github.com/diogro/>
 
-[github]: figures/github_home.png "Version control" { width:600px; vertical-align:middle }
+---
 
-# Depois que criou o repositório
-
-```
-$ git clone git@github.com:diogro/MEU_PRIMEIRO_REPO.git
-```
-
-* Vai criar uma pasta chamada MEU_PRIMEIRO_REPO já com um repositório git
-* Podemos incluir mais arquivos e continuar trabalhando, ocasionalmente mandando mudanças pro servidor
+# After you've created the repository
 
 ```
-$ git pull (pega as mudanças do servidor)
-$ git push (manda as mudanças para o servidor)
+$ git clone git@github.com:diogro/my_first_repo.git
+```
+
+* This will create a folder named my_first_rep with a git repository already initialized.
+* We can add more files and keep working, occasionally sending changes to the server.
+
+```
+$ git pull (fetches changes from the server)
+$ git push (sends changes to the server)
 ```
 
 # Branches
 
-* Branches: São "apontadores" para commits específicos
-  - O padrão chama "master", mas podia ser qualquer coisa
-* Branches permitem que várias versões dos arquivos em um repositório coesistam, e mudanças podem ser compartilhadas e "juntadas".
-* Se existe mais de uma cópia de um repositório (local e servidor) cada um tem os seus branches
 
-# Criando um branch
+- Branches: They are "pointers" to specific commits.
+
+- The default is called "master" or "main" but it could be anything.
+
+- Branches allow different versions of files in a repository to coexist, and changes can be shared and "merged."
+
+- If there is more than one copy of a repository (local and server), each one has its own branches.
+
+# Creating a branch
 
 ![](figures/two-branches.png) 
 ```
 $ git branch testing
 ```
 
-# Escolhendo um branch
+# Picking a branch
 
-~ Begin Framed { padding:1ex; margin-top:1ex }
-HEAD é quem vc está realmente vendo
-~ End Framed
+HEAD is who you are actually looking at.
+
 ![](figures/head-to-master.png) 
 
-# Mudando o HEAD com checkout
+# Changing the HEAD with a checkout
 
 ![](figures/head-to-testing.png) 
 ```
 $ git checkout testing
 ```
 
-# Alterando um branch
+# Changing a branch
 
 ![](figures/advance-testing.png) 
 ```
@@ -218,18 +221,16 @@ $ vim test.R
 $ git commit -a -m 'made a change'
 ```
 
-# Mudando de branch
+# Chaning to another branch
 
 ![](figures/checkout-master.png) 
 ```
 $ git checkout master
 ```
 
-# Juntando dois branches
+# Merging two branches
 
-~ Begin Framed { padding:1ex; margin-top:1ex }
-Podemos juntar modificações feitas de ponto de partida diferentes fazendo um merge!
-~ End Framed
+We can bring together modifications made from different starting points by performing a merge!
 
 ![](figures/basic-branching-6.png) 
 
@@ -246,12 +247,14 @@ $ git checkout master
 $ git merge iss53
 ``` 
 
-* Isso vai juntar as modificações feitas no commit 4 com as feitas nos commits 3 e 5
+* This will combine the modifications made in commit 4 with those made in commits 3 and 5.
 
-# Git local e num servidor
 
-* Servidores são cópias do repostório (forks) com seus próprios branches.
-* Podemos usar os mesmos comandos localmente e remotamente, especificando o servidor.
+# Git local and on a server
+
+* Servers are copies of the repository (forks) with their own branches.
+
+* We can use the same commands locally and remotely, specifying the server.
 ```
 $ git init
 $ git remote add origin git@github.com:diogro/MEU_PRIMEIRO_REPO.git
@@ -259,7 +262,7 @@ $ git fetch origin master
 $ git merge origin/master
 ```
 
-* Ou...
+* Or...
 ```
 $ git init
 $ git remote add origin git@github.com:diogro/MEU_PRIMEIRO_REPO.git
@@ -267,17 +270,17 @@ $ git branch --set-upstream-to=origin/master master
 $ git pull
 ```
 
-# Exemplo ultra prático ao vivo
+# Live example
 
 <https://www.github.com/caetanods/workshop>
 
-# Referências
+# Further reading
 
-* GITBOOK! O livro, the book, the only book, the book of love 
+* GITBOOK! The book, the only book, the book of love 
   - <https://git-scm.com/book/en/v2>
 
-* Tutoriais do github
+* Tutorials from github
   - <https://guides.github.com/>
 
-* Git e Rstudio
+* Git and Rstudio
   - <http://r-pkgs.had.co.nz/git.html>
