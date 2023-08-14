@@ -207,7 +207,7 @@ In summary, single operators (`&amp;` and `|`) always evaluate both sides of the
 # if statements 
 
 .pull-left[
-- Basic structure:
+## Basic structure
 
 ```r
 if (condition) true_action
@@ -240,10 +240,236 @@ grade(74); grade(98)
 ```
 ]
 .pull-right[
+## Common errors
 
+```r
+if ("x") 1
+#&gt; Error in if ("x") 1: 
+#  argument is not interpretable as logical
+if (logical()) 1
+#&gt; Error in if (logical()) 1:
+#  argument is of length zero
+if (NA) 1
+#&gt; Error in if (NA) 1: 
+#  missing value where TRUE/FALSE needed
+if (c(TRUE, FALSE)) 1
+#&gt; Warning in if (c(TRUE, FALSE)) 1: 
+#&gt; the condition has length &gt; 1 and only the
+#&gt; first element will be used
+## [1] 1
+```
 ]
 
 ---
+
+# Vectorized if
+
+### The ifelse function
+
+```r
+ifelse(logical_vector, true_action, false_action)
+```
+
+
+```r
+x &lt;- 1:10
+x %% 2
+```
+
+```
+##  [1] 1 0 1 0 1 0 1 0 1 0
+```
+
+```r
+x %% 2 == 0
+```
+
+```
+##  [1] FALSE  TRUE FALSE  TRUE FALSE  TRUE FALSE  TRUE FALSE  TRUE
+```
+
+```r
+ifelse(x %% 2 == 0, "even", "odd")
+```
+
+```
+##  [1] "odd"  "even" "odd"  "even" "odd"  "even" "odd"  "even" "odd"  "even"
+```
+
+---
+
+# Loops
+
+.pull-left[
+### Basic structure
+
+```r
+for (item in vector) perform_action
+```
+
+
+```r
+for (i in 1:3) {
+  print(i)
+}
+```
+
+```
+## [1] 1
+## [1] 2
+## [1] 3
+```
+]
+
+---
+
+# Structure of a useful loop
+
+.pull-left[
+
+- Usually we want to keep the results of a calculation stored in a new vector
+
+- It's always a good idea to allocate this vector before the loop and use each iteration to set its elements.
+
+```r
+n &lt;- 10 # lenght of results        
+results_vec &lt;- numeric(n), list(n), character(n)
+for(i in 1:n){
+    results_vec[i] &lt;- work_function(vector[i])
+}
+```
+]
+.pull-right[
+
+```r
+n &lt;- 5
+grades &lt;- floor(runif(n, 70, 100))
+grades
+```
+
+```
+## [1] 95 78 98 72 91
+```
+
+```r
+letter_grades = character(n)
+for(g in 1:n){
+    letter_grades[g] &lt;- grade(grades[g])
+}
+letter_grades
+```
+
+```
+## [1] "A" "C" "A" "C" "A"
+```
+]
+
+---
+
+# Common mistakes
+
+### Failure to index the `results` object
+
+.pull-left[
+
+```r
+n &lt;- 5
+grades
+```
+
+```
+## [1] 95 78 98 72 91
+```
+
+```r
+letter_grades = character(n)
+for(g in 1:n){
+    letter_grades[g] &lt;- grade(grades[g])
+}
+letter_grades
+```
+
+```
+## [1] "A" "C" "A" "C" "A"
+```
+]
+
+.pull-right[
+
+
+
+```r
+n &lt;- 5
+grades
+```
+
+```
+## [1] 95 78 98 72 91
+```
+
+```r
+letter_grades = character(n)
+for(g in 1:n){
+*   letter_grades &lt;- grade(grades[g])
+}
+letter_grades
+```
+
+```
+## [1] "A"
+```
+]
+
+---
+
+# Common mistakes
+ 
+### The `1:lenght(x)` pattern
+
+.pull-left[
+
+```r
+means &lt;- c(1, 50, 20)
+out &lt;- vector("list", length(means))
+for (i in 1:length(means)) {
+  out[[i]] &lt;- rnorm(5, means[[i]])
+}
+out
+```
+
+```
+## [[1]]
+## [1]  1.328635 -0.988330  0.172435  1.887718  2.933934
+## 
+## [[2]]
+## [1] 49.90239 49.82316 50.25512 50.87930 49.67024
+## 
+## [[3]]
+## [1] 17.76675 20.88446 19.37416 20.45744 21.38899
+```
+]
+
+.pull-right[
+
+```r
+*means &lt;- c()
+out &lt;- vector("list", length(means))
+for (i in 1:length(means)) {
+  out[[i]] &lt;- rnorm(10, means[[i]])
+}
+#&gt; Error in rnorm(10, means[[i]]): invalid arguments
+```
+
+
+```r
+means &lt;- c()
+1:length(means)
+```
+
+```
+## [1] 1 0
+```
+]
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
