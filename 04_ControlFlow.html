@@ -173,7 +173,7 @@ abs(x - y) &lt; epsilon
    
    ```r
    x &lt;- 5
-   x &lt; 10 &amp;&amp; z &lt; 6  # z is undefined
+   x &gt; 10 &amp;&amp; z &lt; 7 # z is undefined!
    ```
    
    ```
@@ -348,7 +348,7 @@ grades
 ```
 
 ```
-## [1] 95 78 98 72 91
+## [1] 83 88 93 96 88
 ```
 
 ```r
@@ -360,7 +360,7 @@ letter_grades
 ```
 
 ```
-## [1] "A" "C" "A" "C" "A"
+## [1] "B" "B" "A" "A" "B"
 ```
 ]
 
@@ -378,7 +378,7 @@ grades
 ```
 
 ```
-## [1] 95 78 98 72 91
+## [1] 83 88 93 96 88
 ```
 
 ```r
@@ -390,7 +390,7 @@ letter_grades
 ```
 
 ```
-## [1] "A" "C" "A" "C" "A"
+## [1] "B" "B" "A" "A" "B"
 ```
 ]
 
@@ -404,7 +404,7 @@ grades
 ```
 
 ```
-## [1] 95 78 98 72 91
+## [1] 83 88 93 96 88
 ```
 
 ```r
@@ -416,7 +416,7 @@ letter_grades
 ```
 
 ```
-## [1] "A"
+## [1] "B"
 ```
 ]
 
@@ -439,13 +439,13 @@ out
 
 ```
 ## [[1]]
-## [1]  1.328635 -0.988330  0.172435  1.887718  2.933934
+## [1] -0.06924377  1.13096901  1.06358031  0.69940590  0.41922148
 ## 
 ## [[2]]
-## [1] 49.90239 49.82316 50.25512 50.87930 49.67024
+## [1] 51.12632 52.66514 50.34628 49.56491 50.72701
 ## 
 ## [[3]]
-## [1] 17.76675 20.88446 19.37416 20.45744 21.38899
+## [1] 19.32411 19.83332 20.81797 20.09297 19.20084
 ```
 ]
 
@@ -470,6 +470,42 @@ means &lt;- c()
 ## [1] 1 0
 ```
 ]
+
+---
+
+# Example: Diversity metrics in ecology
+
+Diversity consists of two components: 
+
+- Species richness : the number of species in a community
+- Evenness: some species in a community are common, and others are rare 
+
+.center[
+![:scale 50%](figures/bubbles-sad-3in1.png)]
+
+.ref[ Adapted from https://www.davidzeleny.net/anadat-r/doku.php/en:div-ind]
+
+---
+
+# Simpson diversity index
+
+---
+
+# Shannon diversity index
+
+---
+
+# Example dataset
+
+---
+
+# Implementing the Simpson and Shannon diversity index
+
+---
+
+# Using a loop 
+
+---
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>

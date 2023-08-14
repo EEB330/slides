@@ -130,7 +130,7 @@ abs(x - y) < epsilon
 
    ```{r}
    x <- 5
-   x < 10 && z < 6  # z is undefined
+   x > 10 && z < 7 # z is undefined!
    ```
 ]
 .pull-right[
@@ -329,3 +329,39 @@ means <- c()
 1:length(means)
 ```
 ]
+
+---
+
+# Example: Diversity metrics in ecology
+
+Diversity consists of two components: 
+
+- Species richness : the number of species in a community
+- Evenness: some species in a community are common, and others are rare 
+
+.center[
+![:scale 50%](figures/bubbles-sad-3in1.png)]
+
+.ref[ Adapted from https://www.davidzeleny.net/anadat-r/doku.php/en:div-ind]
+
+---
+
+# Simpson diversity index
+
+---
+
+# Shannon diversity index
+
+---
+
+# Example dataset
+
+---
+
+# Implementing the Simpson and Shannon diversity index
+
+---
+
+# Using a loop 
+
+---
