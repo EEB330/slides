@@ -1,19 +1,13 @@
 <!DOCTYPE html>
 <html lang="" xml:lang="">
   <head>
-    <title>Why should biologist learn programming?</title>
+    <title>Control Flow</title>
     <meta charset="utf-8" />
     <meta name="author" content="Diogo Melo" />
-    <script src="00_Why_Programming_files/header-attrs-2.21/header-attrs.js"></script>
-    <link href="00_Why_Programming_files/remark-css-0.0.1/default.css" rel="stylesheet" />
-    <link href="00_Why_Programming_files/remark-css-0.0.1/metropolis.css" rel="stylesheet" />
-    <link href="00_Why_Programming_files/remark-css-0.0.1/metropolis-fonts.css" rel="stylesheet" />
-    <script src="00_Why_Programming_files/clipboard-2.0.6/clipboard.min.js"></script>
-    <link href="00_Why_Programming_files/xaringanExtra-clipboard-0.2.6/xaringanExtra-clipboard.css" rel="stylesheet" />
-    <script src="00_Why_Programming_files/xaringanExtra-clipboard-0.2.6/xaringanExtra-clipboard.js"></script>
-    <script>window.xaringanExtraClipboard(null, {"button":"Copy code <i class=\"fa fa-clipboard\"><\/i>","success":"Copied! <i class=\"fa fa-check\" style=\"color: #90BE6D\"><\/i>","error":"Not copied 😕 <i class=\"fa fa-times-circle\" style=\"color: #F94144\"><\/i>"})</script>
-    <link href="00_Why_Programming_files/font-awesome-6.4.0/css/all.min.css" rel="stylesheet" />
-    <link href="00_Why_Programming_files/font-awesome-6.4.0/css/v4-shims.min.css" rel="stylesheet" />
+    <script src="04_ControlFlow_files/header-attrs-2.21/header-attrs.js"></script>
+    <link href="04_ControlFlow_files/remark-css-0.0.1/default.css" rel="stylesheet" />
+    <link href="04_ControlFlow_files/remark-css-0.0.1/metropolis.css" rel="stylesheet" />
+    <link href="04_ControlFlow_files/remark-css-0.0.1/metropolis-fonts.css" rel="stylesheet" />
     <link rel="stylesheet" href="styles.css" type="text/css" />
   </head>
   <body>
@@ -21,195 +15,233 @@
 class: center, middle, inverse, title-slide
 
 .title[
-# Why should biologist learn programming?
+# Control Flow
 ]
 .subtitle[
-## Biology is a computational discipline
+## The building blocks of algorithms
 ]
 .author[
 ### Diogo Melo
 ]
 .date[
-### Sept. 6, 2023
+### Sept. 18, 2023
 ]
 
 ---
 
 
+# The basic elements of an algorithm
 
+- Variables
 
-# Course structure
+- Logical comparisons
 
-- Diogo Melo - [damelo@princeton.edu](damelo@princeton.edu)
-- Scott Wolf - [swwolf@princeton.edu](swwolf@princeton.edu)
+- Conditionals
 
-- Website: [eeb330.github.io](http://eeb330.github.io)
-
-- Two lectures per week 
-  - some presentations and some in class exercises
-
-- One precept with Scott
-
-- Office hours:
-  - Guyot 301
-  - TBD
+- Loops
 
 ---
 
-# Grading
+# Example high level algorithm
 
-  - **No exams**
-  - Weekly-ish coding exercises (30%)
-    - Graded for coherence, not correctness
+![:scale 50%](figures/gwas-flowchart.png)
 
-  - Class and precept participation (15%)
-    - Participation and in-class quizzes
-
-  - Two coding projects (35%)
-    - Midterm and Final projects
-    - Around 2-3 weeks 
-
-  - Open-science exercise (20%)
-    - Small presentation during finals period reproducing the analysis and/or plots from a published paper. 
-    - More details later in the course
-
+.ref[Turner, S. et al. Quality control procedures for genome-wide association studies. Curr. Protoc. Hum. Genet. Chapter 1, Unit1.19 (2011)]
 
 ---
 
-# Modern biology is computational biology
+# Logical operators
 
-- Biology has become an eminently computational field
-- Bioinformatics, statistics, handling large data are now basic tools of biological practice
-
-![](figures/foamtree.png)
-
----
-
-# Replication crisis
-
-![](figures/ioannidis.png)
-
-
-
-# Excel is very popular
-
-![](figures/eve_online.png)
+- Logical operators are used to perform comparisons in R.
+- They return logical values: `TRUE` or `FALSE`.
+- Essential for control structures and data filtering.
 
 ---
 
-# A recent Excel debacle
+# Single Logical Operators
 
-"Growth in the time of Debt" controversy
+## Single Comparison Operators
 
-Reinhart, Carmen M., and Kenneth S. Rogoff. 2010. American Economic Review, 100 (2): 573-78. DOI: 10.1257/aer.100.2.573
-.pull-left[
-
-- Super influential, around 5k citations
-- Used to justify economic policy
-]
-.pull-right[
-![:scale 70%](figures/figure2.png)
-]
-
-
----
-
-# Coding errors in spreadsheets are common
-
-Thomas Herndon et al. "Does high public debt consistently stifle economic growth? A critique of Reinhart and Rogoff", Cambridge Journal of Economics, Volume 38, Issue 2, March 2014, Pages 257–279, https://doi.org/10.1093/cje/bet075
-
-![](figures/excel_error.png)
-
----
-
-# Spreadsheet software have poor numerical accuracy
-
-Almiron, M. G., Lopes, B., Oliveira, A. L. C., Medeiros, A. C., &amp; Frery, A. C. (2010). On the Numerical Accuracy of Spreadsheets. Journal of Statistical Software, 34(4), 1–29. https://doi.org/10.18637/jss.v034.i04
-
-![:scale 100%](figures/spreadsheet_tests.png)
-
----
-
-# Code and analysis sharing
-
-.pull-left[
-- Reproducibility
-
-- Reuse
-
-- For academics: 
-  - Post-publication peer-review
-  - Community can modify and extend an analysis
-]
-.pull-right[
-![:scale 90%](figures/repro_code.png)
-]
-
----
-
-# Bespoke Custom Analysis
-
-.pull-left[
-- Bespoke custom analysis refers to tailored analyses for specific problems.
-
-- Programming provides a flexible environment for creating custom analyses.
-]
-.pull-right[
-![](figures/Tailor.png)
-]
----
-
-# Why R and/or python?
-
-- Great package ecosystem (CRAN, conda, bioconductor, ...)
-- Easy to learn
-- Good balance of easy-to-write and fast-to-run code
-- Both can easily call code from faster languages if needed
-
-.pull-left[
-  ![:scale 75%](figures/mamba.webp)
-]
-.pull-right[
-  ![:scale 60%](figures/CRANlogo.png)
-]
----
-
-# Effective Visualization 
-
-- Visualization is essential for understanding and communicating data.
-- R offers powerful visualization libraries, such as ggplot2.
+- "&gt;" : Greater than
+- "&lt;" : Less than
+- "&gt;=" : Greater than or equal to
+- "&lt;=" : Less than or equal to
+- "==" : Equal to
+- "!=" : Not equal to
 
 
 ```r
-library(ggplot2)
-library(cowplot)
-ggplot(iris, aes(Sepal.Width, Sepal.Length, color = Species)) + 
-geom_point() + stat_ellipse() + theme_cowplot()
+x &lt;- 5
+y &lt;- 7
+x &gt; y
 ```
 
-&lt;img src="00_Why_Programming_files/figure-html/iris plot-1.png" height="300" /&gt;
+```
+## [1] FALSE
+```
 
 ---
 
+# Comparing Floating-Point Numbers
 
-# Conclusion
+.pull-left[
+1. **Avoid Exact Equality:**
 
-- Reproducible research ensures transparency and verifiability.
+   - Floating-point arithmetic can lead to tiny differences.
+   - Instead of `x == y`, use `abs(x - y) &lt; epsilon`.
 
-- R enables bespoke custom analysis and independence in model creation.
+2. **Specify Tolerance:**
 
-- Effective visualization enhances data understanding and communication.
+   - Define a small `epsilon` value to handle small differences.
 
-- Sharing analytical tools and leveraging package ecosystems promote collaboration.
+3. **Use Functions:**
+
+   - `all.equal(x, y)` considers small differences.
+   - `identical(x, y)` checks for exact equality.
+]
+.pull-right[
+
+
+```r
+x &lt;- 0.1 + 0.2
+y &lt;- 0.3
+x == y
+```
+
+```
+## [1] FALSE
+```
+
+```r
+epsilon &lt;- 1e-10
+abs(x - y) &lt; epsilon
+```
+
+```
+## [1] TRUE
+```
+]
+---
+
+# Double Logical Operators
+
+### Single Operators:
+
+.pull-left[
+*  **`&amp;` (AND Operator):**
+
+   The single ampersand `&amp;` operator performs element-wise logical AND between two vectors or scalars. It returns a logical vector of the same length as the inputs, where each element corresponds to the logical AND operation of the corresponding elements in the input vectors.
+
+   
+   ```r
+   x &lt;- c(TRUE, FALSE, TRUE)
+   y &lt;- c(TRUE, TRUE, FALSE)
+   x &amp; y 
+   ```
+   
+   ```
+   ## [1]  TRUE FALSE FALSE
+   ```
+]
+.pull-right[
+* **`|` (OR Operator):**
+
+   The single pipe `|` operator performs element-wise logical OR between two vectors or scalars. It returns a logical vector of the same length as the inputs, where each element corresponds to the logical OR operation of the corresponding elements in the input vectors.
+
+   
+   ```r
+   x &lt;- c(TRUE, FALSE, TRUE)
+   y &lt;- c(FALSE, TRUE, FALSE)
+   x | y  
+   ```
+   
+   ```
+   ## [1] TRUE TRUE TRUE
+   ```
+]
+---
+
+# Short-circuit evaluation
+
+### Double Operators:
+
+.pull-left[
+* **`&amp;&amp;` (Double AND Operator):**
+
+   The double `&amp;&amp;` operator performs short-circuit evaluation. It evaluates the left-hand side expression first and only evaluates the right-hand side expression if the left-hand side is `TRUE`. If the left-hand side is `FALSE`, the operator immediately returns `FALSE`.
+
+   
+   ```r
+   x &lt;- 5
+   x &lt; 10 &amp;&amp; z &lt; 6  # z is undefined
+   ```
+   
+   ```
+   ## [1] FALSE
+   ```
+]
+.pull-right[
+* **`||` (Double OR Operator):**
+
+   The double `||` operator also performs short-circuit evaluation. It evaluates the left-hand side expression first and only evaluates the right-hand side expression if the left-hand side is `FALSE`. If the left-hand side is `TRUE`, the operator immediately returns `TRUE`.
+
+   
+   ```r
+   x &lt;- 5
+   y &lt;- 7
+   x &gt; 2 || y &gt; 10  
+   ```
+   
+   ```
+   ## [1] TRUE
+   ```
+]
+---
+
+# Single vs double operators
+
+In summary, single operators (`&amp;` and `|`) always evaluate both sides of the expressions, producing vectors of logical results. Double operators (`&amp;&amp;` and `||`) perform short-circuit evaluation, meaning they only evaluate the right-hand side if necessary, and return a single logical value. Double operators are particularly useful when you want to optimize code execution by avoiding unnecessary evaluations.
 
 ---
 
-# Some Suggested Reading material
+# if statements 
 
-- [A (very) short introduction to R](https://cran.r-project.org/doc/contrib/Torfs+Brauer-Short-R-Intro.pdf)
-- [Advanced R](https://adv-r.hadley.nz/)
-- [British Ecological Society Guides](https://www.britishecologicalsociety.org/publications/guides-to/)
-- [Bioinformatics Data Skills](https://vincebuffalo.com/book/)
+.pull-left[
+- Basic structure:
+
+```r
+if (condition) true_action
+if (condition) true_action else false_action
+```
+
+
+
+```r
+grade &lt;- function(x) {
+  if (x &gt; 90) {
+    "A"
+  } else if (x &gt; 80) {
+    "B"
+  } else if (x &gt; 70) {
+    "C"
+  } else {
+    "F"
+  }
+}
+grade(74); grade(98)
+```
+
+```
+## [1] "C"
+```
+
+```
+## [1] "A"
+```
+]
+.pull-right[
+
+]
 
 ---
     </textarea>

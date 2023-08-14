@@ -1,16 +1,28 @@
 ---
 title: "Version Control with git"
+subtitle: "Archival and colaboration"
 author: Diogo Melo
 date: Sept. 13, 2023
 runtime: static
 output:
   xaringan::moon_reader:
+    css: [default, metropolis, metropolis-fonts, "styles.css"]
     nature:
       highlightLines: true
       chakra: libs/remark-latest.min.js
       beforeInit: "macros.js"
       ratio: "16:9"
       countdown: 60000
+---
+
+# Precept this week 
+
+- Setting up a proper work environment and git repository.
+
+- Submit one assignment in the course github repository.
+
+- Room TBD
+
 ---
 
 # What it git?
@@ -47,7 +59,7 @@ Or...
 
 ---
 
-## General idea of version control
+# General idea of version control
 
 .pull-left[
 * Checkout: the version of the file that is accessible at that moment
@@ -181,6 +193,7 @@ $ git clone git@github.com:diogro/my_first_repo.git
 $ git pull (fetches changes from the server)
 $ git push (sends changes to the server)
 ```
+---
 
 # Branches
 
@@ -193,54 +206,66 @@ $ git push (sends changes to the server)
 
 - If there is more than one copy of a repository (local and server), each one has its own branches.
 
+---
+
 # Creating a branch
 
-![](figures/two-branches.png) 
+![:scale 50%](figures/two-branches.png) 
 ```
 $ git branch testing
 ```
+---
 
 # Picking a branch
 
 HEAD is who you are actually looking at.
 
-![](figures/head-to-master.png) 
+![:scale 50%](figures/head-to-master.png) 
+
+---
 
 # Changing the HEAD with a checkout
 
-![](figures/head-to-testing.png) 
+![:scale 50%](figures/head-to-testing.png) 
 ```
 $ git checkout testing
 ```
+---
 
 # Changing a branch
 
-![](figures/advance-testing.png) 
+![:scale 50%](figures/advance-testing.png) 
 ```
 $ vim test.R
 $ git commit -a -m 'made a change'
 ```
+---
 
 # Chaning to another branch
 
-![](figures/checkout-master.png) 
+![:scale 50%](figures/checkout-master.png) 
 ```
 $ git checkout master
 ```
+---
 
 # Merging two branches
 
 We can bring together modifications made from different starting points by performing a merge!
 
-![](figures/basic-branching-6.png) 
+![:scale 50%](figures/basic-branching-6.png) 
+
+---
 
 # Merge 
 
-![](figures/basic-merging-1.png) 
+![:scale 50%](figures/basic-merging-1.png) 
+
+---
 
 # Merge 
 
-![](figures/basic-merging-2.png)
+![:scale 50%](figures/basic-merging-2.png)
 
 ```
 $ git checkout master
@@ -249,6 +274,7 @@ $ git merge iss53
 
 * This will combine the modifications made in commit 4 with those made in commits 3 and 5.
 
+---
 
 # Git local and on a server
 
@@ -257,7 +283,7 @@ $ git merge iss53
 * We can use the same commands locally and remotely, specifying the server.
 ```
 $ git init
-$ git remote add origin git@github.com:diogro/MEU_PRIMEIRO_REPO.git
+$ git remote add origin git@github.com:diogro/my_first_repo.git
 $ git fetch origin master
 $ git merge origin/master
 ```
@@ -265,14 +291,17 @@ $ git merge origin/master
 * Or...
 ```
 $ git init
-$ git remote add origin git@github.com:diogro/MEU_PRIMEIRO_REPO.git
+$ git remote add origin git@github.com:diogro/my_first_repo.git
 $ git branch --set-upstream-to=origin/master master
 $ git pull
 ```
+---
 
 # Live example
 
 <https://www.github.com/caetanods/workshop>
+
+---
 
 # Further reading
 
@@ -284,3 +313,5 @@ $ git pull
 
 * Git and Rstudio
   - <http://r-pkgs.had.co.nz/git.html>
+
+---

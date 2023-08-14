@@ -1,10 +1,12 @@
 ---
 title: "Why should biologist learn programming?"
+subtitle: "Biology is a computational discipline"
 author: Diogo Melo
 date: Sept. 6, 2023
 runtime: static
 output:
   xaringan::moon_reader:
+    css: [default, metropolis, metropolis-fonts, "styles.css"]
     nature:
       highlightLines: true
       chakra: libs/remark-latest.min.js
@@ -24,7 +26,7 @@ htmltools::tagList(
   rmarkdown::html_dependency_font_awesome())
 ```
 
-## Course structure
+# Course structure
 
 - Diogo Melo - [damelo@princeton.edu](damelo@princeton.edu)
 - Scott Wolf - [swwolf@princeton.edu](swwolf@princeton.edu)
@@ -42,7 +44,7 @@ htmltools::tagList(
 
 ---
 
-## Grading
+# Grading
 
   - **No exams**
   - Weekly-ish coding exercises (30%)
@@ -62,7 +64,7 @@ htmltools::tagList(
 
 ---
 
-## Modern biology is computational biology
+# Modern biology is computational biology
 
 - Biology has become an eminently computational field
 - Bioinformatics, statistics, handling large data are now basic tools of biological practice
@@ -71,19 +73,19 @@ htmltools::tagList(
 
 ---
 
-## Replication crisis
+# Replication crisis
 
 ![](figures/ioannidis.png)
 
 
 
-## Excel is very popular
+# Excel is very popular
 
 ![](figures/eve_online.png)
 
 ---
 
-## A recent Excel debacle
+# A recent Excel debacle
 
 "Growth in the time of Debt" controversy
 
@@ -100,7 +102,7 @@ Reinhart, Carmen M., and Kenneth S. Rogoff. 2010. American Economic Review, 100 
 
 ---
 
-## Coding errors in spreadsheets are common
+# Coding errors in spreadsheets are common
 
 Thomas Herndon et al. "Does high public debt consistently stifle economic growth? A critique of Reinhart and Rogoff", Cambridge Journal of Economics, Volume 38, Issue 2, March 2014, Pages 257–279, https://doi.org/10.1093/cje/bet075
 
@@ -108,7 +110,7 @@ Thomas Herndon et al. "Does high public debt consistently stifle economic growth
 
 ---
 
-## Spreadsheet software have poor numerical accuracy
+# Spreadsheet software have poor numerical accuracy
 
 Almiron, M. G., Lopes, B., Oliveira, A. L. C., Medeiros, A. C., & Frery, A. C. (2010). On the Numerical Accuracy of Spreadsheets. Journal of Statistical Software, 34(4), 1–29. https://doi.org/10.18637/jss.v034.i04
 
@@ -116,7 +118,7 @@ Almiron, M. G., Lopes, B., Oliveira, A. L. C., Medeiros, A. C., & Frery, A. C. (
 
 ---
 
-## Code and analysis sharing
+# Code and analysis sharing
 
 .pull-left[
 - Reproducibility
@@ -133,7 +135,7 @@ Almiron, M. G., Lopes, B., Oliveira, A. L. C., Medeiros, A. C., & Frery, A. C. (
 
 ---
 
-## Bespoke Custom Analysis
+# Bespoke Custom Analysis
 
 .pull-left[
 - Bespoke custom analysis refers to tailored analyses for specific problems.
@@ -145,7 +147,7 @@ Almiron, M. G., Lopes, B., Oliveira, A. L. C., Medeiros, A. C., & Frery, A. C. (
 ]
 ---
 
-## Why R and/or python?
+# Why R and/or python?
 
 - Great package ecosystem (CRAN, conda, bioconductor, ...)
 - Easy to learn
@@ -160,7 +162,7 @@ Almiron, M. G., Lopes, B., Oliveira, A. L. C., Medeiros, A. C., & Frery, A. C. (
 ]
 ---
 
-## Effective Visualization 
+# Effective Visualization 
 
 - Visualization is essential for understanding and communicating data.
 - R offers powerful visualization libraries, such as ggplot2.
@@ -175,7 +177,7 @@ geom_point() + stat_ellipse() + theme_cowplot()
 ---
 
 
-## Conclusion
+# Conclusion
 
 - Reproducible research ensures transparency and verifiability.
 
@@ -187,7 +189,7 @@ geom_point() + stat_ellipse() + theme_cowplot()
 
 ---
 
-## Some Suggested Reading material
+# Some Suggested Reading material
 
 - [A (very) short introduction to R](https://cran.r-project.org/doc/contrib/Torfs+Brauer-Short-R-Intro.pdf)
 - [Advanced R](https://adv-r.hadley.nz/)
