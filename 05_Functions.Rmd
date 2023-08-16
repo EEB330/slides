@@ -1,0 +1,41 @@
+---
+title: "Functions"
+subtitle: "Environments and Scopes"
+author: Diogo Melo
+date: Sept. 18, 2023
+runtime: static
+output:
+  xaringan::moon_reader:
+    css: [default, metropolis, metropolis-fonts, "styles.css"]
+    nature:
+      highlightLines: true
+      chakra: libs/remark-latest.min.js
+      beforeInit: "macros.js"
+      ratio: "16:10"
+      countdown: 60000
+---
+
+# Functions
+
+---
+
+# Almost everything in R is a function
+
+---
+
+# Functions as first class objects
+
+---
+
+# Parts of a function
+
+---
+
+# Good code architecture
+
+---
+
+# Don't repeat code
+
+---
+

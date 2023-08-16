@@ -22,8 +22,6 @@ background-size:  50%
 
 # What is programming?
 
-
-
 .pull-left[
 
 Never forget:
