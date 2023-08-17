@@ -424,7 +424,7 @@ input = c(3, 4, 7, 7, 8, NA)
 mean(x = input)
 ```
 
-- NA is a special object meaning "missing" value in R
+- `NA` is a special object meaning "missing" value in R
 
 - We can deal with it using an argument of the mean function
 
