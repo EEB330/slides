@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html lang="" xml:lang="">
   <head>
-    <title>Functions</title>
+    <title>Data I/O</title>
     <meta charset="utf-8" />
     <meta name="author" content="Diogo Melo" />
-    <script src="05_Functions_files/header-attrs/header-attrs.js"></script>
-    <link href="05_Functions_files/remark-css/default.css" rel="stylesheet" />
-    <link href="05_Functions_files/remark-css/metropolis.css" rel="stylesheet" />
-    <link href="05_Functions_files/remark-css/metropolis-fonts.css" rel="stylesheet" />
+    <script src="06_DataIO_files/header-attrs/header-attrs.js"></script>
+    <link href="06_DataIO_files/remark-css/default.css" rel="stylesheet" />
+    <link href="06_DataIO_files/remark-css/metropolis.css" rel="stylesheet" />
+    <link href="06_DataIO_files/remark-css/metropolis-fonts.css" rel="stylesheet" />
     <link rel="stylesheet" href="styles.css" type="text/css" />
   </head>
   <body>
@@ -15,10 +15,10 @@
 class: center, middle, inverse, title-slide
 
 .title[
-# Functions
+# Data I/O
 ]
 .subtitle[
-## Environments and Scopes
+## Reading and writting biological data
 ]
 .author[
 ### Diogo Melo
@@ -30,471 +30,223 @@ class: center, middle, inverse, title-slide
 ---
 
 
-# Functions
+# To analyze the data, you must first be the data
 
-.pull-left[
-- Functions are small(ish) pieces of code that given a set of arguments produce some output
+- Almost all projects begin with data going into software
 
-- Functions allow us to repeat the same procedure several times with different inputs without repeating code
+- All of them end with output being extracted
 
-- Packages are mostly just groups of related functions
+- We have to learn how to read and write from files
 
-- The help() function shows the help page for any function
+---
+
+# Basic data types 
+
+- Tabular
+
+    - Most common type in ecology.
+    - Usually goes into a data.frame.
+    - Excel files, csv, tsv, fixed width...
+
+- Genomic data
+
+    - Most common in genetics, bioinformatics
+    - Is usually pretty large, so requires some care and specialized data structures
+    - Genotype data, sequence data, aligned sequence data, expression data
+
+- Databases 
+
+    - Relational data that is more complex than a single table
+
+---
+
+# Tabular data
+
 
 ```r
-help(apply)
-?apply
+head(iris)
 ```
+
+```
+##   Sepal.Length Sepal.Width Petal.Length Petal.Width Species
+## 1          5.1         3.5          1.4         0.2  setosa
+## 2          4.9         3.0          1.4         0.2  setosa
+## 3          4.7         3.2          1.3         0.2  setosa
+## 4          4.6         3.1          1.5         0.2  setosa
+## 5          5.0         3.6          1.4         0.2  setosa
+## 6          5.4         3.9          1.7         0.4  setosa
+```
+
+
+---
+
+
+# Reading tabular data
+
+.pull-left[
+- Base functions:
+    - Output data.frames
+    - Names have `.` in them, e.g. read.table, read.csv
+
+- `readr` package
+    - Mostly drop-in replacements for the base functions, but with some more (or less) sensible choices
+    - ties into the `tidyverse` groups of packages we will see later on
+        - there are super popular, so important to know.
+    - Names have `_` in them, e.g. read_delim, read_csv
+
 ]
 .pull-right[
 
-```r
-f_to_c &lt;- function(f){
-  (5/9)*(f-32)
-}
-f_to_c(60)
-```
+- `DataTables` package
+    - Notable because it's `fread` function is so blazing fast it is sometimes the only choice for large data
 
-```
-## [1] 15.55556
-```
+- `rio` package
+    - sort of jack of all traits magic package that attempts to figure out the correct way to read your data from the file extension
+    - Only has one generic `import` function that mostly get's it right.
 ]
 
 ---
 
-# Good code architecture
-
-- Good code is modular and easy to understand 
-
-- Using functions has several advantages:
-
-  - Modularity: Think about the small steps that compose our solution;
-
-  - Testing: Test each step independently;
-
-  - Maintenance: Easier bug detection and updates;
-
-  - Readability: Clear function names convey intent;
-
-  - Reuse: good generic functions can be used wherever necessary.
-
-- This makes understanding code, finding and fixing problems much easier
-
----
-
-# Returning to the Diversity indexes
-
-- Let's wrap our code from last class in a function:
 
 
-```r
-species_n = c(a = 5, b = 1, c = 10, d = 3, e = 9, 
-              f = 10, g = 18, h = 22, i = 8, j = 8)
-```
+# read.table
 
 .pull-left[
-
-- Old script
-
-```r
-n_total = 0
-for(i in seq_along(species_n)){
-  n_total &lt;- n_total + species_n[i]
-}
-props = species_n / n_total
-D = 0
-names(D) = "Simpson"
-for(i in seq_along(props)){
-  D = D + props[i]^2
-}
-D
-```
-
-```
-##   Simpson 
-## 0.1416931
-```
-]
-.pull-right[
-
-- New and improved function
-
-```r
-Simpson &lt;- function(x){
-  n = sum(x)
-  p = x/n
-  D = sum(p^2)
-  return(c(Simpson = D))
-}
-Simpson(species_n)
-```
-
-```
-##   Simpson 
-## 0.1416931
-```
-]
-
----
-
-# DRY (Don't Repeat Yourself) principle
-
-.pull-left[
-
-```r
-Simpson &lt;- function(x){
-* n = sum(x)
-* p = x/n
-  D = sum(p^2)
-  return(c(Simpson = D))
-}
-
-Shannon &lt;- function(x){
-* n = sum(x)
-* p = x/n
-  H = -sum(p*log(p))
-  return(c(Shannon = H))
-}
-```
-]
-
---
-
-.pull-right[
-
-```r
-getProb = function(x) x/sum(x)
-
-Simpson &lt;- function(x){
-  p = getProb(x)
-  D = sum(p^2)
-  return(c(Simpson = D))
-}
-
-Shannon &lt;- function(x){
-  p = getProb(x)
-  H = -sum(p*log(p))
-  return(c(Shannon = H))
-}
-```
-]
-
----
-
-# Reading a help page
-```r
-?mean
-```
-.pull-left[
-  ![](figures/mean_help-1.png)
-]
-.pull-right[
-  ![](figures/mean_help-2.png)
-]
-
----
-
-# Almost everything in R is a function
-
-Inline operators are functions:
+- General purpose table reading function.
+- Reads a file in table format and creates a data.frame.
 
 
 ```r
-`+`(1, 2) # 1 + 2
+# Basic Usage
+my_data &lt;- read.table("my_file.tsv", 
+                      header = TRUE, 
+                      sep = "\t")
+head(my_data)
 ```
 
 ```
-## [1] 3
-```
-
-```r
-`==`(2, "a") # 1 == "a"
-```
-
-```
-## [1] FALSE
-```
-
-
-```r
-`&lt;-`(a, 1) # a &lt;- 1
-a
-```
-
-```
-## [1] 1
-```
-
-Even the index bracket!
-
-```r
-x = list(1, 2, "b")
-`[[`(x, 3) # x[[3]]
-```
-
-```
-## [1] "b"
-```
-
----
-
-# Functions as first class objects
-
-Functions can be treated like any other object, so you can:
-
-.pull-left[
-- Have a function return another function
-
-
-```r
-sum_x &lt;- function(x) {
-  f &lt;- function(y) y + x
-  f
-}
-sum_4 = sum_x(4)
-sum_4(3)
-```
-
-```
-## [1] 7
-```
-
-- Make lists of functions:
-
-
-```r
-fs = list(mean, median, var)
-x = 1:10
-c(fs[[1]](x), fs[[2]](x), fs[[3]](x))
-```
-
-```
-## [1] 5.500000 5.500000 9.166667
-```
-]
-.pull-right[
-  - Pass a function as an argument to another function:
-
-
-```r
-fogoh &lt;- function(x, f, g, h){
-  f(g(h(x)))
-}
-x = rexp(10)
-x
-```
-
-```
-##  [1] 0.042009189 2.136010534 0.177421538 0.475875197 0.215625627 0.214418707
-##  [7] 0.190019781 0.004718057 0.420206565 2.487381412
-```
-
-```r
-fogoh(x, mean, diff, sort)
-```
-
-```
-## [1] 0.2758515
+##   Sepal.Length Sepal.Width Petal.Length Petal.Width Species
+## 1          5.1         3.5          1.4         0.2  setosa
+## 2          4.9         3.0          1.4         0.2  setosa
+## 3          4.7         3.2          1.3         0.2  setosa
+## 4          4.6         3.1          1.5         0.2  setosa
+## 5          5.0         3.6          1.4         0.2  setosa
+## 6          5.4         3.9          1.7         0.4  setosa
 ```
 ]
 ---
 
-# Composing functions
+# read.csv &amp; read.csv2
 
-.pull-left[
-  - Using intermediate objects:
+Special cases of read.table designed for CSV files.
 
-
-```r
-x = rexp(10)
-sorted_x = sort(x)
-diff_x = diff(sorted_x)
-mean(diff_x)
-```
-
-```
-## [1] 0.2698265
-```
-
-- Nesting calls:
-
+- read.csv: assumes field separator is "," and . for decimal point.
+- read.csv2: assumes field separator is ";" and , for decimal point (common in European datasets).
 
 ```r
-mean(diff(sort(x)))
+data_csv &lt;- read.csv("my_data.csv")
+
+# For European-style CSV
+data_csv2 &lt;- read.csv2("my_data_european.csv")
 ```
-
-```
-## [1] 0.2698265
-```
-]
-
---
-
-.pull-right[
-- Using the pipe operator:
-
-
-```r
-x |&gt; sort() |&gt; diff() |&gt; mean()
-```
-
-```
-## [1] 0.2698265
-```
-
-```r
-# or
-library(magrittr)
-x %&gt;% sort %&gt;% diff %&gt;% mean
-```
-
-```
-## [1] 0.2698265
-```
-
-![](figures/MagrittePipe.jpg)
-
-]
+![](figures/csv_ex.png)
 
 ---
 
+# readr package
 
-# Parts of a function
+- Outputs a tibble, a kind of modern data.frame with some quirks
+    - does some smart figuring out of column types
+    - avoids most conversions to factor
 
-A function has three parts:
-
-- The formals(), the list of arguments that control how you call the function.
-
-- The body(), the code inside the function.
-
-- The environment(), the data structure that determines how the function finds the values associated with the names.
-
-- Some exceptions are functions that call C code directly: sum, `[`, and a few others
-
-.pull-left[
 
 ```r
-f &lt;- function(x, y) {
-  # A comment
-  x + y
-}
-
-formals(f)
+# Basic Usage
+library(readr)
+my_data_tbl &lt;- read_delim("my_file.tsv", 
+                      delim = "\t")
 ```
 
 ```
-## $x
+## Rows: 150 Columns: 5
+## ── Column specification ──────────────────────────────────────────────────────────────────────────────────────────
+## Delimiter: "\t"
+## chr (1): Species
+## dbl (4): Sepal.Length, Sepal.Width, Petal.Length, Petal.Width
 ## 
-## 
-## $y
+## ℹ Use `spec()` to retrieve the full column specification for this data.
+## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
 ```
-]
-.pull-right[
-
-```r
-body(f)
-```
-
-```
-## {
-##     x + y
-## }
-```
-
-```r
-environment(f)
-```
-
-```
-## &lt;environment: R_GlobalEnv&gt;
-```
-]
----
-
-# Environments 
-
-- Environments associate a set of names to a set of values. 
-- You can think of an environment as a bag of names
-
-.center[
-![:scale 50%](figures/bindings.png)
-]
 
 ---
 
-# Functions and environments
-
-.pull-left[
-- Functions have their own environments, so the same name can be bound to a different value inside the function
-
-- This is called masking
+# tibble data.frame
 
 
 ```r
-x &lt;- 10
-y &lt;- 20
-g &lt;- function() {
-  x &lt;- 1
-  y &lt;- 2
-  c(x, y)
-}
-g()
+my_data_tbl
 ```
 
 ```
-## [1] 1 2
+## # A tibble: 150 × 5
+##    Sepal.Length Sepal.Width Petal.Length Petal.Width Species
+##           &lt;dbl&gt;       &lt;dbl&gt;        &lt;dbl&gt;       &lt;dbl&gt; &lt;chr&gt;  
+##  1          5.1         3.5          1.4         0.2 setosa 
+##  2          4.9         3            1.4         0.2 setosa 
+##  3          4.7         3.2          1.3         0.2 setosa 
+##  4          4.6         3.1          1.5         0.2 setosa 
+##  5          5           3.6          1.4         0.2 setosa 
+##  6          5.4         3.9          1.7         0.4 setosa 
+##  7          4.6         3.4          1.4         0.3 setosa 
+##  8          5           3.4          1.5         0.2 setosa 
+##  9          4.4         2.9          1.4         0.2 setosa 
+## 10          4.9         3.1          1.5         0.1 setosa 
+## # ℹ 140 more rows
 ```
-]
-
---
-
-.pull-right[
-- If a name isn’t defined inside a function, R looks one level up.
-
-```r
-x &lt;- 2
-g &lt;- function() {
-  y &lt;- 1
-  c(x, y)
-}
-g()
-```
-
-```
-## [1] 2 1
-```
-
-```r
-# And this doesn't change 
-# the previous value of y
-y
-```
-
-```
-## [1] 20
-```
-]
 
 ---
 
-# Object-oriented programming
+# Genomics data
 
-- Functions can behave differently depending on the class of the inputs.
-
-- R has a patchwork mess of several object-oriented programming (OOP) paradigms: 
-
-  - S3: (or Simple S) is the oldest and most basic form of OOP in R. It lacks formal class definitions and methods, relying on naming conventions. Objects are typically lists with a class attribute. Methods are defined using functions with the class name in their names, e.g., print, summary.
-
-  - S4: is an improved version of S3, providing more formal class definitions and methods.Classes are defined using the setClass function, which allows more control over object structure. Methods are defined using setMethod and related functions. Strong typing and formal validation of slots (object attributes) can be enforced. S4 supports multiple inheritance.
-
-  - Reference Classes (R5 or RC): R5 classes provide a more traditional OOP experience similar to languages like Java or C#. Classes are defined using the setRefClass function.
-
-  - R6: is an alternative to S3, S4, and reference classes, introduced through the R6 package. It provides a more modern, stateful, and user-friendly OOP experience. Objects are instances of R6 classes, which have methods and private fields. R6 classes are defined using the R6Class function from the R6 package.
 ---
 
-# Crash-course in S3
+# Data formats
 
+---
 
+# Advanced tabular formats
+
+---
+
+# DataTable 
+
+---
+
+# tibbles
+
+---
+
+# Reading tabular data
+
+---
+
+# Parsing generic data
+
+---
+
+# Genomic data
+
+---
+
+# Genotyping data
+
+---
+
+# DNA Sequence data
+
+---
+
+# Gene expression data (RNAseq)
 
 ---
     </textarea>

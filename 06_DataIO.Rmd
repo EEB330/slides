@@ -1,0 +1,167 @@
+---
+title: "Data I/O"
+subtitle: "Reading and writting biological data"
+author: Diogo Melo
+date: Sept. 18, 2023
+runtime: static
+output:
+  xaringan::moon_reader:
+    css: [default, metropolis, metropolis-fonts, "styles.css"]
+    nature:
+      highlightLines: true
+      chakra: libs/remark-latest.min.js
+      beforeInit: "macros.js"
+      ratio: "16:10"
+      countdown: 60000
+---
+
+# To analyze the data, you must first be the data
+
+- Almost all projects begin with data going into software
+
+- All of them end with output being extracted
+
+- We have to learn how to read and write from files
+
+---
+
+# Basic data types 
+
+- Tabular
+
+    - Most common type in ecology.
+    - Usually goes into a data.frame.
+    - Excel files, csv, tsv, fixed width...
+
+- Genomic data
+
+    - Most common in genetics, bioinformatics
+    - Is usually pretty large, so requires some care and specialized data structures
+    - Genotype data, sequence data, aligned sequence data, expression data
+
+- Databases 
+
+    - Relational data that is more complex than a single table
+
+---
+
+# Tabular data
+
+```{r}
+head(iris)
+```
+
+
+---
+
+
+# Reading tabular data
+
+.pull-left[
+- Base functions:
+    - Output data.frames
+    - Names have `.` in them, e.g. read.table, read.csv
+
+- `readr` package
+    - Mostly drop-in replacements for the base functions, but with some more (or less) sensible choices
+    - ties into the `tidyverse` groups of packages we will see later on
+        - there are super popular, so important to know.
+    - Names have `_` in them, e.g. read_delim, read_csv
+
+]
+.pull-right[
+
+- `DataTables` package
+    - Notable because it's `fread` function is so blazing fast it is sometimes the only choice for large data
+
+- `rio` package
+    - sort of jack of all traits magic package that attempts to figure out the correct way to read your data from the file extension
+    - Only has one generic `import` function that mostly get's it right.
+]
+
+---
+
+
+
+# read.table
+
+.pull-left[
+- General purpose table reading function.
+- Reads a file in table format and creates a data.frame.
+
+```{r}
+# Basic Usage
+my_data <- read.table("my_file.tsv", 
+                      header = TRUE, 
+                      sep = "\t")
+head(my_data)
+```
+]
+---
+
+# read.csv & read.csv2
+
+Special cases of read.table designed for CSV files.
+
+- read.csv: assumes field separator is "," and . for decimal point.
+- read.csv2: assumes field separator is ";" and , for decimal point (common in European datasets).
+
+```r
+data_csv <- read.csv("my_data.csv")
+
+# For European-style CSV
+data_csv2 <- read.csv2("my_data_european.csv")
+```
+![](figures/csv_ex.png)
+
+---
+
+# readr package
+
+- Outputs a tibble, a kind of modern data.frame with some quirks
+    - does some smart figuring out of column types
+    - avoids most conversions to factor
+
+```{r}
+# Basic Usage
+library(readr)
+my_data_tbl <- read_delim("my_file.tsv", 
+                           delim = "\t")
+```
+
+---
+
+# tibble data.frame
+
+```{r}
+my_data_tbl
+```
+
+---
+
+
+
+# Genomics data
+
+---
+
+# Genomic data
+
+---
+
+# Genotyping data
+
+---
+
+# DNA Sequence data
+
+---
+
+# Gene expression data (RNAseq)
+
+---
+
+
+# Parsing generic data
+
+---

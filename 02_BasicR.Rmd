@@ -288,6 +288,21 @@ Error in `num_x + 1`:
 ! non-numeric argument to binary operator
 ---
 
+# Factor vectors
+
+- Kind of cross between numeric and character
+- Internally numeric, but each number is linked to a character variable
+- Designed to handle categorical data, especially in the context of linear models
+  - Things like: Species, Batch, Sex, Treatment-Control, ...
+- Has a fixed number of possible values
+
+
+
+```{r}
+# Factor example
+```
+
+---
 
 # Lists
 
