@@ -97,7 +97,7 @@ head(iris)
 ]
 .pull-right[
 
-- `DataTables` package
+- `data.table` package
     - Notable because it's `fread` function is so blazing fast it is sometimes the only choice for large data
 
 - `rio` package
@@ -164,7 +164,7 @@ data_csv2 &lt;- read.csv2("my_data_european.csv")
 # Basic Usage
 library(readr)
 my_data_tbl &lt;- read_delim("my_file.tsv", 
-                      delim = "\t")
+                           delim = "\t")
 ```
 
 ```
@@ -206,31 +206,36 @@ my_data_tbl
 
 ---
 
+# data.table's fread
+
+- data.table is a very fast package to deal with tabular data
+- Has its own very particular syntax
+- Can deal with datasets above 100GB easily
+
+
+```r
+library(data.table)
+data_dt &lt;- fread("my_file.csv")
+data_dt
+```
+
+```
+##      Sepal.Length Sepal.Width Petal.Length Petal.Width   Species
+##   1:          5.1         3.5          1.4         0.2    setosa
+##   2:          4.9         3.0          1.4         0.2    setosa
+##   3:          4.7         3.2          1.3         0.2    setosa
+##   4:          4.6         3.1          1.5         0.2    setosa
+##   5:          5.0         3.6          1.4         0.2    setosa
+##  ---                                                            
+## 146:          6.7         3.0          5.2         2.3 virginica
+## 147:          6.3         2.5          5.0         1.9 virginica
+## 148:          6.5         3.0          5.2         2.0 virginica
+## 149:          6.2         3.4          5.4         2.3 virginica
+## 150:          5.9         3.0          5.1         1.8 virginica
+```
+---
+
 # Genomics data
-
----
-
-# Data formats
-
----
-
-# Advanced tabular formats
-
----
-
-# DataTable 
-
----
-
-# tibbles
-
----
-
-# Reading tabular data
-
----
-
-# Parsing generic data
 
 ---
 
@@ -247,6 +252,11 @@ my_data_tbl
 ---
 
 # Gene expression data (RNAseq)
+
+---
+
+
+# Parsing generic data
 
 ---
     </textarea>

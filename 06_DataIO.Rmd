@@ -71,7 +71,7 @@ head(iris)
 ]
 .pull-right[
 
-- `DataTables` package
+- `data.table` package
     - Notable because it's `fread` function is so blazing fast it is sometimes the only choice for large data
 
 - `rio` package
@@ -139,7 +139,18 @@ my_data_tbl
 
 ---
 
+# data.table's fread
 
+- data.table is a very fast package to deal with tabular data
+- Has its own very particular syntax
+- Can deal with datasets above 100GB easily
+
+```{r}
+library(data.table)
+data_dt <- fread("my_file.csv")
+data_dt
+```
+---
 
 # Genomics data
 
