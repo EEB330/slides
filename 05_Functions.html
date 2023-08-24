@@ -285,8 +285,8 @@ x
 ```
 
 ```
-##  [1] 0.30726866 0.08809803 1.16267490 3.37453517 0.35208897 0.49205375
-##  [7] 0.88388237 0.06842505 0.58937492 0.78692219
+##  [1] 0.33826653 0.07855929 0.06298589 1.33017951 3.43362689 3.48186012
+##  [7] 0.74925595 1.18983385 1.37077523 3.04309556
 ```
 
 ```r
@@ -294,7 +294,7 @@ fogoh(x, mean, diff, sort)
 ```
 
 ```
-## [1] 0.3673456
+## [1] 0.3798749
 ```
 ]
 ---
@@ -313,7 +313,7 @@ mean(diff_x)
 ```
 
 ```
-## [1] 0.3005804
+## [1] 0.2743935
 ```
 
 - Nesting calls:
@@ -324,7 +324,7 @@ mean(diff(sort(x)))
 ```
 
 ```
-## [1] 0.3005804
+## [1] 0.2743935
 ```
 ]
 
@@ -339,7 +339,7 @@ x |&gt; sort() |&gt; diff() |&gt; mean()
 ```
 
 ```
-## [1] 0.3005804
+## [1] 0.2743935
 ```
 
 ```r
@@ -349,7 +349,7 @@ x %&gt;% sort %&gt;% diff %&gt;% mean
 ```
 
 ```
-## [1] 0.3005804
+## [1] 0.2743935
 ```
 
 ![](figures/MagrittePipe.jpg)
@@ -577,9 +577,10 @@ mean
 
 Let's make the simplest possible S3 function.
 
-- We need 2 things:
-  - A default method code
-  - A method for some class
+- We need to define 3 functions:
+  1. A generic "empty" function with the name we want
+  1. A default method code
+  2. A method for some class
 
 
 ```r
@@ -590,7 +591,8 @@ f.default &lt;- function(x){
   print(paste("This is the default method. x equals:", x))
 }
 f.list &lt;- function(x){
-  print("x is a list.")
+  arg = deparse(substitute(x)) 
+  print(paste(arg , "is a list."))
 }
 ```
 ---
@@ -613,7 +615,7 @@ f(l1)
 ```
 
 ```
-## [1] "x is a list."
+## [1] "l1 is a list."
 ```
 ---
 

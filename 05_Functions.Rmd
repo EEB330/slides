@@ -408,9 +408,10 @@ mean
 
 Let's make the simplest possible S3 function.
 
-- We need 2 things:
-  - A default method code
-  - A method for some class
+- We need to define 3 functions:
+  1. A generic "empty" function with the name we want
+  1. A default method code
+  2. A method for some class
 
 ```{r}
 f <- function(x, ...){
@@ -420,7 +421,8 @@ f.default <- function(x){
   print(paste("This is the default method. x equals:", x))
 }
 f.list <- function(x){
-  print("x is a list.")
+  arg = deparse(substitute(x)) 
+  print(paste(arg , "is a list."))
 }
 ```
 ---
