@@ -180,7 +180,7 @@ flights
 
 ---
 
-# Gene expression data (RNAseq)
+# Gene expression data (RNAseq*)
 
 ---
 

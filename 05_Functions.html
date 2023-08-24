@@ -285,8 +285,8 @@ x
 ```
 
 ```
-##  [1] 0.25616317 0.09103752 0.36457440 0.63190728 4.24823951 1.34818942
-##  [7] 0.71888503 0.74904687 0.49749907 0.35735473
+##  [1] 0.30726866 0.08809803 1.16267490 3.37453517 0.35208897 0.49205375
+##  [7] 0.88388237 0.06842505 0.58937492 0.78692219
 ```
 
 ```r
@@ -294,7 +294,7 @@ fogoh(x, mean, diff, sort)
 ```
 
 ```
-## [1] 0.4619113
+## [1] 0.3673456
 ```
 ]
 ---
@@ -313,7 +313,7 @@ mean(diff_x)
 ```
 
 ```
-## [1] 0.2989738
+## [1] 0.3005804
 ```
 
 - Nesting calls:
@@ -324,7 +324,7 @@ mean(diff(sort(x)))
 ```
 
 ```
-## [1] 0.2989738
+## [1] 0.3005804
 ```
 ]
 
@@ -339,7 +339,7 @@ x |&gt; sort() |&gt; diff() |&gt; mean()
 ```
 
 ```
-## [1] 0.2989738
+## [1] 0.3005804
 ```
 
 ```r
@@ -349,7 +349,7 @@ x %&gt;% sort %&gt;% diff %&gt;% mean
 ```
 
 ```
-## [1] 0.2989738
+## [1] 0.3005804
 ```
 
 ![](figures/MagrittePipe.jpg)
@@ -363,11 +363,11 @@ x %&gt;% sort %&gt;% diff %&gt;% mean
 
 A function has three parts:
 
-- The formals(), the list of arguments that control how you call the function.
+- The `formals()`, the list of arguments that control how you call the function.
 
-- The body(), the code inside the function.
+- The `body()`, the code inside the function.
 
-- The environment(), the data structure that determines how the function finds the values associated with the names.
+- The `environment()`, the data structure that determines how the function finds the values associated with the names.
 
 - Some exceptions are functions that call C code directly: sum, `[`, and a few others
 
@@ -409,6 +409,65 @@ environment(f)
 ## &lt;environment: R_GlobalEnv&gt;
 ```
 ]
+---
+
+# Formals
+
+
+```r
+f 
+```
+
+```
+## function(x, y) {
+##   # A comment
+##   x + y
+## }
+```
+
+Arguments can be separated from the function call:
+
+
+```r
+args = list(1, 2) 
+do.call(f, args)
+```
+
+```
+## [1] 3
+```
+
+This `do.call` pattern is useful in some contexts we'll see later on.
+
+---
+
+# `...` (dot-dot-dot)
+
+- Special argument that can take any number of additional arguments.
+
+- Usually used to pass along arguments to other functions:
+
+
+```r
+f &lt;- function(y, z) {
+  list(y = y, z = z)
+}
+
+g &lt;- function(x, ...) {
+  f(...)
+}
+
+g(x = 1, y = 2, z = 3)
+```
+
+```
+## $y
+## [1] 2
+## 
+## $z
+## [1] 3
+```
+
 ---
 
 # Environments 
@@ -464,9 +523,9 @@ g()
 ## [1] 2 1
 ```
 
+* And this doesn't change  the previous value of y
+
 ```r
-# And this doesn't change 
-# the previous value of y
 y
 ```
 
@@ -485,18 +544,114 @@ y
 
   - S3: (or Simple S) is the oldest and most basic form of OOP in R. It lacks formal class definitions and methods, relying on naming conventions. Objects are typically lists with a class attribute. Methods are defined using functions with the class name in their names, e.g., print, summary.
 
-  - S4: is an improved version of S3, providing more formal class definitions and methods.Classes are defined using the setClass function, which allows more control over object structure. Methods are defined using setMethod and related functions. Strong typing and formal validation of slots (object attributes) can be enforced. S4 supports multiple inheritance.
+  - S4: is an improved version of S3, providing more formal class definitions and methods. Classes are defined using the setClass function, which allows more control over object structure. Methods are defined using setMethod and related functions. Strong typing and formal validation of slots (object attributes) can be enforced. S4 supports multiple inheritance.
 
   - Reference Classes (R5 or RC): R5 classes provide a more traditional OOP experience similar to languages like Java or C#. Classes are defined using the setRefClass function.
 
   - R6: is an alternative to S3, S4, and reference classes, introduced through the R6 package. It provides a more modern, stateful, and user-friendly OOP experience. Objects are instances of R6 classes, which have methods and private fields. R6 classes are defined using the R6Class function from the R6 package.
 ---
 
-# Crash-course in S3
+# S3 functions
+
+What is the code for the `mean` function?
 
 
+```r
+mean
+```
+
+```
+## function (x, ...) 
+## UseMethod("mean")
+## &lt;bytecode: 0x5606155f84c8&gt;
+## &lt;environment: namespace:base&gt;
+```
+
+--
+
+.center[.font200[**¿What?**]]
 
 ---
+
+# Crash-course in S3
+
+Let's make the simplest possible S3 function.
+
+- We need 2 things:
+  - A default method code
+  - A method for some class
+
+
+```r
+f &lt;- function(x, ...){
+  UseMethod("f")
+}
+f.default &lt;- function(x){
+  print(paste("This is the default method. x equals:", x))
+}
+f.list &lt;- function(x){
+  print("x is a list.")
+}
+```
+---
+
+# Calling the different methods
+
+
+```r
+num = 17
+l1 = list(x = 1)
+f(num) 
+```
+
+```
+## [1] "This is the default method. x equals: 17"
+```
+
+```r
+f(l1)
+```
+
+```
+## [1] "x is a list."
+```
+---
+
+# Creating your own methods
+
+You can also add your own methods 
+
+
+```r
+print.my_class &lt;- function(x){
+  print("x is a my_class object")
+  print.default(num)
+}
+class(num) &lt;- "my_class"
+print(num)
+```
+
+```
+## [1] "x is a my_class object"
+## [1] 17
+## attr(,"class")
+## [1] "my_class"
+```
+---
+
+# Checking the existing methods of a function
+
+
+```r
+methods("mean")
+```
+
+```
+##  [1] mean.Date        mean.default     mean.difftime    mean.IDate*     
+##  [5] mean.integer64*  mean.ITime*      mean.POSIXct     mean.POSIXlt    
+##  [9] mean.quosure*    mean.vctrs_vctr*
+## see '?methods' for accessing help and source code
+```
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
