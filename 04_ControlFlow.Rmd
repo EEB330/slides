@@ -152,6 +152,32 @@ In summary, single operators (`&` and `|`) always evaluate both sides of the exp
 
 ---
 
+# any, all and `!`
+
+- Sometimes we need to evaluate vectors of boolean variables. 
+
+- Some combination of any, all or `!` usually solves the problem
+
+   ```{r}
+   bool_vec = c(FALSE, TRUE, TRUE)
+   bool_vec
+   !bool_vec
+   ```
+.pull-left[
+  ```{r}
+   any(bool_vec) # Is any value true?
+   all(bool_vec) # Are all values true?
+  ```
+]
+.pull-right[
+  ```{r}
+   any(!bool_vec) # Is any value false?
+   all(!bool_vec) # Are all values false?
+  ```
+]
+
+---
+ 
 # if statements 
 
 .pull-left[
@@ -329,16 +355,63 @@ out <- vector("list", length(means))
 for (i in 1:length(means)) {
   out[[i]] <- rnorm(10, means[[i]])
 }
-#> Error in rnorm(10, means[[i]]): invalid arguments
+#> Error in rnorm(10, means[[i]]): 
+#> invalid arguments
 ```
 
 ```{r}
 means <- c()
 1:length(means)
 ```
+
+**Use `seq_along` instead!**
+
+```{r}
+for (i in seq_along(means)) {
+  out[[i]] <- rnorm(10, means[[i]])
+}
+```
+
 ]
 
 ---
+
+# Next and break
+
+- `next` exits the current iteration.
+- `break` exits the entire for loop.
+
+```{r}
+for (i in 1:10) {
+  if (i < 3) 
+    next
+
+  print(i)
+  
+  if (i >= 5)
+    break
+}
+```
+
+---
+
+# Other, less used, loop functions
+
+```r
+while(condition) action # performs action while condition is TRUE.
+repeat(action) # repeats action forever (i.e. until it encounters break).
+```
+
+ - You can rewrite any `for` loop to use `while` instead, 
+ 
+ - and you can rewrite any `while` loop to use `repeat`, but the converses are not true. 
+ 
+  ** `while` is more flexible than `for`, and `repeat` is more flexible than `while`** 
+  
+  - We should strive to use the least-flexible option, so use `for` when you can
+
+---
+
 
 # Example: Diversity metrics in ecology
 
@@ -481,6 +554,27 @@ barplot(species_n)
 
 ---
 
+# NA propagates
+
+```{r}
+1 + NA
+```
+
+--
+
+```{r}
+species_n = c(a = NA, b = 0, c = 10, d = 3, e = 9,  
+              f = 10, g = 18, h = 22, i = 8, j = 8)
+n_total = 0
+for(i in seq_along(species_n)){
+  n_total <- n_total + species_n[i]
+}
+n_total
+(props = species_n / n_total)
+```
+
+---
+
 # Checking for zeros and NAs
 
 ```{r}
@@ -491,7 +585,7 @@ is.na(species_n)
 
 --
 
-Removing NAs and zeros
+Removing NAs and zeros:
 
 .pull-left[
 ```{r}
@@ -505,3 +599,28 @@ Removing NAs and zeros
 ]
 
 ---
+
+# After NA removal, all is well
+
+```{r}
+species_n = c(a = NA, b = 0, c = 10, d = 3, e = 9,  
+              f = 10, g = 18, h = 22, i = 8, j = 8)
+(species_n <- na.omit(species_n)) #<<
+n_total = 0
+for(i in seq_along(species_n)){
+  n_total <- n_total + species_n[i]
+}
+n_total
+```
+
+---
+
+# Summary
+
+- The building blocks of algorithms are variables, conditionals and loops
+
+- Functions can make reusing these blocks easier
+
+- Beware of the missing values! NAs can ruin your day
+  - but are a fact of life and one of the great features of R
+

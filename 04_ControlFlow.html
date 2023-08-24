@@ -204,6 +204,68 @@ In summary, single operators (`&amp;` and `|`) always evaluate both sides of the
 
 ---
 
+# any, all and `!`
+
+- Sometimes we need to evaluate vectors of boolean variables. 
+
+- Some combination of any, all or `!` usually solves the problem
+
+   
+   ```r
+   bool_vec = c(FALSE, TRUE, TRUE)
+   bool_vec
+   ```
+   
+   ```
+   ## [1] FALSE  TRUE  TRUE
+   ```
+   
+   ```r
+   !bool_vec
+   ```
+   
+   ```
+   ## [1]  TRUE FALSE FALSE
+   ```
+.pull-left[
+  
+  ```r
+   any(bool_vec) # Is any value true?
+  ```
+  
+  ```
+  ## [1] TRUE
+  ```
+  
+  ```r
+   all(bool_vec) # Are all values true?
+  ```
+  
+  ```
+  ## [1] FALSE
+  ```
+]
+.pull-right[
+  
+  ```r
+   any(!bool_vec) # Is any value false?
+  ```
+  
+  ```
+  ## [1] TRUE
+  ```
+  
+  ```r
+   all(!bool_vec) # Are all values false?
+  ```
+  
+  ```
+  ## [1] FALSE
+  ```
+]
+
+---
+ 
 # if statements 
 
 .pull-left[
@@ -350,7 +412,7 @@ grades
 ```
 
 ```
-## [1] 96 76 80 79 96
+## [1] 84 76 94 70 92
 ```
 
 ```r
@@ -362,7 +424,7 @@ letter_grades
 ```
 
 ```
-## [1] "A" "C" "C" "C" "A"
+## [1] "B" "C" "A" "F" "A"
 ```
 ]
 
@@ -380,7 +442,7 @@ grades
 ```
 
 ```
-## [1] 96 76 80 79 96
+## [1] 84 76 94 70 92
 ```
 Good:
 
@@ -393,7 +455,7 @@ letter_grades
 ```
 
 ```
-## [1] "A" "C" "C" "C" "A"
+## [1] "B" "C" "A" "F" "A"
 ```
 ]
 
@@ -407,7 +469,7 @@ grades
 ```
 
 ```
-## [1] 96 76 80 79 96
+## [1] 84 76 94 70 92
 ```
 Bad:
 
@@ -443,13 +505,13 @@ out
 
 ```
 ## [[1]]
-## [1]  2.5979956 -0.2177475  0.9534699
+## [1]  0.5413239 -1.7627722  1.4654994
 ## 
 ## [[2]]
-## [1] 47.16166 49.52610 49.12608
+## [1] 52.86585 48.63659 50.14657
 ## 
 ## [[3]]
-## [1] 20.27749 19.67077 19.19872
+## [1] 20.01986 18.45377 19.93739
 ```
 ]
 
@@ -461,7 +523,8 @@ out &lt;- vector("list", length(means))
 for (i in 1:length(means)) {
   out[[i]] &lt;- rnorm(10, means[[i]])
 }
-#&gt; Error in rnorm(10, means[[i]]): invalid arguments
+#&gt; Error in rnorm(10, means[[i]]): 
+#&gt; invalid arguments
 ```
 
 
@@ -473,9 +536,63 @@ means &lt;- c()
 ```
 ## [1] 1 0
 ```
+
+**Use `seq_along` instead!**
+
+
+```r
+for (i in seq_along(means)) {
+  out[[i]] &lt;- rnorm(10, means[[i]])
+}
+```
+
 ]
 
 ---
+
+# Next and break
+
+- `next` exits the current iteration.
+- `break` exits the entire for loop.
+
+
+```r
+for (i in 1:10) {
+  if (i &lt; 3) 
+    next
+
+  print(i)
+  
+  if (i &gt;= 5)
+    break
+}
+```
+
+```
+## [1] 3
+## [1] 4
+## [1] 5
+```
+
+---
+
+# Other, less used, loop functions
+
+```r
+while(condition) action # performs action while condition is TRUE.
+repeat(action) # repeats action forever (i.e. until it encounters break).
+```
+
+ - You can rewrite any `for` loop to use `while` instead, 
+ 
+ - and you can rewrite any `while` loop to use `repeat`, but the converses are not true. 
+ 
+  ** `while` is more flexible than `for`, and `repeat` is more flexible than `while`** 
+  
+  - We should strive to use the least-flexible option, so use `for` when you can
+
+---
+
 
 # Example: Diversity metrics in ecology
 
@@ -542,7 +659,7 @@ species_n = c(a = 5, b = 1, c = 10, d = 3, e = 9,
 barplot(species_n)
 ```
 
-![](04_ControlFlow_files/figure-html/unnamed-chunk-18-1.png)&lt;!-- --&gt;
+![](04_ControlFlow_files/figure-html/unnamed-chunk-23-1.png)&lt;!-- --&gt;
 
 ---
 
@@ -644,7 +761,47 @@ species_n = c(a = NA, b = 0, c = 10, d = 3, e = 9,
 barplot(species_n)
 ```
 
-![](04_ControlFlow_files/figure-html/unnamed-chunk-23-1.png)&lt;!-- --&gt;
+![](04_ControlFlow_files/figure-html/unnamed-chunk-28-1.png)&lt;!-- --&gt;
+
+---
+
+# NA propagates
+
+
+```r
+1 + NA
+```
+
+```
+## [1] NA
+```
+
+--
+
+
+```r
+species_n = c(a = NA, b = 0, c = 10, d = 3, e = 9,  
+              f = 10, g = 18, h = 22, i = 8, j = 8)
+n_total = 0
+for(i in seq_along(species_n)){
+  n_total &lt;- n_total + species_n[i]
+}
+n_total
+```
+
+```
+##  a 
+## NA
+```
+
+```r
+(props = species_n / n_total)
+```
+
+```
+##  a  b  c  d  e  f  g  h  i  j 
+## NA NA NA NA NA NA NA NA NA NA
+```
 
 ---
 
@@ -680,7 +837,7 @@ is.na(species_n)
 
 --
 
-Removing NAs and zeros
+Removing NAs and zeros:
 
 .pull-left[
 
@@ -706,6 +863,50 @@ Removing NAs and zeros
 ]
 
 ---
+
+# After NA removal, all is well
+
+
+```r
+species_n = c(a = NA, b = 0, c = 10, d = 3, e = 9,  
+              f = 10, g = 18, h = 22, i = 8, j = 8)
+*(species_n &lt;- na.omit(species_n))
+```
+
+```
+##  b  c  d  e  f  g  h  i  j 
+##  0 10  3  9 10 18 22  8  8 
+## attr(,"na.action")
+## a 
+## 1 
+## attr(,"class")
+## [1] "omit"
+```
+
+```r
+n_total = 0
+for(i in seq_along(species_n)){
+  n_total &lt;- n_total + species_n[i]
+}
+n_total
+```
+
+```
+##  b 
+## 88
+```
+
+---
+
+# Summary
+
+- The building blocks of algorithms are variables, conditionals and loops
+
+- Functions can make reusing these blocks easier
+
+- Beware of the missing values! NAs can ruin your day
+  - but are a fact of life and one of the great features of R
+
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>

@@ -36,7 +36,7 @@ output:
 - Genomic data
 
     - Most common in genetics, bioinformatics
-    - Is usually pretty large, so requires some care and specialized data structures
+    - Usually pretty large, so requires some care and specialized data structures
     - Genotype data, sequence data, aligned sequence data, expression data
 
 - Databases 
@@ -119,7 +119,7 @@ data_csv2 <- read.csv2("my_data_european.csv")
 # readr package
 
 - Outputs a tibble, a kind of modern data.frame with some quirks
-    - does some smart figuring out of column types
+    - does some smart figuring-out of column types
     - avoids most conversions to factor
 
 ```{r}
@@ -152,6 +152,18 @@ data_dt
 ```
 ---
 
+# Reading data of the interwebs
+
+```{r} 
+input <- if (file.exists("flights14.csv")) {
+   "flights14.csv"
+} else {
+  "https://raw.githubusercontent.com/Rdatatable/data.table/master/vignettes/flights14.csv"
+}
+flights <- fread(input)
+flights
+```
+
 # Genomics data
 
 ---
@@ -174,5 +186,12 @@ data_dt
 
 
 # Parsing generic data
+
+---
+
+# Human genome
+
+[GRCh38 Genome Reference Consortium Human Reference 38](https://hgdownload.cse.ucsc.edu/goldenPath/hg38/chromosomes/)
+![](figures/human_genome.png)
 
 ---
