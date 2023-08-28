@@ -163,12 +163,36 @@ input <- if (file.exists("flights14.csv")) {
 flights <- fread(input)
 flights
 ```
+---
+
 
 # Genomics data
 
+- FASTA - Simple collections of named DNA/protein sequences
+
+- FASTQ - Extension of FASTA format, contains additional quality information. Widely used for storing unaligned sequencing reads
+
+- SAM/BAM - Alignments of sequencing reads to a reference genome
+
+- BED - Region-based genome annotation information (e.g. a list of
+genes and their genomic locations). Used for visualization or simple
+enumeration
+
+- GFF/GTF - gene-centric annotations
+
+- (big)WIG - continuous signal representation
+
+- VCF - variant call format, to store information about genomic variants
+
 ---
 
-# Genomic data
+# Reference genome as a set of coordinates
+
+Most genomics data formats have some sort of coordinate information
+
+.center[
+    ![](figures/coordinates.png)
+]
 
 ---
 
@@ -180,7 +204,7 @@ flights
 
 ---
 
-# Gene expression data (RNAseq*)
+# Gene expression data (RNAseq)
 
 ---
 
