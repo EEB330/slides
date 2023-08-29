@@ -241,8 +241,7 @@ x
 ```
 
 ```
-## [1]  1.000000  2.714286  4.428571  6.142857  7.857143  9.571429 11.285714
-## [8] 13.000000
+## [1]  1.000000  2.714286  4.428571  6.142857  7.857143  9.571429 11.285714 13.000000
 ```
 
 
@@ -251,8 +250,7 @@ x + 1
 ```
 
 ```
-## [1]  2.000000  3.714286  5.428571  7.142857  8.857143 10.571429 12.285714
-## [8] 14.000000
+## [1]  2.000000  3.714286  5.428571  7.142857  8.857143 10.571429 12.285714 14.000000
 ```
 
 
@@ -378,7 +376,7 @@ mat[1,] # First row
 ```
 
 ```
-## [1] 0.3060801 0.4979904 1.0323290
+## [1] -0.7414266  0.3739067 -0.9570096
 ```
 
 ```r
@@ -394,7 +392,7 @@ mat[1,] # First row
 ```
 
 ```
-## [1] TRUE TRUE TRUE
+## [1] FALSE  TRUE FALSE
 ```
 ]
 .pull-right[
@@ -412,8 +410,7 @@ num_x
 ```
 
 ```
-## [1] "0.306080120978627" "0.497990382623912" "1.03232903712191" 
-## [4] "a"
+## [1] "-0.741426599579402" "0.373906700420022"  "-0.95700958074629"  "a"
 ```
 
 - This can cause subtle bugs:
@@ -426,6 +423,22 @@ Error in `num_x + 1`:
 ! non-numeric argument to binary operator
 ---
 
+# Factor vectors
+
+- Kind of cross between numeric and character
+- Internally numeric, but each number is linked to a character variable
+- Designed to handle categorical data, especially in the context of linear models
+  - Things like: Species, Batch, Sex, Treatment-Control, ...
+- Has a fixed number of possible values
+
+
+
+
+```r
+# Factor example
+```
+
+---
 
 # Lists
 
@@ -624,7 +637,7 @@ mean(x = input)
 ## [1] NA
 ```
 
-- NA is a special object meaning "missing" value in R
+- `NA` is a special object meaning "missing" value in R
 
 - We can deal with it using an argument of the mean function
 
