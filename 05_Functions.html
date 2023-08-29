@@ -4,7 +4,7 @@
     <title>Functions</title>
     <meta charset="utf-8" />
     <meta name="author" content="Diogo Melo" />
-    <script src="05_Functions_files/header-attrs-2.21/header-attrs.js"></script>
+    <script src="05_Functions_files/header-attrs-2.24/header-attrs.js"></script>
     <link href="05_Functions_files/remark-css-0.0.1/default.css" rel="stylesheet" />
     <link href="05_Functions_files/remark-css-0.0.1/metropolis.css" rel="stylesheet" />
     <link href="05_Functions_files/remark-css-0.0.1/metropolis-fonts.css" rel="stylesheet" />
@@ -285,7 +285,7 @@ x
 ```
 
 ```
-##  [1] 2.1317657 2.5501434 0.2554135 0.1851231 1.3279043 0.5700572 1.4196692 0.0110246 0.3928200 0.3838561
+##  [1] 1.9776331 0.3993242 2.1269867 0.6279927 2.9743742 1.0477667 1.2007560 0.5028731 2.2534900 0.2005547
 ```
 
 ```r
@@ -293,7 +293,7 @@ fogoh(x, mean, diff, sort)
 ```
 
 ```
-## [1] 0.2821243
+## [1] 0.3082022
 ```
 ]
 ---
@@ -312,7 +312,7 @@ mean(diff_x)
 ```
 
 ```
-## [1] 0.3344559
+## [1] 0.6310272
 ```
 
 - Nesting calls:
@@ -323,7 +323,7 @@ mean(diff(sort(x)))
 ```
 
 ```
-## [1] 0.3344559
+## [1] 0.6310272
 ```
 ]
 
@@ -338,7 +338,7 @@ x |&gt; sort() |&gt; diff() |&gt; mean()
 ```
 
 ```
-## [1] 0.3344559
+## [1] 0.6310272
 ```
 
 ```r
@@ -348,7 +348,7 @@ x %&gt;% sort %&gt;% diff %&gt;% mean
 ```
 
 ```
-## [1] 0.3344559
+## [1] 0.6310272
 ```
 
 ![](figures/MagrittePipe.jpg)
@@ -562,7 +562,7 @@ mean
 ```
 ## function (x, ...) 
 ## UseMethod("mean")
-## &lt;bytecode: 0x000002402a2f6898&gt;
+## &lt;bytecode: 0x000001f73bed28e0&gt;
 ## &lt;environment: namespace:base&gt;
 ```
 
@@ -648,8 +648,7 @@ methods("mean")
 ```
 
 ```
-##  [1] mean.Date        mean.default     mean.difftime    mean.IDate*      mean.integer64*  mean.ITime*      mean.POSIXct     mean.POSIXlt     mean.quosure*   
-## [10] mean.vctrs_vctr*
+## [1] mean.Date        mean.default     mean.difftime    mean.integer64*  mean.POSIXct     mean.POSIXlt     mean.quosure*    mean.vctrs_vctr*
 ## see '?methods' for accessing help and source code
 ```
     </textarea>

@@ -1,4 +1,4 @@
-# pak::pkg_install(c("xaringan", "xaringanExtra", "leaflet", 'knitr', "stringi"))
+pak::pkg_install(c("xaringan", "xaringanExtra", "leaflet", 'knitr', "stringi", "cowplot", "readr", "data.table", "curl"))
 xaringan::summon_remark()
 
 library(rmarkdown)
@@ -13,3 +13,4 @@ render("04_ControlFlow.Rmd")
 render("05_Functions.Rmd")
 # ## Week 4
 render("06_DataIO.Rmd")
+
