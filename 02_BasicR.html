@@ -4,10 +4,10 @@
     <title>Basic Interactions with R</title>
     <meta charset="utf-8" />
     <meta name="author" content="Diogo Melo" />
-    <script src="02_BasicR_files/header-attrs-2.24/header-attrs.js"></script>
-    <link href="02_BasicR_files/remark-css-0.0.1/default.css" rel="stylesheet" />
-    <link href="02_BasicR_files/remark-css-0.0.1/metropolis.css" rel="stylesheet" />
-    <link href="02_BasicR_files/remark-css-0.0.1/metropolis-fonts.css" rel="stylesheet" />
+    <script src="02_BasicR_files/header-attrs/header-attrs.js"></script>
+    <link href="02_BasicR_files/remark-css/default.css" rel="stylesheet" />
+    <link href="02_BasicR_files/remark-css/metropolis.css" rel="stylesheet" />
+    <link href="02_BasicR_files/remark-css/metropolis-fonts.css" rel="stylesheet" />
     <link rel="stylesheet" href="styles.css" type="text/css" />
   </head>
   <body>
@@ -241,7 +241,8 @@ x
 ```
 
 ```
-## [1]  1.000000  2.714286  4.428571  6.142857  7.857143  9.571429 11.285714 13.000000
+## [1]  1.000000  2.714286  4.428571  6.142857  7.857143  9.571429 11.285714
+## [8] 13.000000
 ```
 
 
@@ -250,7 +251,8 @@ x + 1
 ```
 
 ```
-## [1]  2.000000  3.714286  5.428571  7.142857  8.857143 10.571429 12.285714 14.000000
+## [1]  2.000000  3.714286  5.428571  7.142857  8.857143 10.571429 12.285714
+## [8] 14.000000
 ```
 
 
@@ -376,7 +378,7 @@ mat[1,] # First row
 ```
 
 ```
-## [1] -0.3942759 -0.9390562  0.3086051
+## [1]  0.6092697 -1.2645375  0.9985846
 ```
 
 ```r
@@ -392,7 +394,7 @@ mat[1,] # First row
 ```
 
 ```
-## [1] FALSE FALSE  TRUE
+## [1]  TRUE FALSE  TRUE
 ```
 ]
 .pull-right[
@@ -410,7 +412,8 @@ num_x
 ```
 
 ```
-## [1] "-0.394275873267244" "-0.939056169462565" "0.308605060452564"  "a"
+## [1] "0.609269748613887" "-1.26453748154166" "0.998584594336317"
+## [4] "a"
 ```
 
 - This can cause subtle bugs:

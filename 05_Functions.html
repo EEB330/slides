@@ -4,10 +4,10 @@
     <title>Functions</title>
     <meta charset="utf-8" />
     <meta name="author" content="Diogo Melo" />
-    <script src="05_Functions_files/header-attrs-2.24/header-attrs.js"></script>
-    <link href="05_Functions_files/remark-css-0.0.1/default.css" rel="stylesheet" />
-    <link href="05_Functions_files/remark-css-0.0.1/metropolis.css" rel="stylesheet" />
-    <link href="05_Functions_files/remark-css-0.0.1/metropolis-fonts.css" rel="stylesheet" />
+    <script src="05_Functions_files/header-attrs/header-attrs.js"></script>
+    <link href="05_Functions_files/remark-css/default.css" rel="stylesheet" />
+    <link href="05_Functions_files/remark-css/metropolis.css" rel="stylesheet" />
+    <link href="05_Functions_files/remark-css/metropolis-fonts.css" rel="stylesheet" />
     <link rel="stylesheet" href="styles.css" type="text/css" />
   </head>
   <body>
@@ -285,7 +285,8 @@ x
 ```
 
 ```
-##  [1] 1.9776331 0.3993242 2.1269867 0.6279927 2.9743742 1.0477667 1.2007560 0.5028731 2.2534900 0.2005547
+##  [1] 1.7957214 1.0820705 0.4975145 2.4580107 1.0474116 0.1634063 3.4853990
+##  [8] 0.5415789 1.3581012 0.5220605
 ```
 
 ```r
@@ -293,7 +294,7 @@ fogoh(x, mean, diff, sort)
 ```
 
 ```
-## [1] 0.3082022
+## [1] 0.3691103
 ```
 ]
 ---
@@ -312,7 +313,7 @@ mean(diff_x)
 ```
 
 ```
-## [1] 0.6310272
+## [1] 0.4773086
 ```
 
 - Nesting calls:
@@ -323,7 +324,7 @@ mean(diff(sort(x)))
 ```
 
 ```
-## [1] 0.6310272
+## [1] 0.4773086
 ```
 ]
 
@@ -338,7 +339,7 @@ x |&gt; sort() |&gt; diff() |&gt; mean()
 ```
 
 ```
-## [1] 0.6310272
+## [1] 0.4773086
 ```
 
 ```r
@@ -348,7 +349,7 @@ x %&gt;% sort %&gt;% diff %&gt;% mean
 ```
 
 ```
-## [1] 0.6310272
+## [1] 0.4773086
 ```
 
 ![](figures/MagrittePipe.jpg)
@@ -562,7 +563,7 @@ mean
 ```
 ## function (x, ...) 
 ## UseMethod("mean")
-## &lt;bytecode: 0x000001f73bed28e0&gt;
+## &lt;bytecode: 0x5606155f84c8&gt;
 ## &lt;environment: namespace:base&gt;
 ```
 
@@ -648,7 +649,9 @@ methods("mean")
 ```
 
 ```
-## [1] mean.Date        mean.default     mean.difftime    mean.integer64*  mean.POSIXct     mean.POSIXlt     mean.quosure*    mean.vctrs_vctr*
+##  [1] mean.Date        mean.default     mean.difftime    mean.IDate*     
+##  [5] mean.integer64*  mean.ITime*      mean.POSIXct     mean.POSIXlt    
+##  [9] mean.quosure*    mean.vctrs_vctr*
 ## see '?methods' for accessing help and source code
 ```
     </textarea>
