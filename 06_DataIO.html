@@ -307,11 +307,43 @@ Most genomics data formats have some sort of coordinate information
 
 ---
 
-# Genotyping data
+
+# DNA Sequence data
+
+.pull-left[
+### FASTA
+
+- A sequence in FASTA format consists of:
+ - One line starting with a "&gt;" sign, followed by a sequence identification code.
+
+ - One or more lines containing the sequence itself.
+```
+        A --&gt; adenosine           M --&gt; A C (amino)
+        C --&gt; cytidine            S --&gt; G C (strong)
+        G --&gt; guanine             W --&gt; A T (weak)
+        T --&gt; thymidine           B --&gt; G T C
+        U --&gt; uridine             D --&gt; G A T
+        R --&gt; G A (purine)        H --&gt; A C T
+        Y --&gt; T C (pyrimidine)    V --&gt; G C A
+        K --&gt; G T (keto)          N --&gt; A G C T (any)
+                                  -  gap of indeterminate length
+```
+]
+.pull-right[
+### Human genome
+
+[GRCh38 Genome Reference Consortium Human Reference 38](https://hgdownload.cse.ucsc.edu/goldenPath/hg38/chromosomes/)
+![](figures/human_genome.png)
+]
 
 ---
 
-# DNA Sequence data
+
+# Genotyping data
+
+[The Variant Call Format (VCF)](https://samtools.github.io/hts-specs/VCFv4.2.pdf)
+
+![](figures/vcf_example.png)
 
 ---
 
