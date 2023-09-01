@@ -1,6 +1,6 @@
 ---
-title: "Regular Expressions"
-subtitle: "Solving problems in texts"
+title: "Working with text data"
+subtitle: "Regular expressions and other tools"
 author: Diogo Melo
 date: Sept. 18, 2023
 runtime: static
@@ -14,3 +14,8 @@ output:
       ratio: "16:10"
       countdown: 60000
 ---
+
+
+http://regex.info/book.html
+
+https://www.regular-expressions.info/tutorial.html
