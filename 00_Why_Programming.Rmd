@@ -128,9 +128,11 @@ Almiron, M. G., Lopes, B., Oliveira, A. L. C., Medeiros, A. C., & Frery, A. C. (
 - For academics: 
   - Post-publication peer-review
   - Community can modify and extend an analysis
+
+- Example from us: [github.com/wolfffff/exp_var](https://github.com/wolfffff/exp_var)
 ]
 .pull-right[
-![:scale 90%](figures/repro_code.png)
+![:scale 70%](figures/repro_code.png)
 ]
 
 ---
@@ -138,9 +140,12 @@ Almiron, M. G., Lopes, B., Oliveira, A. L. C., Medeiros, A. C., & Frery, A. C. (
 # Bespoke Custom Analysis
 
 .pull-left[
-- Bespoke custom analysis refers to tailored analyses for specific problems.
+- Programming allows you to tailor software for the specific problem you have.
 
-- Programming provides a flexible environment for creating custom analyses.
+- Sophisticated, custom analysis is more likely solve the exact question you are asking.
+  - Canned solutions might solve some other problem that is only related to what you really care about.
+
+- Once a bespoke software solution exists, it can be adapted to other situations, via code sharing or generic packages.
 ]
 .pull-right[
 ![](figures/Tailor.png)
@@ -179,6 +184,7 @@ geom_point() + stat_ellipse() + theme_cowplot()
 
 # Conclusion
 
+.pull-left[
 - Reproducible research ensures transparency and verifiability.
 
 - R enables bespoke custom analysis and independence in model creation.
@@ -186,14 +192,16 @@ geom_point() + stat_ellipse() + theme_cowplot()
 - Effective visualization enhances data understanding and communication.
 
 - Sharing analytical tools and leveraging package ecosystems promote collaboration.
+]
+.pull-right[
 
----
-
-# Some Suggested Reading material
+### Suggested Readings
 
 - [A (very) short introduction to R](https://cran.r-project.org/doc/contrib/Torfs+Brauer-Short-R-Intro.pdf)
-- [Advanced R](https://adv-r.hadley.nz/)
 - [British Ecological Society Guides](https://www.britishecologicalsociety.org/publications/guides-to/)
-- [Bioinformatics Data Skills](https://vincebuffalo.com/book/)
 
----
+Longer texts: 
+- [R for Data Science](https://r4ds.hadley.nz/)
+- [Bioinformatics Data Skills](https://vincebuffalo.com/book/)
+- [Advanced R](https://adv-r.hadley.nz/)
+]
