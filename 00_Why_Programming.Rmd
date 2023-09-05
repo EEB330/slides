@@ -243,3 +243,21 @@ Longer texts:
 .center[
 ![:scale 50%](figures/owl.png)
 ]
+
+---
+
+# Possible extra topics
+
+- By popular demand, we can cover some of these (maybe 3)
+
+  - Digital Typography
+  - Machine learning
+  - Parallel computing
+  - Interacting with lower level languages (C, FORTRAN)
+  - Writing fast code and profiling
+  - LLMs for development and testing
+  - Sequence alignment
+  - Finding new genes (Cara lecture)
+  - Analysis of count data for gene expression analysis
+  - Phylogenetic and evolutionary analysis
+  - Something else?

@@ -1,4 +1,4 @@
-# pak::pkg_install(c("xaringan", "xaringanExtra", "leaflet", 'knitr', "stringi", "cowplot", "readr", "data.table", "curl"))
+# pak::pkg_install(c("xaringan", "xaringanExtra", "leaflet", 'knitr', "stringi", "cowplot", "readr", "data.table", "curl", "numbers"))
 # xaringan::summon_remark()
 
 library(rmarkdown)
@@ -14,3 +14,4 @@ render("01_Computer_programming.Rmd")
 # # ## Week 4
 # render("06_DataIO.Rmd")
 
+install.packages( "install.load", repos="https://cran-r.c3sl.ufpr.br")
