@@ -14,4 +14,3 @@ render("01_Computer_programming.Rmd")
 # # ## Week 4
 # render("06_DataIO.Rmd")
 
-install.packages( "install.load", repos="https://cran-r.c3sl.ufpr.br")
