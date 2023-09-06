@@ -2,7 +2,7 @@
 title: "Control Flow"
 subtitle: "The building blocks of algorithms"
 author: Diogo Melo
-date: Sept. 18, 2023
+date: Sept. 18th, 2023
 runtime: static
 output:
   xaringan::moon_reader:

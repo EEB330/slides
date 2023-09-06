@@ -9,10 +9,11 @@ render("01_Computer_programming.Rmd")
 render("02_BasicR.Rmd")
 render("03_BasicGit.Rmd")
 # # ## Week 3
-# render("04_ControlFlow.Rmd")
-# render("05_Functions.Rmd")
+render("04_ControlFlow.Rmd")
+render("05_Functions.Rmd")
 # # ## Week 4
-# render("06_DataIO.Rmd")
+render("06_DataIO.Rmd")
+render("07_RegularExpressions.Rmd")
 
 
 

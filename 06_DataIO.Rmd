@@ -2,7 +2,7 @@
 title: "Data I/O"
 subtitle: "Reading and writting biological data"
 author: Diogo Melo
-date: Sept. 18, 2023
+date: Sept. 25th, 2023
 runtime: static
 output:
   xaringan::moon_reader:

@@ -2,7 +2,7 @@
 title: "Working with text data"
 subtitle: "Regular expressions and other tools"
 author: Diogo Melo
-date: Sept. 18, 2023
+date: Sept. 27th, 2023
 runtime: static
 output:
   xaringan::moon_reader:
