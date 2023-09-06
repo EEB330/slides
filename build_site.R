@@ -14,3 +14,7 @@ render("03_BasicGit.Rmd")
 # # ## Week 4
 # render("06_DataIO.Rmd")
 
+
+
+# ## Precepts
+render("precepts/01_Computer_programming.Rmd")
