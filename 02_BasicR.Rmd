@@ -151,17 +151,36 @@ one_four_times <- rep(1, 4)
 
 # A variable name and its contents
 
+.pull-left[
 ```{r}
 x <- c(1, 2, 3)
 x
 ```
 
-![:scale 25%](figures/x_address.png)
+![:scale 40%](figures/x_address.png)
 
 ```r
 y <- x
 ```
-![:scale 25%](figures/binding-2.png)
+![:scale 40%](figures/binding-2.png)
+]
+
+--
+
+.pull-right[
+
+- Copy on modify
+
+```{r}
+x <- c(1, 2, 3)
+y <- x
+
+y[[3]] <- 4
+x
+```
+![:scale 40%](figures/binding-3.png)
+
+]
 
 ---
 
@@ -211,6 +230,7 @@ x[1:3] # Indexing using a vector
 ```
 
 ```{r}
+x<4
 x[x<4] # Indexing using a logical condition
 ```
 
@@ -497,4 +517,3 @@ setwd("/path/to/directory")
 
 **Using Rstudio or vscode projects takes care of this for you.**
 
----
