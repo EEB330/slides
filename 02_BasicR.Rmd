@@ -35,7 +35,7 @@ output:
 
 - Easy interaction with faster languages like C++ and FORTRAN
 
-- Accommodates several different programmings paradigms 
+- Accommodates several programmings paradigms 
 
 - The number of packages means there is a very high probability that the analysis
 you want is already implemented.
