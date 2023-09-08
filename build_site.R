@@ -18,4 +18,4 @@ render("07_RegularExpressions.Rmd")
 
 
 # ## Precepts
-render("precepts/01_Computer_programming.Rmd")
+render("precepts/00_r_and_git.Rmd")
