@@ -1,0 +1,75 @@
+---
+title: "EEB330 -- Precept 00: R and Git"
+subtitle: "Basic programming in R and version control with git"
+author: Scott Wolf
+date: Sept. 13th, 2023
+output: html_document
+---
+
+# Introduction
+
+This precept is focused on getting started programming with R and utilzing git for version control -- including how we will submit assigments and projects throughout the semester.
+
+
+## R
+
+
+### Getting started
+
+The two supported IDEs for the class are RStudio and VSCode.  I'll be using VS Code for the precepts, but feel free to use whichever you prefer. VS Code is a bit more lightweight and extensible, but RStudio has a lot of nice features speficially for R.
+
+Before going forward, lets install the basic software we need: [R](https://cran.r-project.org/) and [git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git). I recommend [Homebrew](https://brew.sh/) for Mac users, but you can also use the installers from the links provided.
+
+
+#### VS Code
+[VS Code](https://code.visualstudio.com/). Once you've installed and lauched VS Code, you'll need to grab a few extensions. I'd recommend getting the [R Extension](https://code.visualstudio.com/docs/languages/r) at minimum.
+
+
+##### Optional extras:
+Bash:
+```{bash, eval=FALSE, engine="sh"}
+pip install radian
+```
+
+R:
+```{r, eval=FALSE}
+install.packages("httpgd")
+```
+
+#### RStudio
+[RStudio](https://rstudio.com/) 
+
+
+### Basics of R in R Markdown
+
+[R Markdown](https://rmarkdown.rstudio.com/) is a great way to combine code, text, and figures into a single document.  It's also a great way to keep track of your work and share it with others.  We'll be using R Markdown for the bulk of our work this semester.
+
+
+#### R Markdown basics
+
+R Markdown basic syntax -- [cheatsheet](https://rstudio.com/wp-content/uploads/2015/02/rmarkdown-cheatsheet.pdf).
+
+We want to make sure to create an appropriate header and then separate our code into meaningful chunks.  For example, here's an example that loads and displays the `iris` dataset:
+
+```{r}
+# This cell loads and examines the iris dataset
+
+# Load the dataset
+data(iris)
+
+# Check the class and type of the dataset
+class(iris)
+typeof(iris) # note that this is different than class -- typeof is the underlying type of the object in memory.
+
+# view the first few rows of the dataset
+head(iris)
+```
+
+
+## Git
+
+For the semester we're going to be using GitHub Classroom to manage assignments and projects. You should have received an announcement with the Classroom link.  If you haven't, please let me know.
+
+
+### Cloning the repository
+
