@@ -179,3 +179,8 @@ N/A
 >
 > Be very careful here! Please try to only merge PRs when you have completed assignments. If you merge multiple PRs for an assignment, I'll try to loop back to them if I've already graded one, but if I miss them for some reason, please let me know!
 
+
+
+# Submission
+
+For this precept, you'll just need to make a merge a PR with your changes. I'll be checking the PRs for the assignment to make sure you wrote __something__ in R and that you've made a well structured PR and merged.  If you have any questions, please let me know!
