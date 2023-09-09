@@ -18,4 +18,8 @@ render("07_RegularExpressions.Rmd")
 
 
 # ## Precepts
+# ## Week 2
 render("precepts/00_r_and_git.Rmd")
+
+# ## Week 3
+render("precepts/01_control_flow.Rmd")
