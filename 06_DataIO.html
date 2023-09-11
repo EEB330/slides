@@ -169,7 +169,7 @@ my_data_tbl &lt;- read_delim("my_file.tsv",
 
 ```
 ## Rows: 150 Columns: 5
-## ── Column specification ───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+## ── Column specification ─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 ## Delimiter: "\t"
 ## chr (1): Species
 ## dbl (4): Sepal.Length, Sepal.Width, Petal.Length, Petal.Width
@@ -340,6 +340,16 @@ Most genomics data formats have some sort of coordinate information
 
 # Next Generaton Sequencing scheme
 
+.center[
+![:scale 40%](figures/NGS-rainbow-sequence.webp)
+]
+
+.ref[https://info.abmgood.com/next-generation-sequencing-ngs-data-analysis]
+
+---
+
+# Next Generaton Sequencing scheme
+
 ![:scale 85%](figures/NGS.jpg)
 
 .ref[https://irepertoire.com/ngs-overview-from-sample-to-sequencer-to-results/]
@@ -351,6 +361,8 @@ Most genomics data formats have some sort of coordinate information
 
 - An intermediate filetype that is used for downstream analysis
 - Usually we just pipe it to allignment software and never look at it
+
+.ref[https://knowledge.illumina.com/software/general/software-general-reference_material-list/000002211]
 
 ### General structure
 
@@ -376,17 +388,27 @@ This is the quality score rank:
 
 # Single or pair-end reads
 
+.center[
 ![:scale 50%](figures/paired_end.png)
+]
 
 ---
 
 # Read depth and coverage
 
 .center[
-![](figures/coverage.png)
+![](figures/depth.jpeg)
 ]
 
+.ref[https://journals.sagepub.com/doi/10.1177/1099800417750746]
 ---
+
+# Shotgun assemmbly
+
+.center[
+![](figures/assembly.webp)
+]
+.ref[https://www.differencebetween.com/difference-between-clone-by-clone-sequencing-and-shotgun-sequencing/]
 
 # Alignments - SAM and BAM
 
@@ -394,8 +416,9 @@ This is the quality score rank:
 
 # Some sequencing methods
 
+.center[
 ![:scale 50%](figures/seq_comparison.jpg)
-
+]
 .ref[Lou, R. N., Jacobs, A., Wilder, A. P. &amp; Therkildsen, N. O. A beginner’s guide to low-coverage whole genome sequencing for population genomics. Mol. Ecol. 30, 5966–5993 (2021) [10.1111/mec.16077](https://onlinelibrary-wiley-com.ezproxy.princeton.edu/share/YHRVMJNPQCIA9BPMKSJU?target=10.1111/mec.16077)]
 
 ---
@@ -524,7 +547,59 @@ df_vcf
 
 ---
 
+# Gene expression
+
+.center[
+![:scale 40%](figures/central_dogma_sketch.webp)
+]
+---
+
+# Gene expression
+
+.center[
+![](figures/central_sketch.png)
+]
+---
+
+# Gene expression
+
+![](figures/Central-dogma.jpg)
+
+---
+
 # Gene expression data (RNAseq)
+
+.pull-left[
+![:scale 90%](figures/rna_seq.jpg)
+.ref[https://www.nature.com/articles/nrg2484]
+]
+
+.pull-right[
+- Alligned RNA reads that map to genes are contributed
+
+- The counts are proportional to RNA expression
+
+
+```r
+counts &lt;- read.delim("https://raw.githubusercontent.com/ucdavis-bioinformatics-training/2018-June-RNA-Seq-Workshop/master/thursday/all_counts.txt")
+counts[1:10, 1:7]
+```
+
+```
+##                  C61 C62 C63 C64  C91  C92 C93
+## AT1G01010        289 317 225 343  325  449 310
+## AT1G01020        127  78 142 130  156  146 144
+## AT1G03987          0   0   0   0    0    0   0
+## AT1G01030         17  25  32  24   22   25  21
+## AT1G01040        605 415 506 565  762  854 658
+## AT1G03993          1   1   0   0    0    0   1
+## AT1G01046          0   0   0   0    0    0   0
+## ENSRNA049757489    0   0   0   0    0    0   0
+## AT1G01050       1164 876 935 979 1146 1254 948
+## AT1G03997          0   0   0   0    0    0   0
+```
+
+]
 
 ---
 
