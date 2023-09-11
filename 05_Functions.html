@@ -4,10 +4,10 @@
     <title>Functions</title>
     <meta charset="utf-8" />
     <meta name="author" content="Diogo Melo" />
-    <script src="05_Functions_files/header-attrs/header-attrs.js"></script>
-    <link href="05_Functions_files/remark-css/default.css" rel="stylesheet" />
-    <link href="05_Functions_files/remark-css/metropolis.css" rel="stylesheet" />
-    <link href="05_Functions_files/remark-css/metropolis-fonts.css" rel="stylesheet" />
+    <script src="05_Functions_files/header-attrs-2.23/header-attrs.js"></script>
+    <link href="05_Functions_files/remark-css-0.0.1/default.css" rel="stylesheet" />
+    <link href="05_Functions_files/remark-css-0.0.1/metropolis.css" rel="stylesheet" />
+    <link href="05_Functions_files/remark-css-0.0.1/metropolis-fonts.css" rel="stylesheet" />
     <link rel="stylesheet" href="styles.css" type="text/css" />
   </head>
   <body>
@@ -285,8 +285,8 @@ x
 ```
 
 ```
-##  [1] 0.21318967 0.31695974 0.17421959 0.09445705 0.18892491 2.11527299
-##  [7] 0.37441010 0.50951724 0.25585535 0.40288415
+##  [1] 0.44359948 0.23111413 1.28708883 0.56938555 3.01855644 0.49759077
+##  [7] 0.35455366 1.75640900 0.73749904 0.02882587
 ```
 
 ```r
@@ -294,7 +294,7 @@ fogoh(x, mean, diff, sort)
 ```
 
 ```
-## [1] 0.2245351
+## [1] 0.3321923
 ```
 ]
 ---
@@ -313,7 +313,7 @@ mean(diff_x)
 ```
 
 ```
-## [1] 0.15009
+## [1] 0.4241017
 ```
 
 - Nesting calls:
@@ -324,7 +324,7 @@ mean(diff(sort(x)))
 ```
 
 ```
-## [1] 0.15009
+## [1] 0.4241017
 ```
 ]
 
@@ -339,7 +339,7 @@ x |&gt; sort() |&gt; diff() |&gt; mean()
 ```
 
 ```
-## [1] 0.15009
+## [1] 0.4241017
 ```
 
 ```r
@@ -349,7 +349,7 @@ x %&gt;% sort %&gt;% diff %&gt;% mean
 ```
 
 ```
-## [1] 0.15009
+## [1] 0.4241017
 ```
 
 ![](figures/MagrittePipe.jpg)
@@ -563,7 +563,7 @@ mean
 ```
 ## function (x, ...) 
 ## UseMethod("mean")
-## &lt;bytecode: 0x5606155f84c8&gt;
+## &lt;bytecode: 0x7fd38d7697d0&gt;
 ## &lt;environment: namespace:base&gt;
 ```
 

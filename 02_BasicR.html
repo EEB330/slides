@@ -4,10 +4,10 @@
     <title>Basic Interactions with R</title>
     <meta charset="utf-8" />
     <meta name="author" content="Diogo Melo" />
-    <script src="02_BasicR_files/header-attrs/header-attrs.js"></script>
-    <link href="02_BasicR_files/remark-css/default.css" rel="stylesheet" />
-    <link href="02_BasicR_files/remark-css/metropolis.css" rel="stylesheet" />
-    <link href="02_BasicR_files/remark-css/metropolis-fonts.css" rel="stylesheet" />
+    <script src="02_BasicR_files/header-attrs-2.23/header-attrs.js"></script>
+    <link href="02_BasicR_files/remark-css-0.0.1/default.css" rel="stylesheet" />
+    <link href="02_BasicR_files/remark-css-0.0.1/metropolis.css" rel="stylesheet" />
+    <link href="02_BasicR_files/remark-css-0.0.1/metropolis-fonts.css" rel="stylesheet" />
     <link rel="stylesheet" href="styles.css" type="text/css" />
   </head>
   <body>
@@ -50,7 +50,7 @@ class: center, middle, inverse, title-slide
 
 - Easy interaction with faster languages like C++ and FORTRAN
 
-- Accommodates several different programmings paradigms 
+- Accommodates several programmings paradigms 
 
 - The number of packages means there is a very high probability that the analysis
 you want is already implemented.
@@ -180,6 +180,57 @@ one_four_times &lt;- rep(1, 4)
 ]
 .pull-right[
 ![:scale 75%](figures/summary-tree-atomic.png)
+]
+
+---
+
+# Special values: `NA` and `NULL`
+
+.pull-left[
+- `NA` stands for "Not Available".
+- Used to represent missing values in R.
+- Can have a class (like `NA_real_`, `NA_integer_`).
+
+
+```r
+# Vector with NA values
+data_vector &lt;- c(1, 2, NA, 4, 5)
+
+# Sum function with NA
+sum(data_vector) # This will return NA
+```
+
+[1] NA
+
+```r
+# Handling NA values
+sum(data_vector, na.rm = TRUE) 
+```
+
+[1] 12
+]
+.pull-right[
+- `NULL ` represents the absence of a value or a undefined value. It's different than NA. 
+- While NA represents missingness, NULL indicates the absence of a structure.
+- Many functions return NULL to indicate that the result is undefined.
+
+
+```r
+# Length of NA and NULL
+length(NA)    # Returns 1
+```
+
+```
+## [1] 1
+```
+
+```r
+length(NULL)  # Returns 0
+```
+
+```
+## [1] 0
+```
 ]
 
 ---
@@ -410,7 +461,7 @@ mat[1,] # First row
 ```
 
 ```
-## [1] -0.7941084  2.2998400  0.5631370
+## [1] 1.53067723 0.95593565 0.04788474
 ```
 
 ```r
@@ -426,7 +477,7 @@ mat[1,] # First row
 ```
 
 ```
-## [1] FALSE  TRUE  TRUE
+## [1] TRUE TRUE TRUE
 ```
 ]
 .pull-right[
@@ -444,7 +495,7 @@ num_x
 ```
 
 ```
-## [1] "-0.79410835550818" "2.29983997967575"  "0.563136985800079"
+## [1] "1.53067723363729"   "0.955935648630651"  "0.0478847360942517"
 ## [4] "a"
 ```
 
@@ -460,18 +511,27 @@ Error in `num_x + 1`:
 
 # Factor vectors
 
+- A factor is a data type used in R for categorical variables.
 - Kind of cross between numeric and character
-- Internally numeric, but each number is linked to a character variable
+- Internally, R stores factors as integers and maintains a level set for factor values.
 - Designed to handle categorical data, especially in the context of linear models
-  - Things like: Species, Batch, Sex, Treatment-Control, ...
+  - Things like: Color, Species, Batch, Sex, Treatment-Control, ...
 - Has a fixed number of possible values
 
 
-
-
 ```r
-# Factor example
+# Create a sample vector
+color_vector &lt;- c("Red", "Blue", "Green", "Red", "Blue")
+
+# Convert the vector to factor type
+color_factor &lt;- factor(color_vector)
+
+# Display the factor
+color_factor
 ```
+
+[1] Red   Blue  Green Red   Blue 
+Levels: Blue Green Red
 
 ---
 
@@ -547,7 +607,7 @@ x
 
 ---
 
-## Objects can be indexed by their names
+# Objects can be indexed by their names
 
 .pull-left[
 - Vectors
@@ -639,6 +699,128 @@ df = data.frame(x = 1:3,
 
 ---
 
+# Dataframe columns
+
+- Data frame colums can also be indexed using the `$` operator
+- This operator can also create new columns
+
+.pull-left[
+
+```r
+d1
+```
+
+```
+##   x y id
+## 1 1 2  a
+## 2 5 4  b
+## 3 6 3  c
+```
+
+```r
+d1$x
+```
+
+```
+## [1] 1 5 6
+```
+
+```r
+d1$sum &lt;- d1$x + d1$y
+d1$sum
+```
+
+```
+## [1] 3 9 9
+```
+]
+
+--
+
+.pull-right[
+
+- We can also use `$` to erase columns
+
+```r
+d1
+```
+
+```
+##   x y id sum
+## 1 1 2  a   3
+## 2 5 4  b   9
+## 3 6 3  c   9
+```
+
+```r
+d1$sum &lt;- NULL
+d1
+```
+
+```
+##   x y id
+## 1 1 2  a
+## 2 5 4  b
+## 3 6 3  c
+```
+]
+
+---
+
+# With and withing 
+
+.pull-left[
+- `with()` function
+
+- Used to evaluate expressions in the context of a specific dataset.
+- Helps to reduce redundancy when referring to data frame columns.
+
+
+```r
+df &lt;- data.frame(
+  x = rnorm(5),
+  y = runif(5)
+)
+sum(df$x + df$y)
+```
+
+[1] 3.107582
+
+```r
+with(df, sum(x + y))
+```
+
+[1] 3.107582
+]
+
+--
+
+.pull-right[
+- `within()` function
+
+- Used to modify data frames or lists.
+- Evaluates expressions inside the data frame, making it easier to create or modify columns.
+
+```r
+# Modify df using within
+df_modified &lt;- within(df, {
+  z = x + y
+  w = x * 2
+})
+df_modified
+```
+
+```
+##            x         y         w          z
+## 1 -1.1045994 0.1174874 -2.209199 -0.9871121
+## 2  0.5390238 0.4749971  1.078048  1.0140209
+## 3  0.5802063 0.5603327  1.160413  1.1405391
+## 4 -0.6575028 0.9040314 -1.315006  0.2465286
+## 5  1.5548955 0.1387102  3.109791  1.6936057
+```
+]
+
+---
 # Functions in R
 
 .pull-left[
@@ -721,6 +903,7 @@ multiply(3, 2)
 
 # Loading Packages
 
+.pull-left[
 To load packages in R, use the `library()` function.
 
 ```r
@@ -728,7 +911,24 @@ library(dplyr)
 library(ggplot2)
 ```
 
-![:scale 90%](figures/libraries.webp)
+-To install a missing package, use the `install.packages()` function
+
+```r
+# notice the quotation marks!!
+install.packages("ggplot2") 
+```
+
+Also, take a look at the `pak` package: 
+
+- [https://github.com/r-lib/pak](https://github.com/r-lib/pak)
+
+```r
+pak::pkg_install("ggplot2")
+```
+]
+.pull-right[
+![:scale 100%](figures/libraries.webp)
+]
 
 ---
 

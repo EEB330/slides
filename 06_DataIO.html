@@ -4,10 +4,10 @@
     <title>Data I/O</title>
     <meta charset="utf-8" />
     <meta name="author" content="Diogo Melo" />
-    <script src="06_DataIO_files/header-attrs/header-attrs.js"></script>
-    <link href="06_DataIO_files/remark-css/default.css" rel="stylesheet" />
-    <link href="06_DataIO_files/remark-css/metropolis.css" rel="stylesheet" />
-    <link href="06_DataIO_files/remark-css/metropolis-fonts.css" rel="stylesheet" />
+    <script src="06_DataIO_files/header-attrs-2.23/header-attrs.js"></script>
+    <link href="06_DataIO_files/remark-css-0.0.1/default.css" rel="stylesheet" />
+    <link href="06_DataIO_files/remark-css-0.0.1/metropolis.css" rel="stylesheet" />
+    <link href="06_DataIO_files/remark-css-0.0.1/metropolis-fonts.css" rel="stylesheet" />
     <link rel="stylesheet" href="styles.css" type="text/css" />
   </head>
   <body>
@@ -68,13 +68,13 @@ head(iris)
 ```
 
 ```
-##   Sepal.Length Sepal.Width Petal.Length Petal.Width Species
-## 1          5.1         3.5          1.4         0.2  setosa
-## 2          4.9         3.0          1.4         0.2  setosa
-## 3          4.7         3.2          1.3         0.2  setosa
-## 4          4.6         3.1          1.5         0.2  setosa
-## 5          5.0         3.6          1.4         0.2  setosa
-## 6          5.4         3.9          1.7         0.4  setosa
+##   Sepal.Length Sepal.Width Petal.Length Petal.Width Species Petal.Length.Class
+## 1          5.1         3.5          1.4         0.2  setosa              Short
+## 2          4.9         3.0          1.4         0.2  setosa              Short
+## 3          4.7         3.2          1.3         0.2  setosa              Short
+## 4          4.6         3.1          1.5         0.2  setosa              Short
+## 5          5.0         3.6          1.4         0.2  setosa              Short
+## 6          5.4         3.9          1.7         0.4  setosa              Short
 ```
 
 
@@ -169,7 +169,7 @@ my_data_tbl &lt;- read_delim("my_file.tsv",
 
 ```
 ## Rows: 150 Columns: 5
-## ── Column specification ─────────────────────────────────────────────────────
+## ── Column specification ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 ## Delimiter: "\t"
 ## chr (1): Species
 ## dbl (4): Sepal.Length, Sepal.Width, Petal.Length, Petal.Width
@@ -201,7 +201,7 @@ my_data_tbl
 ##  8          5           3.4          1.5         0.2 setosa 
 ##  9          4.4         2.9          1.4         0.2 setosa 
 ## 10          4.9         3.1          1.5         0.1 setosa 
-## # ℹ 140 more rows
+## # … with 140 more rows
 ```
 
 ---
