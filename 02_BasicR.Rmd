@@ -599,7 +599,7 @@ library(dplyr)
 library(ggplot2)
 ```
 
--To install a missing package, use the `install.packages()` function
+To install a missing package, use the `install.packages()` function
 
 ```r
 # notice the quotation marks!!
@@ -623,7 +623,7 @@ pak::pkg_install("ggplot2")
 
 # Working Directory
 
-- To check the current working directory, use `getwd()`.
+To check the current working directory, use `getwd()`.
 
 ```r
 current_dir <- getwd()
