@@ -227,12 +227,118 @@ Most genomics data formats have some sort of coordinate information
 
 ---
 
+# Next Generaton Sequencing scheme
+
+![:scale 85%](figures/NGS.jpg)
+
+.ref[https://irepertoire.com/ngs-overview-from-sample-to-sequencer-to-results/]
+
+---
+
+
+# Short read data - FASTQ
+
+- An intermediate filetype that is used for downstream analysis
+- Usually we just pipe it to allignment software and never look at it
+
+### General structure
+
+- `@` line with an alphanumeric ID
+- Base pair sequence
+- `+` 
+- Quality score for each read position
+
+```
+	@SIM:1:FCX:1:15:6329:1045 1:N:0:2
+	TCGCACTCAACGCCCTGCATATGACAAGACAGAATC
+	+
+	<>;##=><9=AAAAAAAAAA9#:<#<;<<<????#=
+```
+
+This is the quality score rank:
+
+```
+!"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~
+```
+
+---
+
+# Single or pair-end reads
+
+![:scale 50%](figures/paired_end.png)
+
+---
+
+# Read depth and coverage
+
+.center[
+![](figures/coverage.png)
+]
+
+---
+
+# Alignments - SAM and BAM
+
+---
+
+# Some sequencing methods
+
+![:scale 50%](figures/seq_comparison.jpg)
+
+.ref[Lou, R. N., Jacobs, A., Wilder, A. P. & Therkildsen, N. O. A beginner’s guide to low-coverage whole genome sequencing for population genomics. Mol. Ecol. 30, 5966–5993 (2021) [10.1111/mec.16077](https://onlinelibrary-wiley-com.ezproxy.princeton.edu/share/YHRVMJNPQCIA9BPMKSJU?target=10.1111/mec.16077)]
+
+---
 
 # Genotyping data
 
 [The Variant Call Format (VCF)](https://samtools.github.io/hts-specs/VCFv4.2.pdf)
 
-![](figures/vcf_example.png)
+![:scale 100%](figures/vcf_example.png)
+ 
+---
+
+# Common VCF formats
+
+```
+##INFO=<ID=AF,Number=A,Type=Float,Description="Estimated Allele Frequencies">
+##INFO=<ID=AR2,Number=1,Type=Float,Description="Allelic R-Squared: estimated correlation between most probable ALT dose and true ALT dose">
+##INFO=<ID=DR2,Number=1,Type=Float,Description="Dosage R-Squared: estimated correlation between estimated ALT dose [P(RA) + 2*P(AA)] and true ALT dose">
+##FORMAT=<ID=GT,Number=1,Type=String,Description="Genotype">
+##FORMAT=<ID=DS,Number=1,Type=Float,Description="estimated ALT dose [P(RA) + P(AA)]">
+##FORMAT=<ID=GP,Number=G,Type=Float,Description="Estimated Genotype Probability">
+```
+
+```
+#CHROM	POS	ID	REF	ALT	QUAL	FILTER	INFO	FORMAT	127 ...
+1	5385887	AX-168417668	C	G	.	PASS	AR2=1;DR2=1;AF=0.165	GT:DS:GP	0|0:0:1,0,0	...
+```
+
+---
+
+# Reading VCFs in R
+
+.pull-left[
+```{r}
+library(vcfR)
+vcf = read.vcfR("sample.vcf")
+```
+]
+
+---
+
+# Reading VCFs in R
+```{r}
+str(vcf)
+```
+
+---
+
+# Using fread
+
+```{r}
+df_vcf = fread(file='sample.vcf', sep='\t', header = TRUE, skip = '#CHROM')
+df_vcf
+```
 
 ---
 
@@ -243,11 +349,3 @@ Most genomics data formats have some sort of coordinate information
 
 # Parsing generic data
 
----
-
-# Human genome
-
-[GRCh38 Genome Reference Consortium Human Reference 38](https://hgdownload.cse.ucsc.edu/goldenPath/hg38/chromosomes/)
-![](figures/human_genome.png)
-
----

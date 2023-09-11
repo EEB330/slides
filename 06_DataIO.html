@@ -338,12 +338,189 @@ Most genomics data formats have some sort of coordinate information
 
 ---
 
+# Next Generaton Sequencing scheme
+
+![:scale 85%](figures/NGS.jpg)
+
+.ref[https://irepertoire.com/ngs-overview-from-sample-to-sequencer-to-results/]
+
+---
+
+
+# Short read data - FASTQ
+
+- An intermediate filetype that is used for downstream analysis
+- Usually we just pipe it to allignment software and never look at it
+
+### General structure
+
+- `@` line with an alphanumeric ID
+- Base pair sequence
+- `+` 
+- Quality score for each read position
+
+```
+	@SIM:1:FCX:1:15:6329:1045 1:N:0:2
+	TCGCACTCAACGCCCTGCATATGACAAGACAGAATC
+	+
+	&lt;&gt;;##=&gt;&lt;9=AAAAAAAAAA9#:&lt;#&lt;;&lt;&lt;&lt;????#=
+```
+
+This is the quality score rank:
+
+```
+!"#$%&amp;'()*+,-./0123456789:;&lt;=&gt;?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~
+```
+
+---
+
+# Single or pair-end reads
+
+![:scale 50%](figures/paired_end.png)
+
+---
+
+# Read depth and coverage
+
+.center[
+![](figures/coverage.png)
+]
+
+---
+
+# Alignments - SAM and BAM
+
+---
+
+# Some sequencing methods
+
+![:scale 50%](figures/seq_comparison.jpg)
+
+.ref[Lou, R. N., Jacobs, A., Wilder, A. P. &amp; Therkildsen, N. O. A beginner’s guide to low-coverage whole genome sequencing for population genomics. Mol. Ecol. 30, 5966–5993 (2021) [10.1111/mec.16077](https://onlinelibrary-wiley-com.ezproxy.princeton.edu/share/YHRVMJNPQCIA9BPMKSJU?target=10.1111/mec.16077)]
+
+---
 
 # Genotyping data
 
 [The Variant Call Format (VCF)](https://samtools.github.io/hts-specs/VCFv4.2.pdf)
 
-![](figures/vcf_example.png)
+![:scale 100%](figures/vcf_example.png)
+ 
+---
+
+# Common VCF formats
+
+```
+##INFO=&lt;ID=AF,Number=A,Type=Float,Description="Estimated Allele Frequencies"&gt;
+##INFO=&lt;ID=AR2,Number=1,Type=Float,Description="Allelic R-Squared: estimated correlation between most probable ALT dose and true ALT dose"&gt;
+##INFO=&lt;ID=DR2,Number=1,Type=Float,Description="Dosage R-Squared: estimated correlation between estimated ALT dose [P(RA) + 2*P(AA)] and true ALT dose"&gt;
+##FORMAT=&lt;ID=GT,Number=1,Type=String,Description="Genotype"&gt;
+##FORMAT=&lt;ID=DS,Number=1,Type=Float,Description="estimated ALT dose [P(RA) + P(AA)]"&gt;
+##FORMAT=&lt;ID=GP,Number=G,Type=Float,Description="Estimated Genotype Probability"&gt;
+```
+
+```
+#CHROM	POS	ID	REF	ALT	QUAL	FILTER	INFO	FORMAT	127 ...
+1	5385887	AX-168417668	C	G	.	PASS	AR2=1;DR2=1;AF=0.165	GT:DS:GP	0|0:0:1,0,0	...
+```
+
+---
+
+# Reading VCFs in R
+
+.pull-left[
+
+```r
+library(vcfR)
+vcf = read.vcfR("sample.vcf")
+```
+
+```
+## Scanning file to determine attributes.
+## File attributes:
+##   meta lines: 21
+##   header_line: 22
+##   variant count: 9
+##   column count: 12
+## 
+Meta line 21 read in.
+## All meta lines processed.
+## gt matrix initialized.
+## Character matrix gt created.
+##   Character matrix gt rows: 9
+##   Character matrix gt cols: 12
+##   skip: 0
+##   nrows: 9
+##   row_num: 0
+## 
+Processed variant: 9
+## All variants processed
+```
+]
+
+---
+
+# Reading VCFs in R
+
+```r
+str(vcf)
+```
+
+```
+## Formal class 'vcfR' [package "vcfR"] with 3 slots
+##   ..@ meta: chr [1:21] "##fileformat=VCFv4.0" "##fileDate=20090805" "##source=myImputationProgramV3.1" "##reference=1000GenomesPilot-NCBI36" ...
+##   ..@ fix : chr [1:9, 1:8] "19" "19" "20" "20" ...
+##   .. ..- attr(*, "dimnames")=List of 2
+##   .. .. ..$ : NULL
+##   .. .. ..$ : chr [1:8] "CHROM" "POS" "ID" "REF" ...
+##   ..@ gt  : chr [1:9, 1:4] "GT:HQ" "GT:HQ" "GT:GQ:DP:HQ" "GT:GQ:DP:HQ" ...
+##   .. ..- attr(*, "dimnames")=List of 2
+##   .. .. ..$ : NULL
+##   .. .. ..$ : chr [1:4] "FORMAT" "NA00001" "NA00002" "NA00003"
+```
+
+---
+
+# Using fread
+
+
+```r
+df_vcf = fread(file='sample.vcf', sep='\t', header = TRUE, skip = '#CHROM')
+df_vcf
+```
+
+```
+##    #CHROM     POS        ID REF    ALT QUAL FILTER
+## 1:     19     111         .   A      C  9.6      .
+## 2:     19     112         .   A      G   10      .
+## 3:     20   14370 rs6054257   G      A   29   PASS
+## 4:     20   17330         .   T      A    3    q10
+## 5:     20 1110696 rs6040355   A    G,T   67   PASS
+## 6:     20 1230237         .   T      .   47   PASS
+## 7:     20 1234567 microsat1   G GA,GAC   50   PASS
+## 8:     20 1235237         .   T      .    .      .
+## 9:      X      10    rsTest  AC  A,ATG   10   PASS
+##                                 INFO      FORMAT        NA00001        NA00002
+## 1:                                 .       GT:HQ      0|0:10,10      0|0:10,10
+## 2:                                 .       GT:HQ      0|0:10,10      0|0:10,10
+## 3:           NS=3;DP=14;AF=0.5;DB;H2 GT:GQ:DP:HQ 0|0:48:1:51,51 1|0:48:8:51,51
+## 4:               NS=3;DP=11;AF=0.017 GT:GQ:DP:HQ 0|0:49:3:58,50   0|1:3:5:65,3
+## 5: NS=2;DP=10;AF=0.333,0.667;AA=T;DB GT:GQ:DP:HQ 1|2:21:6:23,27   2|1:2:0:18,2
+## 6:                   NS=3;DP=13;AA=T GT:GQ:DP:HQ 0|0:54:.:56,60 0|0:48:4:51,51
+## 7:        NS=3;DP=9;AA=G;AN=6;AC=3,1    GT:GQ:DP        0/1:.:4       0/2:17:2
+## 8:                                 .          GT            0/0            0|0
+## 9:                                 .          GT              0            0/1
+##         NA00003
+## 1:      0/1:3,3
+## 2:      0/1:3,3
+## 3: 1/1:43:5:.,.
+## 4: 0/0:41:3:.,.
+## 5: 2/2:35:4:.,.
+## 6: 0/0:61:2:.,.
+## 7:     1/1:40:3
+## 8:          ./.
+## 9:          0|2
+```
 
 ---
 
@@ -354,14 +531,6 @@ Most genomics data formats have some sort of coordinate information
 
 # Parsing generic data
 
----
-
-# Human genome
-
-[GRCh38 Genome Reference Consortium Human Reference 38](https://hgdownload.cse.ucsc.edu/goldenPath/hg38/chromosomes/)
-![](figures/human_genome.png)
-
----
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
