@@ -312,7 +312,7 @@ str_view(fruit, "a...e")
 
 ---
 
-# Quantifiers
+# Quantifiers `?`, `+` and `*`
 
 .pull-left[
 Quantifiers are metecharacters that can be used to modulate how many matches we are interested in.
@@ -556,8 +556,8 @@ str_view(c("abc", "a.c", "bef"), "a\\.c")
 
 # Searching for `\`
 
-If we want to search for `\` it's even worse!
-#'
+If we want to search for `\` it is even worse! 
+
 - To match a literal `\`, you need to escape it, creating the regular expression `\\`. 
 
 - To create that regular expression, you need to use a string, which also needs to escape `\`. 
@@ -589,7 +589,7 @@ str_view(x, "\\\\")
 .center[![](https://imgs.xkcd.com/comics/backslashes.png)]
 
 .pull-left[
-We can also use literal strings to avoid with mess:
+We can also use literal strings to avoid this mess:
  
 - Literal strings are bound by `r"{` ... `}"`
 
@@ -607,15 +607,15 @@ We can also use literal strings to avoid with mess:
 - For other metacharacters, we can use character classes:
 
 
- 
- ```r
- x = c("abc", "a.c", "a*c", "a c")
- str_view(x, "a[.]c")
- ```
- 
- ```
- ## [2] │ &lt;a.c&gt;
- ```
+
+```r
+x = c("abc", "a.c", "a*c", "a c")
+str_view(x, "a[.]c")
+```
+
+```
+## [2] │ &lt;a.c&gt;
+```
 ]
 
 ---
