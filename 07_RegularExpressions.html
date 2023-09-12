@@ -30,10 +30,662 @@ class: center, middle, inverse, title-slide
 ---
 
 
+# Working with Strings
 
-http://regex.info/book.html
+### What are strings again?
 
-https://www.regular-expressions.info/tutorial.html
+- Strings are sequences of charcters
+- We use them to represent text
+
+
+```r
+string1 &lt;- "This is a string"
+string2 &lt;- 'If I want to include a "quote" inside a string, I use single quotes'
+```
+
+If you forget to close a quote, you’ll see +, the continuation prompt:
+
+
+```r
+&gt; "This is a string without a closing quote
++ 
++ 
++ HELP I'M STUCK IN A STRING
+```
+#"
+
+- Special characters can be "escaped" with a `\`
+
+
+```r
+double_quote &lt;- "\"" # or '"'
+single_quote &lt;- '\'' # or "'"
+```
+---
+
+# Other special characters
+
+### New lines and tabs
+
+- `\n` is a new line
+- `\t` is a tab
+- `\b` is a word boundary
+
+Other unicode characters can be generated using the `\u` or `\U` prefix:
+
+
+```r
+x &lt;- c("one\ntwo", "one\ttwo", "\u00b5", "\U0001f604")
+x
+```
+
+```
+## [1] "one\ntwo" "one\ttwo" "µ"        "😄"
+```
+
+```r
+library(stringr)
+str_view(x)
+```
+
+```
+## [1] │ one
+##     │ two
+## [2] │ one{\t}two
+## [3] │ µ
+## [4] │ 😄
+```
+
+---
+
+# Basic string manipulation
+
+.pull-left[
+Gluing strings together with the `paste()` function:
+
+
+```r
+s1 = "Hello"
+s2 = "Everyone!"
+paste(s1, s2)
+```
+
+```
+## [1] "Hello Everyone!"
+```
+
+We can specify the separator with the `sep` argument:
+
+
+```r
+paste(s1, s2, sep = ".")
+```
+
+```
+## [1] "Hello.Everyone!"
+```
+
+Use the `paste0()` function if you don't want any separator: 
+#'
+
+```r
+paste0(s1, s2) # same as paste(s1, s2, sep = "")
+```
+
+```
+## [1] "HelloEveryone!"
+```
+] 
+
+--
+
+.pull-right[
+We can pass vectors to `paste()`
+
+
+```r
+s1 = "Hi "
+s2 = c("Pol", "Mike", "Carol")
+paste0(s1, s2, "!")
+```
+
+```
+## [1] "Hi Pol!"   "Hi Mike!"  "Hi Carol!"
+```
+
+We can use the `collapse` argument to merge strings in a vector:
+
+
+```r
+paste(s2, collapse = "-")
+```
+
+```
+## [1] "Pol-Mike-Carol"
+```
+
+]
+
+---
+
+# Find and Replace
+
+### Find
+
+The `grep` funtion can be used to search for a string in a vector:
+
+
+```r
+fruits &lt;- c("apple", "banana", "cherry", "date")
+
+# Find indices of fruits containing 'an'
+grep("an", fruits)
+```
+
+```
+## [1] 2
+```
+
+### Replace 
+
+The `gsub` function can be used to replace part of a string:
+
+
+```r
+string2 &lt;- 'If I want to include a "quote" inside a string, I use single quotes'
+gsub("quote", "banana", string2)
+```
+
+```
+## [1] "If I want to include a \"banana\" inside a string, I use single bananas"
+```
+
+---
+
+# Regular expressions
+
+.pull-left[
+- Think "super advanced find"
+
+- Very useful for data clean-up
+
+- The `stringr` package in R provides functions to work with regular expressions.
+
+- We use a weird syntax to specify the general strucure of the thing we are searching for.
+  - This is called a `pattern`
+
+- Slides heavily draw from [https://r4ds.hadley.nz/regexps](https://r4ds.hadley.nz/regexps)
+]
+.pull-right[
+![](https://imgs.xkcd.com/comics/regular_expressions.png)
+]
+
+
+---
+
+# Basic matching
+
+.pull-left[
+
+```r
+library(stringr)
+length(fruit)
+```
+
+```
+## [1] 80
+```
+
+```r
+fruit[1:4]
+```
+
+```
+## [1] "apple"   "apricot" "avocado" "banana"
+```
+]
+.pull-right[
+
+- Let's look for entries that match the pattern: `berry`
+#'
+
+```r
+str_view(fruit, "berry")
+```
+
+```
+##  [6] │ bil&lt;berry&gt;
+##  [7] │ black&lt;berry&gt;
+## [10] │ blue&lt;berry&gt;
+## [11] │ boysen&lt;berry&gt;
+## [19] │ cloud&lt;berry&gt;
+## [21] │ cran&lt;berry&gt;
+## [29] │ elder&lt;berry&gt;
+## [32] │ goji &lt;berry&gt;
+## [33] │ goose&lt;berry&gt;
+## [38] │ huckle&lt;berry&gt;
+## [50] │ mul&lt;berry&gt;
+## [70] │ rasp&lt;berry&gt;
+## [73] │ salal &lt;berry&gt;
+## [76] │ straw&lt;berry&gt;
+```
+]
+
+---
+
+# Special characters
+
+- Letters and numbers match exactly and are called **literal characters**. 
+
+- Most punctuation characters, like `.`, `+`, `*`, `[`, `]`, and `?`, have special meanings and are called **metacharacters**. 
+
+- Some common regex metacharacters:
+  - `.`: Matches any character.
+  - `*`: Matches 0 or more occurrences.
+  - `+`: Matches 1 or more occurrences.
+  - `?`: Matches 0 or 1 occurrence.
+  - `[ ]`: Character class.
+  - `|`: Alternation (OR).
+  - `^`: Anchors to the start of the line.
+  - `$`: Anchors to the end of the line.
+
+---
+
+# The Wild Card character `.`
+
+Look for the letter `a`, followed by any 3 letters, followed by the letter `e`
+
+```r
+str_view(fruit, "a...e") 
+```
+
+```
+##  [1] │ &lt;apple&gt;
+##  [7] │ bl&lt;ackbe&gt;rry
+## [48] │ mand&lt;arine&gt;
+## [51] │ nect&lt;arine&gt;
+## [62] │ pine&lt;apple&gt;
+## [64] │ pomegr&lt;anate&gt;
+## [70] │ r&lt;aspbe&gt;rry
+## [73] │ sal&lt;al be&gt;rry
+```
+
+---
+
+# Quantifiers
+
+.pull-left[
+Quantifiers are metecharacters that can be used to modulate how many matches we are interested in.
+
+  - `?`: Matches 0 or 1 occurrence.
+  - `+`: Matches 1 or more occurrences.
+  - `*`: Matches 0 or more occurrences.
+
+
+
+```r
+string_vec =  c("a", "ab", "abb")
+# ab? matches an "a", 
+# optionally followed by a "b".
+str_view(string_vec, "ab?")
+```
+
+```
+## [1] │ &lt;a&gt;
+## [2] │ &lt;ab&gt;
+## [3] │ &lt;ab&gt;b
+```
+
+]
+.pull-right[
+
+```r
+# ab+ matches an "a", 
+# followed by at least one "b".
+str_view(string_vec, "ab+")
+```
+
+```
+## [2] │ &lt;ab&gt;
+## [3] │ &lt;abb&gt;
+```
+
+```r
+# ab* matches an "a", 
+# followed by any number of "b"s.
+str_view(string_vec, "ab*")
+```
+
+```
+## [1] │ &lt;a&gt;
+## [2] │ &lt;ab&gt;
+## [3] │ &lt;abb&gt;
+```
+]
+
+---
+
+# Character classes
+
+Character classes are defined by `[]` and let you match a set of characters
+
+.pull-left[
+- `[abcd]` matches `a`, `b`, `c`, or `d`
+- `[^abc]` any character exept `a`, `b`, `c`
+
+
+```r
+str_view(words, "[aeiou]x[aeiou]")
+```
+
+```
+## [284] │ &lt;exa&gt;ct
+## [285] │ &lt;exa&gt;mple
+## [288] │ &lt;exe&gt;rcise
+## [289] │ &lt;exi&gt;st
+```
+
+```r
+x &lt;- "abcd ABCD 12345 -!@#%."
+str_view(x, "[^abcd]+")
+```
+
+```
+## [1] │ abcd&lt; ABCD 12345 -!@#%.&gt;
+```
+]
+--
+
+.pull-right[
+- `-` defines a range, e.g., `[a-z]` matches any lower case letter and `[0-9]` matches any number.
+
+```r
+str_view(x, "[a-z]+")
+```
+
+```
+## [1] │ &lt;abcd&gt; ABCD 12345 -!@#%.
+```
+
+```r
+str_view(x, "[a-z0-9]+")
+```
+
+```
+## [1] │ &lt;abcd&gt; ABCD &lt;12345&gt; -!@#%.
+```
+]
+---
+
+
+# Alternation using `|`
+
+Looking for one of 3 patterns:
+
+```r
+str_view(fruit, "apple|melon|nut")
+```
+
+```
+##  [1] │ &lt;apple&gt;
+## [13] │ canary &lt;melon&gt;
+## [20] │ coco&lt;nut&gt;
+## [52] │ &lt;nut&gt;
+## [62] │ pine&lt;apple&gt;
+## [72] │ rock &lt;melon&gt;
+## [80] │ water&lt;melon&gt;
+```
+
+- Fruits with Double vowels?
+
+
+```r
+str_view(fruit, "aa|ee|ii|oo|uu")
+```
+
+```
+##  [9] │ bl&lt;oo&gt;d orange
+## [33] │ g&lt;oo&gt;seberry
+## [47] │ lych&lt;ee&gt;
+## [66] │ purple mangost&lt;ee&gt;n
+```
+
+---
+
+# Anchor characters `^` and `$`
+
+.pull-left[
+Fruits that contain with `pl`
+
+
+```r
+str_view(fruit, "pl")
+```
+
+```
+##  [1] │ ap&lt;pl&gt;e
+## [28] │ egg&lt;pl&gt;ant
+## [62] │ pineap&lt;pl&gt;e
+## [63] │ &lt;pl&gt;um
+## [66] │ pur&lt;pl&gt;e mangosteen
+```
+
+Fruits that start with `pl`
+
+
+```r
+str_view(fruit, "^pl")
+```
+
+```
+## [63] │ &lt;pl&gt;um
+```
+]
+
+--
+
+.pull-right[
+Words that end with `es`
+
+```r
+str_view(words, "es$")
+```
+
+```
+## [161] │ clos&lt;es&gt;
+## [976] │ y&lt;es&gt;
+```
+
+Words that begin with `b` and end with `k`
+
+
+```r
+str_view(words, "^b.*k$")
+```
+
+```
+##  [67] │ &lt;back&gt;
+##  [72] │ &lt;bank&gt;
+##  [95] │ &lt;black&gt;
+## [103] │ &lt;book&gt;
+## [110] │ &lt;break&gt;
+```
+
+]
+
+---
+
+# Escaping inside regex
+
+.center[
+.font200[**Sorry**]
+]
+.pull-left[
+Inside regular expressions, we use the normal escape symbol `\` for several uses
+
+- to search for explicit instances of the metacharacters. Ex: To find the pattern `a.c`
+- In order to match a literal `.`, you need an escape which tells the regular expression to match metacharacters literally. 
+- So, to match a `.`, you need the regexp `\.` 
+- Unfortunately this creates a problem. We use strings to represent regular expressions, and `\` is also used as an escape symbol in strings. So to create the regular expression `\.` we need the string  `\\.`
+]
+.pull-right[
+
+```r
+# To create the regular expression \., 
+# we need to use \\.
+dot &lt;- "\\."
+# But the expression itself only contains one \
+str_view(dot)
+```
+
+```
+## [1] │ \.
+```
+
+```r
+# And this tells R to look for an explicit .
+str_view(c("abc", "a.c", "bef"), "a\\.c")
+```
+
+```
+## [2] │ &lt;a.c&gt;
+```
+]
+
+---
+
+# Searching for `\`
+
+If we want to search for `\` it's even worse!
+#'
+- To match a literal `\`, you need to escape it, creating the regular expression `\\`. 
+
+- To create that regular expression, you need to use a string, which also needs to escape `\`. 
+
+- That means to match a literal `\` you need to write `\\\\` — **you need four backslashes to match one!**
+
+
+```r
+x &lt;- "a\\b"
+str_view(x)
+```
+
+```
+## [1] │ a\b
+```
+
+```r
+str_view(x, "\\\\")
+```
+
+```
+## [1] │ a&lt;\&gt;b
+```
+
+---
+
+# Why are you doing this to me? This is awful
+
+.center[![](https://imgs.xkcd.com/comics/backslashes.png)]
+
+.pull-left[
+We can also use literal strings to avoid with mess:
+ 
+- Literal strings are bound by `r"{` ... `}"`
+
+ 
+ ```r
+ str_view(x, r"{\\}")
+ ```
+ 
+ ```
+ ## [1] │ a&lt;\&gt;b
+ ```
+]
+.pull-right[
+
+- For other metacharacters, we can use character classes:
+
+
+ 
+ ```r
+ x = c("abc", "a.c", "a*c", "a c")
+ str_view(x, "a[.]c")
+ ```
+ 
+ ```
+ ## [2] │ &lt;a.c&gt;
+ ```
+]
+
+---
+
+# Common short-cut characters
+
+.pull-left[
+There is also a set of special characters that we can use to build our patterns:
+
+- `\d` matches any digit;
+- `\D` matches anything that isn’t a digit.
+- `\s` matches any whitespace (e.g., space, tab, newline);
+- `\S` matches anything that isn’t whitespace.
+- `\w` matches any “word” character, i.e. letters and numbers;
+- `\W` matches any “non-word” character.
+
+```r
+x &lt;- "abcd ABCD 12345 -!@#%."
+str_view(x, "\\d+")
+```
+
+```
+## [1] │ abcd ABCD &lt;12345&gt; -!@#%.
+```
+]
+--
+.pull-right[
+.code80[
+
+```r
+str_view(x, "\\D+")
+```
+
+```
+## [1] │ &lt;abcd ABCD &gt;12345&lt; -!@#%.&gt;
+```
+
+```r
+str_view(x, "\\s+")
+```
+
+```
+## [1] │ abcd&lt; &gt;ABCD&lt; &gt;12345&lt; &gt;-!@#%.
+```
+
+```r
+str_view(x, "\\S+")
+```
+
+```
+## [1] │ &lt;abcd&gt; &lt;ABCD&gt; &lt;12345&gt; &lt;-!@#%.&gt;
+```
+
+```r
+str_view(x, "\\w+")
+```
+
+```
+## [1] │ &lt;abcd&gt; &lt;ABCD&gt; &lt;12345&gt; -!@#%.
+```
+
+```r
+str_view(x, "\\W+")
+```
+
+```
+## [1] │ abcd&lt; &gt;ABCD&lt; &gt;12345&lt; -!@#%.&gt;
+```
+]
+]
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
