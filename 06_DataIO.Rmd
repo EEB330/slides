@@ -404,8 +404,3 @@ counts[1:10, 1:7]
 
 ]
 
----
-
-
-# Parsing generic data
-
