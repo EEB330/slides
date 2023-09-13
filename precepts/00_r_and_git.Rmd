@@ -7,6 +7,9 @@ output: html_document
 ---
 
 # Precept intro
+>__NOTE__: This precept has been modified from its original form for clarity. The original version can be found in the [EEB330/slides/precepts](https://github.com/EEB330/slides/blob/51fd3857a007b5c088995d47030cea570caee58d/precepts/00_r_and_git.Rmd). If you previous worked on the old version, all of the updated content should still apply and -- ideally -- clarify the workflow.
+
+
 
 Precepts can be found here: [https://eeb330.github.io/#Precepts](https://eeb330.github.io/#Precepts) and on GitHub in the [EEB330/slides](https://github.com/EEB330/slides/tree/main/precepts) repository.
 
@@ -15,89 +18,38 @@ We're going to mostly be doing the precept problem sets during class, but I'll b
 
 This precept is focused on getting started programming with R and utilzing git for version control -- including how we will submit assigments and projects throughout the semester.
 
-
-## R
-
-
-### Getting started
+# Getting started
 
 We support two IDEs in the course: RStudio and VS Code.  I'll be using VS Code for the precepts, but feel free to use whichever you prefer. VS Code is a bit more lightweight and extensible, but RStudio has a lot of nice features speficially for R.
 
-Before going forward, lets install the basic software we need: [R](https://cran.r-project.org/) and [git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git). I recommend [Homebrew](https://brew.sh/) for Mac users, but you can also use the installers from the links provided.
+Before going forward, lets install the basic software we need: [R](https://cran.r-project.org/) and [git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git). 
+
+> I recommend [Homebrew](https://brew.sh/) for Mac users, but you can also use the installers from the links provided.
 
 
 #### VS Code
 [VS Code](https://code.visualstudio.com/). Once you've installed and lauched VS Code, you'll need to grab a few extensions. I'd recommend getting the [R Extension](https://code.visualstudio.com/docs/languages/r) at minimum.
 
-##### Optional extras:
-Bash:
-```{bash, eval=FALSE, engine="sh"}
-pip install radian
-```
-
-R:
-```{r, eval=FALSE}
-install.packages("httpgd")
-```
-
 #### RStudio
 [RStudio](https://rstudio.com/) 
 
-
-### Basics of R in R Markdown
-
-[R Markdown](https://rmarkdown.rstudio.com/) is a great way to combine code, text, and figures into a single document. We'll be using R Markdown for the bulk of our work this semester.
-
-
-#### R Markdown basics
-
-R Markdown basic syntax -- [cheatsheet](https://rstudio.com/wp-content/uploads/2015/02/rmarkdown-cheatsheet.pdf).
-
-We want to make sure to create an appropriate header and then separate our code into meaningful chunks.  For example, here's an example that loads and displays the `iris` dataset:
-
-```{r, eval=FALSE}
-install.packages("pak")
-pak::pkg_install("tidyverse")
-```
-
-
-```{r}
-# This cell loads and examines the iris dataset
-
-# Load the dataset
-data(iris)
-
-# Check the class and type of the dataset
-class(iris)
-typeof(iris) # note that this is different than class -- typeof is the underlying type of the object in memory.
-
-# view the first few rows of the dataset
-head(iris)
-```
-
-
 ## Git
 
-For the semester we're going to be using GitHub Classroom to manage assignments and projects. You should have received an announcement with the Classroom link.  If you haven't, please let me know.
+For the semester we're going to be using GitHub Classroom to manage assignments and projects. You should have received an announcement with the Classroom link. If you haven't, please let me know.
 
-### Getting started
+If you have not already installed git, make sure to install it. The installation guide can be found here: [https://git-scm.com/book/en/v2/Getting-Started-Installing-Git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git).
+
+## GitHub
 
 First, you'll need to create an account on GitHub. You can do that [https://github.com/join](https://github.com/join).
 
+#### Authentication
 
-#### Getting start
-GitHub maintains a super nice getting started guide that deals with getting authentication set up: [https://docs.github.com/en/get-started/getting-started-with-git](https://docs.github.com/en/get-started/getting-started-with-git)
+Install GitHub CLI -- found here: [https://cli.github.com/](https://cli.github.com/) -- and authenticate with GitHub.  You can do this by running the following command in your terminal:
 
-
-##### Other authentication notes
-
-Once you've created an account, you'll need to authenticate with GitHub. Check out the [GitHub authentication documentation](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/about-authentication-to-github) for more information on how to do this.
-
-I'd recommend using Personal Access Tokens (PATs) as described [here](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens).
-
-#### Accessing git
-
-For the actual management, I'll be using the command line and VS Code extensions, but you can also [GitHub Desktop](https://desktop.github.com/).
+```{bash, eval=FALSE, engine="sh"}
+gh auth login
+```
 
 ### GitHub Classroom
 
@@ -105,24 +57,29 @@ For the actual management, I'll be using the command line and VS Code extensions
 
 When you accept the assignment, it will create a private repository (only visible to EEB330 staff and yourself) that you can use. Once you have that repository, you can clone it to your local machine and start working on it.
 
+
 ### Cloning the repository
 
 To clone the repository, you'll need to copy the URL from the repository page.  You can do this by clicking the green "Code" button and copying the URL.  Then, in your terminal, you can run `git clone <URL>` to clone the repository to your local machine.
 
 ```{bash, eval=FALSE, engine="sh"}
-git clone https://github.com/EEB330/intro-to-git-{GITHUB_USERNAME}.git
-git checkout -b precept-1
+git clone https://github.com/EEB330/intro-to-git-{GITHUB_USERNAME}.git # Note that this can be found on the repository page under the green "Code" button after github has created the repository
+cd intro-to-git-{GITHUB_USERNAME}
+git checkout -b precept-1 # or what you want to call your branch
 ```
+
 ### Working on the assignment
 
-For this assignment, you can just create an simple example R Markdown file containing some code and text.  You can then commit and push your changes to the branch you created.
+For this assignment, you can just create an simple example R file containing some code and text. You can then commit and push your changes to the branch you created.
 
-Our goal is to make a simple R Markdown file for exploring the iris data set.
+__Running R code__: To run R code, you can hit cmd+enter while selecting the line or block of code you want to run.  You can also run the entire file by hitting shift+cmd+s. If you're working on windows, you can use ctrl instead of cmd.
+
+Our goal is to make a simple R  file for exploring the iris data set.
 
 ```{r}
 # ----- Loading and Exploring the iris dataset -----
 
-# Load the dataset
+# Load the dataset -- note that this is a built-in dataset in R
 data(iris)
 
 # View the first few rows to understand its structure
@@ -154,14 +111,14 @@ iris$Petal.Length.Class <- ifelse(iris$Petal.Length < 2, "Short",
 
 # View the initial rows of the modified dataset to see the added column
 head(iris)
-
-
 ```
+
 
 #### Pushing your changes
 ```{bash, eval=FALSE, engine="sh"}
-git add precept_1.Rmd
-git push --set-upstream origin precept-1 
+git add precept_1.Rmd # or the file you created
+git commit -m "Adding precept 1" # or the message you want
+git push -u origin precept-1 # or the branch you created
 ```
 
 Note that after you set the upstream branch, you can just run `git push` to push your changes to the remote repository.
@@ -186,6 +143,9 @@ N/A
 
 N/A
 ```
+
+
+
 > **WARNING**
 >
 > Be very careful here! Please try to only merge PRs when you have completed assignments. If you merge multiple PRs for an assignment, I'll try to loop back to them if I've already graded one, but if I miss them for some reason, please let me know!
@@ -195,3 +155,7 @@ N/A
 # Submission
 
 For this precept, you'll just need to make a merge a PR with your changes. I'll be checking the PRs for the assignment to make sure you wrote __something__ in R and that you've made a well structured PR and merged.  If you have any questions, please let me know!
+
+
+
+

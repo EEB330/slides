@@ -360,6 +360,12 @@ git</h3>
 
 <div id="precept-intro" class="section level1">
 <h1>Precept intro</h1>
+<blockquote>
+<p><strong>NOTE</strong>: This precept has been modified from its
+original form for clarity. The original version can be found in the <a href="https://github.com/EEB330/slides/blob/51fd3857a007b5c088995d47030cea570caee58d/precepts/00_r_and_git.Rmd">EEB330/slides/precepts</a>.
+If you previous worked on the old version, all of the updated content
+should still apply and – ideally – clarify the workflow.</p>
+</blockquote>
 <p>Precepts can be found here: <a href="https://eeb330.github.io/#Precepts">https://eeb330.github.io/#Precepts</a>
 and on GitHub in the <a href="https://github.com/EEB330/slides/tree/main/precepts">EEB330/slides</a>
 repository.</p>
@@ -370,97 +376,46 @@ assignment within 2 weeks to GitHub Classroom. # Introduction</p>
 <p>This precept is focused on getting started programming with R and
 utilzing git for version control – including how we will submit
 assigments and projects throughout the semester.</p>
-<div id="r" class="section level2">
-<h2>R</h2>
-<div id="getting-started" class="section level3">
-<h3>Getting started</h3>
+</div>
+<div id="getting-started" class="section level1">
+<h1>Getting started</h1>
 <p>We support two IDEs in the course: RStudio and VS Code. I’ll be using
 VS Code for the precepts, but feel free to use whichever you prefer. VS
 Code is a bit more lightweight and extensible, but RStudio has a lot of
 nice features speficially for R.</p>
-<p>Before going forward, lets install the basic software we need: <a href="https://cran.r-project.org/">R</a> and <a href="https://git-scm.com/book/en/v2/Getting-Started-Installing-Git">git</a>.
-I recommend <a href="https://brew.sh/">Homebrew</a> for Mac users, but
-you can also use the installers from the links provided.</p>
+<p>Before going forward, lets install the basic software we need: <a href="https://cran.r-project.org/">R</a> and <a href="https://git-scm.com/book/en/v2/Getting-Started-Installing-Git">git</a>.</p>
+<blockquote>
+<p>I recommend <a href="https://brew.sh/">Homebrew</a> for Mac users,
+but you can also use the installers from the links provided.</p>
+</blockquote>
 <div id="vs-code" class="section level4">
 <h4>VS Code</h4>
 <p><a href="https://code.visualstudio.com/">VS Code</a>. Once you’ve
 installed and lauched VS Code, you’ll need to grab a few extensions. I’d
 recommend getting the <a href="https://code.visualstudio.com/docs/languages/r">R Extension</a> at
 minimum.</p>
-<div id="optional-extras" class="section level5">
-<h5>Optional extras:</h5>
-<p>Bash:</p>
-<pre class="bash"><code>pip install radian</code></pre>
-<p>R:</p>
-<pre class="r"><code>install.packages(&quot;httpgd&quot;)</code></pre>
-</div>
 </div>
 <div id="rstudio" class="section level4">
 <h4>RStudio</h4>
 <p><a href="https://rstudio.com/">RStudio</a></p>
-</div>
-</div>
-<div id="basics-of-r-in-r-markdown" class="section level3">
-<h3>Basics of R in R Markdown</h3>
-<p><a href="https://rmarkdown.rstudio.com/">R Markdown</a> is a great
-way to combine code, text, and figures into a single document. We’ll be
-using R Markdown for the bulk of our work this semester.</p>
-<div id="r-markdown-basics" class="section level4">
-<h4>R Markdown basics</h4>
-<p>R Markdown basic syntax – <a href="https://rstudio.com/wp-content/uploads/2015/02/rmarkdown-cheatsheet.pdf">cheatsheet</a>.</p>
-<p>We want to make sure to create an appropriate header and then
-separate our code into meaningful chunks. For example, here’s an example
-that loads and displays the <code>iris</code> dataset:</p>
-<pre class="r"><code>install.packages(&quot;pak&quot;)
-pak::pkg_install(&quot;tidyverse&quot;)</code></pre>
-<pre class="r"><code># This cell loads and examines the iris dataset
-
-# Load the dataset
-data(iris)
-
-# Check the class and type of the dataset
-class(iris)</code></pre>
-<pre><code>## [1] &quot;data.frame&quot;</code></pre>
-<pre class="r"><code>typeof(iris) # note that this is different than class -- typeof is the underlying type of the object in memory.</code></pre>
-<pre><code>## [1] &quot;list&quot;</code></pre>
-<pre class="r"><code># view the first few rows of the dataset
-head(iris)</code></pre>
-<pre><code>##   Sepal.Length Sepal.Width Petal.Length Petal.Width Species
-## 1          5.1         3.5          1.4         0.2  setosa
-## 2          4.9         3.0          1.4         0.2  setosa
-## 3          4.7         3.2          1.3         0.2  setosa
-## 4          4.6         3.1          1.5         0.2  setosa
-## 5          5.0         3.6          1.4         0.2  setosa
-## 6          5.4         3.9          1.7         0.4  setosa</code></pre>
-</div>
-</div>
 </div>
 <div id="git" class="section level2">
 <h2>Git</h2>
 <p>For the semester we’re going to be using GitHub Classroom to manage
 assignments and projects. You should have received an announcement with
 the Classroom link. If you haven’t, please let me know.</p>
-<div id="getting-started-1" class="section level3">
-<h3>Getting started</h3>
+<p>If you have not already installed git, make sure to install it. The
+installation guide can be found here: <a href="https://git-scm.com/book/en/v2/Getting-Started-Installing-Git">https://git-scm.com/book/en/v2/Getting-Started-Installing-Git</a>.</p>
+</div>
+<div id="github" class="section level2">
+<h2>GitHub</h2>
 <p>First, you’ll need to create an account on GitHub. You can do that <a href="https://github.com/join">https://github.com/join</a>.</p>
-<div id="getting-start" class="section level4">
-<h4>Getting start</h4>
-<p>GitHub maintains a super nice getting started guide that deals with
-getting authentication set up: <a href="https://docs.github.com/en/get-started/getting-started-with-git">https://docs.github.com/en/get-started/getting-started-with-git</a></p>
-<div id="other-authentication-notes" class="section level5">
-<h5>Other authentication notes</h5>
-<p>Once you’ve created an account, you’ll need to authenticate with
-GitHub. Check out the <a href="https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/about-authentication-to-github">GitHub
-authentication documentation</a> for more information on how to do
-this.</p>
-<p>I’d recommend using Personal Access Tokens (PATs) as described <a href="https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens">here</a>.</p>
-</div>
-</div>
-<div id="accessing-git" class="section level4">
-<h4>Accessing git</h4>
-<p>For the actual management, I’ll be using the command line and VS Code
-extensions, but you can also <a href="https://desktop.github.com/">GitHub Desktop</a>.</p>
-</div>
+<div id="authentication" class="section level4">
+<h4>Authentication</h4>
+<p>Install GitHub CLI – found here: <a href="https://cli.github.com/">https://cli.github.com/</a> – and
+authenticate with GitHub. You can do this by running the following
+command in your terminal:</p>
+<pre class="bash"><code>gh auth login</code></pre>
 </div>
 <div id="github-classroom" class="section level3">
 <h3>GitHub Classroom</h3>
@@ -479,19 +434,24 @@ repository page. You can do this by clicking the green “Code” button and
 copying the URL. Then, in your terminal, you can run
 <code>git clone &lt;URL&gt;</code> to clone the repository to your local
 machine.</p>
-<pre class="bash"><code>git clone https://github.com/EEB330/intro-to-git-{GITHUB_USERNAME}.git
-git checkout -b precept-1</code></pre>
+<pre class="bash"><code>git clone https://github.com/EEB330/intro-to-git-{GITHUB_USERNAME}.git # Note that this can be found on the repository page under the green &quot;Code&quot; button after github has created the repository
+cd intro-to-git-{GITHUB_USERNAME}
+git checkout -b precept-1 # or what you want to call your branch</code></pre>
 </div>
 <div id="working-on-the-assignment" class="section level3">
 <h3>Working on the assignment</h3>
-<p>For this assignment, you can just create an simple example R Markdown
-file containing some code and text. You can then commit and push your
-changes to the branch you created.</p>
-<p>Our goal is to make a simple R Markdown file for exploring the iris
-data set.</p>
+<p>For this assignment, you can just create an simple example R file
+containing some code and text. You can then commit and push your changes
+to the branch you created.</p>
+<p><strong>Running R code</strong>: To run R code, you can hit cmd+enter
+while selecting the line or block of code you want to run. You can also
+run the entire file by hitting shift+cmd+s. If you’re working on
+windows, you can use ctrl instead of cmd.</p>
+<p>Our goal is to make a simple R file for exploring the iris data
+set.</p>
 <pre class="r"><code># ----- Loading and Exploring the iris dataset -----
 
-# Load the dataset
+# Load the dataset -- note that this is a built-in dataset in R
 data(iris)
 
 # View the first few rows to understand its structure
@@ -556,8 +516,9 @@ head(iris)</code></pre>
 ## 6          5.4         3.9          1.7         0.4  setosa              Short</code></pre>
 <div id="pushing-your-changes" class="section level4">
 <h4>Pushing your changes</h4>
-<pre class="bash"><code>git add precept_1.Rmd
-git push --set-upstream origin precept-1 </code></pre>
+<pre class="bash"><code>git add precept_1.Rmd # or the file you created
+git commit -m &quot;Adding precept 1&quot; # or the message you want
+git push -u origin precept-1 # or the branch you created</code></pre>
 <p>Note that after you set the upstream branch, you can just run
 <code>git push</code> to push your changes to the remote repository.</p>
 </div>
