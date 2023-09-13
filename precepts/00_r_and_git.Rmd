@@ -33,6 +33,14 @@ Before going forward, lets install the basic software we need: [R](https://cran.
 #### RStudio
 [RStudio](https://rstudio.com/) 
 
+#### R
+
+Make sure that you're able to run basic R code like the following:
+
+```{r}
+print("Hello world!")
+```
+
 ## Git
 
 For the semester we're going to be using GitHub Classroom to manage assignments and projects. You should have received an announcement with the Classroom link. If you haven't, please let me know.
