@@ -55,6 +55,12 @@ R Markdown basic syntax -- [cheatsheet](https://rstudio.com/wp-content/uploads/2
 
 We want to make sure to create an appropriate header and then separate our code into meaningful chunks.  For example, here's an example that loads and displays the `iris` dataset:
 
+```{r, eval=FALSE}
+install.packages("pak")
+pak::pkg_install("tidyverse")
+```
+
+
 ```{r}
 # This cell loads and examines the iris dataset
 
