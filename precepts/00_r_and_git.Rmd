@@ -127,13 +127,17 @@ Note that after you set the upstream branch, you can just run `git push` to push
 
 Once you make any changes to the main branch, the assignment will be marked as submitted. To avoid your work being marked as submitted, make sure you use branches and pull requests.
 
-Once you've made changes to your development branch, you can make a PR that details all of the changes you've made across multiple commits. This allows you to merge back in a single unit of work.
+Once you've made changes to your development branch, you can make a PR that details all of the changes you've made across multiple commits. This allows you to merge back in a single unit of work. 
+
+#### Creating a PR
+
+To create a Pull Request on GitHub, you navigate to your branch (under branches on web interface), and select contribute > open pull request.
 
 #### Example Pull Request
 ```{verbatim}
 # Summary
 
-This PR shows example formatting. Because PRs are the primary location at which code is evaluated, make sure that your PRs are clear and descriptive. PRs can include markdown so they can become relatively complex if the assignment (or issue) is complicated. This should be paired with will documented code to allow others to easily follow your design and implementation.
+This PR shows example formatting. Because PRs are the primary location at which code is evaluated, make sure that your PRs are clear and descriptive. PRs can include markdown so they can become relatively complex if the assignment is complicated. This should be paired with will documented code to allow others to easily follow your design and implementation.
 
 # Design notes
 
@@ -148,7 +152,7 @@ N/A
 
 > **WARNING**
 >
-> Be very careful here! Please try to only merge PRs when you have completed assignments. If you merge multiple PRs for an assignment, I'll try to loop back to them if I've already graded one, but if I miss them for some reason, please let me know!
+> Be careful here! Please try to only merge PRs when you have completed assignments. If you merge multiple PRs for an assignment, I'll try to loop back to them if I've already graded one, but if I miss them for some reason, please let me know!
 
 
 
