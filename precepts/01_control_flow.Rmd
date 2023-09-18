@@ -130,7 +130,13 @@ Starting with a number 50, decrease it by 5% in every iteration using a while lo
 
 ### Functions with conditionals and loops
 
-Write a function named series_sum that accepts two arguments: a start value 's' and an end value 'e'. The function should sum all numbers from 's' to 'e'. However, if a number in the series is divisible by 3, it should be skipped.
+Write a function named series_sum that accepts two arguments: a start value 's' and an end value 'e'. The function should sum all numbers from 's' to 'e'. However, if a number in the series is divisible by 3, it should be skipped. 
+
+**Tip**: The remainder operator `%%` returns the remainder of the division of two numbers:
+ 
+ ```{r}
+ 5%%2
+ ```
 
 
 ### 5. Recursive Functions
