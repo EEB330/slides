@@ -18,8 +18,6 @@ output:
 # Recap
 
 .pull-left[
-### Basic R
-
 - R is an interpreted language, usually used interactively 
 
 - Objects have different classes: vectors, lists, data.frames...
