@@ -6,7 +6,11 @@ date: Sept. 20th, 2023
 output: html_document
 ---
 
+
 # Pre work
+
+## [Assignment Link -- Precept 2: Intro to Control Flow](https://classroom.github.com/a/_i4k6vnv)
+
 
 Make sure that you are comfortable with git and have a basic understanding of R. If you need a refresher, please see the [Precept 1](https://eeb330.github.io/#Precepts) materials and external resources. Feel free to ask any remaining questions.
 
