@@ -285,8 +285,8 @@ x
 ```
 
 ```
-##  [1] 0.44359948 0.23111413 1.28708883 0.56938555 3.01855644 0.49759077
-##  [7] 0.35455366 1.75640900 0.73749904 0.02882587
+##  [1] 0.49472223 0.09241705 0.84414619 1.94370351 0.56821877 1.41727165
+##  [7] 1.41900863 2.23549132 2.85043486 0.48637544
 ```
 
 ```r
@@ -294,7 +294,7 @@ fogoh(x, mean, diff, sort)
 ```
 
 ```
-## [1] 0.3321923
+## [1] 0.3064464
 ```
 ]
 ---
@@ -313,7 +313,7 @@ mean(diff_x)
 ```
 
 ```
-## [1] 0.4241017
+## [1] 0.3334869
 ```
 
 - Nesting calls:
@@ -324,7 +324,7 @@ mean(diff(sort(x)))
 ```
 
 ```
-## [1] 0.4241017
+## [1] 0.3334869
 ```
 ]
 
@@ -339,17 +339,37 @@ x |&gt; sort() |&gt; diff() |&gt; mean()
 ```
 
 ```
-## [1] 0.4241017
+## [1] 0.3334869
 ```
 
 ```r
 # or
 library(magrittr)
+```
+
+```
+## 
+## Attaching package: 'magrittr'
+```
+
+```
+## The following object is masked from 'package:purrr':
+## 
+##     set_names
+```
+
+```
+## The following object is masked from 'package:tidyr':
+## 
+##     extract
+```
+
+```r
 x %&gt;% sort %&gt;% diff %&gt;% mean
 ```
 
 ```
-## [1] 0.4241017
+## [1] 0.3334869
 ```
 
 ![](figures/MagrittePipe.jpg)
@@ -563,7 +583,7 @@ mean
 ```
 ## function (x, ...) 
 ## UseMethod("mean")
-## &lt;bytecode: 0x555c65d977a8&gt;
+## &lt;bytecode: 0x55b888c5dfd0&gt;
 ## &lt;environment: namespace:base&gt;
 ```
 
@@ -649,11 +669,8 @@ methods("mean")
 ```
 
 ```
-##  [1] mean,ANY-method          mean,denseMatrix-method  mean,sparseMatrix-method
-##  [4] mean,sparseVector-method mean.Date                mean.default            
-##  [7] mean.difftime            mean.IDate*              mean.integer64*         
-## [10] mean.ITime*              mean.POSIXct             mean.POSIXlt            
-## [13] mean.quosure*            mean.vctrs_vctr*        
+## [1] mean.Date        mean.default     mean.difftime    mean.POSIXct    
+## [5] mean.POSIXlt     mean.quosure*    mean.vctrs_vctr*
 ## see '?methods' for accessing help and source code
 ```
     </textarea>

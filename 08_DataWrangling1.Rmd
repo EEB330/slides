@@ -1,0 +1,16 @@
+---
+title: "Data Wrangling"
+subtitle: "The verbs of working with data frames"
+author: Diogo Melo
+date: Oct. 2nd, 2023
+runtime: static
+output:
+  xaringan::moon_reader:
+    css: [default, metropolis, metropolis-fonts, "styles.css"]
+    nature:
+      highlightLines: true
+      chakra: libs/remark-latest.min.js
+      beforeInit: "macros.js"
+      ratio: "16:10"
+      countdown: 60000
+---
