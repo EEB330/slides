@@ -6,7 +6,17 @@ date: Sept. 20th, 2023
 output: html_document
 ---
 
-# Introduction to control flows
+# Pre work
+
+Make sure that you are comfortable with git and have a basic understanding of R. If you need a refresher, please see the [Precept 1](https://eeb330.github.io/#Precepts) materials and external resources. Feel free to ask any remaining questions.
+
+Before coming to precept, you should have:
+
+* A working installation of R and RStudio or VS Code
+* A git repository for the precept. This git repository should be created using the precept assignment link. 
+     * In this repository, you should have with a development branch with a working R script (or R Markdown file) that prints "Hello world!"
+
+# Precept 2 --  Introduction to Control Flow in R
 
 Control flows in R determine the sequence in which the instructions are executed. This ability to control the flow of execution allows for more complex and flexible scripts. 
 
@@ -95,7 +105,7 @@ factorial(5)
 
 # Submission
 
-For this precept, please submit a single R Markdown file named `precept01.Rmd`. Please make intermediate commits in your development branch as you write to get in the habit of committing often. You should commit at least once for each question. Finally, you should submit a pull request to merge your development branch into your master branch. As a reminder, once you merge this PR, your assignment will be marked as complete and may be graded.
+For this precept, please submit a single R Markdown file named containing the answers to the exercises found here and in the precept repostitory. Please make intermediate commits in your development branch as you write to get in the habit of committing often. You should commit at least once for each question. Finally, you should submit a pull request and merge your development branch into your main branch. As a reminder, once you merge this PR, your assignment will be marked as complete and may be graded.
 
 
 ## Exercises
@@ -128,7 +138,7 @@ Create a sequence of numbers from 3 to 15. Using a for loop, compute the cumulat
 Starting with a number 50, decrease it by 5% in every iteration using a while loop. Continue the iterations until the number goes below 20. Return the number of iterations it took.
 
 
-### Functions with conditionals and loops
+### 4. Functions with conditionals and loops
 
 Write a function named series_sum that accepts two arguments: a start value 's' and an end value 'e'. The function should sum all numbers from 's' to 'e'. However, if a number in the series is divisible by 3, it should be skipped. 
 
