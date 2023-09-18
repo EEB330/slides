@@ -216,32 +216,32 @@ all.equal(x, y)
 
    The single ampersand `&amp;` operator performs element-wise logical AND between two vectors or scalars. It returns a logical vector of the same length as the inputs, where each element corresponds to the logical AND operation of the corresponding elements in the input vectors.
 
-   
-   ```r
-   x &lt;- c(TRUE, FALSE, TRUE)
-   y &lt;- c(TRUE, TRUE, FALSE)
-   x &amp; y 
-   ```
-   
-   ```
-   ## [1]  TRUE FALSE FALSE
-   ```
+
+```r
+x &lt;- c(TRUE, FALSE, TRUE)
+y &lt;- c(TRUE, TRUE, FALSE)
+x &amp; y 
+```
+
+```
+## [1]  TRUE FALSE FALSE
+```
 ]
 .pull-right[
 * **`|` (OR Operator):**
 
    The single pipe `|` operator performs element-wise logical OR between two vectors or scalars. It returns a logical vector of the same length as the inputs, where each element corresponds to the logical OR operation of the corresponding elements in the input vectors.
 
-   
-   ```r
-   x &lt;- c(TRUE, FALSE, TRUE)
-   y &lt;- c(FALSE, TRUE, FALSE)
-   x | y  
-   ```
-   
-   ```
-   ## [1] TRUE TRUE TRUE
-   ```
+
+```r
+x &lt;- c(TRUE, FALSE, TRUE)
+y &lt;- c(FALSE, TRUE, FALSE)
+x | y  
+```
+
+```
+## [1] TRUE TRUE TRUE
+```
 ]
 ---
 
@@ -254,31 +254,31 @@ all.equal(x, y)
 
    The double `&amp;&amp;` operator performs short-circuit evaluation. It evaluates the left-hand side expression first and only evaluates the right-hand side expression if the left-hand side is `TRUE`. If the left-hand side is `FALSE`, the operator immediately returns `FALSE`.
 
-   
-   ```r
-   x &lt;- 5
-   x &gt; 10 &amp;&amp; z &lt; 7 # z is undefined!
-   ```
-   
-   ```
-   ## [1] FALSE
-   ```
+
+```r
+x &lt;- 5
+x &gt; 10 &amp;&amp; z &lt; 7 # z is undefined!
+```
+
+```
+## [1] FALSE
+```
 ]
 .pull-right[
 * **`||` (Double OR Operator):**
 
    The double `||` operator also performs short-circuit evaluation. It evaluates the left-hand side expression first and only evaluates the right-hand side expression if the left-hand side is `FALSE`. If the left-hand side is `TRUE`, the operator immediately returns `TRUE`.
 
-   
-   ```r
-   x &lt;- 5
-   y &lt;- 7
-   x &gt; 2 || y &gt; 10  
-   ```
-   
-   ```
-   ## [1] TRUE
-   ```
+
+```r
+x &lt;- 5
+y &lt;- 7
+x &gt; 2 || y &gt; 10  
+```
+
+```
+## [1] TRUE
+```
 ]
 ---
 
@@ -299,61 +299,61 @@ Double operators are particularly useful when you want to optimize code executio
 - Sometimes we need to evaluate vectors of boolean variables. Some combination of `any`, `all` or `!` usually solves the problem.
 - `!` is a negation operator, it inverts logical values
 
-   
-   ```r
-   bool_vec = c(FALSE, TRUE, TRUE)
-   bool_vec
-   ```
-   
-   ```
-   ## [1] FALSE  TRUE  TRUE
-   ```
-   
-   ```r
-   !bool_vec
-   ```
-   
-   ```
-   ## [1]  TRUE FALSE FALSE
-   ```
+
+```r
+bool_vec = c(FALSE, TRUE, TRUE)
+bool_vec
+```
+
+```
+## [1] FALSE  TRUE  TRUE
+```
+
+```r
+!bool_vec
+```
+
+```
+## [1]  TRUE FALSE FALSE
+```
 
 --
 
 .pull-left[
-  
-  ```r
-   any(bool_vec) # Is any value true?
-  ```
-  
-  ```
-  ## [1] TRUE
-  ```
-  
-  ```r
-   all(bool_vec) # Are all values true?
-  ```
-  
-  ```
-  ## [1] FALSE
-  ```
+
+```r
+any(bool_vec) # Is any value true?
+```
+
+```
+## [1] TRUE
+```
+
+```r
+all(bool_vec) # Are all values true?
+```
+
+```
+## [1] FALSE
+```
 ]
 .pull-right[
-  
-  ```r
-   any(!bool_vec) # Is any value false?
-  ```
-  
-  ```
-  ## [1] TRUE
-  ```
-  
-  ```r
-   all(!bool_vec) # Are all values false?
-  ```
-  
-  ```
-  ## [1] FALSE
-  ```
+
+```r
+  any(!bool_vec) # Is any value false?
+```
+
+```
+## [1] TRUE
+```
+
+```r
+  all(!bool_vec) # Are all values false?
+```
+
+```
+## [1] FALSE
+```
 ]
 
 ---
@@ -515,7 +515,7 @@ grades
 ```
 
 ```
-## [1] 86 77 73 94 95
+## [1] 98 78 94 89 85
 ```
 
 ```r
@@ -527,7 +527,7 @@ letter_grades
 ```
 
 ```
-## [1] "B" "C" "C" "A" "A"
+## [1] "A" "C" "A" "B" "B"
 ```
 ]
 
@@ -545,7 +545,7 @@ grades
 ```
 
 ```
-## [1] 86 77 73 94 95
+## [1] 98 78 94 89 85
 ```
 Good:
 
@@ -558,7 +558,7 @@ letter_grades
 ```
 
 ```
-## [1] "B" "C" "C" "A" "A"
+## [1] "A" "C" "A" "B" "B"
 ```
 ]
 
@@ -572,7 +572,7 @@ grades
 ```
 
 ```
-## [1] 86 77 73 94 95
+## [1] 98 78 94 89 85
 ```
 Bad:
 
@@ -585,7 +585,7 @@ letter_grades
 ```
 
 ```
-## [1] "A"
+## [1] "B"
 ```
 ]
 
@@ -608,13 +608,13 @@ out
 
 ```
 ## [[1]]
-## [1] 0.9298107 0.7594060 3.2930556
+## [1] 1.6328626 1.4042683 0.8938755
 ## 
 ## [[2]]
-## [1] 50.90480 52.01597 50.70198
+## [1] 51.51152 49.90534 52.01842
 ## 
 ## [[3]]
-## [1] 21.25536 19.92071 19.61549
+## [1] 19.93729 21.30487 22.28665
 ```
 ]
 
@@ -859,7 +859,7 @@ H
 
 
 ```r
-species_n = c(a = NA, b = 0, c = 10, d = 3, e = 9,  
+species_n = c(a = NA, b = 0, c = 10, d = 3, e = 9,
               f = 10, g = 18, h = 22, i = 8, j = 8)
 barplot(species_n)
 ```
@@ -883,7 +883,7 @@ barplot(species_n)
 
 
 ```r
-species_n = c(a = NA, b = 0, c = 10, d = 3, e = 9,  
+species_n = c(a = NA, b = 0, c = 10, d = 3, e = 9,
               f = 10, g = 18, h = 22, i = 8, j = 8)
 n_total = 0
 for(i in seq_along(species_n)){
@@ -1010,6 +1010,7 @@ n_total
 - Beware of the missing values! NAs can ruin your day
   - but are a fact of life and one of the great features of R
 
+- Next lecture we will cover functions in detail!
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>

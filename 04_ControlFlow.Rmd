@@ -167,22 +167,22 @@ all.equal(x, y)
 
    The single ampersand `&` operator performs element-wise logical AND between two vectors or scalars. It returns a logical vector of the same length as the inputs, where each element corresponds to the logical AND operation of the corresponding elements in the input vectors.
 
-   ```{r}
-   x <- c(TRUE, FALSE, TRUE)
-   y <- c(TRUE, TRUE, FALSE)
-   x & y 
-   ```
+```{r}
+x <- c(TRUE, FALSE, TRUE)
+y <- c(TRUE, TRUE, FALSE)
+x & y 
+```
 ]
 .pull-right[
 * **`|` (OR Operator):**
 
    The single pipe `|` operator performs element-wise logical OR between two vectors or scalars. It returns a logical vector of the same length as the inputs, where each element corresponds to the logical OR operation of the corresponding elements in the input vectors.
 
-   ```{r}
-   x <- c(TRUE, FALSE, TRUE)
-   y <- c(FALSE, TRUE, FALSE)
-   x | y  
-   ```
+```{r}
+x <- c(TRUE, FALSE, TRUE)
+y <- c(FALSE, TRUE, FALSE)
+x | y  
+```
 ]
 ---
 
@@ -195,21 +195,21 @@ all.equal(x, y)
 
    The double `&&` operator performs short-circuit evaluation. It evaluates the left-hand side expression first and only evaluates the right-hand side expression if the left-hand side is `TRUE`. If the left-hand side is `FALSE`, the operator immediately returns `FALSE`.
 
-   ```{r}
-   x <- 5
-   x > 10 && z < 7 # z is undefined!
-   ```
+```{r}
+x <- 5
+x > 10 && z < 7 # z is undefined!
+```
 ]
 .pull-right[
 * **`||` (Double OR Operator):**
 
    The double `||` operator also performs short-circuit evaluation. It evaluates the left-hand side expression first and only evaluates the right-hand side expression if the left-hand side is `FALSE`. If the left-hand side is `TRUE`, the operator immediately returns `TRUE`.
 
-   ```{r}
-   x <- 5
-   y <- 7
-   x > 2 || y > 10  
-   ```
+```{r}
+x <- 5
+y <- 7
+x > 2 || y > 10  
+```
 ]
 ---
 
@@ -230,25 +230,25 @@ Double operators are particularly useful when you want to optimize code executio
 - Sometimes we need to evaluate vectors of boolean variables. Some combination of `any`, `all` or `!` usually solves the problem.
 - `!` is a negation operator, it inverts logical values
 
-   ```{r}
-   bool_vec = c(FALSE, TRUE, TRUE)
-   bool_vec
-   !bool_vec
-   ```
+```{r}
+bool_vec = c(FALSE, TRUE, TRUE)
+bool_vec
+!bool_vec
+```
 
 --
 
 .pull-left[
-  ```{r}
-   any(bool_vec) # Is any value true?
-   all(bool_vec) # Are all values true?
-  ```
+```{r}
+any(bool_vec) # Is any value true?
+all(bool_vec) # Are all values true?
+```
 ]
 .pull-right[
-  ```{r}
-   any(!bool_vec) # Is any value false?
-   all(!bool_vec) # Are all values false?
-  ```
+```{r}
+  any(!bool_vec) # Is any value false?
+  all(!bool_vec) # Are all values false?
+```
 ]
 
 ---
@@ -633,7 +633,7 @@ H
 
 
 ```{r}
-species_n = c(a = NA, b = 0, c = 10, d = 3, e = 9,  
+species_n = c(a = NA, b = 0, c = 10, d = 3, e = 9,
               f = 10, g = 18, h = 22, i = 8, j = 8)
 barplot(species_n)
 ```
@@ -649,7 +649,7 @@ barplot(species_n)
 --
 
 ```{r}
-species_n = c(a = NA, b = 0, c = 10, d = 3, e = 9,  
+species_n = c(a = NA, b = 0, c = 10, d = 3, e = 9,
               f = 10, g = 18, h = 22, i = 8, j = 8)
 n_total = 0
 for(i in seq_along(species_n)){
@@ -710,3 +710,4 @@ n_total
 - Beware of the missing values! NAs can ruin your day
   - but are a fact of life and one of the great features of R
 
+- Next lecture we will cover functions in detail!
