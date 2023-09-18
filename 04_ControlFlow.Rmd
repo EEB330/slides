@@ -23,14 +23,13 @@ output:
 - R is an interpreted language, usually used interactively 
 
 - Objects have different classes: vectors, lists, data.frames...
+  - These objects can be numbers (integer and double), strings (characters), logical (boolean), or other objects
 
-- These objects can be numbers (integer and double), strings (characters), or logical (boolen)
-
-- We can store and use these variables by assigning them names
+- We can store and use these variables by assigning them **names** (`=`, `<-`)
 
 - All objects can be **indexed**, allowing us to access parts of the objects
 
-- Objects can modified, either by replacing the object with a new value, or modifying only a part of the object
+- Objects can be modified, either by replacing the object with a new value, or modifying only a part of the object
 
 ]
 
@@ -43,9 +42,18 @@ output:
 
 - We use git to have an annotated history of all the changes we did to a script files
 
-- This allows us to return to previous versions of code, and to 
+- Git can also maintain different "states" of the files in a directory. These are stored in **branches**
+
+- Different versions can be merged, either automatically or manually, and this allows for asynchronous collaboration
 ]
 
+---
+
+# Lectures can not teach you to draw the owl!
+
+.center[
+![:scale 50%](figures/owl.png)
+]
 
 ---
 
@@ -77,14 +85,6 @@ Coming next:
   - Conditionals
 
   - Loops
-
----
-
-# Lectures can not teach you to draw the owl!
-
-.center[
-![:scale 50%](figures/owl.png)
-]
 
 ---
 

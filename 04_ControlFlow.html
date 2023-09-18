@@ -38,20 +38,37 @@ class: center, middle, inverse, title-slide
 - R is an interpreted language, usually used interactively 
 
 - Objects have different classes: vectors, lists, data.frames...
+  - These objects can be numbers (integer and double), strings (characters), logical (boolean), or other objects
 
-- These objects can be numbers (integer and double), strings (characters), or logical (boolen)
-
-- We can store and use these variables by assigning them names
+- We can store and use these variables by assigning them **names** (`=`, `&lt;-`)
 
 - All objects can be **indexed**, allowing us to access parts of the objects
 
-- Objects can modified, either by replacing the object with a new value, or modifying only a part of the object
+- Objects can be modified, either by replacing the object with a new value, or modifying only a part of the object
 
 ]
+
+--
+
 .pull-right[
+### Version control
 
+- Git is a version control program that tracks and stores the changes of the files in a directory
+
+- We use git to have an annotated history of all the changes we did to a script files
+
+- Git can also maintain different "states" of the files in a directory. These are stored in **branches**
+
+- Different versions can be merged, either automatically or manually, and this allows for asynchronous collaboration
 ]
 
+---
+
+# Lectures can not teach you to draw the owl!
+
+.center[
+![:scale 50%](figures/owl.png)
+]
 
 ---
 
@@ -93,14 +110,6 @@ Coming next:
   - Conditionals
 
   - Loops
-
----
-
-# Lectures can not teach you to draw the owl!
-
-.center[
-![:scale 50%](figures/owl.png)
-]
 
 ---
 
@@ -506,7 +515,7 @@ grades
 ```
 
 ```
-## [1] 91 77 80 92 84
+## [1] 86 77 73 94 95
 ```
 
 ```r
@@ -518,7 +527,7 @@ letter_grades
 ```
 
 ```
-## [1] "A" "C" "C" "A" "B"
+## [1] "B" "C" "C" "A" "A"
 ```
 ]
 
@@ -536,7 +545,7 @@ grades
 ```
 
 ```
-## [1] 91 77 80 92 84
+## [1] 86 77 73 94 95
 ```
 Good:
 
@@ -549,7 +558,7 @@ letter_grades
 ```
 
 ```
-## [1] "A" "C" "C" "A" "B"
+## [1] "B" "C" "C" "A" "A"
 ```
 ]
 
@@ -563,7 +572,7 @@ grades
 ```
 
 ```
-## [1] 91 77 80 92 84
+## [1] 86 77 73 94 95
 ```
 Bad:
 
@@ -576,7 +585,7 @@ letter_grades
 ```
 
 ```
-## [1] "B"
+## [1] "A"
 ```
 ]
 
@@ -599,13 +608,13 @@ out
 
 ```
 ## [[1]]
-## [1] 1.871216 1.247344 1.898976
+## [1] 0.9298107 0.7594060 3.2930556
 ## 
 ## [[2]]
-## [1] 48.93739 49.16007 50.21252
+## [1] 50.90480 52.01597 50.70198
 ## 
 ## [[3]]
-## [1] 19.63743 19.30062 19.67452
+## [1] 21.25536 19.92071 19.61549
 ```
 ]
 
