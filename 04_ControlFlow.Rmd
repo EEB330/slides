@@ -15,15 +15,76 @@ output:
       countdown: 60000
 ---
 
+# Recap
+
+.pull-left[
+### Basic R
+
+- R is an interpreted language, usually used interactively 
+
+- Objects have different classes: vectors, lists, data.frames...
+
+- These objects can be numbers (integer and double), strings (characters), or logical (boolen)
+
+- We can store and use these variables by assigning them names
+
+- All objects can be **indexed**, allowing us to access parts of the objects
+
+- Objects can modified, either by replacing the object with a new value, or modifying only a part of the object
+
+]
+
+--
+
+.pull-right[
+### Version control
+
+- Git is a version control program that tracks and stores the changes of the files in a directory
+
+- We use git to have an annotated history of all the changes we did to a script files
+
+- This allows us to return to previous versions of code, and to 
+]
+
+
+---
+
 # The basic elements of an algorithm
 
 - Variables
 
+  - See the [basic R lecture](slides/02_BasicR.html), but basically storing values in objects to use later:
+
+```{r}
+x = 1
+y <- 2
+x <- x + y
+x * 4
+```
+
+--
+
 - Logical comparisons
 
-- Conditionals
+```{r}
+x > y
+```
 
-- Loops
+--
+
+Coming next:
+
+  - Conditionals
+
+  - Loops
+
+---
+
+# Lectures can not teach you to draw the owl!
+
+.center[
+![:scale 50%](figures/owl.png)
+]
 
 ---
 
@@ -32,6 +93,11 @@ output:
 ![:scale 50%](figures/gwas-flowchart.png)
 
 .ref[Turner, S. et al. Quality control procedures for genome-wide association studies. Curr. Protoc. Hum. Genet. Chapter 1, Unit1.19 (2011)]
+
+---
+
+class: inverse, center, middle
+# Logical operators
 
 ---
 
@@ -47,12 +113,12 @@ output:
 
 ## Single Comparison Operators
 
-- ">" : Greater than
-- "<" : Less than
-- ">=" : Greater than or equal to
-- "<=" : Less than or equal to
-- "==" : Equal to
-- "!=" : Not equal to
+- `>` : Greater than
+- `<` : Less than
+- `>=` : Greater than or equal to
+- `<=` : Less than or equal to
+- `==` : Equal to (doubled because we use `=` for assignment)
+- `!=` : Not equal to
 
 ```{r}
 x <- 5
@@ -87,6 +153,7 @@ y <- 0.3
 x == y
 epsilon <- 1e-10
 abs(x - y) < epsilon
+all.equal(x, y)
 ```
 ]
 ---
@@ -148,21 +215,29 @@ abs(x - y) < epsilon
 
 # Single vs double operators
 
-In summary, single operators (`&` and `|`) always evaluate both sides of the expressions, producing vectors of logical results. Double operators (`&&` and `||`) perform short-circuit evaluation, meaning they only evaluate the right-hand side if necessary, and return a single logical value. Double operators are particularly useful when you want to optimize code execution by avoiding unnecessary evaluations.
+In summary:
+
+- Single operators (`&` and `|`) always evaluate both sides of the expressions, producing vectors of logical results. 
+
+- Double operators (`&&` and `||`) perform short-circuit evaluation, meaning they only evaluate the right-hand side if necessary, and return a single logical value. 
+
+Double operators are particularly useful when you want to optimize code execution by avoiding unnecessary evaluations.
 
 ---
 
-# any, all and `!`
+# Summarizing logical vectors: `any`, `all` and `!`
 
-- Sometimes we need to evaluate vectors of boolean variables. 
-
-- Some combination of any, all or `!` usually solves the problem
+- Sometimes we need to evaluate vectors of boolean variables. Some combination of `any`, `all` or `!` usually solves the problem.
+- `!` is a negation operator, it inverts logical values
 
    ```{r}
    bool_vec = c(FALSE, TRUE, TRUE)
    bool_vec
    !bool_vec
    ```
+
+--
+
 .pull-left[
   ```{r}
    any(bool_vec) # Is any value true?
@@ -177,7 +252,12 @@ In summary, single operators (`&` and `|`) always evaluate both sides of the exp
 ]
 
 ---
- 
+
+class: inverse, center, middle
+# Conditionals
+
+---
+
 # if statements 
 
 .pull-left[
@@ -244,7 +324,13 @@ ifelse(x %% 2 == 0, "even", "odd")
 
 ---
 
+class: inverse, center, middle
 # Loops
+
+---
+
+
+# Repeated operations
 
 .pull-left[
 ### Basic structure

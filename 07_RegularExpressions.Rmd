@@ -134,6 +134,11 @@ gsub("quote", "banana", string2)
 
 ---
 
+class: inverse, center, middle
+# Regular expressions
+
+---
+
 # Regular expressions
 
 .pull-left[
@@ -152,6 +157,10 @@ gsub("quote", "banana", string2)
 ![](https://imgs.xkcd.com/comics/regular_expressions.png)
 ]
 
+---
+
+class: inverse, center, middle
+# Regular expressions are super confusing!
 
 ---
 
@@ -467,4 +476,64 @@ sentences[1:5] |>
 ---
 
 # Other useful `stringr` functions
+
+- `str_detect()` : returns a logical vector of the same length as the initial vector
+
+```{r}
+str_detect(c("a", "b", "c"), "[aeiou]")
+```
+
+- Example with the `filter()` function, which we will see in the Data Wrangling class
+
+```{r}
+library(tidyverse)
+library(babynames)
+babynames |> 
+  filter(str_detect(name, "x")) |> 
+  count(name, wt = n, sort = TRUE)
+```
+---
+
+# Other useful `stringr` functions
+
+.pull-left[
+- The next step up in complexity from `str_detect()` is `str_count()`
+  - rather than a true or false, it tells you how many matches there are in each string.
+
+```{r}
+x <- c("apple", "banana", "pear")
+str_count(x, "p")
+```
+]
+--
+
+.pull-right[
+
+- Pairs naturaly with `mutate()`, which again we will revisit in the Data Wrangling class.
+
+```{r}
+babynames |> 
+  count(name) |> 
+  mutate(
+    vowels = str_count(name, "[aeiou]"),
+    consonants = str_count(name, "[^aeiou]")
+  )
+```
+]
+
+---
+
+# Replacing using regex
+
+We have two match-replace functions:
+
+- `str_replace()`: replaces the first match
+- `str_replace_all()`: replaces all matches
+
+```{r}
+x <- c("apple", "pear", "banana")
+str_replace_all(x, "[aeiou]", "-")
+```
+
+---
 

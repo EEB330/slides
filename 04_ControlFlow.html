@@ -30,15 +30,77 @@ class: center, middle, inverse, title-slide
 ---
 
 
+# Recap
+
+.pull-left[
+### Basic R
+
+- R is an interpreted language, usually used interactively 
+
+- Objects have different classes: vectors, lists, data.frames...
+
+- These objects can be numbers (integer and double), strings (characters), or logical (boolen)
+
+- We can store and use these variables by assigning them names
+
+- All objects can be **indexed**, allowing us to access parts of the objects
+
+- Objects can modified, either by replacing the object with a new value, or modifying only a part of the object
+
+]
+.pull-right[
+
+]
+
+
+---
+
 # The basic elements of an algorithm
 
 - Variables
 
+  - See the [basic R lecture](slides/02_BasicR.html), but basically storing values in objects to use later:
+
+
+```r
+x = 1
+y &lt;- 2
+x &lt;- x + y
+x * 4
+```
+
+```
+## [1] 12
+```
+
+--
+
 - Logical comparisons
 
-- Conditionals
 
-- Loops
+```r
+x &gt; y
+```
+
+```
+## [1] TRUE
+```
+
+--
+
+Coming next:
+
+  - Conditionals
+
+  - Loops
+
+---
+
+# Lectures can not teach you to draw the owl!
+
+.center[
+![:scale 50%](figures/owl.png)
+]
 
 ---
 
@@ -47,6 +109,11 @@ class: center, middle, inverse, title-slide
 ![:scale 50%](figures/gwas-flowchart.png)
 
 .ref[Turner, S. et al. Quality control procedures for genome-wide association studies. Curr. Protoc. Hum. Genet. Chapter 1, Unit1.19 (2011)]
+
+---
+
+class: inverse, center, middle
+# Logical operators
 
 ---
 
@@ -62,12 +129,12 @@ class: center, middle, inverse, title-slide
 
 ## Single Comparison Operators
 
-- "&gt;" : Greater than
-- "&lt;" : Less than
-- "&gt;=" : Greater than or equal to
-- "&lt;=" : Less than or equal to
-- "==" : Equal to
-- "!=" : Not equal to
+- `&gt;` : Greater than
+- `&lt;` : Less than
+- `&gt;=` : Greater than or equal to
+- `&lt;=` : Less than or equal to
+- `==` : Equal to (doubled because we use `=` for assignment)
+- `!=` : Not equal to
 
 
 ```r
@@ -115,6 +182,14 @@ x == y
 ```r
 epsilon &lt;- 1e-10
 abs(x - y) &lt; epsilon
+```
+
+```
+## [1] TRUE
+```
+
+```r
+all.equal(x, y)
 ```
 
 ```
@@ -200,15 +275,20 @@ abs(x - y) &lt; epsilon
 
 # Single vs double operators
 
-In summary, single operators (`&amp;` and `|`) always evaluate both sides of the expressions, producing vectors of logical results. Double operators (`&amp;&amp;` and `||`) perform short-circuit evaluation, meaning they only evaluate the right-hand side if necessary, and return a single logical value. Double operators are particularly useful when you want to optimize code execution by avoiding unnecessary evaluations.
+In summary:
+
+- Single operators (`&amp;` and `|`) always evaluate both sides of the expressions, producing vectors of logical results. 
+
+- Double operators (`&amp;&amp;` and `||`) perform short-circuit evaluation, meaning they only evaluate the right-hand side if necessary, and return a single logical value. 
+
+Double operators are particularly useful when you want to optimize code execution by avoiding unnecessary evaluations.
 
 ---
 
-# any, all and `!`
+# Summarizing logical vectors: `any`, `all` and `!`
 
-- Sometimes we need to evaluate vectors of boolean variables. 
-
-- Some combination of any, all or `!` usually solves the problem
+- Sometimes we need to evaluate vectors of boolean variables. Some combination of `any`, `all` or `!` usually solves the problem.
+- `!` is a negation operator, it inverts logical values
 
    
    ```r
@@ -227,6 +307,9 @@ In summary, single operators (`&amp;` and `|`) always evaluate both sides of the
    ```
    ## [1]  TRUE FALSE FALSE
    ```
+
+--
+
 .pull-left[
   
   ```r
@@ -265,7 +348,12 @@ In summary, single operators (`&amp;` and `|`) always evaluate both sides of the
 ]
 
 ---
- 
+
+class: inverse, center, middle
+# Conditionals
+
+---
+
 # if statements 
 
 .pull-left[
@@ -360,7 +448,13 @@ ifelse(x %% 2 == 0, "even", "odd")
 
 ---
 
+class: inverse, center, middle
 # Loops
+
+---
+
+
+# Repeated operations
 
 .pull-left[
 ### Basic structure
@@ -412,7 +506,7 @@ grades
 ```
 
 ```
-## [1] 99 98 72 85 81
+## [1] 91 77 80 92 84
 ```
 
 ```r
@@ -424,7 +518,7 @@ letter_grades
 ```
 
 ```
-## [1] "A" "A" "C" "B" "B"
+## [1] "A" "C" "C" "A" "B"
 ```
 ]
 
@@ -442,7 +536,7 @@ grades
 ```
 
 ```
-## [1] 99 98 72 85 81
+## [1] 91 77 80 92 84
 ```
 Good:
 
@@ -455,7 +549,7 @@ letter_grades
 ```
 
 ```
-## [1] "A" "A" "C" "B" "B"
+## [1] "A" "C" "C" "A" "B"
 ```
 ]
 
@@ -469,7 +563,7 @@ grades
 ```
 
 ```
-## [1] 99 98 72 85 81
+## [1] 91 77 80 92 84
 ```
 Bad:
 
@@ -505,13 +599,13 @@ out
 
 ```
 ## [[1]]
-## [1] 2.314959 1.978168 1.881791
+## [1] 1.871216 1.247344 1.898976
 ## 
 ## [[2]]
-## [1] 50.48220 50.96575 49.18543
+## [1] 48.93739 49.16007 50.21252
 ## 
 ## [[3]]
-## [1] 20.28396 19.83830 21.93557
+## [1] 19.63743 19.30062 19.67452
 ```
 ]
 
@@ -659,7 +753,7 @@ species_n = c(a = 5, b = 1, c = 10, d = 3, e = 9,
 barplot(species_n)
 ```
 
-![](04_ControlFlow_files/figure-html/unnamed-chunk-23-1.png)&lt;!-- --&gt;
+![](04_ControlFlow_files/figure-html/unnamed-chunk-25-1.png)&lt;!-- --&gt;
 
 ---
 
@@ -761,7 +855,7 @@ species_n = c(a = NA, b = 0, c = 10, d = 3, e = 9,
 barplot(species_n)
 ```
 
-![](04_ControlFlow_files/figure-html/unnamed-chunk-28-1.png)&lt;!-- --&gt;
+![](04_ControlFlow_files/figure-html/unnamed-chunk-30-1.png)&lt;!-- --&gt;
 
 ---
 

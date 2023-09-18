@@ -202,6 +202,11 @@ gsub("quote", "banana", string2)
 
 ---
 
+class: inverse, center, middle
+# Regular expressions
+
+---
+
 # Regular expressions
 
 .pull-left[
@@ -220,6 +225,10 @@ gsub("quote", "banana", string2)
 ![](https://imgs.xkcd.com/comics/regular_expressions.png)
 ]
 
+---
+
+class: inverse, center, middle
+# Regular expressions are super confusing!
 
 ---
 
@@ -776,6 +785,117 @@ sentences[1:5] |&gt;
 ---
 
 # Other useful `stringr` functions
+
+- `str_detect()` : returns a logical vector of the same length as the initial vector
+
+
+```r
+str_detect(c("a", "b", "c"), "[aeiou]")
+```
+
+```
+## [1]  TRUE FALSE FALSE
+```
+
+- Example with the `filter()` function, which we will see in the Data Wrangling class
+
+
+```r
+library(tidyverse)
+library(babynames)
+babynames |&gt; 
+  filter(str_detect(name, "x")) |&gt; 
+  count(name, wt = n, sort = TRUE)
+```
+
+```
+## # A tibble: 974 × 2
+##    name            n
+##    &lt;chr&gt;       &lt;int&gt;
+##  1 Alexander  665492
+##  2 Alexis     399551
+##  3 Alex       278705
+##  4 Alexandra  232223
+##  5 Max        148787
+##  6 Alexa      123032
+##  7 Maxine     112261
+##  8 Alexandria  97679
+##  9 Maxwell     90486
+## 10 Jaxon       71234
+## # ℹ 964 more rows
+```
+---
+
+# Other useful `stringr` functions
+
+.pull-left[
+- The next step up in complexity from `str_detect()` is `str_count()`
+  - rather than a true or false, it tells you how many matches there are in each string.
+
+
+```r
+x &lt;- c("apple", "banana", "pear")
+str_count(x, "p")
+```
+
+```
+## [1] 2 0 1
+```
+]
+--
+
+.pull-right[
+
+- Pairs naturaly with `mutate()`, which again we will revisit in the Data Wrangling class.
+
+
+```r
+babynames |&gt; 
+  count(name) |&gt; 
+  mutate(
+    vowels = str_count(name, "[aeiou]"),
+    consonants = str_count(name, "[^aeiou]")
+  )
+```
+
+```
+## # A tibble: 97,310 × 4
+##    name          n vowels consonants
+##    &lt;chr&gt;     &lt;int&gt;  &lt;int&gt;      &lt;int&gt;
+##  1 Aaban        10      2          3
+##  2 Aabha         5      2          3
+##  3 Aabid         2      2          3
+##  4 Aabir         1      2          3
+##  5 Aabriella     5      4          5
+##  6 Aada          1      2          2
+##  7 Aadam        26      2          3
+##  8 Aadan        11      2          3
+##  9 Aadarsh      17      2          5
+## 10 Aaden        18      2          3
+## # ℹ 97,300 more rows
+```
+]
+
+---
+
+# Replacing using regex
+
+We have two match-replace functions:
+
+- `str_replace()`: replaces the first match
+- `str_replace_all()`: replaces all matches
+
+
+```r
+x &lt;- c("apple", "pear", "banana")
+str_replace_all(x, "[aeiou]", "-")
+```
+
+```
+## [1] "-ppl-"  "p--r"   "b-n-n-"
+```
+
+---
 
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
