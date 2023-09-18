@@ -15,6 +15,10 @@ output:
       countdown: 60000
 ---
 
+```{r, echo = FALSE}
+set.seed(42)
+```
+
 # Functions
 
 .pull-left[
@@ -245,6 +249,11 @@ mean(diff(sort(x)))
 
 ```{r}
 x |> sort() |> diff() |> mean()
+
+```{r, echo = FALSE}
+suppressPackageStartupMessages(library(magrittr))
+```
+```{r}
 # or
 library(magrittr)
 x %>% sort %>% diff %>% mean
