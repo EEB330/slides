@@ -30,6 +30,313 @@ class: center, middle, inverse, title-slide
 ---
 
 
+
+
+# Example: Diversity metrics in ecology
+
+Diversity consists of two components: 
+
+- Species richness : the number of species in a community
+- Evenness: some species in a community are common, and others are rare 
+
+.center[
+![:scale 50%](figures/bubbles-sad-3in1.png)]
+
+.ref[ Adapted from https://www.davidzeleny.net/anadat-r/doku.php/en:div-ind]
+
+---
+
+# Simpson diversity index
+
+.pull-left[
+
+- Related to the Gini inequality index.
+
+- Defined as **the probability that two individuals sampled from the same population will be from the same species.**
+
+  - Given a list of individuals for each species: `\(\{n_1, n_2, \dots, n_k\}\)`
+
+  - First we define the proportion of each species: `\(p_i =  \frac{n_i}{\sum_{i=1}^k n_i}\)`
+
+  - The Simpson index is given by:
+
+$$
+D = \sum_{i=1}^k p_i^2
+$$
+]
+
+---
+
+# Shannon diversity index
+
+.pull-left[
+- Derived from information theory
+
+- Shannon's entropy is the micro-canonical entropy from statistical mechanics.
+
+- Measures the degree of uniformity in the probabilities of observing each species.
+
+  - Again, using the probabilities of observing each species: `\(p_i =  \frac{n_i}{\sum_{i=1}^k n_i}\)`
+
+  - The Shannon index is given by:
+
+
+$$
+H = -\sum_{i=1}^k p_i log(p_i)
+$$
+
+]
+---
+
+# Example dataset
+
+
+```r
+species_n = c(a = 5, b = 1, c = 10, d = 3, e = 9, 
+              f = 10, g = 18, h = 22, i = 8, j = 8)
+barplot(species_n)
+```
+
+![](05_Functions_files/figure-html/unnamed-chunk-2-1.png)&lt;!-- --&gt;
+
+---
+
+# Getting the proportions
+
+.pull-left[
+Calculate the total number of individuals
+
+
+```r
+n_total = 0
+for(i in seq_along(species_n)){
+  n_total &lt;- n_total + species_n[i]
+}
+n_total
+```
+
+```
+##  a 
+## 94
+```
+
+Calculate the proportion of each species:
+
+```r
+props = species_n / n_total
+round(props, 2) # Only print 2 decimal places
+```
+
+```
+##    a    b    c    d    e    f    g    h    i    j 
+## 0.05 0.01 0.11 0.03 0.10 0.11 0.19 0.23 0.09 0.09
+```
+]
+.pull-right[
+
+### Simpson 
+$$
+D = \sum_{i=1}^k p_i^2
+$$
+
+### Shannon
+$$
+H = -\sum_{i=1}^k p_i log(p_i)
+$$
+
+]
+
+---
+
+# Simpson and Shannon
+
+.pull-left[
+Simpson index:
+ 
+
+```r
+D = 0
+names(D) = "Simpson"
+for(i in seq_along(props)){
+  D = D + props[i]^2
+}
+D
+```
+
+```
+##   Simpson 
+## 0.1416931
+```
+]
+
+.pull-right[
+Shannon index:
+ 
+
+```r
+H = 0
+names(H) = "Shannon"
+for(i in seq_along(props)){
+  H = H - props[i] * log(props[i])
+}
+H
+```
+
+```
+##  Shannon 
+## 2.091482
+```
+]
+---
+
+# What if there are unobserved species?
+
+
+
+```r
+species_n = c(a = NA, b = 0, c = 10, d = 3, e = 9,
+              f = 10, g = 18, h = 22, i = 8, j = 8)
+barplot(species_n)
+```
+
+![](05_Functions_files/figure-html/unnamed-chunk-7-1.png)&lt;!-- --&gt;
+
+---
+
+# NA propagates
+
+
+```r
+1 + NA
+```
+
+```
+## [1] NA
+```
+
+--
+
+
+```r
+species_n = c(a = NA, b = 0, c = 10, d = 3, e = 9,
+              f = 10, g = 18, h = 22, i = 8, j = 8)
+n_total = 0
+for(i in seq_along(species_n)){
+  n_total &lt;- n_total + species_n[i]
+}
+n_total
+```
+
+```
+##  a 
+## NA
+```
+
+```r
+(props = species_n / n_total)
+```
+
+```
+##  a  b  c  d  e  f  g  h  i  j 
+## NA NA NA NA NA NA NA NA NA NA
+```
+
+---
+
+# Checking for zeros and NAs
+
+
+```r
+species_n
+```
+
+```
+##  a  b  c  d  e  f  g  h  i  j 
+## NA  0 10  3  9 10 18 22  8  8
+```
+
+```r
+species_n == 0
+```
+
+```
+##     a     b     c     d     e     f     g     h     i     j 
+##    NA  TRUE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+```
+
+```r
+is.na(species_n)
+```
+
+```
+##     a     b     c     d     e     f     g     h     i     j 
+##  TRUE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+```
+
+--
+
+Removing NAs and zeros:
+
+.pull-left[
+
+```r
+(species_n &lt;- species_n[!is.na(species_n)])
+```
+
+```
+##  b  c  d  e  f  g  h  i  j 
+##  0 10  3  9 10 18 22  8  8
+```
+]
+.pull-right[
+
+```r
+(species_n &lt;- species_n[species_n != 0])
+```
+
+```
+##  c  d  e  f  g  h  i  j 
+## 10  3  9 10 18 22  8  8
+```
+]
+
+---
+
+# After NA removal, all is well
+
+
+```r
+species_n = c(a = NA, b = 0, c = 10, d = 3, e = 9,  
+              f = 10, g = 18, h = 22, i = 8, j = 8)
+*(species_n &lt;- na.omit(species_n))
+```
+
+```
+##  b  c  d  e  f  g  h  i  j 
+##  0 10  3  9 10 18 22  8  8 
+## attr(,"na.action")
+## a 
+## 1 
+## attr(,"class")
+## [1] "omit"
+```
+
+```r
+n_total = 0
+for(i in seq_along(species_n)){
+  n_total &lt;- n_total + species_n[i]
+}
+n_total
+```
+
+```
+##  b 
+## 88
+```
+
+---
+
+
 # Functions
 
 .pull-left[
@@ -285,8 +592,8 @@ x
 ```
 
 ```
-##  [1] 0.05714136 1.25396105 0.30981574 0.47519124 0.62211028 1.24558031
-##  [7] 0.37033946 4.86280500 0.66583216 4.99596850
+##  [1] 0.1983368 0.6608953 0.2834910 0.0381919 0.4731766 1.4636271 0.3139846
+##  [8] 0.4101296 1.1915978 0.7148625
 ```
 
 ```r
@@ -294,7 +601,7 @@ fogoh(x, mean, diff, sort)
 ```
 
 ```
-## [1] 0.5487586
+## [1] 0.1583817
 ```
 ]
 ---
@@ -313,7 +620,7 @@ mean(diff_x)
 ```
 
 ```
-## [1] 0.3105555
+## [1] 0.2612826
 ```
 
 - Nesting calls:
@@ -324,7 +631,7 @@ mean(diff(sort(x)))
 ```
 
 ```
-## [1] 0.3105555
+## [1] 0.2612826
 ```
 ]
 
@@ -339,7 +646,7 @@ x |&gt; sort() |&gt; diff() |&gt; mean()
 ```
 
 ```
-## [1] 0.3105555
+## [1] 0.2612826
 ```
 
 
@@ -350,7 +657,7 @@ x %&gt;% sort %&gt;% diff %&gt;% mean
 ```
 
 ```
-## [1] 0.3105555
+## [1] 0.2612826
 ```
 
 ![](figures/MagrittePipe.jpg)
