@@ -481,9 +481,13 @@ for (i in 1:10) {
 
 # Other, less used, loop functions
 
+.pull-left[
 ```r
-while(condition) action # performs action while condition is TRUE.
-repeat(action) # repeats action forever (i.e. until it encounters break).
+# performs action while condition is TRUE.
+while(condition) action 
+# repeats action forever 
+# (i.e. until it encounters break).
+repeat(action) 
 ```
 
  - You can rewrite any `for` loop to use `while` instead, 
@@ -493,6 +497,10 @@ repeat(action) # repeats action forever (i.e. until it encounters break).
   ** `while` is more flexible than `for`, and `repeat` is more flexible than `while`** 
   
   - We should strive to use the least-flexible option, so use `for` when you can
+]
+.pull-right[
+![:scale 70%](figures/while.png)
+]
 
 ---
 
