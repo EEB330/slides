@@ -336,6 +336,11 @@ n_total
 
 ---
 
+class: inverse, center, middle
+# Functions
+
+---
+
 
 # Functions
 
@@ -796,7 +801,6 @@ g(x = 1, y = 2, z = 3)
 
 - This is called masking
 
-
 ```r
 x &lt;- 10
 y &lt;- 20
@@ -807,17 +811,12 @@ g &lt;- function() {
 }
 g()
 ```
-
-```
-## [1] 1 2
-```
 ]
 
 --
 
 .pull-right[
 - If a name isn’t defined inside a function, R looks one level up.
-
 ```r
 x &lt;- 2
 g &lt;- function() {
@@ -827,20 +826,23 @@ g &lt;- function() {
 g()
 ```
 
-```
-## [1] 2 1
-```
-
 * And this doesn't change  the previous value of y
-
 ```r
 y
 ```
-
-```
-## [1] 20
-```
 ]
+
+---
+
+# Further reading
+
+- [Advanced R: Object oriented programming](https://adv-r.hadley.nz/base-types.html)
+
+- [Advanced R: Functions](https://adv-r.hadley.nz/functions.html)
+
+- [Rcpp: Writing (fast) functions in C++](https://adv-r.hadley.nz/rcpp.html)
+
+- [Advanced R: Function factories](https://adv-r.hadley.nz/function-factories.html)
 
 ---
 
