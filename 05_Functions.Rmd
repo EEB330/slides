@@ -316,6 +316,132 @@ Simpson(species_n)
 
 ---
 
+# Returning to the Diversity indexes
+
+- Let's wrap our code from last class in a function:
+
+```{r} 
+species_n = c(a = 5, b = 1, c = 10, d = 3, e = 9, 
+              f = 10, g = 18, h = 22, i = 8, j = 8)
+```
+
+.pull-left[
+
+- Old script
+```{r}
+n_total = 0 #<<
+for(i in seq_along(species_n)){ #<<
+  n_total <- n_total + species_n[i] #<<
+} #<<
+props = species_n / n_total
+D = 0
+names(D) = "Simpson"
+for(i in seq_along(props)){
+  D = D + props[i]^2
+}
+D
+```
+]
+.pull-right[
+
+- New and improved function
+```{r}
+Simpson <- function(x){
+  n = sum(x) #<<
+  p = x/n
+  D = sum(p^2)
+  return(c(Simpson = D))
+}
+Simpson(species_n)
+```
+]
+
+---
+
+# Returning to the Diversity indexes
+
+- Let's wrap our code from last class in a function:
+
+```{r} 
+species_n = c(a = 5, b = 1, c = 10, d = 3, e = 9, 
+              f = 10, g = 18, h = 22, i = 8, j = 8)
+```
+
+.pull-left[
+
+- Old script
+```{r}
+n_total = 0
+for(i in seq_along(species_n)){
+  n_total <- n_total + species_n[i]
+}
+props = species_n / n_total #<<
+D = 0
+names(D) = "Simpson"
+for(i in seq_along(props)){
+  D = D + props[i]^2
+}
+D
+```
+]
+.pull-right[
+
+- New and improved function
+```{r}
+Simpson <- function(x){
+  n = sum(x)
+  p = x/n #<<
+  D = sum(p^2)
+  return(c(Simpson = D))
+}
+Simpson(species_n)
+```
+]
+
+---
+
+# Returning to the Diversity indexes
+
+- Let's wrap our code from last class in a function:
+
+```{r} 
+species_n = c(a = 5, b = 1, c = 10, d = 3, e = 9, 
+              f = 10, g = 18, h = 22, i = 8, j = 8)
+```
+
+.pull-left[
+
+- Old script
+```{r}
+n_total = 0
+for(i in seq_along(species_n)){
+  n_total <- n_total + species_n[i]
+}
+props = species_n / n_total 
+D = 0 #<<
+names(D) = "Simpson" #<<
+for(i in seq_along(props)){ #<<
+  D = D + props[i]^2 #<<
+} #<<
+D 
+```
+]
+.pull-right[
+
+- New and improved function
+```{r}
+Simpson <- function(x){
+  n = sum(x)
+  p = x/n 
+  D = sum(p^2) #<<
+  return(c(Simpson = D))
+}
+Simpson(species_n)
+```
+]
+
+---
+
 # DRY (Don't Repeat Yourself) principle
 
 .pull-left[
@@ -340,7 +466,7 @@ Shannon <- function(x){
 
 .pull-right[
 ```{r}
-getProb = function(x) x/sum(x)
+getProb = function(x) x/sum(x)  #<<
 
 Simpson <- function(x){
   p = getProb(x)
@@ -422,7 +548,10 @@ c(fs[[1]](x), fs[[2]](x), fs[[3]](x))
 
 ```{r}
 fogoh <- function(x, f, g, h){
-  f(g(h(x)))
+  h_x <- h(x)
+  gh_x <- g(h_x)
+  fgh_x = f(gh_x)
+  return(fgh_x)
 }
 x = rexp(10)
 x
@@ -506,18 +635,52 @@ environment(f)
 
 # Formals
 
-```{r}
-f 
-```
+.pull-left[
 
-Arguments can be separated from the function call:
+- Arguments can be named or un-named.
+
+- Argument matching if done first by name, then by position.
+
+```{r}
+x = rcauchy(100)
+mean(x)
+mean(x, trim = 0.1)
+mean(x, 0.1)
+mean(trim = 0.1, x)
+```
+]
+--
+.pull-right[
+- Arguments can be separated from the function call:
 
 ```{r}
 args = list(1, 2) 
 do.call(f, args)
 ```
 
-This `do.call` pattern is useful in some contexts we'll see later on.
+This `do.call` pattern is useful in some contexts we will see later on. 
+]
+
+
+---
+
+# Default arguments
+
+- In R, functions can have default arguments.
+
+- Default arguments are values that are automatically assigned to a function parameter if no value is provided by the user.
+
+```{r}
+# Function with multiple default arguments
+calculate_area <- function(length = 1, width = 1) {
+  length * width
+}
+
+# Call the function
+calculate_area()  # Uses both defaults
+calculate_area(4)  # Overrides length, uses default width
+calculate_area(4, 5)  # Overrides both length and width
+```
 
 ---
 
