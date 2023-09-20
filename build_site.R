@@ -10,7 +10,7 @@ library(rmarkdown)
 #render("03_BasicGit.Rmd")
 # # ## Week 3
 # render("04_ControlFlow.Rmd")
-render("05_Functions.Rmd")
+# render("05_Functions.Rmd")
 # # ## Week 4
 render("06_DataIO.Rmd")
 render("07_RegularExpressions.Rmd")
