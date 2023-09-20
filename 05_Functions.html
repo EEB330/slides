@@ -4,7 +4,7 @@
     <title>Functions</title>
     <meta charset="utf-8" />
     <meta name="author" content="Diogo Melo" />
-    <script src="05_Functions_files/header-attrs-2.21/header-attrs.js"></script>
+    <script src="05_Functions_files/header-attrs-2.23/header-attrs.js"></script>
     <link href="05_Functions_files/remark-css-0.0.1/default.css" rel="stylesheet" />
     <link href="05_Functions_files/remark-css-0.0.1/metropolis.css" rel="stylesheet" />
     <link href="05_Functions_files/remark-css-0.0.1/metropolis-fonts.css" rel="stylesheet" />
@@ -896,7 +896,7 @@ environment(f)
 
 .pull-left[
 
-- Arguments can be named or un-named.
+- Arguments can be called by their name of by their position.
 
 - Argument matching if done first by name, then by position.
 
@@ -1040,6 +1040,7 @@ g(x = 1, y = 2, z = 3)
 
 - This is called masking
 
+
 ```r
 x &lt;- 10
 y &lt;- 20
@@ -1050,12 +1051,17 @@ g &lt;- function() {
 }
 g()
 ```
+
+```
+## [1] 1 2
+```
 ]
 
 --
 
 .pull-right[
 - If a name isn’t defined inside a function, R looks one level up.
+
 ```r
 x &lt;- 2
 g &lt;- function() {
@@ -1065,9 +1071,18 @@ g &lt;- function() {
 g()
 ```
 
+```
+## [1] 2 1
+```
+
 * And this doesn't change  the previous value of y
+
 ```r
 y
+```
+
+```
+## [1] 20
 ```
 ]
 
@@ -1112,7 +1127,7 @@ mean
 ```
 ## function (x, ...) 
 ## UseMethod("mean")
-## &lt;bytecode: 0x5569dc386410&gt;
+## &lt;bytecode: 0x7f91ac9bded8&gt;
 ## &lt;environment: namespace:base&gt;
 ```
 
@@ -1198,11 +1213,8 @@ methods("mean")
 ```
 
 ```
-##  [1] mean,ANY-method          mean,denseMatrix-method  mean,sparseMatrix-method
-##  [4] mean,sparseVector-method mean.Date                mean.default            
-##  [7] mean.difftime            mean.IDate*              mean.integer64*         
-## [10] mean.ITime*              mean.POSIXct             mean.POSIXlt            
-## [13] mean.quosure*            mean.vctrs_vctr*        
+## [1] mean.Date        mean.default     mean.difftime    mean.POSIXct    
+## [5] mean.POSIXlt     mean.quosure*    mean.vctrs_vctr*
 ## see '?methods' for accessing help and source code
 ```
     </textarea>

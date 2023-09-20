@@ -637,7 +637,7 @@ environment(f)
 
 .pull-left[
 
-- Arguments can be named or un-named.
+- Arguments can be called by their name of by their position.
 
 - Argument matching if done first by name, then by position.
 
@@ -722,7 +722,7 @@ g(x = 1, y = 2, z = 3)
 
 - This is called masking
 
-```r
+```{r}
 x <- 10
 y <- 20
 g <- function() {
@@ -738,7 +738,7 @@ g()
 
 .pull-right[
 - If a name isn’t defined inside a function, R looks one level up.
-```r
+```{r}
 x <- 2
 g <- function() {
   y <- 1
@@ -748,7 +748,7 @@ g()
 ```
 
 * And this doesn't change  the previous value of y
-```r
+```{r}
 y
 ```
 ]
