@@ -6,7 +6,7 @@ date: Oct. 2nd, 2023
 runtime: static
 output:
   xaringan::moon_reader:
-    css: [default, metropolis, metropolis-fonts, "styles.css"]
+    css: [default, metropolis, metropolis-fonts, "styles.css","hygge"]
     nature:
       highlightLines: true
       chakra: libs/remark-latest.min.js
@@ -15,3 +15,179 @@ output:
       countdown: 60000
 ---
 
+class: inverse, center, middle
+# Messy data is a fact of life 
+
+---
+
+# Human data vs Computer data 
+
+---
+
+# What not to do
+
+.center[
+![:scale 50%](figures/tweet.png)
+]
+[Journal declines to retract fish research paper despite fraud finding](https://www.science.org/content/article/journal-declines-retract-fish-research-paper-despite-fraud-finding#.Y-rB0HBL_Yo.twitter)
+
+[The humanity!](https://zenodo.org/record/6565204)
+
+[Tweet](https://twitter.com/rlmcelreath/status/1625414337232883712)
+
+---
+
+# The tidy data principles
+
+
+.pull-left[
+.content-box-yellow[
+1. Each variable forms a column.
+
+2. Each observation forms a row.
+
+3. Each type of observational unit forms a table
+]
+
+### Things to solve:
+- Column headers are values, not variable names.
+- Multiple variables are stored in one column.
+- Variables are stored in both rows and columns.
+- Multiple types of observational units are stored in the same table.
+- A single observational unit is stored in multiple tables
+
+.ref[[Tidy data paper](https://www.jstatsoft.org/article/view/v059i10)]
+]
+
+---
+
+# What should columns be?
+
+.pull-left[
+```{r}
+library(tibble)
+classroom <- tribble(
+  ~name,    ~quiz1, ~quiz2, ~test1,
+  "Billy",  NA,     "D",    "C",
+  "Suzy",   "F",    NA,     NA,
+  "Lionel", "B",    "C",    "B",
+  "Jenny",  "A",    "A",    "B"
+  )
+classroom
+```
+]
+--
+.pull-right[
+```{r}
+tribble(
+  ~assessment, ~Billy, ~Suzy, ~Lionel, ~Jenny,
+  "quiz1",     NA,     "F",   "B",     "A",
+  "quiz2",     "D",    NA,    "C",     "A",
+  "test1",     "C",    NA,    "B",     "B"
+  )
+```
+]
+
+---
+
+# Tidy it up!
+
+```{r}
+library(tidyverse)
+classroom2 <- classroom %>% 
+  pivot_longer(quiz1:test1, names_to = "assessment", values_to = "grade") %>% 
+  arrange(name, assessment)
+classroom2
+```
+
+---
+
+# Pivot: long and wide data
+
+```{r}
+relig_income
+```
+
+---
+
+# pivot_longer
+
+
+### Basic syntax:
+
+```r
+pivot_longer(data.frame, columns_to_join, names_to =  "names", values_to = "values")
+
+```
+
+
+### Equivalent calls:
+
+```r
+relig_income %>% pivot_longer(-religion , names_to = "income", values_to = "frequency")
+
+pivot_longer(relig_income, 2:11, names_to = "income", values_to = "frequency")
+
+relig_income |> pivot_longer("<$10k":"Don't know/refused", names_to = "income", values_to = "frequency")
+
+pivot_longer(relig_income, `<$10k`:`Don't know/refused`, names_to = "income", values_to = "frequency")
+```
+
+---
+
+
+# Separate 
+
+```{r}
+tb = as_tibble(import("tb.csv"))
+tb
+```
+
+---
+
+# Regular expressions
+
+---
+
+class: inverse, center, middle
+# The verbs of working with dataframes
+
+---
+
+# Base R vs **The tidyverse**
+
+---
+
+# Filter
+
+---
+
+# Select
+
+---
+
+# Mutate
+
+---
+
+
+# Joins 
+
+---
+
+# Match
+
+---
+
+
+# col and row bind
+
+---
+
+# Summarize 
+
+---
+
+# Datatable alternatives
+
+---

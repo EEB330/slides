@@ -8,6 +8,7 @@
     <link href="08_DataWrangling1_files/remark-css-0.0.1/default.css" rel="stylesheet" />
     <link href="08_DataWrangling1_files/remark-css-0.0.1/metropolis.css" rel="stylesheet" />
     <link href="08_DataWrangling1_files/remark-css-0.0.1/metropolis-fonts.css" rel="stylesheet" />
+    <link href="08_DataWrangling1_files/remark-css-0.0.1/hygge.css" rel="stylesheet" />
     <link rel="stylesheet" href="styles.css" type="text/css" />
   </head>
   <body>
@@ -30,6 +31,272 @@ class: center, middle, inverse, title-slide
 ---
 
 
+class: inverse, center, middle
+# Messy data is a fact of life 
+
+---
+
+# Human data vs Computer data 
+
+---
+
+# What not to do
+
+.center[
+![:scale 50%](figures/tweet.png)
+]
+[Journal declines to retract fish research paper despite fraud finding](https://www.science.org/content/article/journal-declines-retract-fish-research-paper-despite-fraud-finding#.Y-rB0HBL_Yo.twitter)
+
+[The humanity!](https://zenodo.org/record/6565204)
+
+[Tweet](https://twitter.com/rlmcelreath/status/1625414337232883712)
+
+---
+
+# The tidy data principles
+
+
+.pull-left[
+.content-box-yellow[
+1. Each variable forms a column.
+
+2. Each observation forms a row.
+
+3. Each type of observational unit forms a table
+]
+
+### Things to solve:
+- Column headers are values, not variable names.
+- Multiple variables are stored in one column.
+- Variables are stored in both rows and columns.
+- Multiple types of observational units are stored in the same table.
+- A single observational unit is stored in multiple tables
+
+.ref[[Tidy data paper](https://www.jstatsoft.org/article/view/v059i10)]
+]
+
+---
+
+# What should columns be?
+
+.pull-left[
+
+```r
+library(tibble)
+classroom &lt;- tribble(
+  ~name,    ~quiz1, ~quiz2, ~test1,
+  "Billy",  NA,     "D",    "C",
+  "Suzy",   "F",    NA,     NA,
+  "Lionel", "B",    "C",    "B",
+  "Jenny",  "A",    "A",    "B"
+  )
+classroom
+```
+
+```
+## # A tibble: 4 × 4
+##   name   quiz1 quiz2 test1
+##   &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;
+## 1 Billy  &lt;NA&gt;  D     C    
+## 2 Suzy   F     &lt;NA&gt;  &lt;NA&gt; 
+## 3 Lionel B     C     B    
+## 4 Jenny  A     A     B
+```
+]
+--
+.pull-right[
+
+```r
+tribble(
+  ~assessment, ~Billy, ~Suzy, ~Lionel, ~Jenny,
+  "quiz1",     NA,     "F",   "B",     "A",
+  "quiz2",     "D",    NA,    "C",     "A",
+  "test1",     "C",    NA,    "B",     "B"
+  )
+```
+
+```
+## # A tibble: 3 × 5
+##   assessment Billy Suzy  Lionel Jenny
+##   &lt;chr&gt;      &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;
+## 1 quiz1      &lt;NA&gt;  F     B      A    
+## 2 quiz2      D     &lt;NA&gt;  C      A    
+## 3 test1      C     &lt;NA&gt;  B      B
+```
+]
+
+---
+
+# Tidy it up!
+
+
+```r
+library(tidyverse)
+classroom2 &lt;- classroom %&gt;% 
+  pivot_longer(quiz1:test1, names_to = "assessment", values_to = "grade") %&gt;% 
+  arrange(name, assessment)
+classroom2
+```
+
+```
+## # A tibble: 12 × 3
+##    name   assessment grade
+##    &lt;chr&gt;  &lt;chr&gt;      &lt;chr&gt;
+##  1 Billy  quiz1      &lt;NA&gt; 
+##  2 Billy  quiz2      D    
+##  3 Billy  test1      C    
+##  4 Jenny  quiz1      A    
+##  5 Jenny  quiz2      A    
+##  6 Jenny  test1      B    
+##  7 Lionel quiz1      B    
+##  8 Lionel quiz2      C    
+##  9 Lionel test1      B    
+## 10 Suzy   quiz1      F    
+## 11 Suzy   quiz2      &lt;NA&gt; 
+## 12 Suzy   test1      &lt;NA&gt;
+```
+
+---
+
+# Pivot: long and wide data
+
+
+```r
+relig_income
+```
+
+```
+## # A tibble: 18 × 11
+##    religion `&lt;$10k` `$10-20k` `$20-30k` `$30-40k` `$40-50k` `$50-75k` `$75-100k`
+##    &lt;chr&gt;      &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;      &lt;dbl&gt;
+##  1 Agnostic      27        34        60        81        76       137        122
+##  2 Atheist       12        27        37        52        35        70         73
+##  3 Buddhist      27        21        30        34        33        58         62
+##  4 Catholic     418       617       732       670       638      1116        949
+##  5 Don’t k…      15        14        15        11        10        35         21
+##  6 Evangel…     575       869      1064       982       881      1486        949
+##  7 Hindu          1         9         7         9        11        34         47
+##  8 Histori…     228       244       236       238       197       223        131
+##  9 Jehovah…      20        27        24        24        21        30         15
+## 10 Jewish        19        19        25        25        30        95         69
+## 11 Mainlin…     289       495       619       655       651      1107        939
+## 12 Mormon        29        40        48        51        56       112         85
+## 13 Muslim         6         7         9        10         9        23         16
+## 14 Orthodox      13        17        23        32        32        47         38
+## 15 Other C…       9         7        11        13        13        14         18
+## 16 Other F…      20        33        40        46        49        63         46
+## 17 Other W…       5         2         3         4         2         7          3
+## 18 Unaffil…     217       299       374       365       341       528        407
+## # ℹ 3 more variables: `$100-150k` &lt;dbl&gt;, `&gt;150k` &lt;dbl&gt;,
+## #   `Don't know/refused` &lt;dbl&gt;
+```
+
+---
+
+# pivot_longer
+
+
+### Basic syntax:
+
+```r
+pivot_longer(data.frame, columns_to_join, names_to =  "names", values_to = "values")
+
+```
+
+
+### Equivalent calls:
+
+```r
+relig_income %&gt;% pivot_longer(-religion , names_to = "income", values_to = "frequency")
+
+pivot_longer(relig_income, 2:11, names_to = "income", values_to = "frequency")
+
+relig_income |&gt; pivot_longer("&lt;$10k":"Don't know/refused", names_to = "income", values_to = "frequency")
+
+pivot_longer(relig_income, `&lt;$10k`:`Don't know/refused`, names_to = "income", values_to = "frequency")
+```
+
+---
+
+
+# Separate 
+
+
+```r
+tb = as_tibble(import("tb.csv"))
+tb
+```
+
+```
+## # A tibble: 5,769 × 23
+##    iso2   year new_sp new_sp_m04 new_sp_m514 new_sp_m014 new_sp_m1524
+##    &lt;chr&gt; &lt;int&gt;  &lt;int&gt;      &lt;int&gt;       &lt;int&gt;       &lt;int&gt;        &lt;int&gt;
+##  1 AD     1989     NA         NA          NA          NA           NA
+##  2 AD     1990     NA         NA          NA          NA           NA
+##  3 AD     1991     NA         NA          NA          NA           NA
+##  4 AD     1992     NA         NA          NA          NA           NA
+##  5 AD     1993     15         NA          NA          NA           NA
+##  6 AD     1994     24         NA          NA          NA           NA
+##  7 AD     1996      8         NA          NA           0            0
+##  8 AD     1997     17         NA          NA           0            0
+##  9 AD     1998      1         NA          NA           0            0
+## 10 AD     1999      4         NA          NA           0            0
+## # ℹ 5,759 more rows
+## # ℹ 16 more variables: new_sp_m2534 &lt;int&gt;, new_sp_m3544 &lt;int&gt;,
+## #   new_sp_m4554 &lt;int&gt;, new_sp_m5564 &lt;int&gt;, new_sp_m65 &lt;int&gt;, new_sp_mu &lt;int&gt;,
+## #   new_sp_f04 &lt;int&gt;, new_sp_f514 &lt;int&gt;, new_sp_f014 &lt;int&gt;, new_sp_f1524 &lt;int&gt;,
+## #   new_sp_f2534 &lt;int&gt;, new_sp_f3544 &lt;int&gt;, new_sp_f4554 &lt;int&gt;,
+## #   new_sp_f5564 &lt;int&gt;, new_sp_f65 &lt;int&gt;, new_sp_fu &lt;int&gt;
+```
+
+---
+
+# Regular expressions
+
+---
+
+class: inverse, center, middle
+# The verbs of working with dataframes
+
+---
+
+# Base R vs **The tidyverse**
+
+---
+
+# Filter
+
+---
+
+# Select
+
+---
+
+# Mutate
+
+---
+
+
+# Joins 
+
+---
+
+# Match
+
+---
+
+
+# col and row bind
+
+---
+
+# Summarize 
+
+---
+
+# Datatable alternatives
+
+---
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
