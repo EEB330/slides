@@ -61,6 +61,28 @@ class: inverse, center, middle
 
 ---
 
+
+# Base R vs **The tidyverse**
+
+.pull-left[
+- Most of the operations we will see can be done using just the stuff we already know:
+
+   - Indexing with `[]` and `$`
+   - Using logical comparisons `==`, `&gt;`, ...
+   - Creating new columns with `$`
+   - `with` and `within` functions
+
+- The [tidyverse](https://www.tidyverse.org/) gives us access to a consistent set of wrangling functions, which are well documented and fast
+
+- Cool interface that allows us to use column names without quotes
+
+- They also play nice with the great ploting library `ggplot2`
+]
+.pull-right[
+![](figures/tibble.png)
+]
+---
+
 # The tidy data principles
 
 
@@ -81,6 +103,9 @@ class: inverse, center, middle
 - A single observational unit is stored in multiple tables
 
 .ref[[Tidy data paper](https://www.jstatsoft.org/article/view/v059i10)]
+]
+.pull-right[
+![](figures/tidy_data.png)
 ]
 
 ---
@@ -526,29 +551,7 @@ weather2 %&gt;%
 ]
 ---
 
-class: inverse, center, middle
-# The verbs of working with dataframes
 
----
-
-# Base R vs **The tidyverse**
-
-.pull-left[
-- Most of the operations we will see can be done using just the stuff we already know:
-
-   - Indexing with `[]` and `$`
-   - Using logical comparisons `==`, `&gt;`, ...
-   - Creating new columns with `$`
-   - `with` and `within` functions
-
-- The [tidyverse](https://www.tidyverse.org/) gives us access to a consistent set of wrangling functions, which are well documented and fast
-
-- They also play nice with the great ploting library `ggplot2`
-]
-.pull-right[
-![](figures/tibble.png)
-]
----
 
 # Example data set
 
@@ -597,13 +600,19 @@ flights
 ]
 ---
 
+
+class: inverse, center, middle
+# The verbs of working with dataframes
+
+---
+
 # Filter
 
 `filter()` allows you to subset observations based on their values
 
 
 ```r
-filter(flights, month == 1, day == 1) # multiple arguents are combined with "and" &amp;
+filter(flights, month == 1, day == 1) # multiple arguents are combined with "and" (`&amp;`)
 ```
 
 ```
@@ -674,7 +683,119 @@ sep_oct
 
 # Select
 
+.pull-left[
+- `filter` extracts rows
+- `select` extracts columns
+
+
+```r
+select(flights, year, month, day)
+```
+
+```
+##         year month day
+##      1: 2014     1   1
+##      2: 2014     1   1
+##      3: 2014     1   1
+##      4: 2014     1   1
+##      5: 2014     1   1
+##     ---               
+## 253312: 2014    10  31
+## 253313: 2014    10  31
+## 253314: 2014    10  31
+## 253315: 2014    10  31
+## 253316: 2014    10  31
+```
+] 
+.pull-right[
+- Can match column names
+
+
+```r
+select(flights, year, month, contains("delay"))
+```
+
+```
+##         year month dep_delay arr_delay
+##      1: 2014     1        14        13
+##      2: 2014     1        -3        13
+##      3: 2014     1         2         9
+##      4: 2014     1        -8       -26
+##      5: 2014     1         2         1
+##     ---                               
+## 253312: 2014    10         1       -30
+## 253313: 2014    10        -5       -14
+## 253314: 2014    10        -8        16
+## 253315: 2014    10        -4        15
+## 253316: 2014    10        -5         1
+```
+]
 ---
+
+# Column ranges and select
+
+.pull-left[
+- we can pass several ranges
+
+
+```r
+select(flights, year:day, dest:hour)
+```
+
+```
+##         year month day dest air_time distance hour
+##      1: 2014     1   1  LAX      359     2475    9
+##      2: 2014     1   1  LAX      363     2475   11
+##      3: 2014     1   1  LAX      351     2475   19
+##      4: 2014     1   1  PBI      157     1035    7
+##      5: 2014     1   1  LAX      350     2475   13
+##     ---                                           
+## 253312: 2014    10  31  IAH      201     1416   14
+## 253313: 2014    10  31  IAH      189     1400    8
+## 253314: 2014    10  31  RDU       83      431   11
+## 253315: 2014    10  31  DTW       75      502   11
+## 253316: 2014    10  31  SDF      110      659    8
+```
+] 
+--
+.pull-right[
+- Or exclude columns and ranges
+
+
+```r
+select(flights, -year, -(dest:hour))
+```
+
+```
+##         month day dep_delay arr_delay carrier origin
+##      1:     1   1        14        13      AA    JFK
+##      2:     1   1        -3        13      AA    JFK
+##      3:     1   1         2         9      AA    JFK
+##      4:     1   1        -8       -26      AA    LGA
+##      5:     1   1         2         1      AA    JFK
+##     ---                                             
+## 253312:    10  31         1       -30      UA    LGA
+## 253313:    10  31        -5       -14      UA    EWR
+## 253314:    10  31        -8        16      MQ    LGA
+## 253315:    10  31        -4        15      MQ    LGA
+## 253316:    10  31        -5         1      MQ    LGA
+```
+]
+---
+
+# `Select()` helper functions
+
+There are a number of helper functions you can use within `select()`:
+
+- `starts_with("abc")`: matches names that begin with “abc”.
+
+- `ends_with("xyz")`: matches names that end with “xyz”.
+
+- `contains("ijk")`: matches names that contain “ijk”.
+
+- `matches("(.)\\1")`: selects variables that match a regular expression. 
+
+- `num_range("x", 1:3)`: matches x1, x2 and x3.
 
 # Mutate
 
