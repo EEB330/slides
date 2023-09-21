@@ -139,7 +139,7 @@ pivot_longer(relig_income, `<$10k`:`Don't know/refused`, names_to = "income", va
 # Separate 
 
 ```{r}
-tb = as_tibble(import("tb.csv"))
+tb = as_tibble(import("https://raw.githubusercontent.com/EEB330/slides/main/tb.csv"))
 tb
 ```
 
