@@ -22,6 +22,14 @@ class: inverse, center, middle
 
 # Human data vs Computer data 
 
+![](figures/human_data.png)]
+
+---
+
+# Human data vs Computer data 
+
+![](figures/computer_data.png)]
+
 ---
 
 # What not to do
@@ -93,6 +101,7 @@ tribble(
 # Tidy it up!
 
 ```{r}
+# install.packages(tidyverse)
 library(tidyverse)
 classroom2 <- classroom %>% 
   pivot_longer(quiz1:test1, names_to = "assessment", values_to = "grade") %>% 
@@ -123,6 +132,9 @@ pivot_longer(data.frame, columns_to_join, names_to =  "names", values_to = "valu
 
 ### Equivalent calls:
 
+```{r}
+names(relig_income)
+```
 ```r
 relig_income %>% pivot_longer(-religion , names_to = "income", values_to = "frequency")
 
@@ -136,17 +148,121 @@ pivot_longer(relig_income, `<$10k`:`Don't know/refused`, names_to = "income", va
 ---
 
 
-# Separate 
+# tb dataset 
 
 ```{r}
-tb = as_tibble(import("https://raw.githubusercontent.com/EEB330/slides/main/tb.csv"))
-tb
+who
+```
+---
+
+# First, pivot longer
+ 
+```{r}
+tb2 <- who %>% 
+  pivot_longer(
+    !c(country , iso2 , iso3  , year), 
+    names_to = "demo", 
+    values_to = "n", 
+    values_drop_na = TRUE
+  )
+tb2
+```
+
+---
+
+# Now, separate the demo col
+
+- The `demo` column is holding too many variables
+
+- We need to get the species, sex and age variables into their own columns!
+
+```r
+separate(tb2, col = demo, into = c("species", "sex", "age"), ...)
+```
+```{r}
+unique(tb2$demo)
+```
+
+--
+
+```{r}
+tb2 %>% separate(demo, c("sp", "sex", "age"), c(7,8))
+```
+
+
+---
+
+# Regular expressions
+```r
+tb3 = who %>% pivot_longer(
+   !c(country , iso2 , iso3  , year), 
+  names_to = c("sp", "sex", "age"), 
+  names_pattern = "(something) (something) (regex)"
+  values_to = "n", 
+  values_drop_na = TRUE)
+tb3
 ```
 
 ---
 
 # Regular expressions
+```{r}
+tb3 = who %>% pivot_longer(
+   !c(country , iso2 , iso3  , year), 
+  names_to = c("sp", "sex", "age"), 
+  names_pattern = "new_?(.{2,3})_(.)(.+)", # can´t beleive I got this right...
+  values_to = "n", 
+  values_drop_na = TRUE)
+tb3
+```
 
+---
+
+
+# More pivots
+
+- Sometimes two columns are stored in the same one and must be separated
+
+- This dataset has both problems!
+
+```{r}
+w_data = 'https://raw.githubusercontent.com/YonatanRA/-weather-project-data-cleaning-SQL-/master/weather-raw.csv'
+weather <- as_tibble(read.csv(w_data, stringsAsFactors = FALSE))
+weather
+```
+
+---
+
+# Get the days in a column
+
+```{r} 
+weather2 <- weather %>% 
+  pivot_longer(
+    d1:d31, 
+    names_to = "day", 
+    values_to = "value", 
+    values_drop_na = TRUE # Missing values are implicit in the long format
+  ) 
+weather2
+```
+
+---
+
+# Pivot the `element` column wider
+
+.pull-left[
+```{r}
+weather2
+```
+]
+--
+.pull-right[
+```{r}
+weather2 %>% 
+  pivot_wider(names_from = element, 
+              values_from = value)
+```
+]
 ---
 
 class: inverse, center, middle
@@ -156,9 +272,58 @@ class: inverse, center, middle
 
 # Base R vs **The tidyverse**
 
+.pull-left[
+- Most of the operations we will see can be done using just the stuff we already know:
+
+   - Indexing with `[]` and `$`
+   - Using logical comparisons `==`, `>`, ...
+   - Creating new columns with `$`
+   - `with` and `within` functions
+
+- The [tidyverse](https://www.tidyverse.org/) gives us access to a consistent set of wrangling functions, which are well documented and fast
+
+- They also play nice with the great ploting library `ggplot2`
+]
+.pull-right[
+![](figures/tibble.png)
+]
+---
+
+# Example data set
+
+The infamous `flights` dataset in the `nycflights13` package
+
+```{r}
+library(tidyverse)
+# pak::pkg_install("nycflights13")
+library(nycflights13)
+flights
+```
+---
+
+# One table per observational unit
+
+.center[
+![](figures/relational-nycflights.png)
+]
 ---
 
 # Filter
+
+`filter()` allows you to subset observations based on their values
+
+```{r}
+filter(flights, month == 1, day == 1) # multiple arguents are combined with "and" &
+```
+
+---
+
+# Filter and the `%in%` operator
+
+```{r}
+sep_oct <- filter(flights, month %in% c(9, 10))
+sep_oct
+```
 
 ---
 

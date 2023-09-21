@@ -38,6 +38,14 @@ class: inverse, center, middle
 
 # Human data vs Computer data 
 
+![](figures/human_data.png)]
+
+---
+
+# Human data vs Computer data 
+
+![](figures/computer_data.png)]
+
 ---
 
 # What not to do
@@ -131,6 +139,7 @@ tribble(
 
 
 ```r
+# install.packages(tidyverse)
 library(tidyverse)
 classroom2 &lt;- classroom %&gt;% 
   pivot_longer(quiz1:test1, names_to = "assessment", values_to = "grade") %&gt;% 
@@ -206,6 +215,17 @@ pivot_longer(data.frame, columns_to_join, names_to =  "names", values_to = "valu
 
 ### Equivalent calls:
 
+
+```r
+names(relig_income)
+```
+
+```
+##  [1] "religion"           "&lt;$10k"              "$10-20k"           
+##  [4] "$20-30k"            "$30-40k"            "$40-50k"           
+##  [7] "$50-75k"            "$75-100k"           "$100-150k"         
+## [10] "&gt;150k"              "Don't know/refused"
+```
 ```r
 relig_income %&gt;% pivot_longer(-religion , names_to = "income", values_to = "frequency")
 
@@ -219,40 +239,291 @@ pivot_longer(relig_income, `&lt;$10k`:`Don't know/refused`, names_to = "income",
 ---
 
 
-# Separate 
+# tb dataset 
 
 
 ```r
-tb = as_tibble(import("https://raw.githubusercontent.com/EEB330/slides/main/tb.csv"))
-tb
+who
 ```
 
 ```
-## # A tibble: 5,769 × 23
-##    iso2   year new_sp new_sp_m04 new_sp_m514 new_sp_m014 new_sp_m1524
-##    &lt;chr&gt; &lt;int&gt;  &lt;int&gt;      &lt;int&gt;       &lt;int&gt;       &lt;int&gt;        &lt;int&gt;
-##  1 AD     1989     NA         NA          NA          NA           NA
-##  2 AD     1990     NA         NA          NA          NA           NA
-##  3 AD     1991     NA         NA          NA          NA           NA
-##  4 AD     1992     NA         NA          NA          NA           NA
-##  5 AD     1993     15         NA          NA          NA           NA
-##  6 AD     1994     24         NA          NA          NA           NA
-##  7 AD     1996      8         NA          NA           0            0
-##  8 AD     1997     17         NA          NA           0            0
-##  9 AD     1998      1         NA          NA           0            0
-## 10 AD     1999      4         NA          NA           0            0
-## # ℹ 5,759 more rows
-## # ℹ 16 more variables: new_sp_m2534 &lt;int&gt;, new_sp_m3544 &lt;int&gt;,
-## #   new_sp_m4554 &lt;int&gt;, new_sp_m5564 &lt;int&gt;, new_sp_m65 &lt;int&gt;, new_sp_mu &lt;int&gt;,
-## #   new_sp_f04 &lt;int&gt;, new_sp_f514 &lt;int&gt;, new_sp_f014 &lt;int&gt;, new_sp_f1524 &lt;int&gt;,
-## #   new_sp_f2534 &lt;int&gt;, new_sp_f3544 &lt;int&gt;, new_sp_f4554 &lt;int&gt;,
-## #   new_sp_f5564 &lt;int&gt;, new_sp_f65 &lt;int&gt;, new_sp_fu &lt;int&gt;
+## # A tibble: 7,240 × 60
+##    country  iso2  iso3   year new_sp_m014 new_sp_m1524 new_sp_m2534 new_sp_m3544
+##    &lt;chr&gt;    &lt;chr&gt; &lt;chr&gt; &lt;dbl&gt;       &lt;dbl&gt;        &lt;dbl&gt;        &lt;dbl&gt;        &lt;dbl&gt;
+##  1 Afghani… AF    AFG    1980          NA           NA           NA           NA
+##  2 Afghani… AF    AFG    1981          NA           NA           NA           NA
+##  3 Afghani… AF    AFG    1982          NA           NA           NA           NA
+##  4 Afghani… AF    AFG    1983          NA           NA           NA           NA
+##  5 Afghani… AF    AFG    1984          NA           NA           NA           NA
+##  6 Afghani… AF    AFG    1985          NA           NA           NA           NA
+##  7 Afghani… AF    AFG    1986          NA           NA           NA           NA
+##  8 Afghani… AF    AFG    1987          NA           NA           NA           NA
+##  9 Afghani… AF    AFG    1988          NA           NA           NA           NA
+## 10 Afghani… AF    AFG    1989          NA           NA           NA           NA
+## # ℹ 7,230 more rows
+## # ℹ 52 more variables: new_sp_m4554 &lt;dbl&gt;, new_sp_m5564 &lt;dbl&gt;,
+## #   new_sp_m65 &lt;dbl&gt;, new_sp_f014 &lt;dbl&gt;, new_sp_f1524 &lt;dbl&gt;,
+## #   new_sp_f2534 &lt;dbl&gt;, new_sp_f3544 &lt;dbl&gt;, new_sp_f4554 &lt;dbl&gt;,
+## #   new_sp_f5564 &lt;dbl&gt;, new_sp_f65 &lt;dbl&gt;, new_sn_m014 &lt;dbl&gt;,
+## #   new_sn_m1524 &lt;dbl&gt;, new_sn_m2534 &lt;dbl&gt;, new_sn_m3544 &lt;dbl&gt;,
+## #   new_sn_m4554 &lt;dbl&gt;, new_sn_m5564 &lt;dbl&gt;, new_sn_m65 &lt;dbl&gt;, …
+```
+---
+
+# First, pivot longer
+ 
+
+```r
+tb2 &lt;- who %&gt;% 
+  pivot_longer(
+    !c(country , iso2 , iso3  , year), 
+    names_to = "demo", 
+    values_to = "n", 
+    values_drop_na = TRUE
+  )
+tb2
+```
+
+```
+## # A tibble: 76,046 × 6
+##    country     iso2  iso3   year demo             n
+##    &lt;chr&gt;       &lt;chr&gt; &lt;chr&gt; &lt;dbl&gt; &lt;chr&gt;        &lt;dbl&gt;
+##  1 Afghanistan AF    AFG    1997 new_sp_m014      0
+##  2 Afghanistan AF    AFG    1997 new_sp_m1524    10
+##  3 Afghanistan AF    AFG    1997 new_sp_m2534     6
+##  4 Afghanistan AF    AFG    1997 new_sp_m3544     3
+##  5 Afghanistan AF    AFG    1997 new_sp_m4554     5
+##  6 Afghanistan AF    AFG    1997 new_sp_m5564     2
+##  7 Afghanistan AF    AFG    1997 new_sp_m65       0
+##  8 Afghanistan AF    AFG    1997 new_sp_f014      5
+##  9 Afghanistan AF    AFG    1997 new_sp_f1524    38
+## 10 Afghanistan AF    AFG    1997 new_sp_f2534    36
+## # ℹ 76,036 more rows
+```
+
+---
+
+# Now, separate the demo col
+
+- The `demo` column is holding too many variables
+
+- We need to get the species, sex and age variables into their own columns!
+
+```r
+separate(tb2, col = demo, into = c("species", "sex", "age"), ...)
+```
+
+```r
+unique(tb2$demo)
+```
+
+```
+##  [1] "new_sp_m014"  "new_sp_m1524" "new_sp_m2534" "new_sp_m3544" "new_sp_m4554"
+##  [6] "new_sp_m5564" "new_sp_m65"   "new_sp_f014"  "new_sp_f1524" "new_sp_f2534"
+## [11] "new_sp_f3544" "new_sp_f4554" "new_sp_f5564" "new_sp_f65"   "new_sn_m014" 
+## [16] "new_sn_m1524" "new_sn_m2534" "new_sn_m3544" "new_sn_m4554" "new_sn_m5564"
+## [21] "new_sn_m65"   "new_ep_m014"  "new_ep_m1524" "new_ep_m2534" "new_ep_m3544"
+## [26] "new_ep_m4554" "new_ep_m5564" "new_ep_m65"   "new_sn_f014"  "newrel_m014" 
+## [31] "newrel_f014"  "new_sn_f1524" "new_sn_f2534" "new_sn_f3544" "new_sn_f4554"
+## [36] "new_sn_f5564" "new_sn_f65"   "new_ep_f014"  "new_ep_f1524" "new_ep_f2534"
+## [41] "new_ep_f3544" "new_ep_f4554" "new_ep_f5564" "new_ep_f65"   "newrel_m1524"
+## [46] "newrel_m2534" "newrel_m3544" "newrel_m4554" "newrel_m5564" "newrel_m65"  
+## [51] "newrel_f1524" "newrel_f2534" "newrel_f3544" "newrel_f4554" "newrel_f5564"
+## [56] "newrel_f65"
+```
+
+--
+
+
+```r
+tb2 %&gt;% separate(demo, c("sp", "sex", "age"), c(7,8))
+```
+
+```
+## # A tibble: 76,046 × 8
+##    country     iso2  iso3   year sp      sex   age       n
+##    &lt;chr&gt;       &lt;chr&gt; &lt;chr&gt; &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt; &lt;chr&gt; &lt;dbl&gt;
+##  1 Afghanistan AF    AFG    1997 new_sp_ m     014       0
+##  2 Afghanistan AF    AFG    1997 new_sp_ m     1524     10
+##  3 Afghanistan AF    AFG    1997 new_sp_ m     2534      6
+##  4 Afghanistan AF    AFG    1997 new_sp_ m     3544      3
+##  5 Afghanistan AF    AFG    1997 new_sp_ m     4554      5
+##  6 Afghanistan AF    AFG    1997 new_sp_ m     5564      2
+##  7 Afghanistan AF    AFG    1997 new_sp_ m     65        0
+##  8 Afghanistan AF    AFG    1997 new_sp_ f     014       5
+##  9 Afghanistan AF    AFG    1997 new_sp_ f     1524     38
+## 10 Afghanistan AF    AFG    1997 new_sp_ f     2534     36
+## # ℹ 76,036 more rows
+```
+
+
+---
+
+# Regular expressions
+```r
+tb3 = who %&gt;% pivot_longer(
+   !c(country , iso2 , iso3  , year), 
+  names_to = c("sp", "sex", "age"), 
+  names_pattern = "(something) (something) (regex)"
+  values_to = "n", 
+  values_drop_na = TRUE)
+tb3
 ```
 
 ---
 
 # Regular expressions
 
+```r
+tb3 = who %&gt;% pivot_longer(
+   !c(country , iso2 , iso3  , year), 
+  names_to = c("sp", "sex", "age"), 
+  names_pattern = "new_?(.{2,3})_(.)(.+)", # can´t beleive I got this right...
+  values_to = "n", 
+  values_drop_na = TRUE)
+tb3
+```
+
+```
+## # A tibble: 76,046 × 8
+##    country     iso2  iso3   year sp    sex   age       n
+##    &lt;chr&gt;       &lt;chr&gt; &lt;chr&gt; &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;dbl&gt;
+##  1 Afghanistan AF    AFG    1997 sp    m     014       0
+##  2 Afghanistan AF    AFG    1997 sp    m     1524     10
+##  3 Afghanistan AF    AFG    1997 sp    m     2534      6
+##  4 Afghanistan AF    AFG    1997 sp    m     3544      3
+##  5 Afghanistan AF    AFG    1997 sp    m     4554      5
+##  6 Afghanistan AF    AFG    1997 sp    m     5564      2
+##  7 Afghanistan AF    AFG    1997 sp    m     65        0
+##  8 Afghanistan AF    AFG    1997 sp    f     014       5
+##  9 Afghanistan AF    AFG    1997 sp    f     1524     38
+## 10 Afghanistan AF    AFG    1997 sp    f     2534     36
+## # ℹ 76,036 more rows
+```
+
+---
+
+
+# More pivots
+
+- Sometimes two columns are stored in the same one and must be separated
+
+- This dataset has both problems!
+
+
+```r
+w_data = 'https://raw.githubusercontent.com/YonatanRA/-weather-project-data-cleaning-SQL-/master/weather-raw.csv'
+weather &lt;- as_tibble(read.csv(w_data, stringsAsFactors = FALSE))
+weather
+```
+
+```
+## # A tibble: 22 × 35
+##    id       year month element    d1    d2    d3    d4    d5    d6    d7    d8
+##    &lt;chr&gt;   &lt;int&gt; &lt;int&gt; &lt;chr&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+##  1 MX17004  2010     1 tmax       NA  NA    NA      NA  NA      NA    NA    NA
+##  2 MX17004  2010     1 tmin       NA  NA    NA      NA  NA      NA    NA    NA
+##  3 MX17004  2010     2 tmax       NA  27.3  24.1    NA  NA      NA    NA    NA
+##  4 MX17004  2010     2 tmin       NA  14.4  14.4    NA  NA      NA    NA    NA
+##  5 MX17004  2010     3 tmax       NA  NA    NA      NA  32.1    NA    NA    NA
+##  6 MX17004  2010     3 tmin       NA  NA    NA      NA  14.2    NA    NA    NA
+##  7 MX17004  2010     4 tmax       NA  NA    NA      NA  NA      NA    NA    NA
+##  8 MX17004  2010     4 tmin       NA  NA    NA      NA  NA      NA    NA    NA
+##  9 MX17004  2010     5 tmax       NA  NA    NA      NA  NA      NA    NA    NA
+## 10 MX17004  2010     5 tmin       NA  NA    NA      NA  NA      NA    NA    NA
+## # ℹ 12 more rows
+## # ℹ 23 more variables: d9 &lt;lgl&gt;, d10 &lt;dbl&gt;, d11 &lt;dbl&gt;, d12 &lt;lgl&gt;, d13 &lt;dbl&gt;,
+## #   d14 &lt;dbl&gt;, d15 &lt;dbl&gt;, d16 &lt;dbl&gt;, d17 &lt;dbl&gt;, d18 &lt;lgl&gt;, d19 &lt;lgl&gt;,
+## #   d20 &lt;lgl&gt;, d21 &lt;lgl&gt;, d22 &lt;lgl&gt;, d23 &lt;dbl&gt;, d24 &lt;lgl&gt;, d25 &lt;dbl&gt;,
+## #   d26 &lt;dbl&gt;, d27 &lt;dbl&gt;, d28 &lt;dbl&gt;, d29 &lt;dbl&gt;, d30 &lt;dbl&gt;, d31 &lt;dbl&gt;
+```
+
+---
+
+# Get the days in a column
+
+
+```r
+weather2 &lt;- weather %&gt;% 
+  pivot_longer(
+    d1:d31, 
+    names_to = "day", 
+    values_to = "value", 
+    values_drop_na = TRUE # Missing values are implicit in the long format
+  ) 
+weather2
+```
+
+```
+## # A tibble: 66 × 6
+##    id       year month element day   value
+##    &lt;chr&gt;   &lt;int&gt; &lt;int&gt; &lt;chr&gt;   &lt;chr&gt; &lt;dbl&gt;
+##  1 MX17004  2010     1 tmax    d30    27.8
+##  2 MX17004  2010     1 tmin    d30    14.5
+##  3 MX17004  2010     2 tmax    d2     27.3
+##  4 MX17004  2010     2 tmax    d3     24.1
+##  5 MX17004  2010     2 tmax    d11    29.7
+##  6 MX17004  2010     2 tmax    d23    29.9
+##  7 MX17004  2010     2 tmin    d2     14.4
+##  8 MX17004  2010     2 tmin    d3     14.4
+##  9 MX17004  2010     2 tmin    d11    13.4
+## 10 MX17004  2010     2 tmin    d23    10.7
+## # ℹ 56 more rows
+```
+
+---
+
+# Pivot the `element` column wider
+
+.pull-left[
+
+```r
+weather2
+```
+
+```
+## # A tibble: 66 × 6
+##    id       year month element day   value
+##    &lt;chr&gt;   &lt;int&gt; &lt;int&gt; &lt;chr&gt;   &lt;chr&gt; &lt;dbl&gt;
+##  1 MX17004  2010     1 tmax    d30    27.8
+##  2 MX17004  2010     1 tmin    d30    14.5
+##  3 MX17004  2010     2 tmax    d2     27.3
+##  4 MX17004  2010     2 tmax    d3     24.1
+##  5 MX17004  2010     2 tmax    d11    29.7
+##  6 MX17004  2010     2 tmax    d23    29.9
+##  7 MX17004  2010     2 tmin    d2     14.4
+##  8 MX17004  2010     2 tmin    d3     14.4
+##  9 MX17004  2010     2 tmin    d11    13.4
+## 10 MX17004  2010     2 tmin    d23    10.7
+## # ℹ 56 more rows
+```
+]
+--
+.pull-right[
+
+```r
+weather2 %&gt;% 
+  pivot_wider(names_from = element, 
+              values_from = value)
+```
+
+```
+## # A tibble: 33 × 6
+##    id       year month day    tmax  tmin
+##    &lt;chr&gt;   &lt;int&gt; &lt;int&gt; &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt;
+##  1 MX17004  2010     1 d30    27.8  14.5
+##  2 MX17004  2010     2 d2     27.3  14.4
+##  3 MX17004  2010     2 d3     24.1  14.4
+##  4 MX17004  2010     2 d11    29.7  13.4
+##  5 MX17004  2010     2 d23    29.9  10.7
+##  6 MX17004  2010     3 d5     32.1  14.2
+##  7 MX17004  2010     3 d10    34.5  16.8
+##  8 MX17004  2010     3 d16    31.1  17.6
+##  9 MX17004  2010     4 d27    36.3  16.7
+## 10 MX17004  2010     5 d27    33.2  18.2
+## # ℹ 23 more rows
+```
+]
 ---
 
 class: inverse, center, middle
@@ -262,9 +533,142 @@ class: inverse, center, middle
 
 # Base R vs **The tidyverse**
 
+.pull-left[
+- Most of the operations we will see can be done using just the stuff we already know:
+
+   - Indexing with `[]` and `$`
+   - Using logical comparisons `==`, `&gt;`, ...
+   - Creating new columns with `$`
+   - `with` and `within` functions
+
+- The [tidyverse](https://www.tidyverse.org/) gives us access to a consistent set of wrangling functions, which are well documented and fast
+
+- They also play nice with the great ploting library `ggplot2`
+]
+.pull-right[
+![](figures/tibble.png)
+]
+---
+
+# Example data set
+
+The infamous `flights` dataset in the `nycflights13` package
+
+
+```r
+library(tidyverse)
+# pak::pkg_install("nycflights13")
+library(nycflights13)
+flights
+```
+
+```
+##         year month day dep_delay arr_delay carrier origin dest air_time
+##      1: 2014     1   1        14        13      AA    JFK  LAX      359
+##      2: 2014     1   1        -3        13      AA    JFK  LAX      363
+##      3: 2014     1   1         2         9      AA    JFK  LAX      351
+##      4: 2014     1   1        -8       -26      AA    LGA  PBI      157
+##      5: 2014     1   1         2         1      AA    JFK  LAX      350
+##     ---                                                                
+## 253312: 2014    10  31         1       -30      UA    LGA  IAH      201
+## 253313: 2014    10  31        -5       -14      UA    EWR  IAH      189
+## 253314: 2014    10  31        -8        16      MQ    LGA  RDU       83
+## 253315: 2014    10  31        -4        15      MQ    LGA  DTW       75
+## 253316: 2014    10  31        -5         1      MQ    LGA  SDF      110
+##         distance hour
+##      1:     2475    9
+##      2:     2475   11
+##      3:     2475   19
+##      4:     1035    7
+##      5:     2475   13
+##     ---              
+## 253312:     1416   14
+## 253313:     1400    8
+## 253314:      431   11
+## 253315:      502   11
+## 253316:      659    8
+```
+---
+
+# One table per observational unit
+
+.center[
+![](figures/relational-nycflights.png)
+]
 ---
 
 # Filter
+
+`filter()` allows you to subset observations based on their values
+
+
+```r
+filter(flights, month == 1, day == 1) # multiple arguents are combined with "and" &amp;
+```
+
+```
+##      year month day dep_delay arr_delay carrier origin dest air_time distance
+##   1: 2014     1   1        14        13      AA    JFK  LAX      359     2475
+##   2: 2014     1   1        -3        13      AA    JFK  LAX      363     2475
+##   3: 2014     1   1         2         9      AA    JFK  LAX      351     2475
+##   4: 2014     1   1        -8       -26      AA    LGA  PBI      157     1035
+##   5: 2014     1   1         2         1      AA    JFK  LAX      350     2475
+##  ---                                                                         
+## 735: 2014     1   1         1       -11      UA    EWR  SAN      351     2425
+## 736: 2014     1   1         1       -17      UA    EWR  LAX      349     2454
+## 737: 2014     1   1        -8        12      US    EWR  CLT      107      529
+## 738: 2014     1   1        -1       -12      US    JFK  CLT       89      541
+## 739: 2014     1   1        -4       -18      US    JFK  PHX      306     2153
+##      hour
+##   1:    9
+##   2:   11
+##   3:   19
+##   4:    7
+##   5:   13
+##  ---     
+## 735:   12
+## 736:   11
+## 737:    8
+## 738:   18
+## 739:   13
+```
+
+---
+
+# Filter and the `%in%` operator
+
+
+```r
+sep_oct &lt;- filter(flights, month %in% c(9, 10))
+sep_oct
+```
+
+```
+##        year month day dep_delay arr_delay carrier origin dest air_time distance
+##     1: 2014     9   1        -9       -26      AA    JFK  LAX      325     2475
+##     2: 2014     9   1        -7       -21      AA    JFK  LAX      320     2475
+##     3: 2014     9   1        -9       -15      AA    JFK  LAX      329     2475
+##     4: 2014     9   1         1        -6      AA    JFK  SFO      351     2586
+##     5: 2014     9   1        -5       -13      AA    JFK  LAX      322     2475
+##    ---                                                                         
+## 51229: 2014    10  31         1       -30      UA    LGA  IAH      201     1416
+## 51230: 2014    10  31        -5       -14      UA    EWR  IAH      189     1400
+## 51231: 2014    10  31        -8        16      MQ    LGA  RDU       83      431
+## 51232: 2014    10  31        -4        15      MQ    LGA  DTW       75      502
+## 51233: 2014    10  31        -5         1      MQ    LGA  SDF      110      659
+##        hour
+##     1:    8
+##     2:   12
+##     3:    6
+##     4:    8
+##     5:   10
+##    ---     
+## 51229:   14
+## 51230:    8
+## 51231:   11
+## 51232:   11
+## 51233:    8
+```
 
 ---
 
