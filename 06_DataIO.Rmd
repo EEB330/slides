@@ -15,13 +15,8 @@ output:
       countdown: 60000
 ---
 
+class: inverse, center, middle
 # To analyze the data, you must first be the data
-
-- Almost all projects begin with data going into software
-
-- All of them end with output being extracted
-
-- We have to learn how to read and write from files
 
 ---
 
@@ -80,8 +75,6 @@ head(iris)
 ]
 
 ---
-
-
 
 # read.table
 
@@ -165,8 +158,25 @@ flights
 ```
 ---
 
+# Reasing generic data files
 
+```{r}
+# Using the scan() function
+my_generic_file <- scan("my_file.csv", character())
+
+# Using the readLines() function
+my_generic_file <- readLines("my_file.csv")
+my_generic_file
+```
+
+---
+
+class: inverse, center, middle
 # Genomics data
+
+---
+
+# Types of genomics data files
 
 - FASTA - Simple collections of named DNA/protein sequences
 
@@ -188,10 +198,8 @@ enumeration
 
 # Reference genome as a set of coordinates
 
-Most genomics data formats have some sort of coordinate information
-
 .center[
-    ![](figures/coordinates.png)
+![:scale 80%](figures/coordinates.png)
 ]
 
 ---
