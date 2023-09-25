@@ -131,10 +131,10 @@ head(my_data)
 
 # read.csv &amp; read.csv2
 
-Special cases of read.table designed for CSV files.
+Special cases of `read.table` designed for CSV files.
 
-- read.csv: assumes field separator is "," and . for decimal point.
-- read.csv2: assumes field separator is ";" and , for decimal point (common in European datasets).
+- `read.csv`: assumes field separator is "," and . for decimal point.
+- `read.csv2`: assumes field separator is ";" and , for decimal point (common in European datasets).
 
 ```r
 data_csv &lt;- read.csv("my_data.csv")
@@ -434,6 +434,36 @@ my_generic_file
 ## [150] "6.2,3.4,5.4,2.3,virginica"                                
 ## [151] "5.9,3,5.1,1.8,virginica"
 ```
+
+---
+
+# Saving R objects
+
+.pull-left[
+- R has a generic `.Rds` file extension for saving compressed R objects in
+- Good if you only need to use the data in R
+
+- Both the rio package `export` or the base `saveRDS` funtions can save any R object
+
+```r
+saveRDS(object, file = "output_file.Rds")
+
+library(rio)
+export(object, file = "output_file.Rds")
+```
+]
+--
+.pull-right[
+For tabular data, we can use:
+
+- Base R: `write.table` function
+- `rio` package: `export` function, which guesses the format from the output file extension
+- `readr` package: `write_csv`, `write_delim`
+
+```r
+export(df_object, file = "my_df.csv")
+```
+]
 
 ---
 
@@ -761,8 +791,8 @@ counts[1:10, 1:7]
 ## AT1G01050       1164 876 935 979 1146 1254 948
 ## AT1G03997          0   0   0   0    0    0   0
 ```
-
 ]
+
 
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
