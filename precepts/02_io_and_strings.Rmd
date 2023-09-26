@@ -88,6 +88,43 @@ strings <- c("123 Main St", "Price: $200 0")
 digits <- str_extract_all(strings, "\\b\\d+\\b")
 ```
 
+## tidyr examples
+
+Exampled pulled from: [https://r4ds.hadley.nz/regexps#sec-extract-variables](https://r4ds.hadley.nz/regexps#sec-extract-variables)
+
+```{r, eval=FALSE}
+pak::pkg_install("tidyr")
+library(tidyr)
+```
+
+```{r, eval=FALSE}
+df <- tribble(
+  ~str,
+  "<Sheryl>-F_34",
+  "<Kisha>-F_45",
+  "<Brandon>-N_33",
+  "<Sharon>-F_38",
+  "<Penny>-F_58",
+  "<Justin>-M_41",
+  "<Patricia>-F_84",
+)
+```
+
+```{r, eval=FALSE}
+df |>
+  separate_wider_regex(
+    str,
+    patterns = c(
+      "<", # Match the literal character '<'.
+      name = "[A-Za-z]+", # Match one or more alphabets (upper or lower case) and create a new column 'name' with the matched value.
+      ">-", # Match the literal string '>-'.
+      gender = ".", # Match any single character (except newline) and create a new column 'gender' with the matched value.
+      "_", # Match the literal character '_'.
+      age = "[0-9]+" # Match one or more digits and create a new column 'age' with the matched value.
+    )
+  )
+```
+
 # Exercises
 
 ## Exercise 1: Reading TSV Files

@@ -489,6 +489,34 @@ numerical information such as prices or zip codes.</p>
 <pre class="r"><code>strings &lt;- c(&quot;123 Main St&quot;, &quot;Price: $200 0&quot;)
 digits &lt;- str_extract_all(strings, &quot;\\b\\d+\\b&quot;)</code></pre>
 </div>
+<div id="tidyr-examples" class="section level2">
+<h2>tidyr examples</h2>
+<p>Exampled pulled from: <a href="https://r4ds.hadley.nz/regexps#sec-extract-variables">https://r4ds.hadley.nz/regexps#sec-extract-variables</a></p>
+<pre class="r"><code>pak::pkg_install(&quot;tidyr&quot;)
+library(tidyr)</code></pre>
+<pre class="r"><code>df &lt;- tribble(
+  ~str,
+  &quot;&lt;Sheryl&gt;-F_34&quot;,
+  &quot;&lt;Kisha&gt;-F_45&quot;,
+  &quot;&lt;Brandon&gt;-N_33&quot;,
+  &quot;&lt;Sharon&gt;-F_38&quot;,
+  &quot;&lt;Penny&gt;-F_58&quot;,
+  &quot;&lt;Justin&gt;-M_41&quot;,
+  &quot;&lt;Patricia&gt;-F_84&quot;,
+)</code></pre>
+<pre class="r"><code>df |&gt;
+  separate_wider_regex(
+    str,
+    patterns = c(
+      &quot;&lt;&quot;, # Match the literal character &#39;&lt;&#39;.
+      name = &quot;[A-Za-z]+&quot;, # Match one or more alphabets (upper or lower case) and create a new column &#39;name&#39; with the matched value.
+      &quot;&gt;-&quot;, # Match the literal string &#39;&gt;-&#39;.
+      gender = &quot;.&quot;, # Match any single character (except newline) and create a new column &#39;gender&#39; with the matched value.
+      &quot;_&quot;, # Match the literal character &#39;_&#39;.
+      age = &quot;[0-9]+&quot; # Match one or more digits and create a new column &#39;age&#39; with the matched value.
+    )
+  )</code></pre>
+</div>
 </div>
 <div id="exercises" class="section level1">
 <h1>Exercises</h1>
