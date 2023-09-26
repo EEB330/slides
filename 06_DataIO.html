@@ -208,6 +208,20 @@ my_data_tbl
 
 ```r
 library(data.table)
+```
+
+```
+## data.table 1.14.8 using 1 threads (see ?getDTthreads).  Latest news: r-datatable.com
+```
+
+```
+## **********
+## This installation of data.table has not detected OpenMP support. It should still work but in single-threaded mode.
+## This is a Mac. Please read https://mac.r-project.org/openmp/. Please engage with Apple and ask them for support. Check r-datatable.com for updates, and our Mac instructions here: https://github.com/Rdatatable/data.table/wiki/Installation. After several years of many reports of installation problems on Mac, it's time to gingerly point out that there have been no similar problems on Windows or Linux.
+## **********
+```
+
+```r
 data_dt &lt;- fread("my_file.csv")
 data_dt
 ```
@@ -648,6 +662,18 @@ This is the quality score rank:
 
 ```r
 library(vcfR)
+```
+
+```
+## 
+##    *****       ***   vcfR   ***       *****
+##    This is vcfR 1.14.0 
+##      browseVignettes('vcfR') # Documentation
+##      citation('vcfR') # Citation
+##    *****       *****      *****       *****
+```
+
+```r
 vcf = read.vcfR("sample.vcf")
 ```
 

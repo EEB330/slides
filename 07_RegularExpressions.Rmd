@@ -214,7 +214,7 @@ str_view(fruit, "a...e")
 # Quantifiers `?`, `+`, `*` and `{}`
 
 .pull-left[
-Quantifiers are metecharacters that can be used to modulate how many matches we are interested in.
+Quantifiers are metacharacters that can be used to modulate how many matches we are interested in.
 
   - `?`: Matches 0 or 1 occurrence.
   - `+`: Matches 1 or more occurrences.
