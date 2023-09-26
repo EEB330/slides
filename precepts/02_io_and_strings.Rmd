@@ -92,7 +92,7 @@ digits <- str_extract_all(strings, "\\b\\d+\\b")
 
 ## Exercise 1: Reading TSV Files
 
-A TSV file, `places_near_new_hope.tsv`, uses a tab character as a delimiter between values. Your task is to read this file into R using an appropriate reading function.
+A TSV file, `places_in_princeton.tsv`, uses a tab character as a delimiter between values. Your task is to read this file into R using an appropriate reading function.
     
 ## Exercise 2. Regex to English
 
@@ -124,7 +124,7 @@ To view baby names,
 head(babynames)
 ```
 
-### What baby name has the most vowels? What name has the highest proportion of vowels? (Hint: what is the denominator?)
+* What baby name has the most vowels? What name has the highest proportion of vowels? (Hint: what is the denominator?)
 
 ## Exercise 6: Extracting month, day, year from the date_strings defined below:
 
