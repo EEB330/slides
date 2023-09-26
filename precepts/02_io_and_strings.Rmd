@@ -1,5 +1,7 @@
 ---
-title: "Data IO and String Wrangling with Regex in R"
+title: "EEB330 -- Precept 02: Data IO and String Wrangling with Regex in R"
+author: Scott Wolf
+date: Sept. 27th, 2023
 output: html_document
 ---
 
