@@ -20,7 +20,10 @@ render("09_DataWrangling2.Rmd")
 
 # ## Precepts
 # ## Week 2
-render("precepts/00_r_and_git.Rmd")
+# render("precepts/00_r_and_git.Rmd")
 
 # ## Week 3
-render("precepts/01_control_flow.Rmd")
+# render("precepts/01_control_flow.Rmd")
+
+# ## Week 4
+render("precepts/02_io_and_strings.Rmd")
