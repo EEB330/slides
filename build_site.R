@@ -1,4 +1,4 @@
-# pak::pkg_install(c("xaringan", "xaringanExtra", "leaflet", 'knitr', "stringi", "cowplot", "readr", "data.table", "curl", "numbers", "babynames"))
+# pak::pkg_install(c("xaringan", "xaringanExtra", "leaflet", 'knitr', "stringi", "cowplot", "readr", "data.table", "curl", "numbers", "babynames", "nycflights13"))
 # xaringan::summon_remark()
 
 library(rmarkdown)
@@ -17,7 +17,6 @@ render("07_RegularExpressions.Rmd")
 # # ## Week 4
 render("08_DataWrangling1.Rmd")
 render("09_DataWrangling2.Rmd")
-
 
 # ## Precepts
 # ## Week 2

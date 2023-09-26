@@ -461,7 +461,7 @@ str_view(fruit, "(\\w{2})\\1")
 
 # Capturing and replacing
 
-- Capturing is exeptionally powerful for replacing text 
+- Capturing is exceptionally powerful for replacing text 
 
 - We can use regex in the `str_replace()` function
 
