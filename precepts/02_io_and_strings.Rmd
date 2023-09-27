@@ -5,6 +5,8 @@ date: Sept. 27th, 2023
 output: html_document
 ---
 
+## [Precept 3 -- GitHub Classroom Assignment](https://classroom.github.com/a/Jo_ERa0t)
+
 # Introduction
 
 In this document, we will explore two significant aspects of data analysis in R: Data Input/Output (IO) and String Wrangling with Regular Expressions (Regex). Data IO is fundamental as it’s the first step in the data analysis pipeline, where we read or load data into R from various sources. String wrangling, particularly using Regex, is vital when we are dealing with text data and need to extract, replace, or modify strings based on specific patterns.
