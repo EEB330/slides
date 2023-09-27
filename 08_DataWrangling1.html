@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="" xml:lang="">
   <head>
-    <title>Data Wrangling</title>
+    <title>Data Wrangling 1</title>
     <meta charset="utf-8" />
     <meta name="author" content="Diogo Melo" />
     <script src="08_DataWrangling1_files/header-attrs-2.21/header-attrs.js"></script>
@@ -16,7 +16,7 @@
 class: center, middle, inverse, title-slide
 
 .title[
-# Data Wrangling
+# Data Wrangling 1
 ]
 .subtitle[
 ## The verbs of working with data frames
@@ -162,6 +162,7 @@ tribble(
 
 # Tidy it up!
 
+.pull-left[
 
 ```r
 # install.packages(tidyverse)
@@ -189,6 +190,20 @@ classroom2
 ## 11 Suzy   quiz2      &lt;NA&gt; 
 ## 12 Suzy   test1      &lt;NA&gt;
 ```
+]
+.pull-right[
+![](figures/tidy.png)
+]
+
+---
+
+# Data Wrangling Cheat sheet
+
+.center[
+![](figures/cheatsheet.png)
+]
+
+https://www.rstudio.com/wp-content/uploads/2015/02/data-wrangling-cheatsheet.pdf
 
 ---
 
@@ -552,7 +567,6 @@ weather2 %&gt;%
 ---
 
 
-
 # Example data set
 
 The infamous `flights` dataset in the `nycflights13` package
@@ -606,7 +620,7 @@ class: inverse, center, middle
 
 ---
 
-# Filter
+# Selecting rows using `filter`
 
 `filter()` allows you to subset observations based on their values
 
@@ -681,7 +695,7 @@ sep_oct
 
 ---
 
-# Select
+# Selecting columns using `select`
 
 .pull-left[
 - `filter` extracts rows
@@ -732,7 +746,7 @@ select(flights, year, month, contains("delay"))
 ]
 ---
 
-# Column ranges and select
+# Column ranges and `select`
 
 .pull-left[
 - we can pass several ranges
@@ -783,7 +797,7 @@ select(flights, -year, -(dest:hour))
 ]
 ---
 
-# `Select()` helper functions
+# `select()` helper functions
 
 There are a number of helper functions you can use within `select()`:
 
@@ -799,7 +813,7 @@ There are a number of helper functions you can use within `select()`:
 
 ---
 
-# Mutate
+# Changin columns using `mutate`
 
 - `mutate()` can add or modify the columns in a data.frame
 
@@ -865,27 +879,8 @@ flights |&gt;
 ```
 ---
 
-
-# Joins 
-
----
-
-# Match
-
----
-
-
-# col and row bind
-
----
-
-# Summarize 
-
----
-
-# Datatable alternatives
-
----
+class: inverse, center, middle
+# Next: Combining verbs to process data
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>

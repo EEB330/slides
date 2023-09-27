@@ -1,5 +1,5 @@
 ---
-title: "Data Wrangling"
+title: "Data Wrangling 2"
 subtitle: "Complex sequences of manipulations"
 author: Diogo Melo
 date: Oct. 4th, 2023
@@ -13,4 +13,79 @@ output:
       beforeInit: "macros.js"
       ratio: "16:10"
       countdown: 60000
+---
+
+
+class: inverse, center, middle
+# Processing data sets 
+
+---
+
+# Counting along columns
+
+- The most basic processing we can do is counting the number of rows in a column that share the same value 
+
+```{r}
+flights |> 
+  count(carrier)
+```
+
+---
+
+# Grouping using `group_by`
+
+- We can also separate our processing using some grouping variable
+- All sensible operations happen inside groups in a grouped data.frame
+ 
+
+```{r}
+flights %>%
+  group_by(carrier) %>%
+  count(origin)
+```
+
+---
+
+# Summarizing values using `summarize`
+
+.pull-left[
+- `summarize` can be used to perform operations in the columns
+
+```{r}
+flights %>%
+  summarise(mean_delay = mean(arr_delay))
+```
+]
+--
+
+.pull-right[
+- With `group_by`, this is a powerful function:
+
+```{r}
+flights %>%
+  group_by(carrier) %>%
+  summarize(delay = mean(arr_delay))
+```
+]
+
+# Combining data sets 
+
+- Sometimes the information we want is split across two data.frames
+
+- Maybe we have two types of measures, or summaries that were calculated separately
+
+---
+
+# Match
+
+---
+
+
+# col and row bind
+
+---
+
+
+# Datatable alternatives
+
 ---

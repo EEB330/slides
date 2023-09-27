@@ -1,5 +1,5 @@
 ---
-title: "Data Wrangling"
+title: "Data Wrangling 1"
 subtitle: "The verbs of working with data frames"
 author: Diogo Melo
 date: Oct. 2nd, 2023
@@ -125,6 +125,7 @@ tribble(
 
 # Tidy it up!
 
+.pull-left[
 ```{r}
 # install.packages(tidyverse)
 library(tidyverse)
@@ -133,6 +134,20 @@ classroom2 <- classroom %>%
   arrange(name, assessment)
 classroom2
 ```
+]
+.pull-right[
+![](figures/tidy.png)
+]
+
+---
+
+# Data Wrangling Cheat sheet
+
+.center[
+![](figures/cheatsheet.png)
+]
+
+https://www.rstudio.com/wp-content/uploads/2015/02/data-wrangling-cheatsheet.pdf
 
 ---
 
@@ -291,7 +306,6 @@ weather2 %>%
 ---
 
 
-
 # Example data set
 
 The infamous `flights` dataset in the `nycflights13` package
@@ -317,7 +331,7 @@ class: inverse, center, middle
 
 ---
 
-# Filter
+# Selecting rows using `filter`
 
 `filter()` allows you to subset observations based on their values
 
@@ -336,7 +350,7 @@ sep_oct
 
 ---
 
-# Select
+# Selecting columns using `select`
 
 .pull-left[
 - `filter` extracts rows
@@ -355,7 +369,7 @@ select(flights, year, month, contains("delay"))
 ]
 ---
 
-# Column ranges and select
+# Column ranges and `select`
 
 .pull-left[
 - we can pass several ranges
@@ -374,7 +388,7 @@ select(flights, -year, -(dest:hour))
 ]
 ---
 
-# `Select()` helper functions
+# `select()` helper functions
 
 There are a number of helper functions you can use within `select()`:
 
@@ -390,7 +404,7 @@ There are a number of helper functions you can use within `select()`:
 
 ---
 
-# Mutate
+# Changin columns using `mutate`
 
 - `mutate()` can add or modify the columns in a data.frame
 
@@ -434,24 +448,5 @@ flights |>
 ```
 ---
 
-
-# Joins 
-
----
-
-# Match
-
----
-
-
-# col and row bind
-
----
-
-# Summarize 
-
----
-
-# Datatable alternatives
-
----
+class: inverse, center, middle
+# Next: Combining verbs to process data

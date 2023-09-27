@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="" xml:lang="">
   <head>
-    <title>Data Wrangling</title>
+    <title>Data Wrangling 2</title>
     <meta charset="utf-8" />
     <meta name="author" content="Diogo Melo" />
-    <script src="09_DataWrangling2_files/header-attrs-2.23/header-attrs.js"></script>
+    <script src="09_DataWrangling2_files/header-attrs-2.21/header-attrs.js"></script>
     <link href="09_DataWrangling2_files/remark-css-0.0.1/default.css" rel="stylesheet" />
     <link href="09_DataWrangling2_files/remark-css-0.0.1/metropolis.css" rel="stylesheet" />
     <link href="09_DataWrangling2_files/remark-css-0.0.1/metropolis-fonts.css" rel="stylesheet" />
@@ -15,7 +15,7 @@
 class: center, middle, inverse, title-slide
 
 .title[
-# Data Wrangling
+# Data Wrangling 2
 ]
 .subtitle[
 ## Complex sequences of manipulations
@@ -30,6 +30,147 @@ class: center, middle, inverse, title-slide
 ---
 
 
+
+class: inverse, center, middle
+# Processing data sets 
+
+---
+
+# Counting along columns
+
+- The most basic processing we can do is counting the number of rows in a column that share the same value 
+
+
+```r
+flights |&gt; 
+  count(carrier)
+```
+
+```
+##     carrier     n
+##  1:      AA 26302
+##  2:      AS   574
+##  3:      B6 44479
+##  4:      DL 41683
+##  5:      EV 39819
+##  6:      F9   473
+##  7:      FL  1251
+##  8:      HA   260
+##  9:      MQ 18559
+## 10:      OO   200
+## 11:      UA 46267
+## 12:      US 16750
+## 13:      VX  4797
+## 14:      WN 11902
+```
+
+---
+
+# Grouping using `group_by`
+
+- We can also separate our processing using some grouping variable
+- All sensible operations happen inside groups in a grouped data.frame
+ 
+
+
+```r
+flights %&gt;%
+  group_by(carrier) %&gt;%
+  count(origin)
+```
+
+```
+## # A tibble: 32 × 3
+## # Groups:   carrier [14]
+##    carrier origin     n
+##    &lt;chr&gt;   &lt;chr&gt;  &lt;int&gt;
+##  1 AA      EWR     2649
+##  2 AA      JFK    11923
+##  3 AA      LGA    11730
+##  4 AS      EWR      574
+##  5 B6      EWR     5473
+##  6 B6      JFK    34220
+##  7 B6      LGA     4786
+##  8 DL      EWR     4153
+##  9 DL      JFK    18860
+## 10 DL      LGA    18670
+## # ℹ 22 more rows
+```
+
+---
+
+# Summarizing values using `summarize`
+
+.pull-left[
+- `summarize` can be used to perform operations in the columns
+
+
+```r
+flights %&gt;%
+  summarise(mean_delay = mean(arr_delay))
+```
+
+```
+##   mean_delay
+## 1   8.146702
+```
+]
+--
+
+.pull-right[
+- With `group_by`, this is a powerful function:
+
+
+```r
+flights %&gt;%
+  group_by(carrier) %&gt;%
+  summarize(delay = mean(arr_delay))
+```
+
+```
+## # A tibble: 14 × 2
+##    carrier delay
+##    &lt;chr&gt;   &lt;dbl&gt;
+##  1 AA       5.46
+##  2 AS      -3.89
+##  3 B6      10.2 
+##  4 DL       5.16
+##  5 EV      13.2 
+##  6 F9      26.6 
+##  7 FL      13.7 
+##  8 HA      12.4 
+##  9 MQ       9.50
+## 10 OO      14.8 
+## 11 UA       7.56
+## 12 US       1.00
+## 13 VX       3.25
+## 14 WN      11.2
+```
+]
+
+# Combining data sets 
+
+- Sometimes the information we want is split across two data.frames
+
+- Maybe we have two types of measures, or summaries that were calculated separately
+
+
+
+---
+
+# Match
+
+---
+
+
+# col and row bind
+
+---
+
+
+# Datatable alternatives
+
+---
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
