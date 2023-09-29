@@ -4,7 +4,7 @@
     <title>Data Wrangling 2</title>
     <meta charset="utf-8" />
     <meta name="author" content="Diogo Melo" />
-    <script src="09_DataWrangling2_files/header-attrs-2.21/header-attrs.js"></script>
+    <script src="09_DataWrangling2_files/header-attrs-2.23/header-attrs.js"></script>
     <link href="09_DataWrangling2_files/remark-css-0.0.1/default.css" rel="stylesheet" />
     <link href="09_DataWrangling2_files/remark-css-0.0.1/metropolis.css" rel="stylesheet" />
     <link href="09_DataWrangling2_files/remark-css-0.0.1/metropolis-fonts.css" rel="stylesheet" />
@@ -39,6 +39,7 @@ class: inverse, center, middle
 # Counting along columns
 
 - The most basic processing we can do is counting the number of rows in a column that share the same value 
+- Good way to get the unique values in a column (there is also the base function `unique`)
 
 
 ```r
@@ -47,21 +48,21 @@ flights |&gt;
 ```
 
 ```
-##     carrier     n
-##  1:      AA 26302
-##  2:      AS   574
-##  3:      B6 44479
-##  4:      DL 41683
-##  5:      EV 39819
-##  6:      F9   473
-##  7:      FL  1251
-##  8:      HA   260
-##  9:      MQ 18559
-## 10:      OO   200
-## 11:      UA 46267
-## 12:      US 16750
-## 13:      VX  4797
-## 14:      WN 11902
+##    carrier     n
+## 1       AA 26302
+## 2       AS   574
+## 3       B6 44479
+## 4       DL 41683
+## 5       EV 39819
+## 6       F9   473
+## 7       FL  1251
+## 8       HA   260
+## 9       MQ 18559
+## 10      OO   200
+## 11      UA 46267
+## 12      US 16750
+## 13      VX  4797
+## 14      WN 11902
 ```
 
 ---
@@ -148,27 +149,312 @@ flights %&gt;%
 ```
 ]
 
+---
+
 # Combining data sets 
 
 - Sometimes the information we want is split across two data.frames
 
 - Maybe we have two types of measures, or summaries that were calculated separately
 
+- If the columns are all the same, we can just glue them together:
 
+.pull-left[
+
+```r
+(df_1 = data.frame(x = 1:3, y = rnorm(3)))
+```
+
+```
+##   x          y
+## 1 1 -0.5048437
+## 2 2  0.9463597
+## 3 3 -0.8836745
+```
+
+```r
+(df_2 = data.frame(x = 4:6, y = rnorm(3)))
+```
+
+```
+##   x          y
+## 1 4  0.3331601
+## 2 5  0.8752512
+## 3 6 -0.2865091
+```
+]
+--
+
+.pull-right[
+
+```r
+bind_rows(df_1, df_2) 
+```
+
+```
+##   x          y
+## 1 1 -0.5048437
+## 2 2  0.9463597
+## 3 3 -0.8836745
+## 4 4  0.3331601
+## 5 5  0.8752512
+## 6 6 -0.2865091
+```
+- For many data.frames, we can put them in a list:
+```r
+dfs = list(df_1, df_2, df_1) 
+bind_rows(dfs)
+```
+]
 
 ---
 
-# Match
+# Primary and compound keys
+
+A primary key is a variable or set of variables that uniquely identifies each observation.
+
+--
+
+.pull-left[
+- `airlines` records two pieces of data about each airline: its carrier code and its full name. You can identify an airline with its two letter carrier code, making `carrier` the primary key.
+
+
+```
+## # A tibble: 16 × 2
+##    carrier name                       
+##    &lt;chr&gt;   &lt;chr&gt;                      
+##  1 9E      Endeavor Air Inc.          
+##  2 AA      American Airlines Inc.     
+##  3 AS      Alaska Airlines Inc.       
+##  4 B6      JetBlue Airways            
+##  5 DL      Delta Air Lines Inc.       
+##  6 EV      ExpressJet Airlines Inc.   
+##  7 F9      Frontier Airlines Inc.     
+##  8 FL      AirTran Airways Corporation
+##  9 HA      Hawaiian Airlines Inc.     
+## 10 MQ      Envoy Air                  
+## # ℹ 6 more rows
+```
+]
+--
+
+.pull-right[
+- `weather` records data about the weather at the origin airports. You can identify each observation by the combination of location and time, making `origin` and `time_hour` the compound primary key.
+
+```
+## # A tibble: 26,115 × 15
+##   origin time_hour            year month   day  hour  temp  dewp humid wind_dir
+##   &lt;chr&gt;  &lt;dttm&gt;              &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt;
+## 1 EWR    2013-01-01 01:00:00  2013     1     1     1  39.0  26.1  59.4      270
+## 2 EWR    2013-01-01 02:00:00  2013     1     1     2  39.0  27.0  61.6      250
+## 3 EWR    2013-01-01 03:00:00  2013     1     1     3  39.0  28.0  64.4      240
+## 4 EWR    2013-01-01 04:00:00  2013     1     1     4  39.9  28.0  62.2      250
+## 5 EWR    2013-01-01 05:00:00  2013     1     1     5  39.0  28.0  64.4      260
+## 6 EWR    2013-01-01 06:00:00  2013     1     1     6  37.9  28.0  67.2      240
+## 7 EWR    2013-01-01 07:00:00  2013     1     1     7  39.0  28.0  64.4      240
+## 8 EWR    2013-01-01 08:00:00  2013     1     1     8  39.9  28.0  62.2      250
+## 9 EWR    2013-01-01 09:00:00  2013     1     1     9  39.9  28.0  62.2      260
+## # ℹ 26,106 more rows
+## # ℹ 5 more variables: wind_speed &lt;dbl&gt;, wind_gust &lt;dbl&gt;, precip &lt;dbl&gt;,
+## #   pressure &lt;dbl&gt;, visib &lt;dbl&gt;
+```
+]
+
+---
+
+# Keys and relations across tables
+
+.center[
+![](figures/relational-nycflights.png)
+]
+---
+
+# Keys for relations between data.frames
+
+- We can use the keys to combine information contained in different data.frames
+.pull-left[
+
+```r
+n_flights = flights %&gt;% 
+  count(carrier)
+n_flights
+```
+
+```
+##    carrier     n
+## 1       AA 26302
+## 2       AS   574
+## 3       B6 44479
+## 4       DL 41683
+## 5       EV 39819
+## 6       F9   473
+## 7       FL  1251
+## 8       HA   260
+## 9       MQ 18559
+## 10      OO   200
+## 11      UA 46267
+## 12      US 16750
+## 13      VX  4797
+## 14      WN 11902
+```
+]
+--
+
+.pull-right[
+
+
+```r
+airlines
+```
+
+```
+## # A tibble: 16 × 2
+##    carrier name                       
+##    &lt;chr&gt;   &lt;chr&gt;                      
+##  1 9E      Endeavor Air Inc.          
+##  2 AA      American Airlines Inc.     
+##  3 AS      Alaska Airlines Inc.       
+##  4 B6      JetBlue Airways            
+##  5 DL      Delta Air Lines Inc.       
+##  6 EV      ExpressJet Airlines Inc.   
+##  7 F9      Frontier Airlines Inc.     
+##  8 FL      AirTran Airways Corporation
+##  9 HA      Hawaiian Airlines Inc.     
+## 10 MQ      Envoy Air                  
+## 11 OO      SkyWest Airlines Inc.      
+## 12 UA      United Air Lines Inc.      
+## 13 US      US Airways Inc.            
+## 14 VX      Virgin America             
+## 15 WN      Southwest Airlines Co.     
+## 16 YV      Mesa Airlines Inc.
+```
+]
+
+---
+
+# Using match
+
+
+```r
+airline_rows = match(n_flights$carrier, airlines$carrier)
+n_flights$name = airlines$name[airline_rows]
+n_flights
+```
+
+```
+##    carrier     n                        name
+## 1       AA 26302      American Airlines Inc.
+## 2       AS   574        Alaska Airlines Inc.
+## 3       B6 44479             JetBlue Airways
+## 4       DL 41683        Delta Air Lines Inc.
+## 5       EV 39819    ExpressJet Airlines Inc.
+## 6       F9   473      Frontier Airlines Inc.
+## 7       FL  1251 AirTran Airways Corporation
+## 8       HA   260      Hawaiian Airlines Inc.
+## 9       MQ 18559                   Envoy Air
+## 10      OO   200       SkyWest Airlines Inc.
+## 11      UA 46267       United Air Lines Inc.
+## 12      US 16750             US Airways Inc.
+## 13      VX  4797              Virgin America
+## 14      WN 11902      Southwest Airlines Co.
+```
+
+This works well if all the keys in the first data.frame are in the second data.frames
+
+---
+
+class: left, top
+background-image: url(figures/venn.png)
+background-position: center middle
+background-size:  90%
+
+# What if the keys don't match? Joins!
+
+[https://r4ds.hadley.nz/joins.html](https://r4ds.hadley.nz/joins.html)
 
 ---
 
 
-# col and row bind
+class: left, top
+background-image: url(figures/setup.png)
+background-position: center middle
+background-size:  55%
+
+# Example data set
 
 ---
 
+class: left, top
+background-image: url(figures/setup2.png)
+background-position: center middle
+background-size:  55%
 
-# Datatable alternatives
+# Possible relations between keys
+
+---
+
+class: left, top
+background-image: url(figures/inner.png)
+background-position: center middle
+background-size:  65%
+
+# Inner join, only common keys are kept
+
+---
+
+class: left, top
+background-image: url(figures/left.png)
+background-position: center middle
+background-size:  65%
+
+# Left join, all keys of x are kept
+
+---
+
+class: left, top
+background-image: url(figures/right.png)
+background-position: center middle
+background-size:  65%
+
+# Right join, all keys of y are kept
+
+---
+
+class: left, top
+background-image: url(figures/full.png)
+background-position: center middle
+background-size:  65%
+
+# Full join, all keys are kept
+
+---
+
+# Our example
+
+
+```r
+n_flights = flights %&gt;% count(carrier)
+inner_join(n_flights, airlines, by = "carrier") %&gt;% 
+  arrange(desc(n))
+```
+
+```
+##    carrier     n                        name
+## 1       UA 46267       United Air Lines Inc.
+## 2       B6 44479             JetBlue Airways
+## 3       DL 41683        Delta Air Lines Inc.
+## 4       EV 39819    ExpressJet Airlines Inc.
+## 5       AA 26302      American Airlines Inc.
+## 6       MQ 18559                   Envoy Air
+## 7       US 16750             US Airways Inc.
+## 8       WN 11902      Southwest Airlines Co.
+## 9       VX  4797              Virgin America
+## 10      FL  1251 AirTran Airways Corporation
+## 11      AS   574        Alaska Airlines Inc.
+## 12      F9   473      Frontier Airlines Inc.
+## 13      HA   260      Hawaiian Airlines Inc.
+## 14      OO   200       SkyWest Airlines Inc.
+```
 
 ---
     </textarea>
