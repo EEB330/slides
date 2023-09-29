@@ -15,6 +15,72 @@ output:
       countdown: 60000
 ---
 
+class: left, top
+background-image: url(figures/recap.png)
+background-position: center right
+background-size:  50%
+
+
+# Recap
+
+### Stuff we saw once:
+
+- Assigning variables
+  - vectors, matrices and arrays (all elements same type)
+  - lists (can be of `!=` types)
+  - data.frames (lists of vectors of the same type)
+--
+
+- Modifying variables
+  - Indexing to modify parts of an object
+--
+
+- Logical comparisons
+  - indexing with logical vectors
+--
+
+- Conditionals
+  - do something based on a logical comparison
+  - `if` or `if-else` patterns
+--
+
+- Loops: repeat an operation given some criteria
+  - `for` loops iterate over a vector or list 
+  - `while` loops repeat while a condition is `TRUE`
+
+---
+
+# Recap
+
+.pull-left[
+- Functions
+  - allows for generic code to be applied to any input
+  - less repetition, more modularity
+  - access to **VAST** array of useful R packages in CRAN, Bioconductor and github
+  - To use a package (e.g. `tidyverse`):
+
+```r
+install.packages("tidyverse") #or
+pak::pkg_install("tidyverse")
+library(tidyverse)
+``` 
+
+]
+--
+
+.pull-right[
+  - Regular expressions
+    - super advanced find
+    - Can be used to modify, parse, validade, or generally work with strings
+
+- Reading tabular data
+  - `rio` package is your friend
+  - be mindful of **file paths** and **separators**
+  - bioinformatics formats relate to sequence and variation, but we will return to this latter in the course
+]
+
+---
+
 class: inverse, center, middle
 # Messy data is a fact of life 
 
@@ -125,19 +191,17 @@ tribble(
 
 # Tidy it up!
 
-.pull-left[
+![](figures/tidy.png)
+
 ```{r}
 # install.packages(tidyverse)
 library(tidyverse)
 classroom2 <- classroom %>% 
-  pivot_longer(quiz1:test1, names_to = "assessment", values_to = "grade") %>% 
+  pivot_longer(cols = c(quiz1, quiz2, test1), names_to = "assessment", values_to = "grade") %>% 
   arrange(name, assessment)
 classroom2
 ```
-]
-.pull-right[
-![](figures/tidy.png)
-]
+
 
 ---
 
