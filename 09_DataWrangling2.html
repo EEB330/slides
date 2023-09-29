@@ -18,7 +18,7 @@ class: center, middle, inverse, title-slide
 # Data Wrangling 2
 ]
 .subtitle[
-## Complex sequences of manipulations
+## Complex sequences of manipulations and joins
 ]
 .author[
 ### Diogo Melo
@@ -43,26 +43,32 @@ class: inverse, center, middle
 
 
 ```r
+library(tidyverse)
+library(nycflights13)
 flights |&gt; 
   count(carrier)
 ```
 
 ```
+## # A tibble: 16 × 2
 ##    carrier     n
-## 1       AA 26302
-## 2       AS   574
-## 3       B6 44479
-## 4       DL 41683
-## 5       EV 39819
-## 6       F9   473
-## 7       FL  1251
-## 8       HA   260
-## 9       MQ 18559
-## 10      OO   200
-## 11      UA 46267
-## 12      US 16750
-## 13      VX  4797
-## 14      WN 11902
+##    &lt;chr&gt;   &lt;int&gt;
+##  1 9E      18460
+##  2 AA      32729
+##  3 AS        714
+##  4 B6      54635
+##  5 DL      48110
+##  6 EV      54173
+##  7 F9        685
+##  8 FL       3260
+##  9 HA        342
+## 10 MQ      26397
+## 11 OO         32
+## 12 UA      58665
+## 13 US      20536
+## 14 VX       5162
+## 15 WN      12275
+## 16 YV        601
 ```
 
 ---
@@ -81,21 +87,21 @@ flights %&gt;%
 ```
 
 ```
-## # A tibble: 32 × 3
-## # Groups:   carrier [14]
+## # A tibble: 35 × 3
+## # Groups:   carrier [16]
 ##    carrier origin     n
 ##    &lt;chr&gt;   &lt;chr&gt;  &lt;int&gt;
-##  1 AA      EWR     2649
-##  2 AA      JFK    11923
-##  3 AA      LGA    11730
-##  4 AS      EWR      574
-##  5 B6      EWR     5473
-##  6 B6      JFK    34220
-##  7 B6      LGA     4786
-##  8 DL      EWR     4153
-##  9 DL      JFK    18860
-## 10 DL      LGA    18670
-## # ℹ 22 more rows
+##  1 9E      EWR     1268
+##  2 9E      JFK    14651
+##  3 9E      LGA     2541
+##  4 AA      EWR     3487
+##  5 AA      JFK    13783
+##  6 AA      LGA    15459
+##  7 AS      EWR      714
+##  8 B6      EWR     6557
+##  9 B6      JFK    42076
+## 10 B6      LGA     6002
+## # ℹ 25 more rows
 ```
 
 ---
@@ -112,8 +118,10 @@ flights %&gt;%
 ```
 
 ```
+## # A tibble: 1 × 1
 ##   mean_delay
-## 1   8.146702
+##        &lt;dbl&gt;
+## 1         NA
 ```
 ]
 --
@@ -125,29 +133,96 @@ flights %&gt;%
 ```r
 flights %&gt;%
   group_by(carrier) %&gt;%
-  summarize(delay = mean(arr_delay))
+  summarize(delay = mean(arr_delay)) # can do more operations here
 ```
 
 ```
-## # A tibble: 14 × 2
+## # A tibble: 16 × 2
 ##    carrier delay
 ##    &lt;chr&gt;   &lt;dbl&gt;
-##  1 AA       5.46
-##  2 AS      -3.89
-##  3 B6      10.2 
-##  4 DL       5.16
-##  5 EV      13.2 
-##  6 F9      26.6 
-##  7 FL      13.7 
-##  8 HA      12.4 
-##  9 MQ       9.50
-## 10 OO      14.8 
-## 11 UA       7.56
-## 12 US       1.00
-## 13 VX       3.25
-## 14 WN      11.2
+##  1 9E      NA   
+##  2 AA      NA   
+##  3 AS      NA   
+##  4 B6      NA   
+##  5 DL      NA   
+##  6 EV      NA   
+##  7 F9      NA   
+##  8 FL      NA   
+##  9 HA      -6.92
+## 10 MQ      NA   
+## 11 OO      NA   
+## 12 UA      NA   
+## 13 US      NA   
+## 14 VX      NA   
+## 15 WN      NA   
+## 16 YV      NA
 ```
 ]
+
+---
+
+# Combining operations 
+
+- The power of the `tidyverse` mindset and tools comes from combining the operations:
+
+Nasty example: [00-read_process_SIVEP_CSV.R](https://github.com/covid19br/nowcasting/blob/master/_src/projecao_leitos/00-read_process_SIVEP_CSV.R)
+
+- Finding fast flights to Houston:
+
+
+```r
+#pak::pkg_install("nycflights13")
+library(nycflights13)
+library(tidyverse)
+flights |&gt; 
+  filter(dest == "IAH") |&gt; 
+  mutate(speed = distance / air_time * 60) |&gt; 
+  select(year:day, dep_time, carrier, flight, speed) |&gt; 
+  arrange(desc(speed)) |&gt; 
+  print(n = 3)
+```
+
+```
+## # A tibble: 7,198 × 7
+##    year month   day dep_time carrier flight speed
+##   &lt;int&gt; &lt;int&gt; &lt;int&gt;    &lt;int&gt; &lt;chr&gt;    &lt;int&gt; &lt;dbl&gt;
+## 1  2013     7     9      707 UA         226  522.
+## 2  2013     8    27     1850 UA        1128  521.
+## 3  2013     8    28      902 UA        1711  519.
+## # ℹ 7,195 more rows
+```
+
+---
+
+# No pipes?
+
+- Nested calls
+
+```r
+arrange(
+  select(
+    mutate(
+      filter(
+        flights, 
+        dest == "IAH"
+      ),
+      speed = distance / air_time * 60
+    ),
+    year:day, dep_time, carrier, flight, speed
+  ),
+  desc(speed)
+)
+```
+--
+
+- Intermediate objects
+
+```r
+flights1 &lt;- filter(flights, dest == "IAH")
+flights2 &lt;- mutate(flights1, speed = distance / air_time * 60)
+flights3 &lt;- select(flights2, year:day, dep_time, carrier, flight, speed)
+arrange(flights3, desc(speed))
+```
 
 ---
 
@@ -167,9 +242,9 @@ flights %&gt;%
 
 ```
 ##   x          y
-## 1 1 -0.5048437
-## 2 2  0.9463597
-## 3 3 -0.8836745
+## 1 1 -1.2940463
+## 2 2  0.4367679
+## 3 3  1.0957171
 ```
 
 ```r
@@ -178,9 +253,9 @@ flights %&gt;%
 
 ```
 ##   x          y
-## 1 4  0.3331601
-## 2 5  0.8752512
-## 3 6 -0.2865091
+## 1 4 -0.3011396
+## 2 5 -0.5297248
+## 3 6  0.7616937
 ```
 ]
 --
@@ -193,12 +268,12 @@ bind_rows(df_1, df_2)
 
 ```
 ##   x          y
-## 1 1 -0.5048437
-## 2 2  0.9463597
-## 3 3 -0.8836745
-## 4 4  0.3331601
-## 5 5  0.8752512
-## 6 6 -0.2865091
+## 1 1 -1.2940463
+## 2 2  0.4367679
+## 3 3  1.0957171
+## 4 4 -0.3011396
+## 5 5 -0.5297248
+## 6 6  0.7616937
 ```
 - For many data.frames, we can put them in a list:
 ```r
@@ -281,21 +356,25 @@ n_flights
 ```
 
 ```
+## # A tibble: 16 × 2
 ##    carrier     n
-## 1       AA 26302
-## 2       AS   574
-## 3       B6 44479
-## 4       DL 41683
-## 5       EV 39819
-## 6       F9   473
-## 7       FL  1251
-## 8       HA   260
-## 9       MQ 18559
-## 10      OO   200
-## 11      UA 46267
-## 12      US 16750
-## 13      VX  4797
-## 14      WN 11902
+##    &lt;chr&gt;   &lt;int&gt;
+##  1 9E      18460
+##  2 AA      32729
+##  3 AS        714
+##  4 B6      54635
+##  5 DL      48110
+##  6 EV      54173
+##  7 F9        685
+##  8 FL       3260
+##  9 HA        342
+## 10 MQ      26397
+## 11 OO         32
+## 12 UA      58665
+## 13 US      20536
+## 14 VX       5162
+## 15 WN      12275
+## 16 YV        601
 ```
 ]
 --
@@ -342,21 +421,25 @@ n_flights
 ```
 
 ```
-##    carrier     n                        name
-## 1       AA 26302      American Airlines Inc.
-## 2       AS   574        Alaska Airlines Inc.
-## 3       B6 44479             JetBlue Airways
-## 4       DL 41683        Delta Air Lines Inc.
-## 5       EV 39819    ExpressJet Airlines Inc.
-## 6       F9   473      Frontier Airlines Inc.
-## 7       FL  1251 AirTran Airways Corporation
-## 8       HA   260      Hawaiian Airlines Inc.
-## 9       MQ 18559                   Envoy Air
-## 10      OO   200       SkyWest Airlines Inc.
-## 11      UA 46267       United Air Lines Inc.
-## 12      US 16750             US Airways Inc.
-## 13      VX  4797              Virgin America
-## 14      WN 11902      Southwest Airlines Co.
+## # A tibble: 16 × 3
+##    carrier     n name                       
+##    &lt;chr&gt;   &lt;int&gt; &lt;chr&gt;                      
+##  1 9E      18460 Endeavor Air Inc.          
+##  2 AA      32729 American Airlines Inc.     
+##  3 AS        714 Alaska Airlines Inc.       
+##  4 B6      54635 JetBlue Airways            
+##  5 DL      48110 Delta Air Lines Inc.       
+##  6 EV      54173 ExpressJet Airlines Inc.   
+##  7 F9        685 Frontier Airlines Inc.     
+##  8 FL       3260 AirTran Airways Corporation
+##  9 HA        342 Hawaiian Airlines Inc.     
+## 10 MQ      26397 Envoy Air                  
+## 11 OO         32 SkyWest Airlines Inc.      
+## 12 UA      58665 United Air Lines Inc.      
+## 13 US      20536 US Airways Inc.            
+## 14 VX       5162 Virgin America             
+## 15 WN      12275 Southwest Airlines Co.     
+## 16 YV        601 Mesa Airlines Inc.
 ```
 
 This works well if all the keys in the first data.frame are in the second data.frames
@@ -439,24 +522,27 @@ inner_join(n_flights, airlines, by = "carrier") %&gt;%
 ```
 
 ```
-##    carrier     n                        name
-## 1       UA 46267       United Air Lines Inc.
-## 2       B6 44479             JetBlue Airways
-## 3       DL 41683        Delta Air Lines Inc.
-## 4       EV 39819    ExpressJet Airlines Inc.
-## 5       AA 26302      American Airlines Inc.
-## 6       MQ 18559                   Envoy Air
-## 7       US 16750             US Airways Inc.
-## 8       WN 11902      Southwest Airlines Co.
-## 9       VX  4797              Virgin America
-## 10      FL  1251 AirTran Airways Corporation
-## 11      AS   574        Alaska Airlines Inc.
-## 12      F9   473      Frontier Airlines Inc.
-## 13      HA   260      Hawaiian Airlines Inc.
-## 14      OO   200       SkyWest Airlines Inc.
+## # A tibble: 16 × 3
+##    carrier     n name                       
+##    &lt;chr&gt;   &lt;int&gt; &lt;chr&gt;                      
+##  1 UA      58665 United Air Lines Inc.      
+##  2 B6      54635 JetBlue Airways            
+##  3 EV      54173 ExpressJet Airlines Inc.   
+##  4 DL      48110 Delta Air Lines Inc.       
+##  5 AA      32729 American Airlines Inc.     
+##  6 MQ      26397 Envoy Air                  
+##  7 US      20536 US Airways Inc.            
+##  8 9E      18460 Endeavor Air Inc.          
+##  9 WN      12275 Southwest Airlines Co.     
+## 10 VX       5162 Virgin America             
+## 11 FL       3260 AirTran Airways Corporation
+## 12 AS        714 Alaska Airlines Inc.       
+## 13 F9        685 Frontier Airlines Inc.     
+## 14 YV        601 Mesa Airlines Inc.         
+## 15 HA        342 Hawaiian Airlines Inc.     
+## 16 OO         32 SkyWest Airlines Inc.
 ```
 
----
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>

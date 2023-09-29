@@ -1,6 +1,6 @@
 ---
 title: "Data Wrangling 2"
-subtitle: "Complex sequences of manipulations"
+subtitle: "Complex sequences of manipulations and joins" 
 author: Diogo Melo
 date: Oct. 4th, 2023
 runtime: static
@@ -27,6 +27,8 @@ class: inverse, center, middle
 - Good way to get the unique values in a column (there is also the base function `unique`)
 
 ```{r}
+library(tidyverse)
+library(nycflights13)
 flights |> 
   count(carrier)
 ```
@@ -65,9 +67,61 @@ flights %>%
 ```{r}
 flights %>%
   group_by(carrier) %>%
-  summarize(delay = mean(arr_delay))
+  summarize(delay = mean(arr_delay)) # can do more operations here
 ```
 ]
+
+---
+
+# Combining operations 
+
+- The power of the `tidyverse` mindset and tools comes from combining the operations:
+
+Nasty example: [00-read_process_SIVEP_CSV.R](https://github.com/covid19br/nowcasting/blob/master/_src/projecao_leitos/00-read_process_SIVEP_CSV.R)
+
+- Finding fast flights to Houston:
+
+```{r}
+#pak::pkg_install("nycflights13")
+library(nycflights13)
+library(tidyverse)
+flights |> 
+  filter(dest == "IAH") |> 
+  mutate(speed = distance / air_time * 60) |> 
+  select(year:day, dep_time, carrier, flight, speed) |> 
+  arrange(desc(speed)) |> 
+  print(n = 3)
+```
+
+---
+
+# No pipes?
+
+- Nested calls
+```{r, eval = FALSE}
+arrange(
+  select(
+    mutate(
+      filter(
+        flights, 
+        dest == "IAH"
+      ),
+      speed = distance / air_time * 60
+    ),
+    year:day, dep_time, carrier, flight, speed
+  ),
+  desc(speed)
+)
+```
+--
+
+- Intermediate objects
+```{r, eval = F}
+flights1 <- filter(flights, dest == "IAH")
+flights2 <- mutate(flights1, speed = distance / air_time * 60)
+flights3 <- select(flights2, year:day, dep_time, carrier, flight, speed)
+arrange(flights3, desc(speed))
+```
 
 ---
 
@@ -240,4 +294,3 @@ inner_join(n_flights, airlines, by = "carrier") %>%
   arrange(desc(n))
 ```
 
----
