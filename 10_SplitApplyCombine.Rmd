@@ -1,0 +1,39 @@
+---
+title: "Split Apply Combine"
+subtitle: "Loops are for suckers" 
+author: Diogo Melo
+date: Oct. 9th, 2023
+runtime: static
+output:
+  xaringan::moon_reader:
+    css: [default, metropolis, metropolis-fonts, "styles.css"]
+    nature:
+      highlightLines: true
+      chakra: libs/remark-latest.min.js
+      beforeInit: "macros.js"
+      ratio: "16:10"
+      countdown: 60000
+---
+
+
+class: inverse, center, middle
+# Loops are slow in R
+
+---
+
+class: left, top
+background-image: url(figures/splitApplyCombine.png)
+background-position: center middle
+background-size:  70%
+
+# Split-apply-combine scheme
+
+---
+
+# The apply family of functions
+
+- Meant to make using functions along object easy
+
+- Several types, depending on the input and output type
+
+---

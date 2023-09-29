@@ -17,6 +17,8 @@ library(rmarkdown)
 # # ## Week 4
 render("08_DataWrangling1.Rmd")
 render("09_DataWrangling2.Rmd")
+# # ## Week 5
+render("10_SplitApplyCombine.Rmd")
 
 # ## Precepts
 # ## Week 2
