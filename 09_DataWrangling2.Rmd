@@ -294,3 +294,17 @@ inner_join(n_flights, airlines, by = "carrier") %>%
   arrange(desc(n))
 ```
 
+---
+
+# I can never remember any of this!! 
+
+
+.center[
+.font170[**Use the cheat sheet!**]
+]
+
+.center[
+![](figures/cheatsheet.png)
+]
+
+https://www.rstudio.com/wp-content/uploads/2015/02/data-wrangling-cheatsheet.pdf

@@ -4,7 +4,7 @@
     <title>Data Wrangling 2</title>
     <meta charset="utf-8" />
     <meta name="author" content="Diogo Melo" />
-    <script src="09_DataWrangling2_files/header-attrs-2.23/header-attrs.js"></script>
+    <script src="09_DataWrangling2_files/header-attrs-2.21/header-attrs.js"></script>
     <link href="09_DataWrangling2_files/remark-css-0.0.1/default.css" rel="stylesheet" />
     <link href="09_DataWrangling2_files/remark-css-0.0.1/metropolis.css" rel="stylesheet" />
     <link href="09_DataWrangling2_files/remark-css-0.0.1/metropolis-fonts.css" rel="stylesheet" />
@@ -242,9 +242,9 @@ arrange(flights3, desc(speed))
 
 ```
 ##   x          y
-## 1 1 -1.2940463
-## 2 2  0.4367679
-## 3 3  1.0957171
+## 1 1 -1.0184070
+## 2 2 -0.4522131
+## 3 3 -0.1224616
 ```
 
 ```r
@@ -252,10 +252,10 @@ arrange(flights3, desc(speed))
 ```
 
 ```
-##   x          y
-## 1 4 -0.3011396
-## 2 5 -0.5297248
-## 3 6  0.7616937
+##   x           y
+## 1 4 -0.80743579
+## 2 5  0.07037787
+## 3 6 -0.06147014
 ```
 ]
 --
@@ -267,13 +267,13 @@ bind_rows(df_1, df_2)
 ```
 
 ```
-##   x          y
-## 1 1 -1.2940463
-## 2 2  0.4367679
-## 3 3  1.0957171
-## 4 4 -0.3011396
-## 5 5 -0.5297248
-## 6 6  0.7616937
+##   x           y
+## 1 1 -1.01840703
+## 2 2 -0.45221311
+## 3 3 -0.12246163
+## 4 4 -0.80743579
+## 5 5  0.07037787
+## 6 6 -0.06147014
 ```
 - For many data.frames, we can put them in a list:
 ```r
@@ -543,6 +543,20 @@ inner_join(n_flights, airlines, by = "carrier") %&gt;%
 ## 16 OO         32 SkyWest Airlines Inc.
 ```
 
+---
+
+# I can never remember any of this!! 
+
+
+.center[
+.font170[**Use the cheat sheet!**]
+]
+
+.center[
+![](figures/cheatsheet.png)
+]
+
+https://www.rstudio.com/wp-content/uploads/2015/02/data-wrangling-cheatsheet.pdf
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
