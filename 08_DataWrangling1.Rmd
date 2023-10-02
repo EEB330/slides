@@ -307,12 +307,14 @@ tb3 = who %>% pivot_longer(
 tb3
 ```
 
+
+
 ---
 
 # Regular expressions
 ```{r}
 tb3 = who %>% pivot_longer(
-   !c(country , iso2 , iso3  , year), 
+  !c(country , iso2 , iso3  , year), 
   names_to = c("sp", "sex", "age"), 
   names_pattern = "new_?(.{2,3})_(.)(.+)", # can´t beleive I got this right...
   values_to = "n", 
