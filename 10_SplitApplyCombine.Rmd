@@ -37,3 +37,25 @@ background-size:  70%
 - Several types, depending on the input and output type
 
 ---
+
+# For vectors and lists
+
+- sapply and lapply
+
+---
+
+# For matrices
+
+- apply
+
+---
+
+# For two vectors
+
+- tapply
+
+---
+
+# purrr package 
+
+---
