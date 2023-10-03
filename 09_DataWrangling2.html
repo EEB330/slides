@@ -30,11 +30,19 @@ class: center, middle, inverse, title-slide
 ---
 
 
+# Cheat sheets galore
+
+.font150[
+[Posit/Rstudio Cheatsheets](https://rstudio.github.io/cheatsheets/)
+]
+
+---
 
 class: inverse, center, middle
 # Processing data sets 
 
 ---
+
 
 # Counting along columns
 
@@ -43,9 +51,10 @@ class: inverse, center, middle
 
 
 ```r
-library(tidyverse)
+#pak::pkg_install("nycflights13")
 library(nycflights13)
-flights |&gt; 
+library(tidyverse)
+flights %&gt;% 
   count(carrier)
 ```
 
@@ -114,14 +123,15 @@ flights %&gt;%
 
 ```r
 flights %&gt;%
-  summarise(mean_delay = mean(arr_delay))
+  summarise(mean_delay = mean(arr_delay, 
+                              na.rm = TRUE))
 ```
 
 ```
 ## # A tibble: 1 × 1
 ##   mean_delay
 ##        &lt;dbl&gt;
-## 1         NA
+## 1       6.90
 ```
 ]
 --
@@ -133,47 +143,180 @@ flights %&gt;%
 ```r
 flights %&gt;%
   group_by(carrier) %&gt;%
-  summarize(delay = mean(arr_delay)) # can do more operations here
+  summarize(delay = mean(arr_delay, 
+                         na.rm = TRUE)) %&gt;%
+  print(n = 9)
 ```
 
 ```
 ## # A tibble: 16 × 2
-##    carrier delay
-##    &lt;chr&gt;   &lt;dbl&gt;
-##  1 9E      NA   
-##  2 AA      NA   
-##  3 AS      NA   
-##  4 B6      NA   
-##  5 DL      NA   
-##  6 EV      NA   
-##  7 F9      NA   
-##  8 FL      NA   
-##  9 HA      -6.92
-## 10 MQ      NA   
-## 11 OO      NA   
-## 12 UA      NA   
-## 13 US      NA   
-## 14 VX      NA   
-## 15 WN      NA   
-## 16 YV      NA
+##   carrier  delay
+##   &lt;chr&gt;    &lt;dbl&gt;
+## 1 9E       7.38 
+## 2 AA       0.364
+## 3 AS      -9.93 
+## 4 B6       9.46 
+## 5 DL       1.64 
+## 6 EV      15.8  
+## 7 F9      21.9  
+## 8 FL      20.1  
+## 9 HA      -6.92 
+## # ℹ 7 more rows
 ```
 ]
 
 ---
 
-# Combining operations 
+# Summarize across multiple columns
+
+ - the `across` function can apply a summary function across multiple variables:
+
+ 
+ ```r
+ iris |&gt; 
+  summarize(across(1:4, mean))
+ ```
+ 
+ ```
+ ##   Sepal.Length Sepal.Width Petal.Length Petal.Width
+ ## 1     5.843333    3.057333        3.758    1.199333
+ ```
+
+---
+
+# Adding columns using conditionals
+
+- `if_else` function plays nice with tidyverse
+
+
+```r
+library(covidcast)
+data(state_census)
+head(state_census[1:6])
+```
+
+```
+##   SUMLEV REGION DIVISION STATE          NAME POPESTIMATE2019
+## 1     10      0        0     0 United States       328239523
+## 2     40      3        6     1       Alabama         4903185
+## 3     40      4        9     2        Alaska          731545
+## 4     40      4        8     4       Arizona         7278717
+## 5     40      3        7     5      Arkansas         3017804
+## 6     40      4        9     6    California        39512223
+```
+
+
+```r
+state_census %&gt;%
+  rename(population  = POPESTIMATE2019) %&gt;%
+  mutate(Size = if_else(population &gt; mean(population), "Large", "Small")) %&gt;%
+  select(NAME, Size)
+```
+
+```
+##                        NAME  Size
+## 1             United States Large
+## 2                   Alabama Small
+## 3                    Alaska Small
+## 4                   Arizona Small
+## 5                  Arkansas Small
+## 6                California Large
+## 7                  Colorado Small
+## 8               Connecticut Small
+## 9                  Delaware Small
+## 10     District of Columbia Small
+## 11                  Florida Large
+## 12                  Georgia Small
+## 13                   Hawaii Small
+## 14                    Idaho Small
+## 15                 Illinois Large
+## 16                  Indiana Small
+## 17                     Iowa Small
+## 18                   Kansas Small
+## 19                 Kentucky Small
+## 20                Louisiana Small
+## 21                    Maine Small
+## 22                 Maryland Small
+## 23            Massachusetts Small
+## 24                 Michigan Small
+## 25                Minnesota Small
+## 26              Mississippi Small
+## 27                 Missouri Small
+## 28                  Montana Small
+## 29                 Nebraska Small
+## 30                   Nevada Small
+## 31            New Hampshire Small
+## 32               New Jersey Small
+## 33               New Mexico Small
+## 34                 New York Large
+## 35           North Carolina Small
+## 36             North Dakota Small
+## 37                     Ohio Large
+## 38                 Oklahoma Small
+## 39                   Oregon Small
+## 40             Pennsylvania Large
+## 41             Rhode Island Small
+## 42           South Carolina Small
+## 43             South Dakota Small
+## 44                Tennessee Small
+## 45                    Texas Large
+## 46                     Utah Small
+## 47                  Vermont Small
+## 48                 Virginia Small
+## 49               Washington Small
+## 50            West Virginia Small
+## 51                Wisconsin Small
+## 52                  Wyoming Small
+## 53 Puerto Rico Commonwealth Small
+## 54           American Samoa Small
+## 55                     Guam Small
+## 56      U.S. Virgin Islands Small
+## 57 Northern Mariana Islands Small
+```
+---
+
+# Multiple case conditions
+
+
+- `case_when()` is a multi-case `if_else()`
+
+
+```r
+starwars |&gt;
+  mutate(type = case_when(
+    height &gt; 200 | mass &gt; 200 ~ "large",
+    species == "Droid" ~ "robot",
+    TRUE ~ "other"
+  )) %&gt;%
+  select(name, type) %&gt;% print(n = 7)
+```
+
+```
+## # A tibble: 87 × 2
+##   name               type 
+##   &lt;chr&gt;              &lt;chr&gt;
+## 1 Luke Skywalker     other
+## 2 C-3PO              robot
+## 3 R2-D2              robot
+## 4 Darth Vader        large
+## 5 Leia Organa        other
+## 6 Owen Lars          other
+## 7 Beru Whitesun lars other
+## # ℹ 80 more rows
+```
+
+---
+
+# Combining operations is key!
 
 - The power of the `tidyverse` mindset and tools comes from combining the operations:
 
-Nasty example: [00-read_process_SIVEP_CSV.R](https://github.com/covid19br/nowcasting/blob/master/_src/projecao_leitos/00-read_process_SIVEP_CSV.R)
+Nasty example from last lecture: [00-read_process_SIVEP_CSV.R](https://github.com/covid19br/nowcasting/blob/master/_src/projecao_leitos/00-read_process_SIVEP_CSV.R)
 
 - Finding fast flights to Houston:
 
 
 ```r
-#pak::pkg_install("nycflights13")
-library(nycflights13)
-library(tidyverse)
 flights |&gt; 
   filter(dest == "IAH") |&gt; 
   mutate(speed = distance / air_time * 60) |&gt; 
@@ -226,6 +369,12 @@ arrange(flights3, desc(speed))
 
 ---
 
+
+class: inverse, center, middle
+# Merging multiple datasets
+
+---
+
 # Combining data sets 
 
 - Sometimes the information we want is split across two data.frames
@@ -242,9 +391,9 @@ arrange(flights3, desc(speed))
 
 ```
 ##   x          y
-## 1 1 -1.0184070
-## 2 2 -0.4522131
-## 3 3 -0.1224616
+## 1 1 -0.6304068
+## 2 2  0.4009405
+## 3 3 -1.1208009
 ```
 
 ```r
@@ -252,10 +401,10 @@ arrange(flights3, desc(speed))
 ```
 
 ```
-##   x           y
-## 1 4 -0.80743579
-## 2 5  0.07037787
-## 3 6 -0.06147014
+##   x          y
+## 1 4  0.7854067
+## 2 5  2.3986772
+## 3 6 -0.1899543
 ```
 ]
 --
@@ -267,13 +416,13 @@ bind_rows(df_1, df_2)
 ```
 
 ```
-##   x           y
-## 1 1 -1.01840703
-## 2 2 -0.45221311
-## 3 3 -0.12246163
-## 4 4 -0.80743579
-## 5 5  0.07037787
-## 6 6 -0.06147014
+##   x          y
+## 1 1 -0.6304068
+## 2 2  0.4009405
+## 3 3 -1.1208009
+## 4 4  0.7854067
+## 5 5  2.3986772
+## 6 6 -0.1899543
 ```
 - For many data.frames, we can put them in a list:
 ```r
@@ -517,6 +666,7 @@ background-size:  65%
 
 ```r
 n_flights = flights %&gt;% count(carrier)
+
 inner_join(n_flights, airlines, by = "carrier") %&gt;% 
   arrange(desc(n))
 ```

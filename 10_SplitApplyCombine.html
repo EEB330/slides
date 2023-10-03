@@ -51,24 +51,193 @@ background-size:  70%
 
 - Several types, depending on the input and output type
 
----
+    - `apply`: along dimensions of an array
+    - `lapply`: along the elements of a vector or list, returns a list
+    - `sapply`: along the elements of a vector or list, returns a vector (if possible)
+    - `tapply`: along the elements of a vector, grouped by a factor vector
 
-# For vectors and lists
+- These differ in how the "split" part of Split-Apply-Combine is represented
 
-- sapply and lapply
-
----
-
-# For matrices
-
-- apply
+- These are not always "type stable": the output format can change depending on the function we use
 
 ---
 
-# For two vectors
+# apply in vectors and array
 
-- tapply
+- General strucure: 
+```r
+apply(X = array or matrix, 
+          MARGIN = dimension that is kept, 
+          FUN = function that is used)
+```
 
+
+```r
+data(iris)
+# Extract the numeric values as a matrix
+iris_num = as.matrix(iris[,1:4])
+
+# calculate colun means
+apply(iris_num, 2, mean)
+```
+
+```
+## Sepal.Length  Sepal.Width Petal.Length  Petal.Width 
+##     5.843333     3.057333     3.758000     1.199333
+```
+
+```r
+# This is so common there is a fast dedicated function:
+colMeans(iris_num)
+```
+
+```
+## Sepal.Length  Sepal.Width Petal.Length  Petal.Width 
+##     5.843333     3.057333     3.758000     1.199333
+```
+
+---
+
+# At least one array during this course...
+
+- The `iris3` dataset has the same data as in the `iris` dataframe, but in an array format
+
+- It has 3 dimensions
+    - Dim 1, rows, indexed individuals
+    - Dim 2, columns, indexes traits
+    - Dim 3, that lacks a common name, holds species
+
+
+```r
+dim(iris3)
+```
+
+```
+## [1] 50  4  3
+```
+--
+
+- To calculate the variance per trait per species
+
+
+```r
+apply(iris3, c(2, 3), var)
+```
+
+```
+##              Setosa Versicolor  Virginica
+## Sepal L. 0.12424898 0.26643265 0.40434286
+## Sepal W. 0.14368980 0.09846939 0.10400408
+## Petal L. 0.03015918 0.22081633 0.30458776
+## Petal W. 0.01110612 0.03910612 0.07543265
+```
+---
+
+# `tapply`, old school `group_by`
+
+- General strucure: 
+```r
+tapply(X = vector,
+          MARGIN = grouping_vector, 
+          FUN = function that is used)
+```
+
+
+```r
+sepal_means = tapply(iris$Petal.Length, iris$Species, mean)
+sepal_means
+```
+
+```
+##     setosa versicolor  virginica 
+##      1.462      4.260      5.552
+```
+--
+
+
+```r
+# Can be used to calculate residuals from the correct mean
+residuals = iris$Petal.Length - sepal_means[iris$Species]
+plot(iris$Petal.Length[iris$Species == unique(iris$Species)[1]], ylim = c(-1, 8), pch = 19)
+points(iris$Petal.Length[iris$Species == unique(iris$Species)[2]], ylim = c(-1, 8), col = 2, pch = 19)
+points(iris$Petal.Length[iris$Species == unique(iris$Species)[3]], ylim = c(-1, 8), col = 3, pch = 19)
+
+for(s in unique(iris$Species)){
+  points(residuals[iris$Species == s], ylim = c(-1, 8), col = 4, pch = 18)
+}
+```
+
+---
+
+# `lapply`, the super useful generic function for lists
+
+
+- General strucure: 
+```r
+lapply(X = vector or list,
+           FUN = function that is used)
+```
+
+
+```r
+# List all the csv files in the current folder
+my_csvs = dir(pattern = "\\.csv$")
+
+# Apply the read.csv function to each file
+input_dfs = lapply(my_csvs, read.csv)
+
+# Check out the dimensions of the imputed data.frames
+lapply(input_dfs, dim)
+```
+
+```
+## [[1]]
+## [1] 150   5
+## 
+## [[2]]
+## [1] 5769   23
+```
+
+
+---
+
+class: inverse, center, middle
+# Modern Alternatives to apply functions
+
+---
+
+# The evolution of the apply family: `plyr`
+
+- The `plyr` package is an early tidyverse precursor that provides more intuitive replacements for the apply family of functions.
+
+- Functions have a generic naming scheme: `..ply()`
+
+.pull-left[
+  - The first letter defines the input format:
+    - `l.ply()` - receives a list
+    - `d.ply()` - receives a data.frame
+    - `a.ply()` - receives an array
+] 
+--
+.pull-right[
+  - The second letter defines the output format:
+    - `.lply()` - outputs a list
+    - `.dply()` - outputs a data.frame
+    - `.aply()` - outputs an array
+] 
+--
+
+```r
+library(plyr)
+adply(iris3, 3, colMeans) # Array to data.frame
+```
+
+```
+##           X1 Sepal L. Sepal W. Petal L. Petal W.
+## 1     Setosa    5.006    3.428    1.462    0.246
+## 2 Versicolor    5.936    2.770    4.260    1.326
+## 3  Virginica    6.588    2.974    5.552    2.026
+```
 ---
 
 # purrr package 

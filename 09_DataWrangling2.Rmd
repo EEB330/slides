@@ -15,11 +15,19 @@ output:
       countdown: 60000
 ---
 
+# Cheat sheets galore
+
+.font150[
+[Posit/Rstudio Cheatsheets](https://rstudio.github.io/cheatsheets/)
+]
+
+---
 
 class: inverse, center, middle
 # Processing data sets 
 
 ---
+
 
 # Counting along columns
 
@@ -27,9 +35,10 @@ class: inverse, center, middle
 - Good way to get the unique values in a column (there is also the base function `unique`)
 
 ```{r}
-library(tidyverse)
+#pak::pkg_install("nycflights13")
 library(nycflights13)
-flights |> 
+library(tidyverse)
+flights %>% 
   count(carrier)
 ```
 
@@ -56,7 +65,8 @@ flights %>%
 
 ```{r}
 flights %>%
-  summarise(mean_delay = mean(arr_delay))
+  summarise(mean_delay = mean(arr_delay, 
+                              na.rm = TRUE))
 ```
 ]
 --
@@ -67,24 +77,70 @@ flights %>%
 ```{r}
 flights %>%
   group_by(carrier) %>%
-  summarize(delay = mean(arr_delay)) # can do more operations here
-```
+  summarize(delay = mean(arr_delay, 
+                         na.rm = TRUE)) %>%
+  print(n = 9)
+``` 
 ]
 
 ---
 
-# Combining operations 
+# Summarize across multiple columns
+
+ - the `across` function can apply a summary function across multiple variables:
+
+ ```{r}
+ iris |> 
+  summarize(across(1:4, mean))
+ ```
+
+---
+
+# Adding columns using conditionals
+
+- `if_else` function plays nice with tidyverse
+
+```{r}
+library(covidcast)
+data(state_census)
+head(state_census[1:6])
+```
+
+```{r}
+state_census %>%
+  rename(population  = POPESTIMATE2019) %>%
+  mutate(Size = if_else(population > mean(population), "Large", "Small")) %>%
+  select(NAME, Size)
+```
+---
+
+# Multiple case conditions
+
+
+- `case_when()` is a multi-case `if_else()`
+
+```{r}
+starwars |>
+  mutate(type = case_when(
+    height > 200 | mass > 200 ~ "large",
+    species == "Droid" ~ "robot",
+    TRUE ~ "other"
+  )) %>%
+  select(name, type) %>% print(n = 7)
+
+```
+
+---
+
+# Combining operations is key!
 
 - The power of the `tidyverse` mindset and tools comes from combining the operations:
 
-Nasty example: [00-read_process_SIVEP_CSV.R](https://github.com/covid19br/nowcasting/blob/master/_src/projecao_leitos/00-read_process_SIVEP_CSV.R)
+Nasty example from last lecture: [00-read_process_SIVEP_CSV.R](https://github.com/covid19br/nowcasting/blob/master/_src/projecao_leitos/00-read_process_SIVEP_CSV.R)
 
 - Finding fast flights to Houston:
 
 ```{r}
-#pak::pkg_install("nycflights13")
-library(nycflights13)
-library(tidyverse)
 flights |> 
   filter(dest == "IAH") |> 
   mutate(speed = distance / air_time * 60) |> 
@@ -122,6 +178,12 @@ flights2 <- mutate(flights1, speed = distance / air_time * 60)
 flights3 <- select(flights2, year:day, dep_time, carrier, flight, speed)
 arrange(flights3, desc(speed))
 ```
+
+---
+
+
+class: inverse, center, middle
+# Merging multiple datasets
 
 ---
 
@@ -290,6 +352,7 @@ background-size:  65%
 
 ```{r}
 n_flights = flights %>% count(carrier)
+
 inner_join(n_flights, airlines, by = "carrier") %>% 
   arrange(desc(n))
 ```

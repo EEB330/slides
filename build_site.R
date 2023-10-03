@@ -1,7 +1,11 @@
-# pak::pkg_install(c("xaringan", "xaringanExtra", "leaflet", 'knitr', "stringi", "cowplot", "readr", "data.table", "curl", "numbers", "babynames", "nycflights13"))
+# pak::pkg_install(c("xaringan", "xaringanExtra", "leaflet", 'knitr', "stringi", "cowplot", "readr", "data.table", "curl", "numbers", "babynames", "nycflights13", "covidcast"))
 # xaringan::summon_remark()
 
 library(rmarkdown)
+library(MASS)
+library(plyr)
+library(dplyr)
+library(covidcast)
 ## Week 1
 #render("00_Why_Programming.Rmd")
 #render("01_Computer_programming.Rmd")
@@ -15,7 +19,7 @@ library(rmarkdown)
 #render("06_DataIO.Rmd")
 #render("07_RegularExpressions.Rmd")
 # # ## Week 4
-render("08_DataWrangling1.Rmd")
+#render("08_DataWrangling1.Rmd")
 render("09_DataWrangling2.Rmd")
 # # ## Week 5
 render("10_SplitApplyCombine.Rmd")
@@ -29,4 +33,4 @@ render("10_SplitApplyCombine.Rmd")
 # render("precepts/01_control_flow.Rmd")
 
 # ## Week 4
-render("precepts/02_io_and_strings.Rmd")
+# render("precepts/02_io_and_strings.Rmd")
