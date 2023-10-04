@@ -34,3 +34,6 @@ render("10_SplitApplyCombine.Rmd")
 
 # ## Week 4
 # render("precepts/02_io_and_strings.Rmd")
+
+## Week 4
+render("precepts/03_data_wrangling.Rmd")
