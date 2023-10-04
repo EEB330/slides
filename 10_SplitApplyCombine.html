@@ -208,7 +208,7 @@ class: inverse, center, middle
 
 # The evolution of the apply family: `plyr`
 
-- The `plyr` package is an early tidyverse precursor that provides more intuitive replacements for the apply family of functions.
+- The `plyr` package is an early tidyverse precursor that provides more intuitive, type stable, replacements for the apply family of functions.
 
 - Functions have a generic naming scheme: `..ply()`
 
@@ -240,9 +240,288 @@ adply(iris3, 3, colMeans) # Array to data.frame
 ```
 ---
 
-# purrr package 
+# `l.ply`
+
+- Lists are naturaly segregated, so we only need to pass an input list and a function
+
+
+```r
+library(plyr)
+simple_list &lt;- list('zero' = rnorm(5), 
+                    'five' = rnorm(5, 5), 
+                    'ten' = rnorm(5, 10))
+simple_list
+```
+
+```
+## $zero
+## [1] -1.2258300 -0.2265612 -0.5559499 -1.8502338 -0.7720745
+## 
+## $five
+## [1] 5.114889 5.134010 6.277687 4.383254 5.852625
+## 
+## $ten
+## [1] 10.369278 10.468180  9.339304  9.749972  8.921894
+```
+
+```r
+laply(simple_list, mean)
+```
+
+```
+## [1] -0.9261299  5.3524929  9.7697255
+```
 
 ---
+
+# Type conversions using `plyr`
+
+- The plyr functions are convenient for converting objects:
+- To convert out list to a data.frame, use `ldply`:
+
+```r
+ldply(simple_list)
+```
+
+```
+##    .id        V1         V2         V3        V4         V5
+## 1 zero -1.225830 -0.2265612 -0.5559499 -1.850234 -0.7720745
+## 2 five  5.114889  5.1340101  6.2776869  4.383254  5.8526250
+## 3  ten 10.369278 10.4681802  9.3393039  9.749972  8.9218936
+```
+
+- Or to an array, using `laply`:
+
+
+```r
+laply(simple_list, identity) # for arrays we need the identity() function
+```
+
+```
+##              1          2          3         4          5
+## [1,] -1.225830 -0.2265612 -0.5559499 -1.850234 -0.7720745
+## [2,]  5.114889  5.1340101  6.2776869  4.383254  5.8526250
+## [3,] 10.369278 10.4681802  9.3393039  9.749972  8.9218936
+```
+
+---
+
+# `a.ply` functions
+
+- Arrays lack a natural division, so we need to specify the dimensions to apply the functions using the second argument
+
+- aaply is NOT a drop-in replacement for apply, can you spot why?
+
+```r
+aaply(iris3, 3, colMeans)
+```
+
+```
+##             
+## X1           Sepal L. Sepal W. Petal L. Petal W.
+##   Setosa        5.006    3.428    1.462    0.246
+##   Versicolor    5.936    2.770    4.260    1.326
+##   Virginica     6.588    2.974    5.552    2.026
+```
+
+---
+
+# `d.ply` is mostly obsolete
+
+- Any time you feel the urge to use plyr to work on a data.frame, you should probably use the tidyverse functions we saw last week
+
+- `dplyr`, the tidyverse package that holds all the data.frame manipulation functions is a more modern version of `ddply`
+
+- If you do need to use `d.ply`, there are some pitfals.
+
+- This command fails, because ddply does not ignore the grouping variable when passing the remaining columns to the function:
+
+```r
+ddply(iris, "Species", colMeans
+Error in .fun(piece, ...) : 'x' must be numeric
+```
+--
+- We can solve this by creating a single-use function that uses the correct columns:
+
+```r
+ddply(iris, "Species", function(x) colMeans(x[,-5]))
+```
+
+
+---
+
+# Parallel computing for the masses
+
+- `plyr` is old, but it is the easy way to run parallel code in R
+
+- The parallel interface in `plyr` is dead simple
+
+1. Just load a parallel computation package, 
+2. tell it how many threads you want to use, 
+3. and use the `plyr` functions with the `.parallel = TRUE` argument
+
+
+
+```r
+library(doMC)
+registerDoMC(8)
+
+system.time(x &lt;- llply(1:10000, function(x) rnorm(10), .parallel = FALSE))
+```
+
+```
+##    user  system elapsed 
+##   0.057   0.004   0.062
+```
+
+```r
+system.time(x &lt;- llply(1:10000, function(x) rnorm(10), .parallel = TRUE))
+```
+
+```
+##    user  system elapsed 
+##   2.882   1.090   3.311
+```
+
+---
+
+# Running a parallel bootstrap
+
+
+```r
+runGLM &lt;- function(arg){
+  x &lt;- iris[which(iris[,5] != "setosa"), c(1,5)]
+  ind &lt;- sample(100, 100, replace=TRUE)
+  result1 &lt;- glm(x[ind,2]~x[ind,1], family=binomial(logit))
+  coefficients(result1)
+}
+```
+
+- This computation is complex enough that it  is worth it to spin-up all the extra cores
+
+
+```r
+system.time(x &lt;- llply(1:1000, runGLM, .parallel = FALSE))
+```
+
+```
+##    user  system elapsed 
+##   2.713   0.007   2.727
+```
+
+```r
+system.time(x &lt;- llply(1:1000, runGLM, .parallel = TRUE))
+```
+
+```
+##    user  system elapsed 
+##   5.452   2.129   3.225
+```
+
+---
+
+class: inverse, center, middle
+# Post-Modern Alternatives to apply functions
+
+---
+
+
+class: left, top
+background-image: url(figures/purrr.png)
+background-position: top right
+background-size:  25%
+# Back into the tidyverse with `purrr`
+
+- Functions for applying a function over a vector
+
+
+.pull-left[
+- Basic function is `map`
+
+
+```r
+triple &lt;- function(x) x * 3
+map(1:3, triple)
+```
+
+```
+## [[1]]
+## [1] 3
+## 
+## [[2]]
+## [1] 6
+## 
+## [[3]]
+## [1] 9
+```
+]
+
+---
+
+background-image: url(figures/map.png)
+background-position: middle center
+background-size:  50%
+# Visualizing `map`
+
+---
+
+
+background-image: url(figures/map-arg.png)
+background-position: middle center
+background-size:  50%
+# Additional arguments get repeated
+
+---
+
+
+background-image: url(figures/map-arg-recycle.png)
+background-position: middle center
+background-size:  50%
+# Additional arguments get repeated 
+
+- Even vectors get repeated
+
+---
+
+background-image: url(figures/map2.png)
+background-position: middle center
+background-size:  50%
+# If you have two lists of arguments
+
+---
+
+background-image: url(figures/pmap-3.png)
+background-position: middle center
+background-size:  50%
+# After that, `pmap`
+
+- For `pmap`, the inputs should be wrapped in a list
+
+---
+
+background-image: url(figures/pmap-arg.png)
+background-position: middle center
+background-size:  50%
+# All these functions allow common arguments
+
+---
+
+# Type stable functions
+
+- You usually know the type of the output you expect
+
+- There are some functions that guarantee that outcome:
+
+  - `map_int`: returns a `int` vector
+
+  - `map_dbl`: returns a `numeric` vector
+
+  - `map_lgl`: returns a `logical` vector
+
+  - `map_vec`: returns a vector of the simplest possible type
+
+- These throw great comprehensible errors when the output type is unexpected
+
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
