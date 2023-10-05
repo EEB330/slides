@@ -4,7 +4,7 @@
     <title>Split Apply Combine</title>
     <meta charset="utf-8" />
     <meta name="author" content="Diogo Melo" />
-    <script src="10_SplitApplyCombine_files/header-attrs-2.21/header-attrs.js"></script>
+    <script src="10_SplitApplyCombine_files/header-attrs-2.23/header-attrs.js"></script>
     <link href="10_SplitApplyCombine_files/remark-css-0.0.1/default.css" rel="stylesheet" />
     <link href="10_SplitApplyCombine_files/remark-css-0.0.1/metropolis.css" rel="stylesheet" />
     <link href="10_SplitApplyCombine_files/remark-css-0.0.1/metropolis-fonts.css" rel="stylesheet" />
@@ -60,6 +60,18 @@ background-size:  70%
 
 - These are not always "type stable": the output format can change depending on the function we use
 
+---
+# apply in vectors and array
+
+- General strucure: 
+```r
+apply(X = array or matrix, 
+          MARGIN = dimension that is kept, 
+          FUN = function that is used)
+```
+.center[
+![](figures/arrays.jpeg)
+]
 ---
 
 # apply in vectors and array
@@ -255,13 +267,13 @@ simple_list
 
 ```
 ## $zero
-## [1] -1.2258300 -0.2265612 -0.5559499 -1.8502338 -0.7720745
+## [1] -0.3881577 -0.7117513  0.4840513  0.0746452 -0.2746118
 ## 
 ## $five
-## [1] 5.114889 5.134010 6.277687 4.383254 5.852625
+## [1] 3.679447 5.620477 5.191116 4.433224 5.721083
 ## 
 ## $ten
-## [1] 10.369278 10.468180  9.339304  9.749972  8.921894
+## [1]  9.515649  9.172276  9.980097  9.187065 10.256726
 ```
 
 ```r
@@ -269,7 +281,7 @@ laply(simple_list, mean)
 ```
 
 ```
-## [1] -0.9261299  5.3524929  9.7697255
+## [1] -0.1631649  4.9290694  9.6223626
 ```
 
 ---
@@ -284,10 +296,10 @@ ldply(simple_list)
 ```
 
 ```
-##    .id        V1         V2         V3        V4         V5
-## 1 zero -1.225830 -0.2265612 -0.5559499 -1.850234 -0.7720745
-## 2 five  5.114889  5.1340101  6.2776869  4.383254  5.8526250
-## 3  ten 10.369278 10.4681802  9.3393039  9.749972  8.9218936
+##    .id         V1         V2        V3        V4         V5
+## 1 zero -0.3881577 -0.7117513 0.4840513 0.0746452 -0.2746118
+## 2 five  3.6794467  5.6204772 5.1911157 4.4332240  5.7210831
+## 3  ten  9.5156488  9.1722762 9.9800966 9.1870651 10.2567264
 ```
 
 - Or to an array, using `laply`:
@@ -298,10 +310,10 @@ laply(simple_list, identity) # for arrays we need the identity() function
 ```
 
 ```
-##              1          2          3         4          5
-## [1,] -1.225830 -0.2265612 -0.5559499 -1.850234 -0.7720745
-## [2,]  5.114889  5.1340101  6.2776869  4.383254  5.8526250
-## [3,] 10.369278 10.4681802  9.3393039  9.749972  8.9218936
+##               1          2         3         4          5
+## [1,] -0.3881577 -0.7117513 0.4840513 0.0746452 -0.2746118
+## [2,]  3.6794467  5.6204772 5.1911157 4.4332240  5.7210831
+## [3,]  9.5156488  9.1722762 9.9800966 9.1870651 10.2567264
 ```
 
 ---
@@ -371,7 +383,7 @@ system.time(x &lt;- llply(1:10000, function(x) rnorm(10), .parallel = FALSE))
 
 ```
 ##    user  system elapsed 
-##   0.057   0.004   0.062
+##   0.021   0.005   0.026
 ```
 
 ```r
@@ -380,7 +392,7 @@ system.time(x &lt;- llply(1:10000, function(x) rnorm(10), .parallel = TRUE))
 
 ```
 ##    user  system elapsed 
-##   2.882   1.090   3.311
+##   0.886   0.277   0.853
 ```
 
 ---
@@ -406,7 +418,7 @@ system.time(x &lt;- llply(1:1000, runGLM, .parallel = FALSE))
 
 ```
 ##    user  system elapsed 
-##   2.713   0.007   2.727
+##   1.174   0.016   1.190
 ```
 
 ```r
@@ -415,7 +427,7 @@ system.time(x &lt;- llply(1:1000, runGLM, .parallel = TRUE))
 
 ```
 ##    user  system elapsed 
-##   5.452   2.129   3.225
+##   2.279   0.754   0.575
 ```
 
 ---
@@ -522,6 +534,33 @@ background-size:  50%
 
 - These throw great comprehensible errors when the output type is unexpected
 
+# Reduce
+
+---
+
+background-image: url(figures/walk.png)
+background-position: middle center
+background-size:  35%
+# `walk` and `walk2`, for the side effects
+
+- Side effects are things that happen in a program that do not alter any object.
+  - Showing a plot 
+  - Outputing a file (`export`, `write_csv`)
+  - Printing to the console (`cat`, `print`)
+
+---
+
+background-image: url(figures/walk2.png)
+background-position: middle center
+background-size:  40%
+# `walk` and `walk2`, for the side effects
+
+- Side effects are things that happen in a program that do not alter any object.
+  - Showing a plot 
+  - Outputing a file (`export`, `write_csv`)
+  - Printing to the console (`cat`, `print`)
+
+---
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>

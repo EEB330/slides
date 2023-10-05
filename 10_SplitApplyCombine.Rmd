@@ -46,6 +46,18 @@ background-size:  70%
 - These are not always "type stable": the output format can change depending on the function we use
 
 ---
+# apply in vectors and array
+
+- General strucure: 
+```r
+apply(X = array or matrix, 
+          MARGIN = dimension that is kept, 
+          FUN = function that is used)
+```
+.center[
+![](figures/arrays.jpeg)
+]
+---
 
 # apply in vectors and array
 
@@ -375,6 +387,26 @@ background-size:  50%
 
 ---
 
-# `walk` and `walk2`
+background-image: url(figures/walk.png)
+background-position: middle center
+background-size:  35%
+# `walk` and `walk2`, for the side effects
+
+- Side effects are things that happen in a program that do not alter any object.
+  - Showing a plot 
+  - Outputing a file (`export`, `write_csv`)
+  - Printing to the console (`cat`, `print`)
+
+---
+
+background-image: url(figures/walk2.png)
+background-position: middle center
+background-size:  40%
+# `walk` and `walk2`, for the side effects
+
+- Side effects are things that happen in a program that do not alter any object.
+  - Showing a plot 
+  - Outputing a file (`export`, `write_csv`)
+  - Printing to the console (`cat`, `print`)
 
 ---
