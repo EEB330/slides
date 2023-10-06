@@ -307,9 +307,11 @@ background-size:  25%
 
 - Functions for applying a function over a vector
 
+- Great error messages
+
+- Basic function is `map`
 
 .pull-left[
-- Basic function is `map`
 
 ```{r}
 triple <- function(x) x * 3
@@ -347,7 +349,7 @@ background-size:  50%
 background-image: url(figures/map2.png)
 background-position: middle center
 background-size:  50%
-# If you have two lists of arguments
+# If you have two lists of arguments, `map2`
 
 ---
 
