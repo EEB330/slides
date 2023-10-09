@@ -267,13 +267,13 @@ simple_list
 
 ```
 ## $zero
-## [1]  0.3413094  0.3820214 -1.3812349 -0.7352374 -1.5441866
+## [1]  0.1138334  0.9644458 -0.5820722  0.3939804 -1.7174911
 ## 
 ## $five
-## [1] 4.638922 5.490441 6.547870 4.946265 3.947471
+## [1] 5.788199 5.621802 4.778326 3.597487 4.229434
 ## 
 ## $ten
-## [1]  9.633225 10.871069 10.317317  9.156701 10.092876
+## [1]  9.544097 10.992377  8.772551  9.538076  9.672810
 ```
 
 ```r
@@ -281,7 +281,7 @@ laply(simple_list, mean)
 ```
 
 ```
-## [1] -0.5874656  5.1141937 10.0142375
+## [1] -0.1654607  4.8030493  9.7039823
 ```
 
 ---
@@ -296,10 +296,10 @@ ldply(simple_list)
 ```
 
 ```
-##    .id        V1         V2        V3         V4        V5
-## 1 zero 0.3413094  0.3820214 -1.381235 -0.7352374 -1.544187
-## 2 five 4.6389217  5.4904406  6.547870  4.9462652  3.947471
-## 3  ten 9.6332253 10.8710687 10.317317  9.1567009 10.092876
+##    .id        V1         V2         V3        V4        V5
+## 1 zero 0.1138334  0.9644458 -0.5820722 0.3939804 -1.717491
+## 2 five 5.7881987  5.6218022  4.7783256 3.5974868  4.229434
+## 3  ten 9.5440966 10.9923766  8.7725515 9.5380762  9.672810
 ```
 
 - Or to an array, using `laply`:
@@ -310,10 +310,10 @@ laply(simple_list, identity) # for arrays we need the identity() function
 ```
 
 ```
-##              1          2         3          4         5
-## [1,] 0.3413094  0.3820214 -1.381235 -0.7352374 -1.544187
-## [2,] 4.6389217  5.4904406  6.547870  4.9462652  3.947471
-## [3,] 9.6332253 10.8710687 10.317317  9.1567009 10.092876
+##              1          2          3         4         5
+## [1,] 0.1138334  0.9644458 -0.5820722 0.3939804 -1.717491
+## [2,] 5.7881987  5.6218022  4.7783256 3.5974868  4.229434
+## [3,] 9.5440966 10.9923766  8.7725515 9.5380762  9.672810
 ```
 
 ---
@@ -383,7 +383,7 @@ system.time(x &lt;- llply(1:10000, function(x) rnorm(10), .parallel = FALSE))
 
 ```
 ##    user  system elapsed 
-##   0.039   0.003   0.043
+##   0.054   0.003   0.058
 ```
 
 ```r
@@ -392,7 +392,7 @@ system.time(x &lt;- llply(1:10000, function(x) rnorm(10), .parallel = TRUE))
 
 ```
 ##    user  system elapsed 
-##   1.364   0.286   1.810
+##   1.234   0.193   1.520
 ```
 
 ---
@@ -418,7 +418,7 @@ system.time(x &lt;- llply(1:1000, runGLM, .parallel = FALSE))
 
 ```
 ##    user  system elapsed 
-##   1.794   0.003   1.800
+##   1.668   0.002   1.683
 ```
 
 ```r
@@ -427,7 +427,7 @@ system.time(x &lt;- llply(1:1000, runGLM, .parallel = TRUE))
 
 ```
 ##    user  system elapsed 
-##   0.128   0.210   0.982
+##   0.160   0.186   0.966
 ```
 
 ---
@@ -438,10 +438,6 @@ class: inverse, center, middle
 ---
 
 
-class: left, top
-background-image: url(figures/purrr.png)
-background-position: top right
-background-size:  25%
 # Back into the tidyverse with `purrr`
 
 - Functions for applying a function over a vector
@@ -468,6 +464,9 @@ map(1:3, triple)
 ## [[3]]
 ## [1] 9
 ```
+]
+.pull-right[
+  ![:scale 50%](figures/purrr.png)
 ]
 
 ---
@@ -537,6 +536,8 @@ background-size:  50%
 - These throw great comprehensible errors when the output type is unexpected
 
 - [Purrr Cheat Sheet](https://rstudio.github.io/cheatsheets/purrr.pdf)
+
+- [Functional programming](https://adv-r.hadley.nz/functionals.html)
 
 ---
 
