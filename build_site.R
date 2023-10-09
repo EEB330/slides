@@ -20,9 +20,9 @@ library(covidcast)
 #render("07_RegularExpressions.Rmd")
 # # ## Week 4
 #render("08_DataWrangling1.Rmd")
-render("09_DataWrangling2.Rmd")
+#render("09_DataWrangling2.Rmd")
 # # ## Week 5
-render("10_SplitApplyCombine.Rmd")
+#render("10_SplitApplyCombine.Rmd")
 
 # # ## Week 6
 render("12_GrammarOfGraphics.Rmd")
@@ -38,4 +38,4 @@ render("12_GrammarOfGraphics.Rmd")
 # render("precepts/02_io_and_strings.Rmd")
 
 ## Week 4
-render("precepts/03_data_wrangling.Rmd")
+#render("precepts/03_data_wrangling.Rmd")
