@@ -412,3 +412,19 @@ background-size:  40%
   - Printing to the console (`cat`, `print`)
 
 ---
+
+# walk2 for outputing files
+
+```r
+# Split the iris data.set into 3 parts
+iris_list = split(iris, iris$Species)
+
+# Create the appropriate file names:
+iris_out_files = paste0("iris-", names(iris_list), ".csv")
+
+# Use the walk2 function to write the files
+walk2(iris_list, iris_out_files, write_csv)
+
+# Check that the files were created
+dir(pattern = "iris")
+```

@@ -4,7 +4,7 @@
 library(rmarkdown)
 library(MASS)
 library(plyr)
-library(dplyr)
+library(tidyverse)
 library(covidcast)
 ## Week 1
 #render("00_Why_Programming.Rmd")

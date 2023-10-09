@@ -4,7 +4,7 @@
     <title>Split Apply Combine</title>
     <meta charset="utf-8" />
     <meta name="author" content="Diogo Melo" />
-    <script src="10_SplitApplyCombine_files/header-attrs-2.23/header-attrs.js"></script>
+    <script src="10_SplitApplyCombine_files/header-attrs-2.21/header-attrs.js"></script>
     <link href="10_SplitApplyCombine_files/remark-css-0.0.1/default.css" rel="stylesheet" />
     <link href="10_SplitApplyCombine_files/remark-css-0.0.1/metropolis.css" rel="stylesheet" />
     <link href="10_SplitApplyCombine_files/remark-css-0.0.1/metropolis-fonts.css" rel="stylesheet" />
@@ -267,13 +267,13 @@ simple_list
 
 ```
 ## $zero
-## [1] -0.9575516 -1.5495054 -2.2121726 -0.5924154 -1.0706447
+## [1]  2.6226836 -0.6862785 -2.2613468  1.7566284 -0.2382588
 ## 
 ## $five
-## [1] 4.420824 6.122235 5.176810 6.733412 3.577232
+## [1] 4.388815 5.109954 5.030024 3.964709 6.823678
 ## 
 ## $ten
-## [1] 11.098630  9.455959  9.269690 11.101921 11.082861
+## [1]  9.099526 12.488735 10.718382  8.909851 10.786838
 ```
 
 ```r
@@ -281,7 +281,7 @@ laply(simple_list, mean)
 ```
 
 ```
-## [1] -1.276458  5.206102 10.401812
+## [1]  0.2386856  5.0634360 10.4006664
 ```
 
 ---
@@ -296,10 +296,10 @@ ldply(simple_list)
 ```
 
 ```
-##    .id         V1        V2        V3         V4        V5
-## 1 zero -0.9575516 -1.549505 -2.212173 -0.5924154 -1.070645
-## 2 five  4.4208240  6.122235  5.176810  6.7334118  3.577232
-## 3  ten 11.0986303  9.455959  9.269690 11.1019206 11.082861
+##    .id       V1         V2        V3       V4         V5
+## 1 zero 2.622684 -0.6862785 -2.261347 1.756628 -0.2382588
+## 2 five 4.388815  5.1099537  5.030024 3.964709  6.8236781
+## 3  ten 9.099526 12.4887350 10.718382 8.909851 10.7868381
 ```
 
 - Or to an array, using `laply`:
@@ -310,10 +310,10 @@ laply(simple_list, identity) # for arrays we need the identity() function
 ```
 
 ```
-##               1         2         3          4         5
-## [1,] -0.9575516 -1.549505 -2.212173 -0.5924154 -1.070645
-## [2,]  4.4208240  6.122235  5.176810  6.7334118  3.577232
-## [3,] 11.0986303  9.455959  9.269690 11.1019206 11.082861
+##             1          2         3        4          5
+## [1,] 2.622684 -0.6862785 -2.261347 1.756628 -0.2382588
+## [2,] 4.388815  5.1099537  5.030024 3.964709  6.8236781
+## [3,] 9.099526 12.4887350 10.718382 8.909851 10.7868381
 ```
 
 ---
@@ -383,7 +383,7 @@ system.time(x &lt;- llply(1:10000, function(x) rnorm(10), .parallel = FALSE))
 
 ```
 ##    user  system elapsed 
-##   0.022   0.005   0.027
+##   0.064   0.000   0.065
 ```
 
 ```r
@@ -392,7 +392,7 @@ system.time(x &lt;- llply(1:10000, function(x) rnorm(10), .parallel = TRUE))
 
 ```
 ##    user  system elapsed 
-##   0.895   0.310   0.871
+##   1.370   0.146   1.578
 ```
 
 ---
@@ -418,7 +418,7 @@ system.time(x &lt;- llply(1:1000, runGLM, .parallel = FALSE))
 
 ```
 ##    user  system elapsed 
-##   1.203   0.016   1.221
+##   2.053   0.003   2.061
 ```
 
 ```r
@@ -427,7 +427,7 @@ system.time(x &lt;- llply(1:1000, runGLM, .parallel = TRUE))
 
 ```
 ##    user  system elapsed 
-##   2.206   0.789   0.625
+##   0.159   0.136   1.998
 ```
 
 ---
@@ -563,6 +563,22 @@ background-size:  40%
   - Printing to the console (`cat`, `print`)
 
 ---
+
+# walk2 for outputing files
+
+```r
+# Split the iris data.set into 3 parts
+iris_list = split(iris, iris$Species)
+
+# Create the appropriate file names:
+iris_out_files = paste0("iris-", names(iris_list), ".csv")
+
+# Use the walk2 function to write the files
+walk2(iris_list, iris_out_files, write_csv)
+
+# Check that the files were created
+dir(pattern = "iris")
+```
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
