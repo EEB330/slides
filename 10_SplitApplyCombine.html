@@ -267,13 +267,13 @@ simple_list
 
 ```
 ## $zero
-## [1]  2.6226836 -0.6862785 -2.2613468  1.7566284 -0.2382588
+## [1]  0.3413094  0.3820214 -1.3812349 -0.7352374 -1.5441866
 ## 
 ## $five
-## [1] 4.388815 5.109954 5.030024 3.964709 6.823678
+## [1] 4.638922 5.490441 6.547870 4.946265 3.947471
 ## 
 ## $ten
-## [1]  9.099526 12.488735 10.718382  8.909851 10.786838
+## [1]  9.633225 10.871069 10.317317  9.156701 10.092876
 ```
 
 ```r
@@ -281,7 +281,7 @@ laply(simple_list, mean)
 ```
 
 ```
-## [1]  0.2386856  5.0634360 10.4006664
+## [1] -0.5874656  5.1141937 10.0142375
 ```
 
 ---
@@ -296,10 +296,10 @@ ldply(simple_list)
 ```
 
 ```
-##    .id       V1         V2        V3       V4         V5
-## 1 zero 2.622684 -0.6862785 -2.261347 1.756628 -0.2382588
-## 2 five 4.388815  5.1099537  5.030024 3.964709  6.8236781
-## 3  ten 9.099526 12.4887350 10.718382 8.909851 10.7868381
+##    .id        V1         V2        V3         V4        V5
+## 1 zero 0.3413094  0.3820214 -1.381235 -0.7352374 -1.544187
+## 2 five 4.6389217  5.4904406  6.547870  4.9462652  3.947471
+## 3  ten 9.6332253 10.8710687 10.317317  9.1567009 10.092876
 ```
 
 - Or to an array, using `laply`:
@@ -310,10 +310,10 @@ laply(simple_list, identity) # for arrays we need the identity() function
 ```
 
 ```
-##             1          2         3        4          5
-## [1,] 2.622684 -0.6862785 -2.261347 1.756628 -0.2382588
-## [2,] 4.388815  5.1099537  5.030024 3.964709  6.8236781
-## [3,] 9.099526 12.4887350 10.718382 8.909851 10.7868381
+##              1          2         3          4         5
+## [1,] 0.3413094  0.3820214 -1.381235 -0.7352374 -1.544187
+## [2,] 4.6389217  5.4904406  6.547870  4.9462652  3.947471
+## [3,] 9.6332253 10.8710687 10.317317  9.1567009 10.092876
 ```
 
 ---
@@ -383,7 +383,7 @@ system.time(x &lt;- llply(1:10000, function(x) rnorm(10), .parallel = FALSE))
 
 ```
 ##    user  system elapsed 
-##   0.064   0.000   0.065
+##   0.039   0.003   0.043
 ```
 
 ```r
@@ -392,7 +392,7 @@ system.time(x &lt;- llply(1:10000, function(x) rnorm(10), .parallel = TRUE))
 
 ```
 ##    user  system elapsed 
-##   1.370   0.146   1.578
+##   1.364   0.286   1.810
 ```
 
 ---
@@ -418,7 +418,7 @@ system.time(x &lt;- llply(1:1000, runGLM, .parallel = FALSE))
 
 ```
 ##    user  system elapsed 
-##   2.053   0.003   2.061
+##   1.794   0.003   1.800
 ```
 
 ```r
@@ -427,7 +427,7 @@ system.time(x &lt;- llply(1:1000, runGLM, .parallel = TRUE))
 
 ```
 ##    user  system elapsed 
-##   0.159   0.136   1.998
+##   0.128   0.210   0.982
 ```
 
 ---
@@ -536,7 +536,36 @@ background-size:  50%
 
 - These throw great comprehensible errors when the output type is unexpected
 
+- [Purrr Cheat Sheet](https://rstudio.github.io/cheatsheets/purrr.pdf)
+
+---
+
+# `purrr` in the tidyverse
+
+
+```r
+library(purrr)
+
+mtcars |&gt; 
+  split(mtcars$cyl) |&gt;  # from base R
+  map(\(df) lm(mpg ~ wt, data = df)) |&gt; 
+  map(summary) %&gt;%
+  map_dbl("r.squared")
+```
+
+```
+##         4         6         8 
+## 0.5086326 0.4645102 0.4229655
+```
+
+---
+
+background-image: url(figures/reduce.png)
+background-position: middle center
+background-size:  50%
 # Reduce
+
+
 
 ---
 

@@ -1,0 +1,32 @@
+---
+title: "Grammar of Graphics"
+subtitle: "Bulding plots in ggplot2" 
+author: Diogo Melo
+date: Oct. 25th, 2023
+runtime: static
+output:
+  xaringan::moon_reader:
+    css: [default, metropolis, metropolis-fonts, "styles.css"]
+    nature:
+      highlightLines: true
+      chakra: libs/remark-latest.min.js
+      beforeInit: "macros.js"
+      ratio: "16:10"
+      countdown: 60000
+---
+
+
+class: inverse, center, middle
+# 
+
+---
+
+class: left, top
+background-image: url(figures/splitApplyCombine.png)
+background-position: center middle
+background-size:  70%
+
+# Split-apply-combine scheme
+
+---
+

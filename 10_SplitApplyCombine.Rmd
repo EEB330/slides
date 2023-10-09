@@ -385,7 +385,33 @@ background-size:  50%
 
 - These throw great comprehensible errors when the output type is unexpected
 
+- [Purrr Cheat Sheet](https://rstudio.github.io/cheatsheets/purrr.pdf)
+
+- [Functional programming](https://adv-r.hadley.nz/functionals.html)
+
+---
+
+# `purrr` in the tidyverse
+
+```{r}
+library(purrr)
+
+mtcars |> 
+  split(mtcars$cyl) |>  # from base R
+  map(\(df) lm(mpg ~ wt, data = df)) |> 
+  map(summary) %>%
+  map_dbl("r.squared")
+
+```
+
+---
+
+background-image: url(figures/reduce.png)
+background-position: middle center
+background-size:  50%
 # Reduce
+
+
 
 ---
 
