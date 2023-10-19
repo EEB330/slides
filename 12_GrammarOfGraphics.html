@@ -32,16 +32,276 @@ class: center, middle, inverse, title-slide
 
 
 class: inverse, center, middle
-# 
+# Probably our most useful topic
+
+---
+
+# Grammar or Graphics
+
+.pull-left[
+- Weird book...
+- Not interested in choosing the correct plot, making the plots pretty, how to make the plots..
+- The main idea is to create a general framework to represent plots, instead of having many single use functions
+]
+.pull-right[
+  ![:scale 50%](figures/gg_book.jpg)
+]
 
 ---
 
 class: left, top
-background-image: url(figures/splitApplyCombine.png)
+background-image: url(figures/gg_layers.png)
 background-position: center middle
-background-size:  70%
+background-size:  90%
 
-# Split-apply-combine scheme
+# Layers
+
+---
+
+
+class: left, top
+background-image: url(figures/gg_layers_described.png)
+background-position: center middle
+background-size:  100%
+
+# Layers
+
+---
+
+class: left, top
+background-image: url(figures/grammar-of-graphics.png)
+background-position: center middle
+background-size:  90%
+
+# Conceptual mapping
+
+---
+
+# Normal plots vs GG plots
+
+.pull-left[
+
+### Base plots
+
+- Literal description of the graphical elements
+- Manual choice of:
+  - colors, shapes, legends ...
+
+
+```r
+n = 60
+x = rnorm(n)
+z = sample(c(0, 1), n, replace = TRUE)
+y = 1 + x + 2 * z + rnorm(n, sd = 0.5)
+
+# Main plot:
+plot(x, y, pch = 19)
+# The red points:
+points(x[z == 1], y[z == 1], 
+       col = "tomato3", pch = 19)
+# The legend
+legend(max(x)-0.5, min(y)+0.5,
+       legend = c("z==0", "z==1"), 
+       col = c("black", "tomato3"), 
+       pch = 19)
+```
+
+]
+.pull-right[
+
+### GG plots
+
+- Instead of describing the graphical elements, we describe the mapping of variables and graphical concepts
+
+
+```r
+library(ggplot2)
+df = data.frame(x, y, z = factor(z))
+ggplot(df, aes(x, y, color = z)) + 
+  geom_point()
+```
+]
+
+---
+
+# Data
+
+.pull-left[
+- Constains the actual information of what is going to be displayed in the plot
+
+- Always assigned to the `data` argument on the ggplot2 `functions`
+
+- Always a data.frame
+
+- Fits well in the tidy data principles
+
+- Requires all the wrangling we saw in the previous lectures
+]
+.pull-right[
+```r
+ggplot(data = mpg) + ...
+
+# or
+
+ggplot(mpg) + ...
+
+# or
+
+ggplot() + 
+  geom_something(data = mpg)
+```
+]
+
+---
+
+# Mapping (aesthetics)
+
+.pull-left[
+- Allow generic datasets to be understood by the graphic system.
+
+- Aesthetic mapping: Link variables in data to graphical properties in the geometry
+  - The mapping argument always receives a call to the `aes` function
+  - The arguments in the `aes` function must be assigned to columns in the data
+  - This makes the mapping between data and graphical properties
+
+- Facet mapping: Link variables in the data to panels in the facet layout
+  - we return to this later
+
+]
+.pull-right[
+```r
+ggplot(data = mpg, 
+       mapping = aes(x = displ, y = hwy)) + ...
+
+# or
+
+ggplot(mpg, 
+       aes(x = displ, y = hwy)) + ...
+
+# or
+
+ggplot(mpg) + 
+  geom_something(aes(x = displ, y = hwy))
+
+# or
+
+ggplot() + 
+  geom_something(data = mpg,
+                 aes(x = displ, y = hwy))
+
+```
+]
+
+---
+
+
+# Scales
+
+.pull-left[
+- Most data does not directly represent
+graphical properties.
+- A scale translate back and forth between
+variable ranges and property ranges:
+  - Categories → Color, shape, linetype, ...
+  - Numbers → Position, color, size, ...
+  -  ...
+
+-  Imply a specific interpretation of values:
+  - discrete, continuous, etc.
+  - if the variable properties are incompatible with the scale, you get an error
+]
+.pull-right[
+```r
+ggplot(data = mpg, 
+       mapping = aes(x = displ, y = hwy,
+                     color = year, 
+                     shape = drv)) + ...
+```
+]
+
+---
+
+# Geometries
+
+
+- How to interpret aesthetics as graphical
+representations
+- Is a progression of positional aesthetics a
+number of points, a line, a single polygon,
+or something else entirely?
+- Mostly determines the plot type.
+
+.pull-left[
+**Minimal ggplot**: data, mapping, geometry.
+- Everything else has default values
+
+```r
+library(ggplot2)
+ggplot(mpg, 
+       aes(x = displ, y = hwy, shape = drv)) + 
+  geom_point()
+```
+]
+--
+.pull-right[
+&lt;img src="12_GrammarOfGraphics_files/figure-html/unnamed-chunk-4-1.png" width="75%" /&gt;
+]
+---
+
+# Statistics
+
+.pull-left[
+- Even though data is tidy it may not
+represent the displayed values
+- Transform input variables to displayed
+values:
+  - Count number of observations in each
+category for a bar chart
+  - Calculate summary statistics for a
+boxplot
+- Is implicit in many plot-types but can often
+be done prior to plotting
+]
+.pull-right[
+
+```r
+ggplot(data = mpg, aes(x = drv, y = hwy)) + 
+  geom_boxplot()
+```
+
+![](12_GrammarOfGraphics_files/figure-html/unnamed-chunk-5-1.png)&lt;!-- --&gt;
+]
+
+---
+
+# Facets
+
+.pull-left[
+- Define the number of panels with equal
+logic and split data among them…
+- Small multiples
+- Allows you to look at small subsets of
+your data in separate plots
+- Panel layout may carry meaning
+]
+.pull-right[
+
+```r
+ggplot(mpg, aes(x = drv, y = hwy)) + 
+  geom_boxplot() + facet_wrap(~cyl)
+```
+
+![](12_GrammarOfGraphics_files/figure-html/unnamed-chunk-6-1.png)&lt;!-- --&gt;
+]
+
+---
+
+
+# Coordinates
+
+---
+
+# Themes
 
 ---
 
