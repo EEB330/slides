@@ -164,8 +164,9 @@ ggplot() +
   - The arguments in the `aes` function must be assigned to columns in the data
   - This makes the mapping between data and graphical properties
 
-- Facet mapping: Link variables in the data to panels in the facet layout
-  - we return to this later
+- Golden ggplot rule:
+    - things that **vary** with the data are set _inside_ `aes`
+    - things that **don't vary** with the data are set _outside_ `aes`
 
 ]
 .pull-right[
@@ -299,12 +300,78 @@ ggplot(mpg, aes(x = drv, y = hwy)) +
 
 # Coordinates
 
+.pull-left[
+- Positional aesthetics are special.
+  1. Variables are mapped, scaled, applied
+to a geometry
+  2. But in the end, the position values are
+interpreted by a coordinate system
+- Defines the physical mapping of the
+aesthetics to the paper
+
+- Transformations can be applied to the coordinates to produce different plots
+  - log scales
+  - polar coordinates
+  - map coordinates
+]
+.pull-right[
+```r
+ggplot(diamonds, aes(carat, price)) + 
+  geom_point() + 
+  # coord_cartesian(xlim = c(0, 1))
+  # coord_fixed()
+  # coord_flip()
+  # coord_trans(y = "log")
+```
+]
+
 ---
 
 # Themes
 
+.pull-left[
+  - Everything related to the look of the plot
+
+    - Font sizes
+    - Background
+    - Axis lines
+    - ...
+
+]
+
+.pull-right[
+- Many pre-baked solutions
+    - [`ggthemes`](https://yutannihilation.github.io/allYourFigureAreBelongToUs/ggthemes/) package
+    - [`cowplot`](https://cran.r-project.org/web/packages/cowplot/vignettes/introduction.html) package
+
+]
+
+```r
+library(ggplot2)
+library(cowplot)
+library(ggthemes)
+p = ggplot(mpg, aes(x = displ, y = hwy, color = drv)) + 
+  geom_point(size = 2) 
+plot_grid(p + theme_cowplot(16), p + theme_excel(), p + theme_tufte(), p + theme_wsj())
+```
+
 ---
 
+# Combining plots
+
+- We have two good options for creating panels with several plots:
+  - [`cowplot`](https://cran.r-project.org/web/packages/cowplot/vignettes/introduction.html) has the plot_grid() function
+  which has good sensible defaults, can take lists of plots, and set plot labels
+
+  - [`patchwork`](https://patchwork.data-imaginist.com/) package
+
+---
+
+# Adding more than one geometry
+
+
+
+---
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
