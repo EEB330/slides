@@ -27,9 +27,13 @@ class: inverse, center, middle
 - Weird book...
 - Not interested in choosing the correct plot, making the plots pretty, how to make the plots..
 - The main idea is to create a general framework to represent plots, instead of having many single use functions
+
+- ggplot2 is an implementation of the grammar of graphics:
+  - [https://ggplot2-book.org/](https://ggplot2-book.org/)
+  - [https://ggplot2.tidyverse.org/reference/](https://ggplot2.tidyverse.org/reference/)
 ]
 .pull-right[
-  ![:scale 50%](figures/gg_book.jpg)
+  ![:scale 70%](figures/gg_book.jpg)
 ]
 
 ---
@@ -186,8 +190,8 @@ ggplot() +
 graphical properties.
 - A scale translate back and forth between
 variable ranges and property ranges:
-  - Categories → Color, shape, linetype, ...
-  - Numbers → Position, color, size, ...
+  - Categories → Color, fill, shape, linetype, ...
+  - Numbers → Position, color, fill, size, ...
   -  ...
 
 -  Imply a specific interpretation of values:
@@ -206,7 +210,6 @@ ggplot(data = mpg,
 ---
 
 # Geometries
-
 
 - How to interpret aesthetics as graphical
 representations
@@ -236,6 +239,16 @@ ggplot(data = mpg,
 ]
 ---
 
+# Geometries
+
+- Some geoms only need a single mapping and will calculate the rest for you
+
+```{r,  out.width="35%"}
+ggplot(faithful) + 
+  geom_histogram(aes(x = eruptions))
+```
+---
+
 # Statistics
 
 .pull-left[
@@ -249,6 +262,9 @@ category for a bar chart
 boxplot
 - Is implicit in many plot-types but can often
 be done prior to plotting
+- Each `geom_` has an associated `stat_`
+- Each `stat_` has an associated `geom_`
+  - Check the help file!
 ]
 .pull-right[
 ```{r}
@@ -258,6 +274,81 @@ ggplot(data = mpg, aes(x = drv, y = hwy)) +
 ]
 
 ---
+
+# Default stats
+
+- Every geom has a stat. This is why new data (`count`) can appear when using 
+`geom_bar()`.
+
+```{r,  out.width="40%"}
+ggplot(mpg) + 
+  geom_bar(aes(x = class))
+```
+
+---
+
+# Pre calculating stats
+
+- The stat can be overwritten.
+- If we have precomputed count we do not want any additional computations to perform and we use the `identity` stat to leave the  data alone
+
+.pull-left[
+```{r, eval  = FALSE}
+library(dplyr)
+mpg_counted <- mpg %>% 
+  count(class, name = 'count')
+ggplot(mpg_counted) + 
+  geom_bar(aes(x = class, y = count), 
+           stat = 'identity')
+```
+]
+.pull-right[
+```{r, echo = FALSE,  out.width="90%"}
+library(dplyr)
+mpg_counted <- mpg %>% 
+  count(class, name = 'count')
+ggplot(mpg_counted) + 
+  geom_bar(aes(x = class, y = count), 
+           stat = 'identity')
+```
+]
+---
+
+# Pre calculating stats 
+
+- Most obvious geom+stat combinations have a dedicated geom constructor.
+-  The one in the previous slide is available directly as `geom_col()`
+
+```{r,  out.width="35%"}
+ggplot(mpg_counted) + 
+  geom_col(aes(x = class, y = count))
+```
+
+---
+
+# Accessing calculated stats with `after_stat` 
+
+- Values calculated by the stat is available with the `after_stat()` function 
+inside `aes()`. 
+- You can do all sorts of computations inside that.
+
+.pull-left[
+```{r, eval  = FALSE}
+ggplot(mpg) + 
+  geom_bar(
+    aes(x = class, 
+        y = after_stat(100 * count / sum(count))
+       ))
+```
+]
+.pull-right[
+```{r, echo = FALSE,  out.width="90%"}
+ggplot(mpg) + 
+  geom_bar(aes(x = class, y = after_stat(100 * count / sum(count))))
+```
+]
+---
+
 
 # Facets
 
@@ -308,6 +399,48 @@ ggplot(diamonds, aes(carat, price)) +
 
 ---
 
+# Combining plots
+
+We have two good options for creating panels with several plots:
+
+- [`cowplot`](https://cran.r-project.org/web/packages/cowplot/vignettes/introduction.html) package
+  - has the plot_grid() function which has good defaults
+  - can take lists of plots
+  - can set plot labels
+
+```r
+library(cowplot)
+p1 <- ggplot() + ...
+p2 <- ggplot() + ...
+plot_grid(p1, p2)
+```
+
+- [`patchwork`](https://patchwork.data-imaginist.com/) package
+  - Allows plot composition using mathematical notation
+  - Allows complex plot composition using string guides
+
+```r
+library(patchwork)
+p1 <- ggplot() + ...
+p2 <- ggplot() + ...
+p1 + p2 # horizontal
+p1 / p2 # vertical
+```
+
+---
+
+# Adding more than one geometry
+
+```{r, out.width="40%"}
+ggplot(faithful,
+ aes(x = eruptions, y = waiting)) +
+ geom_density_2d() +
+ geom_point() # Order matters! This puts the points on top of the contour lines
+```
+
+---
+
+
 # Themes
 
 .pull-left[
@@ -337,18 +470,40 @@ plot_grid(p + theme_cowplot(16), p + theme_excel(), p + theme_tufte(), p + theme
 
 ---
 
-# Combining plots
+# Exercise - changing points
 
-- We have two good options for creating panels with several plots:
-  - [`cowplot`](https://cran.r-project.org/web/packages/cowplot/vignettes/introduction.html) has the plot_grid() function
-  which has good sensible defaults, can take lists of plots, and set plot labels
+1. Modify the code below to make the points larger squares and slightly transparent.
 
-  - [`patchwork`](https://patchwork.data-imaginist.com/) package
+  - Hint 1: transparency is controlled with `alpha`, and shape with `shape`
+  - Hint 2: remember the difference between mapping and setting aesthetics
 
+2. Add a line that separates the two point distributions. See `?geom_abline` for 
+how to draw straight lines from a slope and intercept.
+
+```{r, eval = FALSE}
+ggplot(faithful) + 
+  geom_point(aes(x = eruptions, y = waiting))
+```
 ---
 
-# Adding more than one geometry
+# Exercises - using `stat_`
+
+- While most people use `geom_*()` when adding layers, it is just as valid to add 
+a `stat_*()` with an attached geom. Look at `geom_bar()` and figure out which
+stat it uses as default. Then modify the code to use the stat directly instead
+(i.e. adding `stat_*()` instead of `geom_bar()`)
+
+```{r, eval = FALSE}
+ggplot(mpg) + 
+  geom_bar(aes(x = class))
+```
+
+- Use `stat_summary()` to add a red dot at the mean `hwy` for each group
+   - Hint: You will need to change the default geom of `stat_summary()`
+
+```{r, eval = FALSE}
+ggplot(mpg) + 
+  geom_jitter(aes(x = class, y = hwy), width = 0.2)
+```
 
 
-
----
