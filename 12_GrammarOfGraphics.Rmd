@@ -785,7 +785,7 @@ ggplot(mpg) + geom_bar(aes(y = class)) +
   hjust = 0),
   plot.caption = element_text(face = 'italic'),
   panel.grid.major = element_line('white',
-  size = 0.5),
+  linewidth = 0.5),
   panel.grid.minor = element_blank(),
   panel.grid.major.y = element_blank(),
   panel.ontop = TRUE)
