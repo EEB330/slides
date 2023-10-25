@@ -46,10 +46,10 @@ ggplot(data = mpg, aes(x = class)) +
 ### Exercise 2 -- Histogram Modification
 
 - **Task:** 
-* Add a title to the plot: "Distribution of Cars by Class".
-* Change the x-axis label to "Type of Car".
-* Color the bars in blue.
-* Rotate the x-axis labels by 45 degrees.
+  * Add a title to the plot: "Highway Mileage Distribution".
+  * Change the x-axis label to "Miles Per Gallon".
+  * Fill the histogram bars with green but have a black border.
+  * Set the bin width to 2.
 - **Expected Output:** An updated plot with the above specifications.
 
 Initial Plot: A histogram showcasing the distribution of highway miles per gallon (hwy) from the mpg dataset.
