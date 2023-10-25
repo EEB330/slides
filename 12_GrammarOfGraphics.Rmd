@@ -661,7 +661,6 @@ ggplot(df_shapes, aes(0, 0, shape = shape)) +
 ]
 .pull-right[
 ```{r, echo = F}
-library(patchwork)
 df_shapes <- data.frame(shape = 0:24)
 ggplot(df_shapes, aes(0, 0, shape = shape)) +
   geom_point(aes(shape = shape), 
