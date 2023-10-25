@@ -739,6 +739,14 @@ class: inverse, center, middle
 
 ---
 
+# `ggrepel` and point labels
+
+---
+
+# `annotate` for plot annotations
+
+---
+
 # The `theme` function 
 
 - Stylistic changes to the plot not related to data
@@ -815,3 +823,6 @@ ggplot(mpg) + geom_bar(aes(y = class)) +
   - `element_` family of functions
   - `element_line`, `element_text`, `element_blank`, `element_rect`, ...
 
+---
+
+# plot annonations with `patchwork`
