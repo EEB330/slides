@@ -115,7 +115,7 @@ legend(max(x)-0.5, min(y)+0.5,
 
 ### GG plots
 
-- Instead of describing the graphical elements, we describe the mapping of variables and graphical concepts
+- Instead of describing the graphical elements, we describe the mapping of variables and graphical elements
 
 
 ```r
@@ -247,6 +247,7 @@ ggplot(mpg,
 ```
 ]
 --
+
 .pull-right[
 &lt;img src="12_GrammarOfGraphics_files/figure-html/unnamed-chunk-4-1.png" width="75%" /&gt;
 ]
@@ -393,6 +394,27 @@ ggplot(mpg, aes(x = drv, y = hwy)) +
 
 ---
 
+# Facets
+
+.pull-left[
+- Define the number of panels with equal
+logic and split data among them…
+- Small multiples
+- Allows you to look at small subsets of
+your data in separate plots
+- Panel layout may carry meaning
+]
+.pull-right[
+
+```r
+ggplot(mpg, aes(x = displ, y = hwy)) + 
+  geom_point() + facet_grid(year~cyl) 
+```
+
+![](12_GrammarOfGraphics_files/figure-html/unnamed-chunk-14-1.png)&lt;!-- --&gt;
+]
+
+---
 
 # Coordinates
 
@@ -418,6 +440,13 @@ ggplot(diamonds, aes(carat, price)) +
   # coord_fixed()
   # coord_flip()
   # coord_trans(y = "log")
+
+ggplot(mpg, aes(x = class)) + geom_bar + 
+  coord_cartesian(ylim = c(0, 40))
+
+ggplot(mpg, aes(x = class)) + geom_bar() + 
+  coord_polar(theta = "y") + 
+  expand_limits(y = 70) # guarantees that a value is present
 ```
 ]
 
@@ -463,7 +492,7 @@ ggplot(faithful,
  geom_point() # Order matters! This puts the points on top of the contour lines
 ```
 
-&lt;img src="12_GrammarOfGraphics_files/figure-html/unnamed-chunk-14-1.png" width="40%" /&gt;
+&lt;img src="12_GrammarOfGraphics_files/figure-html/unnamed-chunk-15-1.png" width="40%" /&gt;
 
 ---
 
@@ -620,7 +649,7 @@ ggplot(mpg) +
   scale_fill_brewer(type = 'qual')
 ```
 
-&lt;img src="12_GrammarOfGraphics_files/figure-html/unnamed-chunk-23-1.png" width="50%" /&gt;
+&lt;img src="12_GrammarOfGraphics_files/figure-html/unnamed-chunk-24-1.png" width="50%" /&gt;
 ]
 .pull-right[
 
@@ -633,7 +662,7 @@ ggplot(mpg) +
   scale_color_brewer(type = 'qual')
 ```
 
-&lt;img src="12_GrammarOfGraphics_files/figure-html/unnamed-chunk-24-1.png" width="50%" /&gt;
+&lt;img src="12_GrammarOfGraphics_files/figure-html/unnamed-chunk-25-1.png" width="50%" /&gt;
 ]
 
 ---
@@ -677,7 +706,7 @@ ggplot(df_shapes, aes(0, 0, shape = shape)) +
 ```
 ]
 .pull-right[
-![](12_GrammarOfGraphics_files/figure-html/unnamed-chunk-27-1.png)&lt;!-- --&gt;
+![](12_GrammarOfGraphics_files/figure-html/unnamed-chunk-28-1.png)&lt;!-- --&gt;
 ]
 
 ---
@@ -697,7 +726,7 @@ ggplot(economics_long, aes(date, value01)) +
 ```
 ]
 .pull-right[
-&lt;img src="12_GrammarOfGraphics_files/figure-html/unnamed-chunk-29-1.png" width="90%" /&gt;
+&lt;img src="12_GrammarOfGraphics_files/figure-html/unnamed-chunk-30-1.png" width="90%" /&gt;
 ]
 
 ---
@@ -725,7 +754,7 @@ ggplot(mtcars, aes(mpg, wt)) +
 ```
 ]
 .pull-right[
-&lt;img src="12_GrammarOfGraphics_files/figure-html/unnamed-chunk-31-1.png" width="90%" /&gt;
+&lt;img src="12_GrammarOfGraphics_files/figure-html/unnamed-chunk-32-1.png" width="90%" /&gt;
 ]
 ---
 
@@ -748,13 +777,13 @@ elements directly
 ggplot(mpg) + geom_bar(aes(y = class)) +
  facet_wrap(~year) +
  labs(title = "Number of car models per class",
-      caption = "source: http:!/fueleconomy.gov",
+      caption = "source: http://fueleconomy.gov/",
       x = NULL,
       y = NULL) +
  scale_x_continuous(expand = c(0, NA)) +
  theme_minimal() +
  theme(
-  text = element_text('Avenir Next Condensed'),
+  text = element_text('Skolar Sans'),
   strip.text = element_text(face = 'bold',
   hjust = 0),
   plot.caption = element_text(face = 'italic'),
@@ -766,7 +795,7 @@ ggplot(mpg) + geom_bar(aes(y = class)) +
 ```
 ]
 .pull-right[
-&lt;img src="12_GrammarOfGraphics_files/figure-html/unnamed-chunk-33-1.png" width="90%" /&gt;
+&lt;img src="12_GrammarOfGraphics_files/figure-html/unnamed-chunk-34-1.png" width="85%" /&gt;
 ]
 
 ---
@@ -783,12 +812,15 @@ ggplot(mpg) + geom_bar(aes(y = class)) +
 
 - Legend:
   - size
-  - position
-  - text
+  - position and direction
+  - alignment 
+  - ...
+
 
 - Most arguments for theme are function calls
   - `element_` family of functions
   - `element_line`, `element_text`, `element_blank`, `element_rect`, ...
+
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>

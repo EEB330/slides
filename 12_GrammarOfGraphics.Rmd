@@ -99,7 +99,7 @@ legend(max(x)-0.5, min(y)+0.5,
 
 ### GG plots
 
-- Instead of describing the graphical elements, we describe the mapping of variables and graphical concepts
+- Instead of describing the graphical elements, we describe the mapping of variables and graphical elements
 
 ```{r, eval = FALSE}
 library(ggplot2)
@@ -229,6 +229,7 @@ ggplot(mpg,
 ```
 ]
 --
+
 .pull-right[
 ```{r, echo = FALSE,  out.width="75%"}
 library(ggplot2)
@@ -369,6 +370,24 @@ ggplot(mpg, aes(x = drv, y = hwy)) +
 
 ---
 
+# Facets
+
+.pull-left[
+- Define the number of panels with equal
+logic and split data among them…
+- Small multiples
+- Allows you to look at small subsets of
+your data in separate plots
+- Panel layout may carry meaning
+]
+.pull-right[
+```{r}
+ggplot(mpg, aes(x = displ, y = hwy)) + 
+  geom_point() + facet_grid(year~cyl) 
+```
+]
+
+---
 
 # Coordinates
 
@@ -394,6 +413,13 @@ ggplot(diamonds, aes(carat, price)) +
   # coord_fixed()
   # coord_flip()
   # coord_trans(y = "log")
+
+ggplot(mpg, aes(x = class)) + geom_bar + 
+  coord_cartesian(ylim = c(0, 40))
+
+ggplot(mpg, aes(x = class)) + geom_bar() + 
+  coord_polar(theta = "y") + 
+  expand_limits(y = 70) # guarantees that a value is present
 ```
 ]
 
@@ -635,13 +661,14 @@ ggplot(df_shapes, aes(0, 0, shape = shape)) +
 ]
 .pull-right[
 ```{r, echo = F}
+library(patchwork)
 df_shapes <- data.frame(shape = 0:24)
 ggplot(df_shapes, aes(0, 0, shape = shape)) +
   geom_point(aes(shape = shape), 
-             size = 6, fill = 2) +
+             size = 6, fill = 2) + # 2 is color "#DF536B"
   scale_shape_identity() +
   facet_wrap(~shape) +
-  theme_void()
+  theme_void() 
 ```
 ]
 
@@ -726,13 +753,13 @@ elements directly
 ggplot(mpg) + geom_bar(aes(y = class)) +
  facet_wrap(~year) +
  labs(title = "Number of car models per class",
-      caption = "source: http:!/fueleconomy.gov",
+      caption = "source: http://fueleconomy.gov/",
       x = NULL,
       y = NULL) +
  scale_x_continuous(expand = c(0, NA)) +
  theme_minimal() +
  theme(
-  text = element_text('Avenir Next Condensed'),
+  text = element_text('Skolar Sans'),
   strip.text = element_text(face = 'bold',
   hjust = 0),
   plot.caption = element_text(face = 'italic'),
@@ -744,17 +771,17 @@ ggplot(mpg) + geom_bar(aes(y = class)) +
 ```
 ]
 .pull-right[
-```{r, echo = F, out.width='90%'}
+```{r, echo = F, out.width='85%'}
 ggplot(mpg) + geom_bar(aes(y = class)) +
  facet_wrap(~year) +
  labs(title = "Number of car models per class",
-      caption = "source: http:!/fueleconomy.gov",
+      caption = "source: http://fueleconomy.gov",
       x = NULL,
       y = NULL) +
  scale_x_continuous(expand = c(0, NA)) +
  theme_minimal() +
  theme(
-  text = element_text('Doid Sans'),
+  text = element_text('Skolar Sans'),
   strip.text = element_text(face = 'bold',
   hjust = 0),
   plot.caption = element_text(face = 'italic'),
@@ -780,8 +807,10 @@ ggplot(mpg) + geom_bar(aes(y = class)) +
 
 - Legend:
   - size
-  - position
-  - text
+  - position and direction
+  - alignment 
+  - ...
+
 
 - Most arguments for theme are function calls
   - `element_` family of functions
