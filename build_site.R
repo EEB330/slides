@@ -25,7 +25,9 @@ library(covidcast)
 #render("10_SplitApplyCombine.Rmd")
 
 # # ## Week 6
-render("12_GrammarOfGraphics.Rmd")
+# render("12_GrammarOfGraphics.Rmd")
+render("13_GrammarOfGraphics2.Rmd")
+
 
 # ## Precepts
 # ## Week 2

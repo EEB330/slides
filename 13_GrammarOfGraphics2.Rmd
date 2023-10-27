@@ -1,0 +1,360 @@
+---
+title: "Grammar of Graphics 2"
+subtitle: "Bulding good looking plots in ggplot2" 
+author: Diogo Melo
+date: Oct. 30th, 2023
+runtime: static
+output:
+  xaringan::moon_reader:
+    css: [default, metropolis, metropolis-fonts, "styles.css"]
+    nature:
+      highlightLines: true
+      chakra: libs/remark-latest.min.js
+      beforeInit: "macros.js"
+      ratio: "16:10"
+      countdown: 60000
+---
+
+class: inverse, center, middle
+# Customizing plots
+
+---
+
+# Modifying scales
+
+- Scales define how the mapping you specify inside `aes()` should happen. All 
+mappings have an associated scale even if not specified.
+- [Scale guides](https://ggplot2-book.org/scales-guides.html)
+
+```{r, eval = FALSE}
+ggplot(mpg) + 
+  geom_point(aes(x = displ, y = hwy, color = class))
+```
+
+ - We can add one explicitly. All scales follow the same naming conventions.
+
+```{r, eval = FALSE}
+ggplot(mpg) + 
+  geom_point(aes(x = displ, y = hwy, color = class)) + 
+  scale_color_brewer(type = 'qual')
+```
+
+- Positional mappings (x and y) also have associated scales.
+
+```{r, eval = FALSE}
+ggplot(mpg) + 
+  geom_point(aes(x = displ, y = hwy)) + 
+  scale_x_continuous(breaks = c(3, 5, 6)) + 
+  scale_y_continuous(trans = 'log10')
+```
+
+---
+
+# Changing color palettes
+
+- There are a large number of custom color palette availabe in R:
+
+  - [The R Color Brewer package](https://r-graph-gallery.com/38-rcolorbrewers-palettes.html)
+  - [The viridis package](https://cran.r-project.org/web/packages/viridis/vignettes/intro-to-viridis.html) ([Viridis explained](https://youtu.be/xAoljeRJ3lU))
+  - [The wes anderson package](https://github.com/karthik/wesanderson)
+  - [Met Brewer](https://github.com/BlakeRMills/MetBrewer), [MoMa colors](https://github.com/BlakeRMills/MoMAColors)
+  - [paletteer: a meta package with many, many palettes](https://emilhvitfeldt.github.io/paletteer/)
+
+- Most of the customization is going to be done using a `scale_` function
+
+```{r, eval = FALSE}
+library(viridis); library(paletteer); library(wesanderson); library(RColorBrewer)
+
+p = ggplot(data.frame(x = rnorm(10000), y = rnorm(10000)), aes(x = x, y = y)) +
+  geom_hex() + coord_fixed() + theme_cowplot() 
+p
+p + scale_fill_viridis()
+p + scale_fill_viridis(option = "plasma")
+p + scale_fill_paletteer_c("viridis::plasma")
+p + scale_fill_gradientn(colors = wes_palette("Zissou1", 100, type = "continuous"))
+```
+
+---
+
+# Difference between fill and color
+
+- `ggplot` has two common scales for color
+  - `color` (or `colour`) referring to point and line color, including outlines
+  - `fill` referring to the inner color of graphical elements
+
+.pull-left[
+```{r, out.width="50%"}
+ggplot(mpg) + 
+  geom_boxplot(aes(x = manufacturer,
+                   y = hwy, fill = class), 
+               color = "tomato3", 
+               linewidth = 1) + 
+  scale_fill_brewer(type = 'qual')
+```
+]
+.pull-right[
+```{r, out.width="50%"}
+ggplot(mpg) + 
+  geom_point(aes(x = displ, 
+                 y = hwy, 
+                 color = class), 
+             size = 4) + 
+  scale_color_brewer(type = 'qual')
+```
+]
+
+---
+
+# Creating color palettes
+
+- The `colorRampPalette` function can create color palettes by interpolating between colors
+
+.pull-left[
+```{r, eval = FALSE}
+pal <- colorRampPalette(c("red", "blue"))
+# 15 colors between red and blue
+my_palette = pal(15) 
+ggplot(mpg, aes(x = displ, y = hwy, 
+                color = manufacturer)) + 
+  geom_point() +
+  scale_color_manual(values = my_palette) + #<<
+  theme_cowplot() + background_grid()
+```
+]
+.pull-right[
+```{r, echo = F, out.width='90%'}
+suppressPackageStartupMessages(library(cowplot))
+pal <- colorRampPalette(c("red", "blue"))
+# 15 colors between red and blue
+my_palette = pal(15) 
+ggplot(mpg, aes(x = displ, y = hwy, 
+                color = manufacturer)) + 
+  geom_point() +
+  scale_color_manual(values = my_palette) +
+  theme_cowplot(16) + background_grid()
+```
+]
+
+---
+
+# Choosing color palettes
+
+- There are basically three different types of palettes:
+  - Discrete - for categorical data (e.g. `wes_palette("Darjeeling1")`  )
+  - Continuous sequential - for continuous data (e.g. `viridis`)
+  - Divergent - for data with a clear *center* (e.g. `display.brewer.pal(11,"RdBu")`)
+
+```{r, eval = FALSE}
+par(mfrow = c(1, 3)) # this function sets global graphical parameters in base R plots
+wes_palette("Darjeeling1")
+scales::show_col(viridis(25), labels = FALSE, ncol = 25)
+display.brewer.pal(11,"RdBu")
+```
+
+---
+
+# Other scales: `shapes`
+
+- The shape scale maps categorical variables to point shapes
+- [scale_shape](https://ggplot2.tidyverse.org/reference/scale_shape.html)
+
+.pull-left[
+```{r, eval = FALSE}
+df_shapes <- data.frame(shape = 0:24)
+ggplot(df_shapes, aes(0, 0, shape = shape)) +
+  geom_point(aes(shape = shape), 
+             size = 5, fill = 2) +
+  scale_shape_identity() +
+  facet_wrap(~shape) +
+  theme_void()
+```
+]
+.pull-right[
+```{r, echo = F}
+df_shapes <- data.frame(shape = 0:24)
+ggplot(df_shapes, aes(0, 0, shape = shape)) +
+  geom_point(aes(shape = shape), 
+             size = 6, fill = 2) + # 2 is color "#DF536B"
+  scale_shape_identity() +
+  facet_wrap(~shape) +
+  theme_void() 
+```
+]
+
+---
+
+# Other scales: `linetype`
+
+- The linetype scale maps categorical variables to line types
+- Some options: "solid", "longdash", "dashed", "dotted", ...
+- [scale_linetype](https://ggplot2.tidyverse.org/reference/scale_linetype.html)
+
+.pull-left[
+```{r, eval = FALSE}
+ggplot(economics_long, aes(date, value01)) + 
+  geom_line(aes(linetype = variable)) +
+  theme_cowplot()
+```
+]
+.pull-right[
+```{r, echo = F, out.width="90%"}
+suppressPackageStartupMessages(library(cowplot))
+ggplot(economics_long, aes(date, value01)) + 
+  geom_line(aes(linetype = variable)) + theme_cowplot()
+```
+]
+
+---
+
+
+# Manually setting scales
+
+- Most scales have a `_manual` version
+- This allows for direct mapping variables to scale levels
+
+.pull-left[
+```{r, eval = FALSE}
+ggplot(mtcars, aes(mpg, wt)) +
+  geom_point(aes(colour = factor(cyl)), 
+             size = 4) + 
+  scale_colour_manual(values = c("red", 
+                                 "blue",
+                                 "green"),
+                      labels = c("four", 
+                                 "six",
+                                 "eight"),
+                      name = "Cylinders") +
+  theme_cowplot()
+```
+]
+.pull-right[
+```{r, echo = F, out.width="90%"}
+ggplot(mtcars, aes(mpg, wt)) +
+  geom_point(aes(colour = factor(cyl)), 
+             size = 4) + 
+  scale_colour_manual(values = c("red", 
+                                 "blue",
+                                 "green"),
+                      labels = c("four", 
+                                 "six",
+                                 "eight"),
+                      name = "Cylinders") +
+  theme_cowplot()
+```
+]
+---
+
+class: inverse, center, middle
+# Dealing with text
+
+---
+
+# `ggrepel` and point labels
+
+
+
+---
+
+# `annotate` for plot annotations
+
+---
+
+# The `theme` function 
+
+- Stylistic changes to the plot not related to data
+- Can both apply complete themes or modify
+elements directly
+- Theming is hierarchical
+
+
+.pull-left[
+```{r, eval = FALSE}
+ggplot(mpg) + geom_bar(aes(y = class)) +
+ facet_wrap(~year) +
+ labs(title = "Number of car models per class",
+      caption = "source: http://fueleconomy.gov/",
+      x = NULL,
+      y = NULL) +
+ scale_x_continuous(expand = c(0, NA)) +
+ theme_minimal() +
+ theme(
+  text = element_text('Skolar Sans'),
+  strip.text = element_text(face = 'bold',
+  hjust = 0),
+  plot.caption = element_text(face = 'italic'),
+  panel.grid.major = element_line('white',
+  size = 0.5),
+  panel.grid.minor = element_blank(),
+  panel.grid.major.y = element_blank(),
+  panel.ontop = TRUE)
+```
+]
+.pull-right[
+```{r, echo = F, out.width='85%'}
+ggplot(mpg) + geom_bar(aes(y = class)) +
+ facet_wrap(~year) +
+ labs(title = "Number of car models per class",
+      caption = "source: http://fueleconomy.gov",
+      x = NULL,
+      y = NULL) +
+ scale_x_continuous(expand = c(0, NA)) +
+ theme_minimal() +
+ theme(
+  text = element_text('Skolar Sans'),
+  strip.text = element_text(face = 'bold',
+  hjust = 0),
+  plot.caption = element_text(face = 'italic'),
+  panel.grid.major = element_line('white',
+  linewidth = 0.5),
+  panel.grid.minor = element_blank(),
+  panel.grid.major.y = element_blank(),
+  panel.ontop = TRUE)
+```
+]
+
+---
+
+# `theme` controls many, many aspects of the plot
+
+- Axis lines and ticks
+- Panel grids
+
+- All text:
+  - Axis labels
+  - Axis titles
+  - All fonts and font sizes
+
+- Legend:
+  - size
+  - position and direction
+  - alignment 
+  - ...
+
+
+- Most arguments for theme are function calls
+  - `element_` family of functions
+  - `element_line`, `element_text`, `element_blank`, `element_rect`, ...
+
+---
+
+# Complex plot combinations with `patchwork`
+
+```{r, eval = FALSE}
+require(cowplot); require(patchwork)
+data(msleep)
+p1 = ggplot(msleep, aes(sleep_total, vore, fill = vore)) + 
+geom_boxplot() + theme_minimal_hgrid(color = "grey70")
+p2 = ggplot(msleep, aes(y = vore, fill = vore)) + 
+  geom_bar() + theme_cowplot() + scale_x_continuous(
+    # don't expand y scale at the lower end
+    expand = expansion(mult = c(0, 0.05))
+  )
+p3 = ggplot(msleep, aes(bodywt, sleep_total, fill = vore)) + 
+  geom_point(size = 4, shape = 21, stroke = 1) + scale_x_log10() + theme_cowplot()
+
+(all_panels <- (p1 | p2) / p3)
+all_panels
+all_panels + plot_layout(guides = "collect") 
+```
+
+---
