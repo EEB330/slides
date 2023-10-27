@@ -531,4 +531,4 @@ ggplot(mpg) +
 ggplot(mpg, aes(x = class, y = hwy)) + 
   geom_jitter(width = 0.2)
 ```
----
+
