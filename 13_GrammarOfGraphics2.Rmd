@@ -574,7 +574,7 @@ design <- "
   123
   ##3
 "
-p1 + p2 + p3 + plot_layout(design = design)
+p1 + p2 + p3 + plot_layout(design = design, guides = "collect")
 ```
 
 ---
