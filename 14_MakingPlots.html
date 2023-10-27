@@ -34,6 +34,42 @@ class: center, middle, inverse, title-slide
 
 ---
 
+# Lineplots
+
+---
+
+# Scatter plots
+
+---
+
+# Jitter plots
+
+---
+
+# Distributions
+
+---
+
+# Histogram and density plots
+
+---
+
+# Boxplots
+
+---
+
+# ridge plots
+
+---
+
+# Barplots vs dotplots
+
+---
+
+# Methods for displaying all the data
+
+---
+
 # Color scales
 
 ---
@@ -42,35 +78,7 @@ class: center, middle, inverse, title-slide
 
 ---
 
-# Scales
-
-- Scales define how the mapping you specify inside `aes()` should happen. All 
-mappings have an associated scale even if not specified.
-
-
-```r
-ggplot(mpg) + 
-  geom_point(aes(x = displ, y = hwy, colour = class))
-```
-
- - We can add one explicitly. All scales follow the same naming conventions.
-
-
-```r
-ggplot(mpg) + 
-  geom_point(aes(x = displ, y = hwy, colour = class)) + 
-  scale_colour_brewer(type = 'qual')
-```
-
-- Positional mappings (x and y) also have associated scales.
-
-
-```r
-ggplot(mpg) + 
-  geom_point(aes(x = displ, y = hwy)) + 
-  scale_x_continuous(breaks = c(3, 5, 6)) + 
-  scale_y_continuous(trans = 'log10')
-```
+# Scale transformations
 
 ---
 

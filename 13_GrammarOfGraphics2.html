@@ -44,7 +44,7 @@ mappings have an associated scale even if not specified.
 
 ```r
 ggplot(mpg) + 
-  geom_point(aes(x = displ, y = hwy, color = class))
+  geom_point(aes(x = displ, y = hwy, color = class)) 
 ```
 
  - We can add one explicitly. All scales follow the same naming conventions.
@@ -156,9 +156,12 @@ ggplot(mpg, aes(x = displ, y = hwy,
 # Choosing color palettes
 
 - There are basically three different types of palettes:
-  - Discrete - for categorical data (e.g. `wes_palette("Darjeeling1")`  )
+  - Discrete - for categorical/qualitative data (e.g. `wes_palette("Darjeeling1")`  )
   - Continuous sequential - for continuous data (e.g. `viridis`)
   - Divergent - for data with a clear *center* (e.g. `display.brewer.pal(11,"RdBu")`)
+
+- `scale_color_brewer` has argument `type` that takes one of:
+    "seq" (sequential), "div" (diverging) or "qual" (qualitative)
 
 
 ```r
@@ -245,14 +248,175 @@ class: inverse, center, middle
 
 ---
 
-# `ggrepel` and point labels
+# Text point labels
 
+- Text labels on points are useful, but can be hard to place
+
+.pull-left[
+
+```r
+p = ggplot(mtcars, aes(wt, mpg, 
+                       label = rownames(mtcars))) +
+* geom_text() +
+  geom_point(color = 2, size = 2) +
+  theme_cowplot(16)
+stamp_bad(p)
+```
+]
+.pull-right[
+&lt;img src="13_GrammarOfGraphics2_files/figure-html/unnamed-chunk-17-1.png" width="90%" /&gt;
+]
 
 
 ---
 
-# `annotate` for plot annotations
+# `ggrepel` and text point labels
 
+- [ggrepel](https://ggrepel.slowkow.com/) is a ggplot2 extension that makes adding point labels much easier
+- [Lot's of examples](https://ggrepel.slowkow.com/articles/examples.html)
+
+.pull-left[
+
+```r
+library(ggrepel)
+p = ggplot(mtcars, aes(wt, mpg,
+                       label = rownames(mtcars))) +
+* geom_text_repel() +
+  geom_point(color = 2, size = 2) +
+  theme_cowplot(16)
+stamp_good(p)
+```
+]
+.pull-right[
+&lt;img src="13_GrammarOfGraphics2_files/figure-html/unnamed-chunk-19-1.png" width="90%" /&gt;
+]
+
+
+---
+
+# `ggfittext` for adding text in random places
+
+- [ggfittext](https://github.com/wilkox/ggfittext) for fitting text into boxes.
+
+.pull-left[
+
+```r
+library(ggfittext)
+ggplot(beverages, 
+       aes(beverage, proportion, 
+           label = ingredient,
+           fill = ingredient)) +
+  geom_col(position = "stack") +
+  geom_bar_text(position = "stack", 
+                reflow = TRUE) +
+  theme_cowplot()
+```
+]
+.pull-right[
+&lt;img src="13_GrammarOfGraphics2_files/figure-html/unnamed-chunk-21-1.png" width="90%" /&gt;
+]
+
+
+---
+
+# `annotate` for text plot annotations
+
+.pull-left[
+
+```r
+p = ggplot(faithful, 
+           aes(x = eruptions, 
+               y = waiting,
+               color = eruptions &gt; 3)) +
+  geom_point() + 
+  scale_color_manual(values = c("DarkOrange", 
+                                "DarkBlue")) +
+  theme_minimal_grid(16)
+
+p +
+  annotate("text", x = 3, y = 48, 
+           label = "Group 1", 
+           size = 10, color = "DarkOrange") +
+  annotate("text", x = 4.5, y = 66, 
+           label = "Group 2",
+           size = 10, color = "DarkBlue")
+```
+]
+.pull-right[
+&lt;img src="13_GrammarOfGraphics2_files/figure-html/unnamed-chunk-23-1.png" width="90%" /&gt;
+]
+
+---
+
+# `annotate` for non-text plot annotations
+
+
+.pull-left[
+
+```r
+p + annotate("rect", xmin = 3, xmax = 5.2, 
+             ymin = 62, ymax = 100,
+             alpha = .4, fill = "tomato3", 
+             color = "black") + 
+    annotate("rect", xmin = 1, xmax = 3, 
+             ymin = 42, ymax = 73,
+             alpha = .4, fill = "gray",
+             color = "black") + 
+    annotate("segment",
+             x = 2, xend = 3.5, 
+             y = 80, yend = 55,
+             colour = "purple", linewidth = 3) + 
+    annotate("segment", 
+             x = 3.45, xend = 2.3, 
+             y = 87.5, yend = 95,
+             arrow = arrow(ends = "first", 
+                      length = unit(.2,"cm"))) + 
+    annotate("text", x = 2.3, y = 95,  
+             label = "Good point", hjust = 1)     
+```
+]
+.pull-right[
+&lt;img src="13_GrammarOfGraphics2_files/figure-html/unnamed-chunk-25-1.png" width="90%" /&gt;
+]
+
+
+---
+
+# `labs` function 
+
+
+.pull-left[
+- For changing:
+    - title and subtitle
+    - axis titles
+    - captions
+    - tags
+    - legend titles
+
+
+```r
+p &lt;- ggplot(mtcars, 
+            aes(mpg, wt, 
+            color = cyl)) + 
+     geom_point() + 
+        theme_cowplot(16) 
+p + labs(color = "Cylinders", 
+         title = "Heavy cars are less efficient", 
+         subtitle = "Buy a small car",
+         x = "Miles per galon",
+         y = "Weight (1000 lbs)",
+         caption = "Data from the mtcars object.", 
+         tag = "A.")
+```
+]
+.pull-right[
+&lt;img src="13_GrammarOfGraphics2_files/figure-html/unnamed-chunk-27-1.png" width="90%" /&gt;
+]
+
+---
+
+class: inverse, center, middle
+#  Changing themes
 ---
 
 # The `theme` function 
@@ -287,7 +451,7 @@ ggplot(mpg) + geom_bar(aes(y = class)) +
 ```
 ]
 .pull-right[
-&lt;img src="13_GrammarOfGraphics2_files/figure-html/unnamed-chunk-17-1.png" width="85%" /&gt;
+&lt;img src="13_GrammarOfGraphics2_files/figure-html/unnamed-chunk-29-1.png" width="85%" /&gt;
 ]
 
 ---
@@ -332,11 +496,34 @@ p3 = ggplot(msleep, aes(bodywt, sleep_total, fill = vore)) +
   geom_point(size = 4, shape = 21, stroke = 1) + scale_x_log10() + theme_cowplot()
 
 (all_panels &lt;- (p1 | p2) / p3)
-all_panels
+```
+
+```r
 all_panels + plot_layout(guides = "collect") 
 ```
 
+```r
+design &lt;- "
+  1##
+  123
+  ##3
+"
+p1 + p2 + p3 + plot_layout(design = design)
+```
+
 ---
+
+
+# Complex plot combinations with `patchwork`
+
+
+```r
+all_panels +
+    plot_annotation(tag_levels = 'A') &amp; # the ampersand applies a theme to all panels in the plot
+    theme(legend.position = "none") 
+```
+
+&lt;img src="13_GrammarOfGraphics2_files/figure-html/unnamed-chunk-31-1.png" width="45%" /&gt;
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
