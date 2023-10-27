@@ -1,4 +1,4 @@
-#  pak::pkg_install(c("xaringan", "xaringanExtra", "leaflet", 'knitr', "stringi", "cowplot", "readr", "data.table", "curl", "numbers", "babynames", "nycflights13", "covidcast", "ggfittext"))
+#  pak::pkg_install(c("xaringan", "xaringanExtra", "leaflet", 'knitr', "stringi", "cowplot", "readr", "data.table", "curl", "numbers", "babynames", "nycflights13", "covidcast", "ggfittext", "ggridges", "hrbrthemes"))
 # xaringan::summon_remark()
 
 library(rmarkdown)
@@ -9,6 +9,12 @@ library(covidcast)
 library(cowplot)
 library(patchwork)
 library(ggfittext)
+library(conflicted)
+conflicts_prefer(dplyr::select)
+conflicts_prefer(dplyr::mutate)
+conflicts_prefer(dplyr::filter)
+conflicts_prefer(dplyr::summarise)
+
 ## Week 1
 #render("00_Why_Programming.Rmd")
 #render("01_Computer_programming.Rmd")
@@ -31,7 +37,7 @@ library(ggfittext)
 # render("12_GrammarOfGraphics.Rmd")
 
 ## Week 7
-render("13_GrammarOfGraphics2.Rmd")
+# render("13_GrammarOfGraphics2.Rmd")
 render("14_MakingPlots.Rmd")
 
 
