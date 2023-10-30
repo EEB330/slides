@@ -88,7 +88,7 @@ library(cowplot)
 ggplot(iris, aes(Sepal.Width, Sepal.Length, 
                  color = Species)) + 
     geom_point(size = 3) + #<<
-    theme_cowplot() + 
+    theme_cowplot(16) + 
     theme(legend.position = "bottom")
 ```
 ]
@@ -98,7 +98,7 @@ library(cowplot)
 ggplot(iris, aes(Sepal.Width, Sepal.Length, 
                  color = Species)) + 
     geom_point(size = 3) + 
-    theme_cowplot() + 
+    theme_cowplot(16) + 
     theme(legend.position = "bottom")
 ```
 ]
@@ -119,7 +119,7 @@ ggplot(iris, aes(Sepal.Width, Sepal.Length,
     stat_ellipse(linewidth = 1) + #<<
     geom_point(size = 3, shape = 21, 
                color = "black") +
-    theme_cowplot() + 
+    theme_cowplot(16) + 
     theme(legend.position = "bottom")
 ```
 ]
@@ -130,7 +130,7 @@ ggplot(iris, aes(Sepal.Width, Sepal.Length,
                  color = Species, fill = Species)) + 
     stat_ellipse(linewidth = 1) +
     geom_point(size = 3, shape = 21, color = "black") +
-    theme_cowplot() + 
+    theme_cowplot(16) + 
     theme(legend.position = "bottom")
 ```
 ]
@@ -153,7 +153,7 @@ ggplot(iris,
                shape = 21, 
                color = "black") +
     geom_smooth(aes(group = Species)) + #<<
-    theme_cowplot() + 
+    theme_cowplot(16) + 
     theme(legend.position = "bottom")
 ```
 ]
@@ -163,7 +163,7 @@ ggplot(iris, aes(Sepal.Width, Sepal.Length,
                  color = Species, fill = Species)) + 
     geom_point(size = 3, shape = 21, color = "black") +
     geom_smooth(aes(group = Species)) +
-    theme_cowplot() + 
+    theme_cowplot(16) + 
     theme(legend.position = "bottom")
 ```
 ]
@@ -187,7 +187,7 @@ ggplot(iris,
                color = "black") +
     geom_smooth(aes(group = Species),
                 method = "lm") + #<<
-    theme_cowplot() + 
+    theme_cowplot(16) + 
     theme(legend.position = "bottom")
 ```
 ]
@@ -198,7 +198,7 @@ ggplot(iris, aes(Sepal.Width, Sepal.Length,
     geom_point(size = 3, shape = 21, color = "black") +
     geom_smooth(aes(group = Species),
                 method = "lm") +
-    theme_cowplot() + 
+    theme_cowplot(16) + 
     theme(legend.position = "bottom")
 ```
 ]
@@ -371,7 +371,7 @@ ggplot(lincoln_weather,
 ggplot(ToothGrowth, aes(x=factor(dose), y=len)) + 
   geom_boxplot(fill = 2) +
   labs(x = "Dose", y = "Length") +
-  theme_cowplot()
+  theme_cowplot(16)
 ```
 ]
 .pull-right[
@@ -379,7 +379,7 @@ ggplot(ToothGrowth, aes(x=factor(dose), y=len)) +
 ggplot(ToothGrowth, aes(x=factor(dose), y=len)) + 
   geom_boxplot(fill = 2) +
   labs(x = "Dose", y = "Length") +
-  theme_cowplot()
+  theme_cowplot(16)
 ```
 ]
 
@@ -394,7 +394,7 @@ ggplot(ToothGrowth, aes(x=factor(dose), y=len)) +
 ggplot(ToothGrowth, aes(x=factor(dose), y=len)) + 
   geom_point() +
   labs(x = "Dose", y = "Length") +
-  theme_cowplot()
+  theme_cowplot(16)
 ```
 ]
 .pull-right[
@@ -402,7 +402,7 @@ ggplot(ToothGrowth, aes(x=factor(dose), y=len)) +
 ggplot(ToothGrowth, aes(x=factor(dose), y=len)) + 
   geom_point() +
   labs(x = "Dose", y = "Length") +
-  theme_cowplot()
+  theme_cowplot(16)
 ```
 ]
 
@@ -415,7 +415,7 @@ ggplot(ToothGrowth, aes(x=factor(dose), y=len)) +
 ggplot(ToothGrowth, aes(x=factor(dose), y=len)) + 
   geom_jitter(width = 0.1, height = 0) + #<<
   labs(x = "Dose", y = "Length") +
-  theme_cowplot()
+  theme_cowplot(16)
 ```
 ]
 .pull-right[
@@ -423,7 +423,7 @@ ggplot(ToothGrowth, aes(x=factor(dose), y=len)) +
 ggplot(ToothGrowth, aes(x=factor(dose), y=len)) + 
   geom_jitter(width = 0.1, height = 0) +
   labs(x = "Dose", y = "Length") +
-  theme_cowplot()
+  theme_cowplot(16)
 ```
 ]
 
@@ -438,7 +438,7 @@ ggplot(ToothGrowth, aes(x=factor(dose), y=len)) +
   geom_boxplot(fill = 2, outlier.alpha = 0) +
   geom_jitter(width = 0.1, height = 0, size = 2) + 
   labs(x = "Dose", y = "Length") +
-  theme_cowplot()
+  theme_cowplot(16)
 ```
 ]
 .pull-right[
@@ -447,7 +447,7 @@ ggplot(ToothGrowth, aes(x=factor(dose), y=len)) +
   geom_boxplot(fill = 2, outlier.alpha = 0) +
   geom_jitter(width = 0.1, height = 0, size = 2) +
   labs(x = "Dose", y = "Length") +
-  theme_cowplot()
+  theme_cowplot(16)
 ```
 ]
 
@@ -479,7 +479,7 @@ iris |>
     scale_y_continuous
         (expand = expansion(mult = c(0, 0.05))) +
     labs(caption = "Using standard error") + 
-    theme_cowplot()
+    theme_cowplot(16)
 ```
 ]
 .pull-right[
@@ -498,7 +498,7 @@ iris |>
     geom_bar(stat="identity", fill="forestgreen", alpha=0.5) +
     geom_errorbar(aes(ymin=mean-se, ymax=mean+se), width=0.4, colour="gray30", alpha=0.9, linewidth=1.5) +
     scale_y_continuous(expand = expansion(mult = c(0, 0.05))) +
-    labs(title = "Using standard error") + theme_cowplot()
+    labs(title = "Using standard error") + theme_cowplot(16)
 ```
 ]
 
@@ -525,7 +525,7 @@ iris |>
                       width=0.1, colour="gray30", 
                       alpha=0.9, linewidth=1.5) +
     labs(title = "Using standard error") + 
-    theme_cowplot()
+    theme_cowplot(16)
 ```
 ]
 .pull-right[
@@ -543,7 +543,7 @@ iris |>
                       width=0.1, colour="gray30", 
                       alpha=0.9, linewidth=1.5) +
     labs(title = "Using standard error")  +
-    theme_cowplot()
+    theme_cowplot(16)
 ```
 ]
 
@@ -568,7 +568,7 @@ iris |>
     geom_bar(stat="identity", fill="forestgreen", alpha=0.5) +
     geom_errorbar(aes(ymin=mean-se, ymax=mean+se), width=0.4, colour="gray30", alpha=0.9, linewidth=1.5) +
     scale_y_continuous(expand = expansion(mult = c(0, 0.05))) +
-    theme_cowplot()
+    theme_cowplot(16)
 ```
 ]
 .pull-right[
@@ -585,7 +585,7 @@ iris |>
     geom_errorbar(aes(ymin=mean-se, ymax=mean+se),
                       width=0.1, colour="gray30", 
                       alpha=0.9, linewidth=1.5) +
-    theme_cowplot()
+    theme_cowplot(16)
 ```
 ]
 
@@ -665,13 +665,12 @@ ggplot(df,
        aes(x=time, y=value, 
            color = species,
            group = species)) + 
-    geom_point() + 
-    stat_summary(fun=mean) + 
+    stat_summary(geom="pointrange", 
+                 fun.data = mean_cl_boot) + 
     stat_summary(geom="errorbar", 
                  fun.data= mean_cl_boot,
                  width = 0.1) + 
-    stat_summary(aes(group = species), 
-                geom = "line", fun = mean) +
+    stat_summary(geom = "line", fun = mean) +
     labs(y = "Fitness", x = "Condition") + 
     theme_minimal_hgrid()
 ```
@@ -691,13 +690,12 @@ ggplot(df,
        aes(x=time, y=value, 
            color = species,
            group = species)) + 
-    geom_point() + 
-    stat_summary(fun=mean) + 
+    stat_summary(geom="pointrange", 
+                 fun.data = mean_cl_boot) + 
     stat_summary(geom="errorbar", 
                  fun.data= mean_cl_boot,
                  width = 0.1) + 
-    stat_summary(aes(group = species), 
-                geom = "line", fun = mean) +
+    stat_summary(geom = "line", fun = mean) +
     labs(y = "Fitness", x = "Condition") + 
     theme_minimal_hgrid()
 ```
@@ -753,6 +751,198 @@ ggplot(melted_cormat,
 ---
 
 # 2d density plots
+
+- Scatter plots can break down is there are too many points
+
+.pull-left[
+```{r, eval = FALSE}
+# Data
+a <- data.frame( x=rnorm(20000, 10, 1.9), y=rnorm(20000, 10, 1.2) )
+b <- data.frame( x=rnorm(20000, 14.5, 1.9), y=rnorm(20000, 14.5, 1.9) )
+c <- data.frame( x=rnorm(20000, 9.5, 1.9), y=rnorm(20000, 15.5, 1.9) )
+data <- rbind(a,b,c)
+ 
+ggplot(data, aes(x=x, y=y) ) +
+  geom_point() +
+  theme_cowplot(16)
+```
+]
+.pull-right[
+```{r, echo = F, out.width='90%'}
+# Data
+a <- data.frame( x=rnorm(20000, 10, 1.9), y=rnorm(20000, 10, 1.2) )
+b <- data.frame( x=rnorm(20000, 14.5, 1.9), y=rnorm(20000, 14.5, 1.9) )
+c <- data.frame( x=rnorm(20000, 9.5, 1.9), y=rnorm(20000, 15.5, 1.9) )
+data <- rbind(a,b,c)
+ 
+ggplot(data, aes(x=x, y=y) ) +
+  geom_point() +
+  theme_cowplot(16)
+```
+]
+
+
+
+---
+
+# 2d density plots - basic 2d binned data
+
+- Scatter plots can break down is there are too many points
+
+.pull-left[
+```{r, eval = FALSE}
+# Data
+a <- data.frame( x=rnorm(20000, 10, 1.9), y=rnorm(20000, 10, 1.2) )
+b <- data.frame( x=rnorm(20000, 14.5, 1.9), y=rnorm(20000, 14.5, 1.9) )
+c <- data.frame( x=rnorm(20000, 9.5, 1.9), y=rnorm(20000, 15.5, 1.9) )
+data <- rbind(a,b,c)
+ 
+ggplot(data, aes(x=x, y=y) ) +
+  geom_bin2d(bins = 70) +
+  scale_fill_viridis() +
+  theme_cowplot(16)
+```
+]
+.pull-right[
+```{r, echo = F, out.width='90%'}
+ggplot(data, aes(x=x, y=y) ) +
+   geom_bin2d(bins = 70) +
+  scale_fill_viridis() +
+  theme_cowplot(16)
+```
+]
+
+
+
+---
+
+# 2d density plots - hex bins
+
+- Scatter plots can break down is there are too many points
+
+.pull-left[
+```{r, eval = FALSE}
+# Data
+a <- data.frame( x=rnorm(20000, 10, 1.9), y=rnorm(20000, 10, 1.2) )
+b <- data.frame( x=rnorm(20000, 14.5, 1.9), y=rnorm(20000, 14.5, 1.9) )
+c <- data.frame( x=rnorm(20000, 9.5, 1.9), y=rnorm(20000, 15.5, 1.9) )
+data <- rbind(a,b,c)
+
+ggplot(data, aes(x=x, y=y) ) +
+   geom_hex(bins = 70) +
+  scale_fill_viridis() +
+  theme_cowplot(16)
+```
+]
+.pull-right[
+```{r, echo = F, out.width='90%'}
+ggplot(data, aes(x=x, y=y) ) +
+   geom_hex(bins = 70) +
+  scale_fill_viridis() +
+  theme_cowplot(16)
+```
+]
+
+
+---
+
+# 2d density plots - `stat_density_2d`
+
+- Scatter plots can break down is there are too many points
+
+.pull-left[
+```{r, eval = FALSE}
+# Data
+a <- data.frame( x=rnorm(20000, 10, 1.9), y=rnorm(20000, 10, 1.2) )
+b <- data.frame( x=rnorm(20000, 14.5, 1.9), y=rnorm(20000, 14.5, 1.9) )
+c <- data.frame( x=rnorm(20000, 9.5, 1.9), y=rnorm(20000, 15.5, 1.9) )
+data <- rbind(a,b,c)
+
+ggplot(data, aes(x=x, y=y) ) +
+  stat_density_2d(aes(fill = after_stat(level)), geom = "polygon") +
+  scale_fill_viridis() +
+  theme_cowplot(16)
+```
+]
+.pull-right[
+```{r, echo = F, out.width='90%'}
+ggplot(data, aes(x=x, y=y) ) +
+  stat_density_2d(aes(fill = after_stat(level)), geom = "polygon") +
+  scale_fill_viridis() +
+  theme_cowplot(16)
+```
+]
+
+
+---
+
+# 2d density plots - `stat_density_2d`
+
+- Scatter plots can break down is there are too many points
+
+.pull-left[
+```{r, eval = FALSE}
+# Data
+a <- data.frame( x=rnorm(20000, 10, 1.9), y=rnorm(20000, 10, 1.2) )
+b <- data.frame( x=rnorm(20000, 14.5, 1.9), y=rnorm(20000, 14.5, 1.9) )
+c <- data.frame( x=rnorm(20000, 9.5, 1.9), y=rnorm(20000, 15.5, 1.9) )
+data <- rbind(a,b,c)
+
+ggplot(data, aes(x=x, y=y) ) +
+  stat_density_2d(aes(fill = after_stat(density)), geom = "raster", contour = FALSE) +
+  scale_fill_viridis() +
+  scale_x_continuous(expand = c(0, 0)) +
+  scale_y_continuous(expand = c(0, 0)) +
+  theme_cowplot(16)
+```
+]
+.pull-right[
+```{r, echo = F, out.width='90%'}
+ggplot(data, aes(x=x, y=y) ) +
+  stat_density_2d(aes(fill = after_stat(density)), geom = "raster", contour = FALSE) +
+  scale_fill_viridis() +
+  scale_x_continuous(expand = c(0, 0)) +
+  scale_y_continuous(expand = c(0, 0)) +
+  theme_cowplot(16)
+```
+]
+
+
+---
+
+
+
+# 2d density plots - `ggpointdensity`
+
+- Scatter plots can break down is there are too many points
+
+.pull-left[
+```{r, eval = FALSE}
+# Data
+a <- data.frame( x=rnorm(20000, 10, 1.9), y=rnorm(20000, 10, 1.2) )
+b <- data.frame( x=rnorm(20000, 14.5, 1.9), y=rnorm(20000, 14.5, 1.9) )
+c <- data.frame( x=rnorm(20000, 9.5, 1.9), y=rnorm(20000, 15.5, 1.9) )
+data <- rbind(a,b,c)
+
+# install.packages("ggpointdensity")
+library("ggpointdensity")
+ggplot(data, aes(x=x, y=y) ) +
+  geom_pointdensity() +
+  scale_color_viridis() +
+  theme_cowplot(16)
+```
+]
+.pull-right[
+```{r, echo = F, out.width='90%'}
+library("ggpointdensity")
+
+ggplot(data, aes(x=x, y=y) ) +
+  geom_pointdensity() +
+  scale_color_viridis() +
+  theme_cowplot(16)
+```
+]
+
 
 ---
 
