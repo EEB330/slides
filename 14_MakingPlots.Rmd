@@ -521,11 +521,103 @@ iris |>
 ```
 ]
 
+---
+
 # Reaction norms - lines and dotplots
+
+.pull-left[
+```{r, eval = FALSE}
+time <- c("t1","t1","t1","t1","t1","t1",
+          "t2","t2","t2","t2","t2","t2")
+species <- c(1,1,1,2,2,2,1,1,1,2,2,2)
+value <- c(1,2,3,11,12,13,4,5,6,11,12,13)
+
+df <- data.frame(time, species,value)
+df$time <- as.factor(df$time)
+df$species <- as.factor(df$species)
+
+ggplot(df, 
+       aes(x=time, y=value, 
+           color = species,
+           group = species)) + 
+    geom_point() + 
+    stat_summary(fun=mean) + 
+    stat_summary(geom="errorbar", 
+                 fun.data= mean_cl_boot,
+                 width = 0.1) + 
+    stat_summary(aes(group = species), 
+                geom = "line", fun = mean) +
+    labs(y = "Fitness", x = "Condition") + 
+    theme_minimal_hgrid()
+```
+]
+.pull-right[
+```{r, echo = F, out.width='90%'}
+time <- c("t1","t1","t1","t1","t1","t1",
+          "t2","t2","t2","t2","t2","t2")
+species <- c(1,1,1,2,2,2,1,1,1,2,2,2)
+value <- c(1,2,3,11,12,13,4,5,6,11,12,13)
+
+df <- data.frame(time, species,value)
+df$time <- as.factor(df$time)
+df$species <- as.factor(df$species)
+
+ggplot(df, 
+       aes(x=time, y=value, 
+           color = species,
+           group = species)) + 
+    geom_point() + 
+    stat_summary(fun=mean) + 
+    stat_summary(geom="errorbar", 
+                 fun.data= mean_cl_boot,
+                 width = 0.1) + 
+    stat_summary(aes(group = species), 
+                geom = "line", fun = mean) +
+    labs(y = "Fitness", x = "Condition") + 
+    theme_minimal_hgrid()
+```
+]
 
 ---
 
 # Heatmaps
+
+- Used for representing correlation and covariance matrices
+- Also common for showing all points across some condition (RNAseq, microarray...)
+
+- Canned package: [`ggheatmap`](https://github.com/XiaoLuo-boy/ggheatmap)
+
+.pull-left[
+```{r, eval = FALSE}
+cor_matrix = cor(iris[,-5])
+diag(cor_matrix) = NA
+melted_cormat = reshape2::melt(cor_matrix)
+ggplot(melted_cormat, 
+       aes(x=Var1, y=Var2, fill=value)) +
+    geom_tile() +
+    scale_fill_distiller(type="div", 
+                         palette="RdBu") +
+    theme_minimal(16) +
+    theme(legend.position = "bottom",
+          legend.key.width= unit(3, 'cm'))
+```
+]
+.pull-right[
+```{r, echo = F, out.width='85%'}
+cor_matrix = cor(iris[,-5])
+diag(cor_matrix) = NA
+melted_cormat = reshape2::melt(cor_matrix)
+ggplot(melted_cormat, 
+       aes(x=Var1, y=Var2, fill=value)) +
+    geom_tile() +
+    scale_fill_distiller(type="div", 
+                         palette="RdBu") +
+    theme_minimal(16) +
+    theme(legend.position = "bottom",
+          legend.key.width= unit(3, 'cm'))
+```
+]
+
 
 ---
 
