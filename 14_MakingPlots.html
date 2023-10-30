@@ -60,7 +60,7 @@ data$date &lt;- as.Date(data$date)
 
 data |&gt;
   ggplot(aes(x=date, y=value)) +
-    geom_line(color="#69b3a2") +
+*   geom_line(color="#69b3a2") +
     ylim(0,22000) +
     annotate(geom="text", x=as.Date("2017-01-01"), y=20089, 
              label="Bitcoin price reached $20k \nat the end of 2017") +
@@ -85,7 +85,7 @@ data |&gt;
 library(cowplot)
 ggplot(iris, aes(Sepal.Width, Sepal.Length, 
                  color = Species)) + 
-    geom_point(size = 3) + 
+*   geom_point(size = 3) +
     theme_cowplot() + 
     theme(legend.position = "bottom")
 ```
@@ -108,7 +108,7 @@ library(cowplot)
 ggplot(iris, aes(Sepal.Width, Sepal.Length, 
                  color = Species, 
                  fill = Species)) + 
-    stat_ellipse(linewidth = 1) +
+*   stat_ellipse(linewidth = 1) +
     geom_point(size = 3, shape = 21, 
                color = "black") +
     theme_cowplot() + 
@@ -122,8 +122,57 @@ ggplot(iris, aes(Sepal.Width, Sepal.Length,
 
 ---
 
-# Trend lines
+# Trend lines with `geom_smooth`
 
+- By default, geom_smooth uses a **loess** curve, a very simple mean trend estimator
+    - [**loess**](https://en.wikipedia.org/wiki/Local_regression) = locally estimated scatterplot smoothing
+
+.pull-left[
+
+```r
+ggplot(iris, 
+       aes(Sepal.Width, Sepal.Length, 
+           color = Species, 
+           fill = Species)) + 
+    geom_point(size = 3, 
+               shape = 21, 
+               color = "black") +
+*   geom_smooth(aes(group = Species)) +
+    theme_cowplot() + 
+    theme(legend.position = "bottom")
+```
+]
+.pull-right[
+&lt;img src="14_MakingPlots_files/figure-html/unnamed-chunk-8-1.png" width="90%" /&gt;
+]
+
+---
+
+# Trend lines with `geom_smooth`
+
+- By default, geom_smooth uses a **loess** curve, a very simple mean trend estimator
+    - [**loess**](https://en.wikipedia.org/wiki/Local_regression) = locally estimated scatterplot smoothing
+- We can add a linear trend line by changing the `method` argument in `geom_smooth`
+
+.pull-left[
+
+```r
+ggplot(iris, 
+       aes(Sepal.Width, Sepal.Length, 
+           color = Species, 
+           fill = Species)) + 
+    geom_point(size = 3, 
+               shape = 21, 
+               color = "black") +
+    geom_smooth(aes(group = Species),
+*               method = "lm") +
+    theme_cowplot() + 
+    theme(legend.position = "bottom")
+```
+]
+.pull-right[
+&lt;img src="14_MakingPlots_files/figure-html/unnamed-chunk-10-1.png" width="90%" /&gt;
+]
 
 ---
 
@@ -139,12 +188,14 @@ x = rnorm(1000, mean = 5, sd = 1)
 data.frame(x) |&gt;
     ggplot(aes(x)) + 
     geom_histogram(fill = "black") + 
-    geom_vline(xintercept = mean(x), color = 2, linewidth = 2) +
+    geom_vline(xintercept = mean(x), 
+               color = 2, 
+               linewidth = 2) +
     theme_minimal_grid() 
 ```
 ]
 .pull-right[
-&lt;img src="14_MakingPlots_files/figure-html/unnamed-chunk-8-1.png" width="90%" /&gt;
+&lt;img src="14_MakingPlots_files/figure-html/unnamed-chunk-12-1.png" width="90%" /&gt;
 ]
 
 
@@ -160,13 +211,17 @@ data.frame(x) |&gt;
 ```r
 data.frame(x) |&gt;
     ggplot(aes(x)) + 
-    geom_density(color = "black", fill = "gray70", alpha = 0.3) + 
-    geom_vline(xintercept = mean(x), color = 2, linewidth = 2) +
+    geom_density(color = "black", 
+                 fill = "gray70",
+                 alpha = 0.3) + 
+    geom_vline(xintercept = mean(x), 
+               color = 2, 
+               linewidth = 2) +
     theme_minimal_grid() 
 ```
 ]
 .pull-right[
-&lt;img src="14_MakingPlots_files/figure-html/unnamed-chunk-10-1.png" width="90%" /&gt;
+&lt;img src="14_MakingPlots_files/figure-html/unnamed-chunk-14-1.png" width="90%" /&gt;
 ]
 
 
@@ -194,7 +249,7 @@ data.frame(x) |&gt;
 ```
 ]
 .pull-right[
-&lt;img src="14_MakingPlots_files/figure-html/unnamed-chunk-12-1.png" width="90%" /&gt;
+&lt;img src="14_MakingPlots_files/figure-html/unnamed-chunk-16-1.png" width="90%" /&gt;
 ]
 
 
@@ -229,7 +284,7 @@ ggplot(lincoln_weather,
 ```
 ]
 .pull-right[
-&lt;img src="14_MakingPlots_files/figure-html/unnamed-chunk-14-1.png" width="90%" /&gt;
+&lt;img src="14_MakingPlots_files/figure-html/unnamed-chunk-18-1.png" width="90%" /&gt;
 ]
 
 ---
@@ -257,7 +312,7 @@ ggplot(ToothGrowth, aes(x=factor(dose), y=len)) +
 ```
 ]
 .pull-right[
-&lt;img src="14_MakingPlots_files/figure-html/unnamed-chunk-16-1.png" width="90%" /&gt;
+&lt;img src="14_MakingPlots_files/figure-html/unnamed-chunk-20-1.png" width="90%" /&gt;
 ]
 
 
@@ -276,7 +331,7 @@ ggplot(ToothGrowth, aes(x=factor(dose), y=len)) +
 ```
 ]
 .pull-right[
-&lt;img src="14_MakingPlots_files/figure-html/unnamed-chunk-18-1.png" width="90%" /&gt;
+&lt;img src="14_MakingPlots_files/figure-html/unnamed-chunk-22-1.png" width="90%" /&gt;
 ]
 
 ---
@@ -293,7 +348,7 @@ ggplot(ToothGrowth, aes(x=factor(dose), y=len)) +
 ```
 ]
 .pull-right[
-&lt;img src="14_MakingPlots_files/figure-html/unnamed-chunk-20-1.png" width="90%" /&gt;
+&lt;img src="14_MakingPlots_files/figure-html/unnamed-chunk-24-1.png" width="90%" /&gt;
 ]
 
 ---
@@ -312,7 +367,7 @@ ggplot(ToothGrowth, aes(x=factor(dose), y=len)) +
 ```
 ]
 .pull-right[
-&lt;img src="14_MakingPlots_files/figure-html/unnamed-chunk-22-1.png" width="90%" /&gt;
+&lt;img src="14_MakingPlots_files/figure-html/unnamed-chunk-26-1.png" width="90%" /&gt;
 ]
 
 ---
@@ -348,13 +403,13 @@ iris |&gt;
 ```
 ]
 .pull-right[
-&lt;img src="14_MakingPlots_files/figure-html/unnamed-chunk-24-1.png" width="90%" /&gt;
+&lt;img src="14_MakingPlots_files/figure-html/unnamed-chunk-28-1.png" width="90%" /&gt;
 ]
 
 
 ---
 
-# Dotplots
+# Point range plots
 
 - Great alterative to barplots when zero is not special
 
@@ -379,24 +434,24 @@ iris |&gt;
 ```
 ]
 .pull-right[
-&lt;img src="14_MakingPlots_files/figure-html/unnamed-chunk-26-1.png" width="90%" /&gt;
+&lt;img src="14_MakingPlots_files/figure-html/unnamed-chunk-30-1.png" width="90%" /&gt;
 ]
 
 
 ---
 
-# Barplots vs Dotplots
+# Barplots vs point range
 
 .pull-left[
-&lt;img src="14_MakingPlots_files/figure-html/unnamed-chunk-27-1.png" width="90%" /&gt;
+&lt;img src="14_MakingPlots_files/figure-html/unnamed-chunk-31-1.png" width="90%" /&gt;
 ]
 .pull-right[
-&lt;img src="14_MakingPlots_files/figure-html/unnamed-chunk-28-1.png" width="90%" /&gt;
+&lt;img src="14_MakingPlots_files/figure-html/unnamed-chunk-32-1.png" width="90%" /&gt;
 ]
 
 ---
 
-# Reaction norms - lines and dotplots
+# Reaction norms - lines and point ranges
 
 .pull-left[
 
@@ -431,7 +486,7 @@ ggplot(df,
 ## Warning: Removed 4 rows containing missing values (`geom_segment()`).
 ```
 
-&lt;img src="14_MakingPlots_files/figure-html/unnamed-chunk-30-1.png" width="90%" /&gt;
+&lt;img src="14_MakingPlots_files/figure-html/unnamed-chunk-34-1.png" width="90%" /&gt;
 ]
 
 ---
@@ -447,20 +502,23 @@ ggplot(df,
 
 ```r
 cor_matrix = cor(iris[,-5])
-diag(cor_matrix) = NA
+diag(cor_matrix) = 0
 melted_cormat = reshape2::melt(cor_matrix)
 ggplot(melted_cormat, 
        aes(x=Var1, y=Var2, fill=value)) +
     geom_tile() +
+    labs(x = NULL, y = NULL, 
+         fill = "Correlation") + 
     scale_fill_distiller(type="div", 
-                         palette="RdBu") +
+                         palette="RdBu", 
+                         limits = c(-1, 1)) +
     theme_minimal(16) +
     theme(legend.position = "bottom",
           legend.key.width= unit(3, 'cm'))
 ```
 ]
 .pull-right[
-&lt;img src="14_MakingPlots_files/figure-html/unnamed-chunk-32-1.png" width="85%" /&gt;
+&lt;img src="14_MakingPlots_files/figure-html/unnamed-chunk-36-1.png" width="85%" /&gt;
 ]
 
 
@@ -470,8 +528,12 @@ ggplot(melted_cormat,
 
 ---
 
-# ggplot2 extension gallery
+class:  left, top
+background-image: url(figures/ggplot_ext.png)
+background-position: center right
+background-size: 100%
 
+# [ggplot2 extension gallery](https://exts.ggplot2.tidyverse.org/gallery/)
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>

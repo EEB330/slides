@@ -44,7 +44,7 @@ data$date <- as.Date(data$date)
 
 data |>
   ggplot(aes(x=date, y=value)) +
-    geom_line(color="#69b3a2") +
+    geom_line(color="#69b3a2") + #<<
     ylim(0,22000) +
     annotate(geom="text", x=as.Date("2017-01-01"), y=20089, 
              label="Bitcoin price reached $20k \nat the end of 2017") +
@@ -66,12 +66,12 @@ data$date <- as.Date(data$date)
 # plot
 data %>% 
   ggplot( aes(x=date, y=value)) +
-    geom_line(color="#69b3a2") +
+    geom_line(color="#69b3a2") + 
     ylim(0,22000) +
     annotate(geom="text", x=as.Date("2017-01-01"), y=20089, 
              label="Bitcoin price reached $20k \nat the end of 2017") +
     annotate(geom="point", x=as.Date("2017-12-17"), y=20089, size=10, shape=21, fill="transparent") +
-    geom_hline(yintercept=5000, color="orange", linewidth=1) + theme_minimal_grid()  
+    geom_hline(yintercept=5000, color="orange", linewidth=1) + theme_minimal_grid() 
 ```
 ]
 
@@ -87,7 +87,7 @@ data %>%
 library(cowplot)
 ggplot(iris, aes(Sepal.Width, Sepal.Length, 
                  color = Species)) + 
-    geom_point(size = 3) + 
+    geom_point(size = 3) + #<<
     theme_cowplot() + 
     theme(legend.position = "bottom")
 ```
@@ -116,7 +116,7 @@ library(cowplot)
 ggplot(iris, aes(Sepal.Width, Sepal.Length, 
                  color = Species, 
                  fill = Species)) + 
-    stat_ellipse(linewidth = 1) +
+    stat_ellipse(linewidth = 1) + #<<
     geom_point(size = 3, shape = 21, 
                color = "black") +
     theme_cowplot() + 
@@ -138,8 +138,70 @@ ggplot(iris, aes(Sepal.Width, Sepal.Length,
 
 ---
 
-# Trend lines
+# Trend lines with `geom_smooth`
 
+- By default, geom_smooth uses a **loess** curve, a very simple mean trend estimator
+    - [**loess**](https://en.wikipedia.org/wiki/Local_regression) = locally estimated scatterplot smoothing
+
+.pull-left[
+```{r, eval = FALSE}
+ggplot(iris, 
+       aes(Sepal.Width, Sepal.Length, 
+           color = Species, 
+           fill = Species)) + 
+    geom_point(size = 3, 
+               shape = 21, 
+               color = "black") +
+    geom_smooth(aes(group = Species)) + #<<
+    theme_cowplot() + 
+    theme(legend.position = "bottom")
+```
+]
+.pull-right[
+```{r, echo = F, out.width='90%', message = FALSE}
+ggplot(iris, aes(Sepal.Width, Sepal.Length, 
+                 color = Species, fill = Species)) + 
+    geom_point(size = 3, shape = 21, color = "black") +
+    geom_smooth(aes(group = Species)) +
+    theme_cowplot() + 
+    theme(legend.position = "bottom")
+```
+]
+
+---
+
+# Trend lines with `geom_smooth`
+
+- By default, geom_smooth uses a **loess** curve, a very simple mean trend estimator
+    - [**loess**](https://en.wikipedia.org/wiki/Local_regression) = locally estimated scatterplot smoothing
+- We can add a linear trend line by changing the `method` argument in `geom_smooth`
+
+.pull-left[
+```{r, eval = FALSE}
+ggplot(iris, 
+       aes(Sepal.Width, Sepal.Length, 
+           color = Species, 
+           fill = Species)) + 
+    geom_point(size = 3, 
+               shape = 21, 
+               color = "black") +
+    geom_smooth(aes(group = Species),
+                method = "lm") + #<<
+    theme_cowplot() + 
+    theme(legend.position = "bottom")
+```
+]
+.pull-right[
+```{r, echo = F, out.width='90%', message = FALSE}
+ggplot(iris, aes(Sepal.Width, Sepal.Length, 
+                 color = Species, fill = Species)) + 
+    geom_point(size = 3, shape = 21, color = "black") +
+    geom_smooth(aes(group = Species),
+                method = "lm") +
+    theme_cowplot() + 
+    theme(legend.position = "bottom")
+```
+]
 
 ---
 
@@ -154,7 +216,9 @@ x = rnorm(1000, mean = 5, sd = 1)
 data.frame(x) |>
     ggplot(aes(x)) + 
     geom_histogram(fill = "black") + 
-    geom_vline(xintercept = mean(x), color = 2, linewidth = 2) +
+    geom_vline(xintercept = mean(x), 
+               color = 2, 
+               linewidth = 2) +
     theme_minimal_grid() 
 ```
 ]
@@ -181,8 +245,12 @@ data.frame(x) |>
 ```{r, eval = FALSE}
 data.frame(x) |>
     ggplot(aes(x)) + 
-    geom_density(color = "black", fill = "gray70", alpha = 0.3) + 
-    geom_vline(xintercept = mean(x), color = 2, linewidth = 2) +
+    geom_density(color = "black", 
+                 fill = "gray70",
+                 alpha = 0.3) + 
+    geom_vline(xintercept = mean(x), 
+               color = 2, 
+               linewidth = 2) +
     theme_minimal_grid() 
 ```
 ]
@@ -437,7 +505,7 @@ iris |>
 
 ---
 
-# Dotplots
+# Point range plots
 
 - Great alterative to barplots when zero is not special
 
@@ -482,7 +550,7 @@ iris |>
 
 ---
 
-# Barplots vs Dotplots
+# Barplots vs point range
 
 .pull-left[
 ```{r, echo = F, out.width='90%'}
@@ -523,7 +591,7 @@ iris |>
 
 ---
 
-# Reaction norms - lines and dotplots
+# Reaction norms - lines and point ranges
 
 .pull-left[
 ```{r, eval = FALSE}
@@ -590,13 +658,16 @@ ggplot(df,
 .pull-left[
 ```{r, eval = FALSE}
 cor_matrix = cor(iris[,-5])
-diag(cor_matrix) = NA
+diag(cor_matrix) = 0
 melted_cormat = reshape2::melt(cor_matrix)
 ggplot(melted_cormat, 
        aes(x=Var1, y=Var2, fill=value)) +
     geom_tile() +
+    labs(x = NULL, y = NULL, 
+         fill = "Correlation") + 
     scale_fill_distiller(type="div", 
-                         palette="RdBu") +
+                         palette="RdBu", 
+                         limits = c(-1, 1)) +
     theme_minimal(16) +
     theme(legend.position = "bottom",
           legend.key.width= unit(3, 'cm'))
@@ -605,13 +676,16 @@ ggplot(melted_cormat,
 .pull-right[
 ```{r, echo = F, out.width='85%'}
 cor_matrix = cor(iris[,-5])
-diag(cor_matrix) = NA
+diag(cor_matrix) = 0
 melted_cormat = reshape2::melt(cor_matrix)
 ggplot(melted_cormat, 
        aes(x=Var1, y=Var2, fill=value)) +
     geom_tile() +
+    labs(x = NULL, y = NULL, 
+         fill = "Correlation") + 
     scale_fill_distiller(type="div", 
-                         palette="RdBu") +
+                         palette="RdBu", 
+                         limits = c(-1, 1)) +
     theme_minimal(16) +
     theme(legend.position = "bottom",
           legend.key.width= unit(3, 'cm'))
@@ -625,5 +699,9 @@ ggplot(melted_cormat,
 
 ---
 
-# ggplot2 extension gallery
+class:  left, top
+background-image: url(figures/ggplot_ext.png)
+background-position: center right
+background-size: 100%
 
+# [ggplot2 extension gallery](https://exts.ggplot2.tidyverse.org/gallery/)
