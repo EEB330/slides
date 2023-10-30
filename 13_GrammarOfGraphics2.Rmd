@@ -474,6 +474,29 @@ class: inverse, center, middle
 #  Changing themes
 ---
 
+# `theme` controls many, many aspects of the plot
+
+- Axis lines and ticks
+- Panel grids
+
+- All text:
+  - Axis labels
+  - Axis titles
+  - All fonts and font sizes
+
+- Legend:
+  - size
+  - position and direction
+  - alignment 
+  - ...
+
+
+- Most arguments for theme are function calls
+  - `element_` family of functions
+  - `element_line`, `element_text`, `element_blank`, `element_rect`, ...
+
+---
+
 # The `theme` function 
 
 - Stylistic changes to the plot not related to data
@@ -526,29 +549,6 @@ ggplot(mpg) + geom_bar(aes(y = class)) +
   panel.ontop = TRUE)
 ```
 ]
-
----
-
-# `theme` controls many, many aspects of the plot
-
-- Axis lines and ticks
-- Panel grids
-
-- All text:
-  - Axis labels
-  - Axis titles
-  - All fonts and font sizes
-
-- Legend:
-  - size
-  - position and direction
-  - alignment 
-  - ...
-
-
-- Most arguments for theme are function calls
-  - `element_` family of functions
-  - `element_line`, `element_text`, `element_blank`, `element_rect`, ...
 
 ---
 
