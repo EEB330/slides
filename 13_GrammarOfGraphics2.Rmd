@@ -472,6 +472,7 @@ p + labs(color = "Cylinders",
 
 class: inverse, center, middle
 #  Changing themes
+
 ---
 
 # `theme` controls many, many aspects of the plot

@@ -417,6 +417,30 @@ p + labs(color = "Cylinders",
 
 class: inverse, center, middle
 #  Changing themes
+
+---
+
+# `theme` controls many, many aspects of the plot
+
+- Axis lines and ticks
+- Panel grids
+
+- All text:
+  - Axis labels
+  - Axis titles
+  - All fonts and font sizes
+
+- Legend:
+  - size
+  - position and direction
+  - alignment 
+  - ...
+
+
+- Most arguments for theme are function calls
+  - `element_` family of functions
+  - `element_line`, `element_text`, `element_blank`, `element_rect`, ...
+
 ---
 
 # The `theme` function 
@@ -453,29 +477,6 @@ ggplot(mpg) + geom_bar(aes(y = class)) +
 .pull-right[
 &lt;img src="13_GrammarOfGraphics2_files/figure-html/unnamed-chunk-29-1.png" width="85%" /&gt;
 ]
-
----
-
-# `theme` controls many, many aspects of the plot
-
-- Axis lines and ticks
-- Panel grids
-
-- All text:
-  - Axis labels
-  - Axis titles
-  - All fonts and font sizes
-
-- Legend:
-  - size
-  - position and direction
-  - alignment 
-  - ...
-
-
-- Most arguments for theme are function calls
-  - `element_` family of functions
-  - `element_line`, `element_text`, `element_blank`, `element_rect`, ...
 
 ---
 
