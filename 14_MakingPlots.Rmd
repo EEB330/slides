@@ -591,6 +591,63 @@ iris |>
 
 ---
 
+# Cleveland plots
+
+- Good alternative to barplots if you want to contrast two groups in many different conditions
+
+
+.pull-left[
+```{r, eval = FALSE}
+smoking = read_csv("oecd_smoking.csv")
+smoking |>
+    mutate(Country = factor(Country,
+                            unique(Country))) |>
+    pivot_longer(Men:Women, 
+                 names_to = "Gender", 
+                 values_to = "proportion")  |>
+ggplot(aes(Country, proportion,
+           color = Gender)) + 
+    geom_point(size = 5) + 
+    geom_line(aes(group = Country)) +
+    coord_flip() + 
+    scale_color_manual(values = 1:2) + 
+    labs(x = NULL,
+         y = "Proportion of smokers",
+         caption = "https://www.oecd-ilibrary.org/") +
+    theme_minimal_grid(16) + 
+    theme(legend.position = c(0.8, 0.1), 
+          legend.box.background = element_rect(color = "white", 
+                                               fill = "white"))
+```
+]
+.pull-right[
+```{r, echo = F, out.width='90%', message=FALSE}
+smoking = read_csv("oecd_smoking.csv")
+smoking |>
+    mutate(Country = factor(Country,
+                            unique(Country))) |>
+    pivot_longer(Men:Women, 
+                 names_to = "Gender", 
+                 values_to = "proportion")  |>
+ggplot(aes(Country, proportion,
+           color = Gender)) + 
+    geom_point(size = 5) + 
+    geom_line(aes(group = Country)) +
+    coord_flip() + 
+    scale_color_manual(values = 1:2) + 
+    labs(x = NULL,
+         y = "Proportion of smokers",
+         caption = "https://www.oecd-ilibrary.org/") +
+    theme_minimal_grid(16) + 
+    theme(legend.position = c(0.8, 0.1), 
+          legend.box.background = element_rect(color = "white", 
+                                               fill = "white"))
+```
+]
+
+
+---
+
 # Reaction norms - lines and point ranges
 
 .pull-left[

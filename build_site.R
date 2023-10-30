@@ -37,7 +37,7 @@ conflicts_prefer(dplyr::summarise)
 # render("12_GrammarOfGraphics.Rmd")
 
 ## Week 7
-render("13_GrammarOfGraphics2.Rmd")
+# render("13_GrammarOfGraphics2.Rmd")
 render("14_MakingPlots.Rmd")
 
 

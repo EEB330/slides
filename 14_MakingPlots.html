@@ -451,6 +451,43 @@ iris |&gt;
 
 ---
 
+# Cleveland plots
+
+- Good alternative to barplots if you want to contrast two groups in many different conditions
+
+
+.pull-left[
+
+```r
+smoking = read_csv("oecd_smoking.csv")
+smoking |&gt;
+    mutate(Country = factor(Country,
+                            unique(Country))) |&gt;
+    pivot_longer(Men:Women, 
+                 names_to = "Gender", 
+                 values_to = "proportion")  |&gt;
+ggplot(aes(Country, proportion,
+           color = Gender)) + 
+    geom_point(size = 5) + 
+    geom_line(aes(group = Country)) +
+    coord_flip() + 
+    scale_color_manual(values = 1:2) + 
+    labs(x = NULL,
+         y = "Proportion of smokers",
+         caption = "https://www.oecd-ilibrary.org/") +
+    theme_minimal_grid(16) + 
+    theme(legend.position = c(0.8, 0.1), 
+          legend.box.background = element_rect(color = "white", 
+                                               fill = "white"))
+```
+]
+.pull-right[
+&lt;img src="14_MakingPlots_files/figure-html/unnamed-chunk-34-1.png" width="90%" /&gt;
+]
+
+
+---
+
 # Reaction norms - lines and point ranges
 
 .pull-left[
@@ -486,7 +523,7 @@ ggplot(df,
 ## Warning: Removed 4 rows containing missing values (`geom_segment()`).
 ```
 
-&lt;img src="14_MakingPlots_files/figure-html/unnamed-chunk-34-1.png" width="90%" /&gt;
+&lt;img src="14_MakingPlots_files/figure-html/unnamed-chunk-36-1.png" width="90%" /&gt;
 ]
 
 ---
@@ -518,7 +555,7 @@ ggplot(melted_cormat,
 ```
 ]
 .pull-right[
-&lt;img src="14_MakingPlots_files/figure-html/unnamed-chunk-36-1.png" width="85%" /&gt;
+&lt;img src="14_MakingPlots_files/figure-html/unnamed-chunk-38-1.png" width="85%" /&gt;
 ]
 
 
