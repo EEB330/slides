@@ -459,9 +459,9 @@ iris |&gt;
 .pull-left[
 
 ```r
-smoking = read_csv("oecd_smoking.csv")
+smoking = read_csv("https://raw.githubusercontent.com/EEB330/slides/main/oecd_smoking.csv")
 smoking |&gt;
-    mutate(Country = factor(Country,
+    mutate(Country = factor(Country, # This maintains the row order in the plot
                             unique(Country))) |&gt;
     pivot_longer(Men:Women, 
                  names_to = "Gender", 
