@@ -1,0 +1,911 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Data visualization primer</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Diogo Melo" />
+    <script src="14_MakingPlots_files/header-attrs-2.21/header-attrs.js"></script>
+    <link href="14_MakingPlots_files/remark-css-0.0.1/default.css" rel="stylesheet" />
+    <link href="14_MakingPlots_files/remark-css-0.0.1/metropolis.css" rel="stylesheet" />
+    <link href="14_MakingPlots_files/remark-css-0.0.1/metropolis-fonts.css" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+.title[
+# Data visualization primer
+]
+.subtitle[
+## Making good choices for data visualization
+]
+.author[
+### Diogo Melo
+]
+.date[
+### Nov. 1st, 2023
+]
+
+---
+
+
+# Chosing plot types
+
+.pull-left[
+- A big part of data visualization is choosing the correct type of plot to represent the data you have
+
+- This is largely based on astetics and trial and error, but there are some general patterns
+]
+.pull-right[
+![](figures/charts.jpg)
+]
+
+---
+
+# Lineplots
+
+- Implies continuity between data points
+- Ideal for time-series data
+- Can be combined with points to highlight individual observations
+
+.pull-left[
+
+```r
+library(tidyverse)
+
+# Load dataset from github
+data &lt;- read.table("https://raw.githubusercontent.com/holtzy/data_to_viz/master/Example_dataset/3_TwoNumOrdered.csv", header=T)
+data$date &lt;- as.Date(data$date)
+
+data |&gt;
+  ggplot(aes(x=date, y=value)) +
+*   geom_line(color="#69b3a2") +
+    ylim(0,22000) +
+    annotate(geom="text", x=as.Date("2017-01-01"), y=20089, 
+             label="Bitcoin price reached $20k \nat the end of 2017") +
+    annotate(geom="point", x=as.Date("2017-12-17"), y=20089, size=10, shape=21, fill="transparent") +
+    geom_hline(yintercept=5000, color="orange", linewidth=1) + theme_minimal_grid()  
+```
+]
+.pull-right[
+&lt;img src="14_MakingPlots_files/figure-html/unnamed-chunk-2-1.png" width="90%" /&gt;
+]
+
+---
+
+# Scatter plots
+
+- Displays the relation between two continuous variables
+- Works well for reasonably sized data sets
+
+.pull-left[
+
+```r
+library(cowplot)
+ggplot(iris, aes(Sepal.Width, Sepal.Length, 
+                 color = Species)) + 
+*   geom_point(size = 3) +
+    theme_cowplot(16) + 
+    theme(legend.position = "bottom")
+```
+]
+.pull-right[
+&lt;img src="14_MakingPlots_files/figure-html/unnamed-chunk-4-1.png" width="90%" /&gt;
+]
+
+
+---
+
+# Ellipses can be added to highlight groups
+
+- `stat_ellipse` can add confidence ellipses to aid group identities
+
+.pull-left[
+
+```r
+library(cowplot)
+ggplot(iris, aes(Sepal.Width, Sepal.Length, 
+                 color = Species, 
+                 fill = Species)) + 
+*   stat_ellipse(linewidth = 1) +
+    geom_point(size = 3, shape = 21, 
+               color = "black") +
+    theme_cowplot(16) + 
+    theme(legend.position = "bottom")
+```
+]
+.pull-right[
+&lt;img src="14_MakingPlots_files/figure-html/unnamed-chunk-6-1.png" width="90%" /&gt;
+]
+
+
+---
+
+# Trend lines with `geom_smooth`
+
+- By default, geom_smooth uses a **loess** curve, a very simple mean trend estimator
+    - [**loess**](https://en.wikipedia.org/wiki/Local_regression) = locally estimated scatterplot smoothing
+
+.pull-left[
+
+```r
+ggplot(iris, 
+       aes(Sepal.Width, Sepal.Length, 
+           color = Species, 
+           fill = Species)) + 
+    geom_point(size = 3, 
+               shape = 21, 
+               color = "black") +
+*   geom_smooth(aes(group = Species)) +
+    theme_cowplot(16) + 
+    theme(legend.position = "bottom")
+```
+]
+.pull-right[
+&lt;img src="14_MakingPlots_files/figure-html/unnamed-chunk-8-1.png" width="90%" /&gt;
+]
+
+---
+
+# Trend lines with `geom_smooth`
+
+- By default, geom_smooth uses a **loess** curve, a very simple mean trend estimator
+    - [**loess**](https://en.wikipedia.org/wiki/Local_regression) = locally estimated scatterplot smoothing
+- We can add a linear trend line by changing the `method` argument in `geom_smooth`
+
+.pull-left[
+
+```r
+ggplot(iris, 
+       aes(Sepal.Width, Sepal.Length, 
+           color = Species, 
+           fill = Species)) + 
+    geom_point(size = 3, 
+               shape = 21, 
+               color = "black") +
+    geom_smooth(aes(group = Species),
+*               method = "lm") +
+    theme_cowplot(16) + 
+    theme(legend.position = "bottom")
+```
+]
+.pull-right[
+&lt;img src="14_MakingPlots_files/figure-html/unnamed-chunk-10-1.png" width="90%" /&gt;
+]
+
+---
+
+# Distributions - histograms
+
+- Measurements from continuous distributions usually have more or less probable values
+- We can represent this using histograms or density plots
+
+.pull-left[
+
+```r
+x = rnorm(1000, mean = 5, sd = 1)
+data.frame(x) |&gt;
+    ggplot(aes(x)) + 
+    geom_histogram(fill = "black") + 
+    geom_vline(xintercept = mean(x), 
+               color = 2, 
+               linewidth = 2) +
+    theme_minimal_grid() 
+```
+]
+.pull-right[
+&lt;img src="14_MakingPlots_files/figure-html/unnamed-chunk-12-1.png" width="90%" /&gt;
+]
+
+
+---
+
+# Distributions - density
+
+- Measurements from continuous distributions usually have more or less probable values
+- We can represent this using histograms or density plots
+
+.pull-left[
+
+```r
+data.frame(x) |&gt;
+    ggplot(aes(x)) + 
+    geom_density(color = "black", 
+                 fill = "gray70",
+                 alpha = 0.3) + 
+    geom_vline(xintercept = mean(x), 
+               color = 2, 
+               linewidth = 2) +
+    theme_minimal_grid() 
+```
+]
+.pull-right[
+&lt;img src="14_MakingPlots_files/figure-html/unnamed-chunk-14-1.png" width="90%" /&gt;
+]
+
+
+---
+
+# Distributions - histogram and density
+
+- Measurements from continuous distributions usually have more or less probable values
+- We can represent this using histograms or density plots
+
+.pull-left[
+
+```r
+data.frame(x) |&gt;
+    ggplot(aes(x)) + 
+    geom_histogram(aes(y = after_stat(density)),
+                   fill = "lightblue", 
+                   bins = 30) + 
+    geom_density(color = "black", 
+                 fill = "gray70", 
+                 alpha = 0.3, linewidth=2) + 
+    geom_vline(xintercept = mean(x), 
+               color = 2, linewidth = 2) +
+    theme_minimal_grid() 
+```
+]
+.pull-right[
+&lt;img src="14_MakingPlots_files/figure-html/unnamed-chunk-16-1.png" width="90%" /&gt;
+]
+
+
+---
+
+
+# Ridge plots with `ggridges`
+
+- Links distributions with some categorical variable
+
+.pull-left[
+
+```r
+library(ggridges); library(viridis)
+library(hrbrthemes)
+
+ggplot(lincoln_weather, 
+       aes(x = `Mean Temperature [F]`, 
+           y = `Month`, 
+           fill = after_stat(x))) +
+  geom_density_ridges_gradient(scale = 3,
+                               rel_min_height = 0.01) +
+  scale_fill_viridis(name = "Temp. [F]", 
+                     option = "C") +
+  labs(title = 'Temperatures in Lincoln NE in 2016') +
+  theme_ipsum() +
+    theme(
+      legend.position="none",
+      panel.spacing = unit(0.1, "lines"),
+      strip.text.x = element_text(size = 8)
+    )
+```
+]
+.pull-right[
+&lt;img src="14_MakingPlots_files/figure-html/unnamed-chunk-18-1.png" width="90%" /&gt;
+]
+
+---
+
+# Boxplots
+
+.center[
+    ![](figures/boxplots.png)
+]
+
+---
+
+# Boxplots
+
+- Relates continuous and categorical variables, and allows for quick comparisons of main quantiles across groups
+
+
+.pull-left[
+
+```r
+ggplot(ToothGrowth, aes(x=factor(dose), y=len)) + 
+  geom_boxplot(fill = 2) +
+  labs(x = "Dose", y = "Length") +
+  theme_cowplot(16)
+```
+]
+.pull-right[
+&lt;img src="14_MakingPlots_files/figure-html/unnamed-chunk-20-1.png" width="90%" /&gt;
+]
+
+
+---
+
+
+# Jitter plots
+
+.pull-left[
+
+```r
+ggplot(ToothGrowth, aes(x=factor(dose), y=len)) + 
+  geom_point() +
+  labs(x = "Dose", y = "Length") +
+  theme_cowplot(16)
+```
+]
+.pull-right[
+&lt;img src="14_MakingPlots_files/figure-html/unnamed-chunk-22-1.png" width="90%" /&gt;
+]
+
+---
+
+# Jitter plots
+
+.pull-left[
+
+```r
+ggplot(ToothGrowth, aes(x=factor(dose), y=len)) + 
+* geom_jitter(width = 0.1, height = 0) +
+  labs(x = "Dose", y = "Length") +
+  theme_cowplot(16)
+```
+]
+.pull-right[
+&lt;img src="14_MakingPlots_files/figure-html/unnamed-chunk-24-1.png" width="90%" /&gt;
+]
+
+---
+
+
+# Jitter plots and boxplots
+
+.pull-left[
+
+```r
+ggplot(ToothGrowth, aes(x=factor(dose), y=len)) + 
+* geom_boxplot(fill = 2, outlier.alpha = 0) +
+* geom_jitter(width = 0.1, height = 0, size = 2) +
+  labs(x = "Dose", y = "Length") +
+  theme_cowplot(16)
+```
+]
+.pull-right[
+&lt;img src="14_MakingPlots_files/figure-html/unnamed-chunk-26-1.png" width="90%" /&gt;
+]
+
+---
+
+
+# Barplots 
+
+- Relates mean measurements with categorical values
+- Should probably be used only when zero is a value of interest
+- Broadly overused in molecular biology
+
+
+.pull-left[
+
+```r
+iris |&gt;
+  select(Species, Sepal.Length) |&gt;
+  group_by(Species) |&gt;
+  summarise(n=n(), mean=mean(Sepal.Length), 
+            sd=sd(Sepal.Length)
+  ) |&gt;
+  mutate( se=sd/sqrt(n)) |&gt;
+  ggplot( aes(x=Species, y=mean)) +
+    geom_bar(stat="identity", fill="forestgreen", 
+             alpha=0.5) +
+    geom_errorbar(aes(ymin=mean-se, ymax=mean+se),
+                      width=0.4, colour="gray30", 
+                      alpha=0.9, linewidth=1.5) +
+    scale_y_continuous
+        (expand = expansion(mult = c(0, 0.05))) +
+    labs(caption = "Using standard error") + 
+    theme_cowplot(16)
+```
+]
+.pull-right[
+&lt;img src="14_MakingPlots_files/figure-html/unnamed-chunk-28-1.png" width="90%" /&gt;
+]
+
+
+---
+
+# Point range plots
+
+- Great alterative to barplots when zero is not special
+
+
+.pull-left[
+
+```r
+iris |&gt;
+  select(Species, Sepal.Length) |&gt;
+  group_by(Species) |&gt;
+  summarise(n=n(), mean=mean(Sepal.Length), 
+            sd=sd(Sepal.Length)
+  ) |&gt;
+  mutate( se=sd/sqrt(n)) |&gt;
+  ggplot( aes(x=Species, y=mean)) +
+    geom_point() +
+    geom_errorbar(aes(ymin=mean-se, ymax=mean+se),
+                      width=0.1, colour="gray30", 
+                      alpha=0.9, linewidth=1.5) +
+    labs(title = "Using standard error") + 
+    theme_cowplot(16)
+```
+]
+.pull-right[
+&lt;img src="14_MakingPlots_files/figure-html/unnamed-chunk-30-1.png" width="90%" /&gt;
+]
+
+
+---
+
+# Barplots vs point range
+
+.pull-left[
+&lt;img src="14_MakingPlots_files/figure-html/unnamed-chunk-31-1.png" width="90%" /&gt;
+]
+.pull-right[
+&lt;img src="14_MakingPlots_files/figure-html/unnamed-chunk-32-1.png" width="90%" /&gt;
+]
+
+---
+
+# Cleveland plots
+
+- Good alternative to barplots if you want to contrast two groups in many different conditions
+
+
+.pull-left[
+
+```r
+smoking = read_csv("https://raw.githubusercontent.com/EEB330/slides/main/oecd_smoking.csv")
+smoking |&gt;
+    mutate(Country = factor(Country, # This maintains the row order in the plot
+                            unique(Country))) |&gt;
+    pivot_longer(Men:Women, 
+                 names_to = "Gender", 
+                 values_to = "proportion")  |&gt;
+ggplot(aes(Country, proportion,
+           color = Gender)) + 
+    geom_point(size = 5) + 
+    geom_line(aes(group = Country)) +
+    coord_flip() + 
+    scale_color_manual(values = 1:2) + 
+    labs(x = NULL,
+         y = "Proportion of smokers",
+         caption = "https://www.oecd-ilibrary.org/") +
+    theme_minimal_grid(16) + 
+    theme(legend.position = c(0.8, 0.1), 
+          legend.box.background = element_rect(color = "white", 
+                                               fill = "white"))
+```
+]
+.pull-right[
+&lt;img src="14_MakingPlots_files/figure-html/unnamed-chunk-34-1.png" width="90%" /&gt;
+]
+
+
+---
+
+# Reaction norms - lines and point ranges
+
+.pull-left[
+
+```r
+time &lt;- c("t1","t1","t1","t1","t1","t1",
+          "t2","t2","t2","t2","t2","t2")
+species &lt;- c(1,1,1,2,2,2,1,1,1,2,2,2)
+value &lt;- c(1,2,3,11,12,13,4,5,6,11,12,13)
+
+df &lt;- data.frame(time, species,value)
+df$time &lt;- as.factor(df$time)
+df$species &lt;- as.factor(df$species)
+
+ggplot(df, 
+       aes(x=time, y=value, 
+           color = species,
+           group = species)) + 
+    stat_summary(geom="pointrange", 
+                 fun.data = mean_cl_boot) + 
+    stat_summary(geom="errorbar", 
+                 fun.data= mean_cl_boot,
+                 width = 0.1) + 
+    stat_summary(geom = "line", fun = mean) +
+    labs(y = "Fitness", x = "Condition") + 
+    theme_minimal_hgrid()
+```
+]
+.pull-right[
+&lt;img src="14_MakingPlots_files/figure-html/unnamed-chunk-36-1.png" width="90%" /&gt;
+]
+
+---
+
+# Heatmaps
+
+- Used for representing correlation and covariance matrices
+- Also common for showing all points across some condition (RNAseq, microarray...)
+
+- Canned package: [`ggheatmap`](https://github.com/XiaoLuo-boy/ggheatmap)
+
+.pull-left[
+
+```r
+cor_matrix = cor(iris[,-5])
+diag(cor_matrix) = 0
+melted_cormat = reshape2::melt(cor_matrix)
+ggplot(melted_cormat, 
+       aes(x=Var1, y=Var2, fill=value)) +
+    geom_tile() +
+    labs(x = NULL, y = NULL, 
+         fill = "Correlation") + 
+    scale_fill_distiller(type="div", 
+                         palette="RdBu", 
+                         limits = c(-1, 1)) +
+    theme_minimal(16) +
+    theme(legend.position = "bottom",
+          legend.key.width= unit(3, 'cm'))
+```
+]
+.pull-right[
+&lt;img src="14_MakingPlots_files/figure-html/unnamed-chunk-38-1.png" width="85%" /&gt;
+]
+
+
+---
+
+# 2d density plots
+
+- Scatter plots can break down if there are too many points
+
+.pull-left[
+
+```r
+# Data
+a &lt;- data.frame( x=rnorm(20000, 10, 1.9), y=rnorm(20000, 10, 1.2) )
+b &lt;- data.frame( x=rnorm(20000, 14.5, 1.9), y=rnorm(20000, 14.5, 1.9) )
+c &lt;- data.frame( x=rnorm(20000, 9.5, 1.9), y=rnorm(20000, 15.5, 1.9) )
+data &lt;- rbind(a,b,c)
+ 
+ggplot(data, aes(x=x, y=y) ) +
+  geom_point() +
+  theme_cowplot(16)
+```
+]
+.pull-right[
+&lt;img src="14_MakingPlots_files/figure-html/unnamed-chunk-40-1.png" width="90%" /&gt;
+]
+
+
+
+---
+
+# 2d density plots - basic 2d binned data
+
+- Scatter plots can break down if there are too many points
+
+.pull-left[
+
+```r
+# Data
+a &lt;- data.frame( x=rnorm(20000, 10, 1.9), y=rnorm(20000, 10, 1.2) )
+b &lt;- data.frame( x=rnorm(20000, 14.5, 1.9), y=rnorm(20000, 14.5, 1.9) )
+c &lt;- data.frame( x=rnorm(20000, 9.5, 1.9), y=rnorm(20000, 15.5, 1.9) )
+data &lt;- rbind(a,b,c)
+ 
+ggplot(data, aes(x=x, y=y) ) +
+  geom_bin2d(bins = 70) + 
+  scale_fill_viridis() +
+  theme_cowplot(16)
+```
+]
+.pull-right[
+&lt;img src="14_MakingPlots_files/figure-html/unnamed-chunk-42-1.png" width="90%" /&gt;
+]
+
+
+
+---
+
+# 2d density plots - hex bins
+
+- Scatter plots can break down if there are too many points
+
+.pull-left[
+
+```r
+# Data
+a &lt;- data.frame( x=rnorm(20000, 10, 1.9), y=rnorm(20000, 10, 1.2) )
+b &lt;- data.frame( x=rnorm(20000, 14.5, 1.9), y=rnorm(20000, 14.5, 1.9) )
+c &lt;- data.frame( x=rnorm(20000, 9.5, 1.9), y=rnorm(20000, 15.5, 1.9) )
+data &lt;- rbind(a,b,c)
+
+ggplot(data, aes(x=x, y=y) ) +
+  geom_hex(bins = 70) +
+  scale_fill_viridis() +
+  theme_cowplot(16)
+```
+]
+.pull-right[
+&lt;img src="14_MakingPlots_files/figure-html/unnamed-chunk-44-1.png" width="90%" /&gt;
+]
+
+
+---
+
+# 2d density plots - `stat_density_2d`
+
+- Scatter plots can break down if there are too many points
+
+.pull-left[
+
+```r
+# Data
+a &lt;- data.frame( x=rnorm(20000, 10, 1.9), y=rnorm(20000, 10, 1.2) )
+b &lt;- data.frame( x=rnorm(20000, 14.5, 1.9), y=rnorm(20000, 14.5, 1.9) )
+c &lt;- data.frame( x=rnorm(20000, 9.5, 1.9), y=rnorm(20000, 15.5, 1.9) )
+data &lt;- rbind(a,b,c)
+
+ggplot(data, aes(x=x, y=y) ) +
+  stat_density_2d(aes(fill = after_stat(level)), 
+                      geom = "polygon") +
+  scale_fill_viridis() +
+  theme_cowplot(16)
+```
+]
+.pull-right[
+&lt;img src="14_MakingPlots_files/figure-html/unnamed-chunk-46-1.png" width="90%" /&gt;
+]
+
+
+---
+
+# 2d density plots - `stat_density_2d`
+
+- Scatter plots can break down if there are too many points
+
+.pull-left[
+
+```r
+# Data
+a &lt;- data.frame( x=rnorm(20000, 10, 1.9), y=rnorm(20000, 10, 1.2) )
+b &lt;- data.frame( x=rnorm(20000, 14.5, 1.9), y=rnorm(20000, 14.5, 1.9) )
+c &lt;- data.frame( x=rnorm(20000, 9.5, 1.9), y=rnorm(20000, 15.5, 1.9) )
+data &lt;- rbind(a,b,c)
+
+ggplot(data, aes(x=x, y=y) ) +
+  stat_density_2d(aes(fill = after_stat(density)), 
+                      geom = "raster", 
+                      contour = FALSE) +
+  scale_fill_viridis() +
+  scale_x_continuous(expand = c(0, 0)) +
+  scale_y_continuous(expand = c(0, 0)) +
+  theme_cowplot(16)
+```
+]
+.pull-right[
+&lt;img src="14_MakingPlots_files/figure-html/unnamed-chunk-48-1.png" width="90%" /&gt;
+]
+
+
+---
+
+
+
+# 2d density plots - `ggpointdensity`
+
+- Scatter plots can break down if there are too many points
+
+.pull-left[
+
+```r
+# Data
+a &lt;- data.frame( x=rnorm(20000, 10, 1.9), y=rnorm(20000, 10, 1.2) )
+b &lt;- data.frame( x=rnorm(20000, 14.5, 1.9), y=rnorm(20000, 14.5, 1.9) )
+c &lt;- data.frame( x=rnorm(20000, 9.5, 1.9), y=rnorm(20000, 15.5, 1.9) )
+data &lt;- rbind(a,b,c)
+
+# install.packages("ggpointdensity")
+library("ggpointdensity")
+ggplot(data, aes(x=x, y=y) ) +
+  geom_pointdensity() +
+  scale_color_viridis() +
+  theme_cowplot(16)
+```
+]
+.pull-right[
+&lt;img src="14_MakingPlots_files/figure-html/unnamed-chunk-50-1.png" width="90%" /&gt;
+]
+
+
+---
+
+class:  left, top
+background-image: url(figures/ggplot_ext.png)
+background-position: center right
+background-size: 100%
+
+# [ggplot2 extension gallery](https://exts.ggplot2.tidyverse.org/gallery/)
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script src="macros.js"></script>
+<script>var slideshow = remark.create({
+"highlightLines": true,
+"chakra": "libs/remark-latest.min.js",
+"ratio": "16:10"
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+// add `data-at-shortcutkeys` attribute to <body> to resolve conflicts with JAWS
+// screen reader (see PR #262)
+(function(d) {
+  let res = {};
+  d.querySelectorAll('.remark-help-content table tr').forEach(tr => {
+    const t = tr.querySelector('td:nth-child(2)').innerText;
+    tr.querySelectorAll('td:first-child .key').forEach(key => {
+      const k = key.innerText;
+      if (/^[a-z]$/.test(k)) res[k] = t;  // must be a single letter (key)
+    });
+  });
+  d.body.setAttribute('data-at-shortcutkeys', JSON.stringify(res));
+})(document);
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+(function(time) {
+  var d2 = function(number) {
+    return ('0' + number).slice(-2); // left-pad 0 to minutes/seconds
+  },
+
+  time_format = function(total) {
+    var secs = Math.abs(total) / 1000;
+    var h = Math.floor(secs / 3600);
+    var m = Math.floor(secs % 3600 / 60);
+    var s = Math.round(secs % 60);
+    var res = d2(m) + ':' + d2(s);
+    if (h > 0) res = h + ':' + res;
+    return res;  // [hh:]mm:ss
+  },
+
+  slide_number_div = function(i) {
+    return document.getElementsByClassName('remark-slide-number').item(i);
+  },
+
+  current_page_number = function(i) {
+    return slide_number_div(i).firstChild.textContent;  // text "i / N"
+  };
+
+  var timer = document.createElement('span'); timer.id = 'slide-time-left';
+  var time_left = time, k = slideshow.getCurrentSlideIndex(),
+      last_page_number = current_page_number(k);
+
+  setInterval(function() {
+    time_left = time_left - 1000;
+    timer.innerHTML = ' ' + time_format(time_left);
+    if (time_left < 0) timer.style.color = 'red';
+  }, 1000);
+
+  slide_number_div(k).appendChild(timer);
+
+  slideshow.on('showSlide', function(slide) {
+    var i = slide.getSlideIndex(), n = current_page_number(i);
+    // reset timer when a new slide is shown and the page number is changed
+    if (last_page_number !== n) {
+      time_left = time; last_page_number = n;
+      timer.innerHTML = ' ' + time_format(time); timer.style.color = null;
+    }
+    slide_number_div(i).appendChild(timer);
+  });
+})(60000);
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
