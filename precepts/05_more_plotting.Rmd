@@ -59,7 +59,7 @@ library(hexbin)
     * Replicate the plot below.
 
 - **Hints:**
-    * Use Wes Anderson's "Darjeeling2" color palette for points.
+    * Use the "magma" color map from viridis.
     * Use `theme_light()`
     * Use `annotate()` to add text and arrows to the plot.
     * `bins = 100`
