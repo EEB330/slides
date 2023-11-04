@@ -1,0 +1,56 @@
+/* Ensure the slides are set to flex container */
+.reveal .slides section {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+/* Style for the two-column layout */
+.two-column-layout {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.two-column-layout > div {
+  flex-basis: calc(50% - 20px); /* Subtract some space for margin */
+  margin: 10px;
+}
+
+/* Ensure content does not overflow */
+.two-column-layout img,
+.two-column-layout video,
+.two-column-layout iframe {
+  max-width: 100%;
+  max-height: 100%;
+}
+
+/* Adjust for smaller screens */
+@media (max-width: 600px) {
+  .two-column-layout > div {
+    flex-basis: 100%;
+    margin: 5px 0;
+  }
+}
+
+.box{
+  display: none;
+  width: 100%;
+}
+
+a:hover + .box,.box:hover{
+  display: block;
+  position: relative;
+  z-index: 100;
+}
+
+
+/* Override Reveal.js styles for iframes */
+.reveal iframe {
+  width: 100% !important;
+  height: 100% !important;
+  max-width: none !important;
+  max-height: none !important;
+}
+
+
