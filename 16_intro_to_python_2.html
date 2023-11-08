@@ -8222,25 +8222,10 @@ First two rows:    Product  Price  Quantity
     <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
 <span class="p">)</span>
 
+<span class="c1"># Display it!</span>
 <span class="n">display</span><span class="p">(</span>
     <span class="n">HTML</span><span class="p">(</span>
         <span class="n">combined_df</span><span class="p">[</span><span class="n">combined_df</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="s2">"Movie"</span><span class="p">][</span>
-            <span class="p">[</span><span class="s2">"title"</span><span class="p">,</span> <span class="s2">"type"</span><span class="p">,</span> <span class="s2">"source"</span><span class="p">,</span> <span class="s2">"duration"</span><span class="p">,</span> <span class="s2">"movie_duration_minutes"</span><span class="p">]</span>
-        <span class="p">]</span>
-        <span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
-        <span class="o">.</span><span class="n">to_html</span><span class="p">()</span>
-    <span class="p">)</span>
-<span class="p">)</span>
-
-<span class="n">combined_df</span><span class="p">[</span><span class="s2">"tv_show_duration_seasons"</span><span class="p">]</span> <span class="o">=</span> <span class="n">combined_df</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span>
-    <span class="k">lambda</span> <span class="n">row</span><span class="p">:</span> <span class="n">duration_to_seasons</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s2">"duration"</span><span class="p">])</span>
-    <span class="k">if</span> <span class="n">row</span><span class="p">[</span><span class="s2">"type"</span><span class="p">]</span> <span class="o">==</span> <span class="s2">"TV Show"</span>
-    <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
-    <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
-<span class="p">)</span>
-<span class="n">display</span><span class="p">(</span>
-    <span class="n">HTML</span><span class="p">(</span>
-        <span class="n">combined_df</span><span class="p">[</span><span class="n">combined_df</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="s2">"TV Show"</span><span class="p">][</span>
             <span class="p">[</span><span class="s2">"title"</span><span class="p">,</span> <span class="s2">"type"</span><span class="p">,</span> <span class="s2">"source"</span><span class="p">,</span> <span class="s2">"duration"</span><span class="p">,</span> <span class="s2">"movie_duration_minutes"</span><span class="p">]</span>
         <span class="p">]</span>
         <span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
@@ -8344,6 +8329,34 @@ First two rows:    Product  Price  Quantity
 </div>
 </div>
 </div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">combined_df</span><span class="p">[</span><span class="s2">"tv_show_duration_seasons"</span><span class="p">]</span> <span class="o">=</span> <span class="n">combined_df</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span>
+    <span class="k">lambda</span> <span class="n">row</span><span class="p">:</span> <span class="n">duration_to_seasons</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s2">"duration"</span><span class="p">])</span>
+    <span class="k">if</span> <span class="n">row</span><span class="p">[</span><span class="s2">"type"</span><span class="p">]</span> <span class="o">==</span> <span class="s2">"TV Show"</span>
+    <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">display</span><span class="p">(</span>
+    <span class="n">HTML</span><span class="p">(</span>
+        <span class="n">combined_df</span><span class="p">[</span><span class="n">combined_df</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="s2">"TV Show"</span><span class="p">][</span>
+            <span class="p">[</span><span class="s2">"title"</span><span class="p">,</span> <span class="s2">"type"</span><span class="p">,</span> <span class="s2">"source"</span><span class="p">,</span> <span class="s2">"duration"</span><span class="p">,</span> <span class="s2">"movie_duration_minutes"</span><span class="p">]</span>
+        <span class="p">]</span>
+        <span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+        <span class="o">.</span><span class="n">to_html</span><span class="p">()</span>
+    <span class="p">)</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
@@ -8393,6 +8406,58 @@ Name: tv_show_duration_seasons, dtype: float64
 </div>
 </div>
 </div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<h2 id="Matplotlib-Essentials">Matplotlib Essentials<a class="anchor-link" href="#Matplotlib-Essentials">¶</a></h2><ul>
+<li><strong>Create Plots</strong>: <code>plt.plot()</code>, <code>plt.scatter()</code>, <code>plt.bar()</code>, <code>plt.hist()</code></li>
+<li><strong>Layouts</strong>: Use <code>plt.subplot()</code> for multiple plots</li>
+<li><strong>Customize</strong>: Set titles and labels with <code>plt.title()</code>, <code>plt.xlabel()</code>, <code>plt.ylabel()</code></li>
+<li><strong>Save &amp; Show</strong>: <code>plt.savefig('filename.png')</code> to save, <code>plt.show()</code> to display</li>
+</ul>
+<p><em>Explore more in the documentation for complex plots.</em></p>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<h2 id="Seaborn-for-Data-Visualization">Seaborn for Data Visualization<a class="anchor-link" href="#Seaborn-for-Data-Visualization">¶</a></h2><ul>
+<li><p><strong>Common Plots</strong>:</p>
+<ul>
+<li><code>sns.histplot()</code> for histograms</li>
+<li><code>sns.scatterplot()</code> for relationship between variables</li>
+<li><code>sns.boxplot()</code> for distribution with quartiles</li>
+<li><code>sns.barplot()</code> for categorical data</li>
+</ul>
+</li>
+<li><p><strong>Theming</strong>:</p>
+<ul>
+<li><code>sns.set_theme()</code> to customize aesthetics</li>
+</ul>
+</li>
+<li><p><strong>Integration</strong>:</p>
+<ul>
+<li>Works directly with pandas DataFrames</li>
+</ul>
+</li>
+<li><p><strong>More Plots Available</strong>:</p>
+<ul>
+<li>Seaborn supports a variety of other advanced plots for more specific needs.</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+</div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
@@ -8401,8 +8466,8 @@ Name: tv_show_duration_seasons, dtype: float64
 <div class="jp-InputPrompt jp-InputArea-prompt">In [13]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
-<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
 
 <span class="c1"># Assuming combined_df is the DataFrame from previous steps</span>
 <span class="c1"># Let's drop NA values for movie durations to ensure the plot works</span>
