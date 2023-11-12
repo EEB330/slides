@@ -360,8 +360,8 @@ ggplot(ToothGrowth, aes(x=factor(dose), y=len)) +
 
 ```r
 ggplot(ToothGrowth, aes(x=factor(dose), y=len)) + 
-* geom_boxplot(fill = 2, outlier.alpha = 0) +
-* geom_jitter(width = 0.1, height = 0, size = 2) +
+  geom_boxplot(fill = 2, outlier.alpha = 0) +
+  geom_jitter(width = 0.1, height = 0, size = 2) + 
   labs(x = "Dose", y = "Length") +
   theme_cowplot(16)
 ```
@@ -557,7 +557,7 @@ ggplot(melted_cormat,
 
 # 2d density plots
 
-- Scatter plots can break down if there are too many points
+- Scatter plots can break down is there are too many points
 
 .pull-left[
 
@@ -583,7 +583,7 @@ ggplot(data, aes(x=x, y=y) ) +
 
 # 2d density plots - basic 2d binned data
 
-- Scatter plots can break down if there are too many points
+- Scatter plots can break down is there are too many points
 
 .pull-left[
 
@@ -595,7 +595,7 @@ c &lt;- data.frame( x=rnorm(20000, 9.5, 1.9), y=rnorm(20000, 15.5, 1.9) )
 data &lt;- rbind(a,b,c)
  
 ggplot(data, aes(x=x, y=y) ) +
-  geom_bin2d(bins = 70) + 
+  geom_bin2d(bins = 70) +
   scale_fill_viridis() +
   theme_cowplot(16)
 ```
@@ -610,7 +610,7 @@ ggplot(data, aes(x=x, y=y) ) +
 
 # 2d density plots - hex bins
 
-- Scatter plots can break down if there are too many points
+- Scatter plots can break down is there are too many points
 
 .pull-left[
 
@@ -622,7 +622,7 @@ c &lt;- data.frame( x=rnorm(20000, 9.5, 1.9), y=rnorm(20000, 15.5, 1.9) )
 data &lt;- rbind(a,b,c)
 
 ggplot(data, aes(x=x, y=y) ) +
-  geom_hex(bins = 70) +
+   geom_hex(bins = 70) +
   scale_fill_viridis() +
   theme_cowplot(16)
 ```
@@ -636,7 +636,7 @@ ggplot(data, aes(x=x, y=y) ) +
 
 # 2d density plots - `stat_density_2d`
 
-- Scatter plots can break down if there are too many points
+- Scatter plots can break down is there are too many points
 
 .pull-left[
 
@@ -648,8 +648,7 @@ c &lt;- data.frame( x=rnorm(20000, 9.5, 1.9), y=rnorm(20000, 15.5, 1.9) )
 data &lt;- rbind(a,b,c)
 
 ggplot(data, aes(x=x, y=y) ) +
-  stat_density_2d(aes(fill = after_stat(level)), 
-                      geom = "polygon") +
+  stat_density_2d(aes(fill = after_stat(level)), geom = "polygon") +
   scale_fill_viridis() +
   theme_cowplot(16)
 ```
@@ -663,7 +662,7 @@ ggplot(data, aes(x=x, y=y) ) +
 
 # 2d density plots - `stat_density_2d`
 
-- Scatter plots can break down if there are too many points
+- Scatter plots can break down is there are too many points
 
 .pull-left[
 
@@ -675,9 +674,7 @@ c &lt;- data.frame( x=rnorm(20000, 9.5, 1.9), y=rnorm(20000, 15.5, 1.9) )
 data &lt;- rbind(a,b,c)
 
 ggplot(data, aes(x=x, y=y) ) +
-  stat_density_2d(aes(fill = after_stat(density)), 
-                      geom = "raster", 
-                      contour = FALSE) +
+  stat_density_2d(aes(fill = after_stat(density)), geom = "raster", contour = FALSE) +
   scale_fill_viridis() +
   scale_x_continuous(expand = c(0, 0)) +
   scale_y_continuous(expand = c(0, 0)) +
@@ -695,7 +692,7 @@ ggplot(data, aes(x=x, y=y) ) +
 
 # 2d density plots - `ggpointdensity`
 
-- Scatter plots can break down if there are too many points
+- Scatter plots can break down is there are too many points
 
 .pull-left[
 
