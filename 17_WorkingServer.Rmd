@@ -1,0 +1,223 @@
+---
+title: "Working on a remote server"
+subtitle: "Basics of command line interfaces" 
+author: "Diogo Melo"
+date: Nov. 13th, 2023
+runtime: static
+output:
+  xaringan::moon_reader:
+    css: [default, metropolis, metropolis-fonts, "styles.css"]
+    nature:
+      highlightLines: true
+      chakra: libs/remark-latest.min.js
+      beforeInit: "macros.js"
+      ratio: "16:10"
+      countdown: 60000
+---
+
+# Why Use a Remote Server?
+
+.pull-left[
+#### 1. Computational Resources
+
+   - Remote servers often have powerful hardware configurations, making them ideal for resource-intensive tasks like data analysis, machine learning, and scientific simulations.
+   
+#### 2. Data Storage and Backup
+
+   - Remote servers provide centralized storage and backup solutions, ensuring data safety and accessibility from anywhere.
+   
+#### 3. Collaboration
+
+   - Remote servers enable collaboration among team members, allowing multiple users to access and work on shared projects simultaneously.
+   
+]
+.pull-right[
+#### 4. Access Anywhere
+
+   - You can access your remote server from anywhere with an internet connection, making it convenient for remote work and travel.
+   
+#### 5. Security
+
+   - Remote servers can be configured with strict security measures to protect sensitive data, reducing the risk of data breaches.
+]
+
+---
+
+# Why Use a Remote Server?
+
+.pull-left[
+#### 6. Scalability
+
+   - Remote servers are scalable, so you can easily adjust resources based on your needs. This scalability is useful for handling varying workloads.
+   
+#### 7. Remote Access
+
+   - A remote server allows you to perform tasks on a machine located elsewhere, which can be useful for accessing specific software or environments.
+]
+.pull-right[
+#### 8. Server Administration
+
+   - If you need to manage servers or perform administrative tasks, remote servers provide direct access to system settings and configurations.
+#### 9. Disaster Recovery
+
+   - Remote servers often have robust disaster recovery plans, ensuring minimal downtime and data loss in case of hardware failures or other issues.
+]
+
+---
+
+# Cluster architecture
+
+![:scale 100%](figures/cluster_diagram.png)
+
+---
+
+# The Terminal
+
+.pull-left[
+### What is the Terminal?
+
+- The terminal, also known as the command line interface (CLI), is a text-based interface for interacting with a computer's operating system.
+- Unlike a graphical user interface (GUI), where you use a mouse and windows, the terminal relies on text commands.
+
+- MacOS terminal emulator: [https://iterm2.com/](https://iterm2.com/)
+- Windows terminal emulator: 
+  - [wsl](https://learn.microsoft.com/en-us/windows/wsl/install)
+  - [https://learn.microsoft.com/en-us/powershell/](https://learn.microsoft.com/en-us/powershell/)
+  - For using remote servers: [https://www.putty.org/](https://www.putty.org/)
+
+]
+.pull-right[
+    ![](figures/terminal.png)
+]
+---
+
+# Understanding Shells
+
+- In the context of the terminal, a **shell** is a command-line interface that interprets and executes commands.
+- Shells provide a way to interact with the operating system and run various programs.
+
+### Common Shells:
+
+#### Bash (Bourne-Again Shell)
+
+- **Bash** is one of the most popular and widely used shells.
+- It is the default shell on most Linux distributions and macOS.
+- Known for its scripting capabilities, Bash is versatile and user-friendly.
+
+#### Zsh (Z Shell)
+
+Zsh is an extended version of Bash with additional features.
+It offers powerful auto-completion, customization options, and theme support.
+Zsh is often favored by power users and developers.
+
+#### Fish (Friendly Interactive Shell)
+
+[Fish](https://fishshell.com/) is designed to be user-friendly and easy to use, making it an excellent choice for beginners.
+It has a unique syntax highlighting feature and interactive auto-suggestions.
+Fish emphasizes simplicity and discoverability.
+
+---
+
+# Improving shells
+
+### For bash: 
+    - https://github.com/ohmybash/oh-my-bash
+
+### For Zsh: 
+    - https://github.com/ohmyzsh/ohmyzsh
+
+### For fish:
+    - https://github.com/oh-my-fish/oh-my-fish
+
+
+---
+
+# Basic Terminal Operations
+
+#### Creating Files and Directories
+
+- To create a file: `touch filename.txt`
+- To create a directory: `mkdir directory_name`
+
+#### Deleting, Moving, and Copying Files
+
+- Deleting a file: `rm filename.txt`
+- Moving a file: `mv sourcefile.txt destination/`
+- Copying a file: `cp sourcefile.txt destination/`
+
+#### Renaming Files
+
+- To rename a file: `mv oldfilename.txt newfilename.txt`
+
+---
+
+# Basic Terminal Operations
+
+#### Listing Files in a Directory
+
+- To list files in the current directory: `ls`
+- To list files in a specific directory: `ls /path/to/directory`
+
+#### Navigating Directories
+
+- Changing to a directory: `cd directory_name`
+- Going up one directory: `cd ..`
+- Going to the home directory: `cd ~`
+- Going to the last directory: `cd -`
+
+#### Finding Files
+
+- Searching for files: `find /path/to/search -name "filename"`
+
+---
+
+# Using SSH and Remote Servers
+
+#### Logging into a Remote Server
+
+The secure shell protocol (ssh) allows us to connect to the remote server.
+
+Authentication can use a password or the same key-pair we used for github
+
+- To log in using SSH: `ssh username@remote_server_ip`
+
+Setting up key-pair authentication: https://researchcomputing.princeton.edu/support/knowledge-base/connect-ssh
+
+#### Copying and Transferring Files
+
+- Copying a file to a remote server: `scp localfile.txt username@remote_server_ip:/path/to/destination/`
+
+---
+
+# Job Scheduling Servers
+
+#### What is a Job Scheduling Server?
+
+- A job scheduling server (e.g., Slurm) manages and schedules computing jobs on a cluster of computers.
+
+- https://researchcomputing.princeton.edu/support/knowledge-base/slurm
+
+#### Basic Slurm Script
+
+```bash
+#!/bin/bash
+#SBATCH --job-name=myjob
+#SBATCH --partition=compute
+#SBATCH --nodes=1
+#SBATCH --ntasks=1
+#SBATCH --cpus-per-task=4
+#SBATCH --mem=4G
+
+module load R
+Rscript your_script.R
+```
+
+---
+
+# Basic Slurm Commands
+
+- Submitting a job: `sbatch your_script.sh`
+- Checking job status: `squeue -u your_username`
+- Canceling a job: `scancel job_id`
+
+
