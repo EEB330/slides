@@ -4,7 +4,7 @@
     <title>Working on a remote server</title>
     <meta charset="utf-8" />
     <meta name="author" content="Diogo Melo" />
-    <script src="17_WorkingServer_files/header-attrs-2.23/header-attrs.js"></script>
+    <script src="17_WorkingServer_files/header-attrs-2.21/header-attrs.js"></script>
     <link href="17_WorkingServer_files/remark-css-0.0.1/default.css" rel="stylesheet" />
     <link href="17_WorkingServer_files/remark-css-0.0.1/metropolis.css" rel="stylesheet" />
     <link href="17_WorkingServer_files/remark-css-0.0.1/metropolis-fonts.css" rel="stylesheet" />
@@ -215,7 +215,25 @@ Fish emphasizes simplicity and discoverability.
 
 # The original pipe
 
+- The pipe operator (`|`) is a powerful tool in Unix-like terminal shells.
+- It allows you to chain multiple commands together, passing the output of one command as input to the next.
+- This enables efficient and flexible data processing.
 
+#### Example: Sorting, Uniqueness, and Word Count
+
+- Let's explore the pipe operator with a practical example.
+- We'll use the `sort`, `uniq`, and `wc` commands to demonstrate its functionality.
+
+
+```bash
+ls | sort | uniq | wc -l
+```
+This command performs the following operations:
+
+1. Lists the files in the current directory
+2. Sorts the lines in alphabetical order.
+3. Removes duplicate lines.
+4. Counts the number of unique lines.
 
 ---
 
