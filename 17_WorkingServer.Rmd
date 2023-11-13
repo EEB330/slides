@@ -263,6 +263,10 @@ Setting up key-pair authentication: https://researchcomputing.princeton.edu/supp
 
 - Copying a file to a remote server: `scp localfile.txt username@remote_server_ip:/path/to/destination/`
 
+#### Remote SSH in vscode
+
+- [https://code.visualstudio.com/docs/remote/ssh](https://code.visualstudio.com/docs/remote/ssh)
+
 ---
 
 # Job Scheduling Servers
