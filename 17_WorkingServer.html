@@ -4,7 +4,7 @@
     <title>Working on a remote server</title>
     <meta charset="utf-8" />
     <meta name="author" content="Diogo Melo" />
-    <script src="17_WorkingServer_files/header-attrs-2.21/header-attrs.js"></script>
+    <script src="17_WorkingServer_files/header-attrs-2.23/header-attrs.js"></script>
     <link href="17_WorkingServer_files/remark-css-0.0.1/default.css" rel="stylesheet" />
     <link href="17_WorkingServer_files/remark-css-0.0.1/metropolis.css" rel="stylesheet" />
     <link href="17_WorkingServer_files/remark-css-0.0.1/metropolis-fonts.css" rel="stylesheet" />
@@ -152,6 +152,7 @@ Fish emphasizes simplicity and discoverability.
 # Configuration Files for Shells
 
 - Shells can be customized by using configuration files.
+- They usually have names starting with `.` (which makes them hidden in ls), and ending in `rc`, for 'run commands'
 - These files allow you to define environment variables, aliases, and customize your shell's behavior.
 
 
@@ -168,6 +169,25 @@ alias ll='ls -alh'
 
 # Add a directory to the PATH
 export PATH=$PATH:/usr/local/bin
+```
+
+---
+
+# Zsh Configuration: `.zshrc`
+
+Zsh uses the .zshrc file for user-specific configurations.
+
+- It provides a wide range of customization options, including theme selection, plugin management, and defining functions.
+- Oh-My-Zsh is a popular framework for managing Zsh configurations.
+
+Example `.zshrc`:
+
+```zsh
+# Set Zsh theme
+ZSH_THEME="agnoster"
+
+# Load Oh-My-Zsh plugins
+plugins=(git docker python conda)
 ```
 
 ---
