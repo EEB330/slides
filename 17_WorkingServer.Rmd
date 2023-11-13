@@ -67,7 +67,7 @@ output:
 
 # Cluster architecture
 
-![:scale 100%](figures/cluster_diagram.png)
+![:scale 80%](figures/cluster_diagram.png)
 
 ---
 
@@ -96,8 +96,6 @@ output:
 - In the context of the terminal, a **shell** is a command-line interface that interprets and executes commands.
 - Shells provide a way to interact with the operating system and run various programs.
 
-### Common Shells:
-
 #### Bash (Bourne-Again Shell)
 
 - **Bash** is one of the most popular and widely used shells.
@@ -116,18 +114,23 @@ Zsh is often favored by power users and developers.
 It has a unique syntax highlighting feature and interactive auto-suggestions.
 Fish emphasizes simplicity and discoverability.
 
+#### Change shells using the `chsh` command
+
 ---
 
 # Improving shells
 
 ### For bash: 
-    - https://github.com/ohmybash/oh-my-bash
 
-### For Zsh: 
-    - https://github.com/ohmyzsh/ohmyzsh
+- [github.com/ohmybash/oh-my-bash](https://github.com/ohmybash/oh-my-bash)
+
+### For zsh: 
+
+- [github.com/ohmyzsh/ohmyzsh](https://github.com/ohmyzsh/ohmyzsh)
 
 ### For fish:
-    - https://github.com/oh-my-fish/oh-my-fish
+
+- [github.com/oh-my-fish/oh-my-fish](https://github.com/ohmyzsh/ohmyzsh)
 
 
 ---
@@ -219,6 +222,28 @@ This command performs the following operations:
 2. Sorts the lines in alphabetical order.
 3. Removes duplicate lines.
 4. Counts the number of unique lines.
+
+---
+
+# Terminal based text editors
+
+In addition to command-line tools, text editors are essential for working in the terminal.
+
+- Vim - A highly configurable and efficient text editor.
+   - [vim.org](https://www.vim.org/)
+   - [neovim](https://neovim.io/)
+
+- Emacs - A powerful and extensible text editor.
+   - [GNU Emacs](https://www.gnu.org/software/emacs/)
+
+- Nano - A simple and user-friendly text editor.
+   - [Nano](https://www.nano-editor.org/)
+
+- Micro - A modern and intuitive terminal-based text editor.
+   - [Micro](https://micro-editor.github.io/)
+
+- ed - A line-oriented text editor
+   - [https://www.gnu.org/software/ed/](https://www.gnu.org/software/ed/)
 
 ---
 
