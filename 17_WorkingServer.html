@@ -164,6 +164,10 @@ Fish emphasizes simplicity and discoverability.
 
 - To rename a file: `mv oldfilename.txt newfilename.txt`
 
+#### Getting help 
+
+- To get the documentations of a command: `man ls`
+
 ---
 
 # Basic Terminal Operations
@@ -175,14 +179,43 @@ Fish emphasizes simplicity and discoverability.
 
 #### Navigating Directories
 
+- Getting current directory: `pwd`
 - Changing to a directory: `cd directory_name`
 - Going up one directory: `cd ..`
+- Going up two directories: `cd ../..`
 - Going to the home directory: `cd ~`
 - Going to the last directory: `cd -`
 
 #### Finding Files
 
 - Searching for files: `find /path/to/search -name "filename"`
+
+---
+
+# Interacting with files
+
+#### Getting the contents of a file
+
+- Show the contents of a file: `cat file.txt`
+- Stream the content of a large file: `less long_file.txt`
+
+#### Creating and modifying files 
+
+- Directing outputs to files with redirect: `&gt;`
+    - `ls -la &gt; list_of_files.txt`
+
+- Repeat the argument: `echo "This is a test"`
+  - Echo to new file: `echo "This is a test" &gt; test_1.txt`
+
+- Append to an existing file with `&gt;&gt;`
+  - Echo to existing file: `echo "This is a second test" &gt;&gt; test_1.txt`
+
+
+---
+
+# The original pipe
+
+
 
 ---
 
@@ -212,19 +245,22 @@ Setting up key-pair authentication: https://researchcomputing.princeton.edu/supp
 
 - https://researchcomputing.princeton.edu/support/knowledge-base/slurm
 
-#### Basic Slurm Script
+#### Slurm Script
 
 ```bash
 #!/bin/bash
-#SBATCH --job-name=myjob
-#SBATCH --partition=compute
-#SBATCH --nodes=1
-#SBATCH --ntasks=1
-#SBATCH --cpus-per-task=4
-#SBATCH --mem=4G
+#SBATCH --job-name=slurm-test    # create a short name for your job
+#SBATCH --nodes=1                # node count
+#SBATCH --ntasks=1               # total number of tasks across all nodes
+#SBATCH --cpus-per-task=1        # cpu-cores per task (&gt;1 if multi-threaded tasks)
+#SBATCH --mem-per-cpu=4G         # memory per cpu-core (4G is default)
+#SBATCH --time=00:01:00          # total run time limit (HH:MM:SS)
+#SBATCH --mail-type=begin        # send email when job begins
+#SBATCH --mail-type=end          # send email when job ends
+#SBATCH --mail-user=&lt;YourNetID&gt;@princeton.edu
 
 module load R
-Rscript your_script.R
+Rscript r_program.R
 ```
 
 ---
