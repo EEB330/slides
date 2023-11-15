@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Working on a remote server</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Diogo Melo" />
+    <script src="17_WorkingServer_files/header-attrs-2.23/header-attrs.js"></script>
+    <link href="17_WorkingServer_files/remark-css-0.0.1/default.css" rel="stylesheet" />
+    <link href="17_WorkingServer_files/remark-css-0.0.1/metropolis.css" rel="stylesheet" />
+    <link href="17_WorkingServer_files/remark-css-0.0.1/metropolis-fonts.css" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+.title[
+# Working on a remote server
+]
+.subtitle[
+## Basics of command line interfaces
+]
+.author[
+### Diogo Melo
+]
+.date[
+### Nov. 13th, 2023
+]
+
+---
+
+
+# Why Use a Remote Server?
+
+.pull-left[
+#### 1. Computational Resources
+
+   - Remote servers often have powerful hardware configurations, making them ideal for resource-intensive tasks like data analysis, machine learning, and scientific simulations.
+   
+#### 2. Data Storage and Backup
+
+   - Remote servers provide centralized storage and backup solutions, ensuring data safety and accessibility from anywhere.
+   
+#### 3. Collaboration
+
+   - Remote servers enable collaboration among team members, allowing multiple users to access and work on shared projects simultaneously.
+   
+]
+.pull-right[
+#### 4. Access Anywhere
+
+   - You can access your remote server from anywhere with an internet connection, making it convenient for remote work and travel.
+   
+#### 5. Security
+
+   - Remote servers can be configured with strict security measures to protect sensitive data, reducing the risk of data breaches.
+]
+
+---
+
+# Why Use a Remote Server?
+
+.pull-left[
+#### 6. Scalability
+
+   - Remote servers are scalable, so you can easily adjust resources based on your needs. This scalability is useful for handling varying workloads.
+   
+#### 7. Remote Access
+
+   - A remote server allows you to perform tasks on a machine located elsewhere, which can be useful for accessing specific software or environments.
+]
+.pull-right[
+#### 8. Server Administration
+
+   - If you need to manage servers or perform administrative tasks, remote servers provide direct access to system settings and configurations.
+#### 9. Disaster Recovery
+
+   - Remote servers often have robust disaster recovery plans, ensuring minimal downtime and data loss in case of hardware failures or other issues.
+]
+
+---
+
+# Cluster architecture
+
+![:scale 80%](figures/cluster_diagram.png)
+
+---
+
+# The Terminal
+
+.pull-left[
+### What is the Terminal?
+
+- The terminal, also known as the command line interface (CLI), is a text-based interface for interacting with a computer's operating system.
+- Unlike a graphical user interface (GUI), where you use a mouse and windows, the terminal relies on text commands.
+
+- MacOS terminal emulator: [https://iterm2.com/](https://iterm2.com/)
+- Windows terminal emulator: 
+  - [wsl](https://learn.microsoft.com/en-us/windows/wsl/install)
+  - [https://learn.microsoft.com/en-us/powershell/](https://learn.microsoft.com/en-us/powershell/)
+  - For using remote servers: [https://www.putty.org/](https://www.putty.org/)
+
+]
+.pull-right[
+    ![](figures/terminal.png)
+]
+---
+
+# Understanding Shells
+
+- In the context of the terminal, a **shell** is a command-line interface that interprets and executes commands.
+- Shells provide a way to interact with the operating system and run various programs.
+
+#### Bash (Bourne-Again Shell)
+
+- **Bash** is one of the most popular and widely used shells.
+- It is the default shell on most Linux distributions and macOS.
+- Known for its scripting capabilities, Bash is versatile and user-friendly.
+
+#### Zsh (Z Shell)
+
+Zsh is an extended version of Bash with additional features.
+It offers powerful auto-completion, customization options, and theme support.
+Zsh is often favored by power users and developers.
+
+#### Fish (Friendly Interactive Shell)
+
+[Fish](https://fishshell.com/) is designed to be user-friendly and easy to use, making it an excellent choice for beginners.
+It has a unique syntax highlighting feature and interactive auto-suggestions.
+Fish emphasizes simplicity and discoverability.
+
+#### Change shells using the `chsh` command
+
+---
+
+# Improving shells
+
+### For bash: 
+
+- [github.com/ohmybash/oh-my-bash](https://github.com/ohmybash/oh-my-bash)
+
+### For zsh: 
+
+- [github.com/ohmyzsh/ohmyzsh](https://github.com/ohmyzsh/ohmyzsh)
+
+### For fish:
+
+- [github.com/oh-my-fish/oh-my-fish](https://github.com/ohmyzsh/ohmyzsh)
+
+---
+
+# Configuration Files for Shells
+
+- Shells can be customized by using configuration files.
+- They usually have names starting with `.` (which makes them hidden in ls), and ending in `rc`, for 'run commands'
+- These files allow you to define environment variables, aliases, and customize your shell's behavior.
+
+
+### Bash Configuration: `.bashrc`
+
+- In **Bash**, the `.bashrc` file is used for configuring user-specific settings.
+- It is executed whenever you start an interactive Bash session.
+- Common configurations include setting aliases, modifying the PATH, and defining shell variables.
+
+#### Example `.bashrc`:
+```bash
+# Set an alias
+alias ll='ls -alh'
+
+# Add a directory to the PATH
+export PATH=$PATH:/usr/local/bin
+```
+
+---
+
+# Zsh Configuration: `.zshrc`
+
+Zsh uses the .zshrc file for user-specific configurations.
+
+- It provides a wide range of customization options, including theme selection, plugin management, and defining functions.
+- Oh-My-Zsh is a popular framework for managing Zsh configurations.
+
+Example `.zshrc`:
+
+```zsh
+# Set Zsh theme
+ZSH_THEME="agnoster"
+
+# Load Oh-My-Zsh plugins
+plugins=(git docker python conda)
+```
+
+---
+
+# Basic Terminal Operations
+
+#### Creating Files and Directories
+
+- To create a file: `touch filename.txt`
+- To create a directory: `mkdir directory_name`
+
+#### Deleting, Moving, and Copying Files
+
+- Deleting a file: `rm filename.txt`
+- Moving a file: `mv sourcefile.txt destination/`
+- Copying a file: `cp sourcefile.txt destination/`
+
+#### Renaming Files
+
+- To rename a file: `mv oldfilename.txt newfilename.txt`
+
+#### Getting help 
+
+- To get the documentations of a command: `man ls`
+
+---
+
+# Basic Terminal Operations
+
+#### Listing Files in a Directory
+
+- To list files in the current directory: `ls`
+- To list files in a specific directory: `ls /path/to/directory`
+
+#### Navigating Directories
+
+- Getting current directory: `pwd`
+- Changing to a directory: `cd directory_name`
+- Going up one directory: `cd ..`
+- Going up two directories: `cd ../..`
+- Going to the home directory: `cd ~`
+- Going to the last directory: `cd -`
+
+#### Finding Files
+
+- Searching for files: `find /path/to/search -name "filename"`
+
+---
+
+# Interacting with files
+
+#### Getting the contents of a file
+
+- Show the contents of a file: `cat file.txt`
+- Stream the content of a large file: `less long_file.txt`
+
+#### Creating and modifying files 
+
+- Directing outputs to files with redirect: `&gt;`
+    - `ls -la &gt; list_of_files.txt`
+
+- Repeat the argument: `echo "This is a test"`
+  - Echo to new file: `echo "This is a test" &gt; test_1.txt`
+
+- Append to an existing file with `&gt;&gt;`
+  - Echo to existing file: `echo "This is a second test" &gt;&gt; test_1.txt`
+
+
+---
+
+# The original pipe
+
+- The pipe operator (`|`) is a powerful tool in Unix-like terminal shells.
+- It allows you to chain multiple commands together, passing the output of one command as input to the next.
+- This enables efficient and flexible data processing.
+
+#### Example: Sorting, Uniqueness, and Word Count
+
+- Let's explore the pipe operator with a practical example.
+- We'll use the `sort`, `uniq`, and `wc` commands to demonstrate its functionality.
+
+
+```bash
+ls | sort | uniq | wc -l
+```
+This command performs the following operations:
+
+1. Lists the files in the current directory
+2. Sorts the lines in alphabetical order.
+3. Removes duplicate lines.
+4. Counts the number of unique lines.
+
+---
+
+# Terminal based text editors
+
+In addition to command-line tools, text editors are essential for working in the terminal.
+
+- Vim - A highly configurable and efficient text editor.
+   - [vim.org](https://www.vim.org/)
+   - [neovim](https://neovim.io/)
+
+- Emacs - A powerful and extensible text editor.
+   - [GNU Emacs](https://www.gnu.org/software/emacs/)
+
+- Nano - A simple and user-friendly text editor.
+   - [Nano](https://www.nano-editor.org/)
+
+- Micro - A modern and intuitive terminal-based text editor.
+   - [Micro](https://micro-editor.github.io/)
+
+- ed - A line-oriented text editor
+   - [https://www.gnu.org/software/ed/](https://www.gnu.org/software/ed/)
+
+---
+
+# Using SSH and Remote Servers
+
+#### Logging into a Remote Server
+
+The secure shell protocol (ssh) allows us to connect to the remote server.
+
+Authentication can use a password or the same key-pair we used for github
+
+- To log in using SSH: `ssh username@remote_server_ip`
+
+Setting up key-pair authentication: https://researchcomputing.princeton.edu/support/knowledge-base/connect-ssh
+
+#### Copying and Transferring Files
+
+- Copying a file to a remote server: `scp localfile.txt username@remote_server_ip:/path/to/destination/`
+
+#### Remote SSH in vscode
+
+- [https://code.visualstudio.com/docs/remote/ssh](https://code.visualstudio.com/docs/remote/ssh)
+
+---
+
+# Job Scheduling Servers
+
+#### What is a Job Scheduling Server?
+
+- A job scheduling server (e.g., Slurm) manages and schedules computing jobs on a cluster of computers.
+
+- https://researchcomputing.princeton.edu/support/knowledge-base/slurm
+
+#### Slurm Script
+
+```bash
+#!/bin/bash
+#SBATCH --job-name=slurm-test    # create a short name for your job
+#SBATCH --nodes=1                # node count
+#SBATCH --ntasks=1               # total number of tasks across all nodes
+#SBATCH --cpus-per-task=1        # cpu-cores per task (&gt;1 if multi-threaded tasks)
+#SBATCH --mem-per-cpu=4G         # memory per cpu-core (4G is default)
+#SBATCH --time=00:01:00          # total run time limit (HH:MM:SS)
+#SBATCH --mail-type=begin        # send email when job begins
+#SBATCH --mail-type=end          # send email when job ends
+#SBATCH --mail-user=&lt;YourNetID&gt;@princeton.edu
+
+module load R
+Rscript r_program.R
+```
+
+---
+
+# Basic Slurm Commands
+
+- Submitting a job: `sbatch your_script.sh`
+- Checking job status: `squeue -u your_username`
+- Canceling a job: `scancel job_id`
+
+
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script src="macros.js"></script>
+<script>var slideshow = remark.create({
+"highlightLines": true,
+"chakra": "libs/remark-latest.min.js",
+"ratio": "16:10"
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+// add `data-at-shortcutkeys` attribute to <body> to resolve conflicts with JAWS
+// screen reader (see PR #262)
+(function(d) {
+  let res = {};
+  d.querySelectorAll('.remark-help-content table tr').forEach(tr => {
+    const t = tr.querySelector('td:nth-child(2)').innerText;
+    tr.querySelectorAll('td:first-child .key').forEach(key => {
+      const k = key.innerText;
+      if (/^[a-z]$/.test(k)) res[k] = t;  // must be a single letter (key)
+    });
+  });
+  d.body.setAttribute('data-at-shortcutkeys', JSON.stringify(res));
+})(document);
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+(function(time) {
+  var d2 = function(number) {
+    return ('0' + number).slice(-2); // left-pad 0 to minutes/seconds
+  },
+
+  time_format = function(total) {
+    var secs = Math.abs(total) / 1000;
+    var h = Math.floor(secs / 3600);
+    var m = Math.floor(secs % 3600 / 60);
+    var s = Math.round(secs % 60);
+    var res = d2(m) + ':' + d2(s);
+    if (h > 0) res = h + ':' + res;
+    return res;  // [hh:]mm:ss
+  },
+
+  slide_number_div = function(i) {
+    return document.getElementsByClassName('remark-slide-number').item(i);
+  },
+
+  current_page_number = function(i) {
+    return slide_number_div(i).firstChild.textContent;  // text "i / N"
+  };
+
+  var timer = document.createElement('span'); timer.id = 'slide-time-left';
+  var time_left = time, k = slideshow.getCurrentSlideIndex(),
+      last_page_number = current_page_number(k);
+
+  setInterval(function() {
+    time_left = time_left - 1000;
+    timer.innerHTML = ' ' + time_format(time_left);
+    if (time_left < 0) timer.style.color = 'red';
+  }, 1000);
+
+  slide_number_div(k).appendChild(timer);
+
+  slideshow.on('showSlide', function(slide) {
+    var i = slide.getSlideIndex(), n = current_page_number(i);
+    // reset timer when a new slide is shown and the page number is changed
+    if (last_page_number !== n) {
+      time_left = time; last_page_number = n;
+      timer.innerHTML = ' ' + time_format(time); timer.style.color = null;
+    }
+    slide_number_div(i).appendChild(timer);
+  });
+})(60000);
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
