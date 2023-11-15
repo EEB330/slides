@@ -29,8 +29,8 @@ Follow the guide for [accessing the Adroit cluster](https://researchcomputing.pr
     6. Use `vcftools` to examine the contents of the VCF file.
 - **Output**: The header of the VCF file. Please include the commands you used to generate this output.
 
-## Exercise 3: Measuring Variant Frequency
-- **Objective**: Learn to use `vcftools` to measure variant frequency.
+## Exercise 3: Measuring Individual Missingness and Simple Filtering
+- **Objective**: Learn to use `vcftools` to measure missingness and filter on minor allele frequency.
 - **Tasks**:
     1. Use `vcftools` to measure the missingness of each individual.
     2. Use `vcftools` to filter to sites with a minor allele frequency of at least 0.1.
