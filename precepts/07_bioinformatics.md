@@ -10,7 +10,7 @@ Make sure you document the commands you use to complete the exercises. Submittin
 
 ## Exercise 1: Accessing and Cloning a Repository on Adroit
 
-Follow the guide for [accessing the Adroit cluster](https://researchcomputing.princeton.edu/faq/how-do-i-access-adroit).
+Follow the guide for [accessing the Adroit cluster](https://researchcomputing.princeton.edu/systems/adroit#access).
 
 - **Objective**: Learn to access the Adroit HPC cluster and clone a repository.
 - **Tasks**:
