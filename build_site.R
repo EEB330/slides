@@ -39,7 +39,8 @@ conflicts_prefer(dplyr::summarise)
 # render("13_GrammarOfGraphics2.Rmd")
 # render("14_MakingPlots.Rmd")
 
-render("17_WorkingServer.Rmd")
+# render("17_WorkingServer.Rmd")
+render("23_ComputerAgeStats.Rmd")
 
 # ## Precepts
 # ## Week 2

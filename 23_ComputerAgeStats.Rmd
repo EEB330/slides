@@ -1,0 +1,89 @@
+---
+title: "Statistical Inferece"
+subtitle: "A list of references for computer-get Statistics" 
+author: Diogo Melo
+date: Dec. 6st, 2023
+runtime: static
+output:
+  xaringan::moon_reader:
+    css: [default, metropolis, metropolis-fonts, "styles.css"]
+    nature:
+      highlightLines: true
+      chakra: libs/remark-latest.min.js
+      beforeInit: "macros.js"
+      ratio: "16:10"
+      countdown: 60000
+---
+
+# Some references
+
+.pull-left[
+- Next semester: EEB 355 Statistics for Biology (Spring)
+    - New companion course with [Merlijn Staps](https://merlijnstaps.nl/)
+]
+.pull-right[
+  ![:scale 80%](figures/EEB355.svg)
+]
+
+---
+
+# Some references
+
+.pull-left[
+- Next semester: EEB 355 Statistics for Biology (Spring)
+    - New companion course with [Merlijn Staps](https://merlijnstaps.nl/)
+
+- My favourite modern introduction to statistics:
+    - [Statistical Rethinking](https://xcelab.net/rm/statistical-rethinking/) by [Richard McElreath](https://xcelab.net/)
+    - [Full course on YouTube](https://www.youtube.com/watch?v=FdnMWdICdRs&list=PLDcUM9US4XdPz-KxHM4XHt7uUVGWWVSus&ab_channel=RichardMcElreath)
+]
+.pull-right[
+  ![:scale 75%](figures/rethinking_book.jpg)
+]
+
+---
+
+
+# Some references
+
+.pull-left[
+- Next semester: EEB 355 Statistics for Biology (Spring)
+    - New companion course with [Merlijn Staps](https://merlijnstaps.nl/)
+
+- My favourite modern introduction to statistics:
+    - [Statistical Rethinking](https://xcelab.net/rm/statistical-rethinking/) by [Richard McElreath](https://xcelab.net/)
+    - [Full course on YouTube](https://www.youtube.com/watch?v=FdnMWdICdRs&list=PLDcUM9US4XdPz-KxHM4XHt7uUVGWWVSus&ab_channel=RichardMcElreath)
+
+- The brutal second book to read:
+  - [Bayesian Data Analysis](http://www.stat.columbia.edu/~gelman/book/) by [Andrew Gelman](http://www.stat.columbia.edu/~gelman/) and the gang
+  - And companinon software: [Stan](https://mc-stan.org/)
+]
+.pull-right[
+  ![:scale 75%](figures/BDA.jpeg)
+]
+
+---
+
+# Some references
+
+.pull-left[
+- Next semester: EEB 355 Statistics for Biology (Spring)
+    - New companion course with [Merlijn Staps](https://merlijnstaps.nl/)
+
+- My favourite modern introduction to statistics:
+    - [Statistical Rethinking](https://xcelab.net/rm/statistical-rethinking/) by [Richard McElreath](https://xcelab.net/)
+    - [Full course on YouTube](https://www.youtube.com/watch?v=FdnMWdICdRs&list=PLDcUM9US4XdPz-KxHM4XHt7uUVGWWVSus&ab_channel=RichardMcElreath)
+
+- The brutal second book to read:
+  - [Bayesian Data Analysis](http://www.stat.columbia.edu/~gelman/book/) by [Andrew Gelman](http://www.stat.columbia.edu/~gelman/) and the gang
+  - And companinon software: [Stan](https://mc-stan.org/)
+
+- Cool short advanced-ish book
+  - [Computer Age Statistical Inference](https://hastie.su.domains/CASI/)
+  - by [Bradley Efron](https://statistics.stanford.edu/people/bradley-efron) and [Trevor Hastie](https://web.stanford.edu/~hastie/)
+]
+.pull-right[
+  ![:scale 75%](figures/computer_age.jpeg)
+]
+
+---
