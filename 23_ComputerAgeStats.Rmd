@@ -96,3 +96,92 @@ output:
 .pull-right[
   ![:scale 75%](figures/primer.jpeg)
 ]
+
+---
+
+# Statistical Inference
+
+## What is Statistical Inference?
+
+- Statistical inference is the process of drawing conclusions about populations based on sample data.
+
+## Objectives of Statistical Inference
+
+- Primary objectives of statistical inference:
+
+  1. Estimation
+  2. Hypothesis Testing
+  3. Decision making
+  1. Causal inference
+  1. Prediction
+
+---
+
+# Statistics in the old days
+
+.center[
+![:scale 65%](figures/flowchart.png)
+]
+
+---
+
+# Linear models are great
+
+.ref[https://lindeloev.github.io/tests-as-linear/]
+.center[
+    ![:scale 10%](figures/linear.svg)
+]
+
+---
+
+
+# What is a Linear Model?
+
+- A linear model is a statistical approach that represents a linear relationship between a dependent variable (Y) and one or more independent variables (X).
+
+.pull-left[
+## The linear model equation
+  
+$y = \beta_0 + \beta_1 x + \epsilon$
+  
+  - y: Dependent variable
+  - x: Independent variable
+  - β₀: Intercept
+  - β₁: Slope
+  - ε: Error term (residuals)
+]
+.pull-right[
+```r
+# Simulate some continuous x and y and 
+# fit a linear model
+x <- rnorm(100)
+y <- 1 + 2*x + rnorm(100)
+
+# Fit model
+m1 = lm(y ~ x)
+summary(m1)
+
+library(ggplot2)
+ggplot(data.frame(x, y), aes(x, y)) + 
+    geom_point() + 
+    geom_smooth(method = "lm")
+```
+]
+---
+
+# The bootstrap method
+
+.pull-left[
+- The Bootstrap Method is a powerful resampling technique used in statistics to estimate the sampling distribution of a statistic by repeatedly resampling from the observed data.
+
+- Instead of taking repeated samples from a populations, the bootstrap method attemps to estimate the sampling distribution by using the observed data as a proxy for the true population.
+
+- These samples can be used to estimate standard errors and make hypothesis tests.
+]
+.pull-right[
+![https://images.currentaffairs.org/2023/06/bootstraps2-1024x646.jpg](https://images.currentaffairs.org/2023/06/bootstraps2-1024x646.jpg)
+.ref[https://www.currentaffairs.org/2023/06/we-must-banish-bootstraps-mythology-from-american-life]
+]
+
+---
+
