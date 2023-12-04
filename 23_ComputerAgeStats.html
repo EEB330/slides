@@ -18,7 +18,7 @@ class: center, middle, inverse, title-slide
 # Statistical Inferece
 ]
 .subtitle[
-## A list of references for computer-get Statistics
+## A list of references for computer-age statistics
 ]
 .author[
 ### Diogo Melo
@@ -140,14 +140,6 @@ class: center, middle, inverse, title-slide
 
 ---
 
-# Linear models are great
-
-.ref[https://lindeloev.github.io/tests-as-linear/]
-.center[
-    ![:scale 10%](figures/linear.svg)
-]
-
----
 
 
 # What is a Linear Model?
@@ -163,7 +155,7 @@ class: center, middle, inverse, title-slide
   - x: Independent variable
   - β₀: Intercept
   - β₁: Slope
-  - ε: Error term (residuals)
+  - `\(\epsilon\)`: Error term (residuals)
 ]
 .pull-right[
 ```r
@@ -184,6 +176,16 @@ ggplot(data.frame(x, y), aes(x, y)) +
 ]
 ---
 
+# Linear models are great
+
+.ref[https://lindeloev.github.io/tests-as-linear/]
+.center[
+    ![:scale 10%](figures/linear.svg)
+]
+
+---
+
+
 # The bootstrap method
 
 .pull-left[
@@ -198,6 +200,195 @@ ggplot(data.frame(x, y), aes(x, y)) +
 .ref[https://www.currentaffairs.org/2023/06/we-must-banish-bootstraps-mythology-from-american-life]
 ]
 
+---
+
+# Simple permutations for comparing groups
+
+.pull-left[
+
+```r
+# Example data
+savana &lt;- c(120, 107, 110, 116, 114, 111, 113, 117, 114, 112)
+forest &lt;- c(110, 111, 107, 108, 110, 105, 107, 106, 111, 111)
+sapling_height &lt;- c(savana, forest)
+location &lt;- factor(rep(c("savana", "forest"), 
+                   each=10))
+sap_data = data.frame(height = sapling_height, 
+                      location = location)
+head(sap_data)
+```
+
+```
+##   height location
+## 1    120   savana
+## 2    107   savana
+## 3    110   savana
+## 4    116   savana
+## 5    114   savana
+## 6    111   savana
+```
+]
+.pull-right[
+![](figures/saplings.webp)
+]
+
+---
+
+# The logic of a permutation test
+
+.pull-left[
+1. Determine a statistc of interest
+2. Calculate the statistic for the observed data
+3. Randomly permute the data
+4. Calculate the statistic for the permuted data
+5. Repeat steps 3 and 4 many times
+6. Compare the distribution of permuted statistics to the observed statistic
+
+### Is there a difference in the mean height across locations?
+]
+
+--
+
+.pull-right[
+
+
+```r
+library(tidyverse)
+# Calculate the observed difference in means
+obs_diff &lt;- sap_data %&gt;% 
+  group_by(location) %&gt;%
+  summarise(m = mean(height)) %&gt;%
+  summarise(diff = diff(m)) %&gt;%
+  pull(diff)
+obs_diff
+```
+
+```
+## [1] 4.8
+```
+
+```r
+# Randomly permute the data
+# Calculate the permuted difference in means
+sap_data %&gt;% 
+  mutate(location_perm = 
+          sample(sap_data$location)) %&gt;%
+  group_by(location_perm) %&gt;%
+  summarise(m = mean(height)) %&gt;%
+  summarise(diff = diff(m)) %&gt;%
+  pull(diff)
+```
+
+```
+## [1] -0.4
+```
+]
+
+---
+
+# The logic of a permutation test
+
+.pull-left[
+1. Determine a statistc of interest
+2. Calculate the statistic for the observed data
+3. Randomly permute the data
+4. Calculate the statistic for the permuted data
+5. Repeat steps 3 and 4 many times
+6. Compare the distribution of permuted statistics to the observed statistic
+
+### Is there a difference in the mean height across locations?
+]
+
+.pull-right[
+
+
+```r
+# Repeat steps 3 and 4 many times
+perm_diffs &lt;- map_dbl(1:100, 
+    function(x)
+      sap_data %&gt;% 
+        mutate(location_perm = 
+                sample(sap_data$location)) %&gt;%
+        group_by(location_perm) %&gt;%
+        summarise(m = mean(height)) %&gt;%
+        summarise(diff = diff(m)) %&gt;%
+        pull(diff))
+summary(perm_diffs)
+```
+
+```
+##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##  -3.800  -1.400  -0.300  -0.206   1.200   3.600
+```
+]
+
+---
+
+# The logic of a permutation test
+
+## Compare the distribution of permuted to the observed statistic
+
+.pull-left[
+
+```r
+hist(perm_diffs)
+abline(v = obs_diff, col = "red", lwd = 2)
+```
+
+- What proportion of the permuted differences are larger than the observed difference?
+
+```r
+sum(obs_diff &lt; perm_diffs)/length(perm_diffs)
+```
+
+```
+## [1] 0
+```
+]
+.pull-right[
+&lt;img src="23_ComputerAgeStats_files/figure-html/unnamed-chunk-7-1.png" width="90%" /&gt;
+]
+---
+
+# Same thing in lm()
+
+.pull-left[
+
+```r
+# Fit model
+m2 = lm(height ~ location, data = sap_data)
+summary(m2)
+```
+
+```
+## 
+## Call:
+## lm(formula = height ~ location, data = sap_data)
+## 
+## Residuals:
+##    Min     1Q Median     3Q    Max 
+##   -6.4   -1.8    0.1    2.4    6.6 
+## 
+## Coefficients:
+##                Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)    108.6000     0.9741 111.486  &lt; 2e-16 ***
+## locationsavana   4.8000     1.3776   3.484  0.00265 ** 
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 3.08 on 18 degrees of freedom
+## Multiple R-squared:  0.4028,	Adjusted R-squared:  0.3696 
+## F-statistic: 12.14 on 1 and 18 DF,  p-value: 0.002647
+```
+]
+.pull-right[
+
+```
+## `geom_smooth()` using formula = 'y ~ x'
+```
+
+&lt;img src="23_ComputerAgeStats_files/figure-html/unnamed-chunk-9-1.png" width="90%" /&gt;
+]
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>

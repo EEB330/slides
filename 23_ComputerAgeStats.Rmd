@@ -1,6 +1,6 @@
 ---
 title: "Statistical Inferece"
-subtitle: "A list of references for computer-get Statistics" 
+subtitle: "A list of references for computer-age statistics" 
 author: Diogo Melo
 date: Dec. 6st, 2023
 runtime: static
@@ -125,14 +125,6 @@ output:
 
 ---
 
-# Linear models are great
-
-.ref[https://lindeloev.github.io/tests-as-linear/]
-.center[
-    ![:scale 10%](figures/linear.svg)
-]
-
----
 
 
 # What is a Linear Model?
@@ -148,7 +140,7 @@ $y = \beta_0 + \beta_1 x + \epsilon$
   - x: Independent variable
   - β₀: Intercept
   - β₁: Slope
-  - ε: Error term (residuals)
+  - $\epsilon$: Error term (residuals)
 ]
 .pull-right[
 ```r
@@ -169,6 +161,16 @@ ggplot(data.frame(x, y), aes(x, y)) +
 ]
 ---
 
+# Linear models are great
+
+.ref[https://lindeloev.github.io/tests-as-linear/]
+.center[
+    ![:scale 10%](figures/linear.svg)
+]
+
+---
+
+
 # The bootstrap method
 
 .pull-left[
@@ -185,3 +187,145 @@ ggplot(data.frame(x, y), aes(x, y)) +
 
 ---
 
+# Simple permutations for comparing groups
+
+.pull-left[
+```{r}
+# Example data
+savana <- c(120, 107, 110, 116, 114, 111, 113, 117, 114, 112)
+forest <- c(110, 111, 107, 108, 110, 105, 107, 106, 111, 111)
+sapling_height <- c(savana, forest)
+location <- factor(rep(c("savana", "forest"), 
+                   each=10))
+sap_data = data.frame(height = sapling_height, 
+                      location = location)
+head(sap_data)
+```
+]
+.pull-right[
+![](figures/saplings.webp)
+]
+
+---
+
+# The logic of a permutation test
+
+.pull-left[
+1. Determine a statistc of interest
+2. Calculate the statistic for the observed data
+3. Randomly permute the data
+4. Calculate the statistic for the permuted data
+5. Repeat steps 3 and 4 many times
+6. Compare the distribution of permuted statistics to the observed statistic
+
+### Is there a difference in the mean height across locations?
+]
+
+--
+
+.pull-right[
+
+```{r}
+library(tidyverse)
+# Calculate the observed difference in means
+obs_diff <- sap_data %>% 
+  group_by(location) %>%
+  summarise(m = mean(height)) %>%
+  summarise(diff = diff(m)) %>%
+  pull(diff)
+obs_diff
+
+# Randomly permute the data
+# Calculate the permuted difference in means
+sap_data %>% 
+  mutate(location_perm = 
+          sample(sap_data$location)) %>%
+  group_by(location_perm) %>%
+  summarise(m = mean(height)) %>%
+  summarise(diff = diff(m)) %>%
+  pull(diff)
+```
+]
+
+---
+
+# The logic of a permutation test
+
+.pull-left[
+1. Determine a statistc of interest
+2. Calculate the statistic for the observed data
+3. Randomly permute the data
+4. Calculate the statistic for the permuted data
+5. Repeat steps 3 and 4 many times
+6. Compare the distribution of permuted statistics to the observed statistic
+
+### Is there a difference in the mean height across locations?
+]
+
+.pull-right[
+```{r, echo = F}
+set.seed(42)
+```
+```{r}
+# Repeat steps 3 and 4 many times
+perm_diffs <- map_dbl(1:100, 
+    function(x)
+      sap_data %>% 
+        mutate(location_perm = 
+                sample(sap_data$location)) %>%
+        group_by(location_perm) %>%
+        summarise(m = mean(height)) %>%
+        summarise(diff = diff(m)) %>%
+        pull(diff))
+summary(perm_diffs)
+```
+]
+
+---
+
+# The logic of a permutation test
+
+## Compare the distribution of permuted to the observed statistic
+
+.pull-left[
+```{r, eval = FALSE}
+hist(perm_diffs)
+abline(v = obs_diff, col = "red", lwd = 2)
+```
+
+- What proportion of the permuted differences are larger than the observed difference?
+```{r}
+
+sum(obs_diff < perm_diffs)/length(perm_diffs)
+```
+]
+.pull-right[
+```{r, echo = F, out.width='90%'}
+hist(perm_diffs)
+abline(v = obs_diff, col = 2, lwd = 2)
+```
+]
+---
+
+# Same thing in lm()
+
+.pull-left[
+```{r}
+# Fit model
+m2 = lm(height ~ location, data = sap_data)
+summary(m2)
+```
+]
+.pull-right[
+```{r, echo=FALSE, out.width='90%', messages = F}
+library(cowplot)
+sap_data$dummy_loc = as.numeric(as.factor(sap_data$location)) - 1
+ggplot(sap_data, aes(x = dummy_loc, 
+                     y = height)) +
+  geom_jitter(width = 0.01) + geom_smooth(method = "lm") + 
+  scale_x_continuous(breaks = c(0, 1), 
+                     labels = c("Forest", "Savana")) +
+  labs(x = "Location", y = "Height (mm)") + 
+  theme_cowplot(16)
+```
+]
