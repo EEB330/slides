@@ -1,5 +1,5 @@
 ---
-title: "Statistical Inferece"
+title: "Statistical Inference"
 subtitle: "A list of references for computer-age statistics" 
 author: Diogo Melo
 date: Dec. 6st, 2023
@@ -268,7 +268,7 @@ set.seed(42)
 ```
 ```{r}
 # Repeat steps 3 and 4 many times
-perm_diffs <- map_dbl(1:100, 
+perm_diffs <- map_dbl(1:1000, 
     function(x)
       sap_data %>% 
         mutate(location_perm = 
