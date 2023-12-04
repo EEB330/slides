@@ -87,3 +87,12 @@ output:
 ]
 
 ---
+
+# Honorable mentions
+
+.pull-left[
+  ![:scale 75%](figures/the_effect.png)
+]
+.pull-right[
+  ![:scale 75%](figures/primer.jpeg)
+]
