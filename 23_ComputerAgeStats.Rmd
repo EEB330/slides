@@ -329,3 +329,24 @@ ggplot(sap_data, aes(x = dummy_loc,
   theme_cowplot(16)
 ```
 ]
+
+---
+
+# 
+
+---
+
+# Closing remarks 
+
+1. What do you think programing will add to your work?
+
+1. Did you learn something you were not expecting?
+
+1. Are there any topics you missed? 
+
+1. Topics you wanted to hear more?
+
+1. Topics you would remove?
+
+1. What would you change for next year?
+
