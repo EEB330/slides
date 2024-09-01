@@ -1,8 +1,8 @@
 ---
 title: "Why should biologist learn programming?"
 subtitle: "Biology is a computational discipline"
-author: Guillaume Falmagne
-date: Sept. 4th, 2023
+author: Diogo Melo
+date: Sept. 6th, 2023
 runtime: static
 output:
   xaringan::moon_reader:
@@ -28,19 +28,19 @@ htmltools::tagList(
 
 # Course structure
 
-- Guillaume Falmagne - [g.falmagne@princeton.edu](g.falmagne@princeton.edu)
-- Michelle White - [mw0425@princeton.edu](mw0425@princeton.edu)
+- Diogo Melo - [damelo@princeton.edu](damelo@princeton.edu)
+- Scott Wolf - [swwolf@princeton.edu](swwolf@princeton.edu)
 
 - Website: [eeb330.github.io](http://eeb330.github.io)
 
-- Two lectures per week (Mon and Wed, 3pm)
-  - Presentations and some in-class exercises
+- Two lectures per week 
+  - some presentations and some in class exercises
 
-- One precept per week with Michelle (Thu 10 and 11am)
+- One precept with Scott
 
 - Office hours:
-  - Guyot 104a, subject to change
-  - time TBD
+  - Guyot 301
+  - TBD
 
 ---
 
@@ -53,11 +53,11 @@ htmltools::tagList(
   - Class and precept participation (15%)
     - Participation and in-class quizzes
 
-  - Two coding projects (40%: 20% each)
+  - Two coding projects (35%)
     - Midterm and Final projects
-    - Around 2 weeks to complete them
+    - Around 2-3 weeks 
 
-  - Open-science exercise (15%)
+  - Open-science exercise (20%)
     - Small presentation during finals period reproducing the analysis and/or plots from a published paper. 
     - More details later in the course
 
@@ -77,7 +77,7 @@ htmltools::tagList(
 
 ![](figures/ioannidis.png)
 
----
+
 
 # Excel is very popular
 

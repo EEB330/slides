@@ -3,8 +3,8 @@
   <head>
     <title>Why should biologist learn programming?</title>
     <meta charset="utf-8" />
-    <meta name="author" content="Guillaume Falmagne" />
-    <script src="00_Why_Programming_files/header-attrs-2.28/header-attrs.js"></script>
+    <meta name="author" content="Diogo Melo" />
+    <script src="00_Why_Programming_files/header-attrs-2.23/header-attrs.js"></script>
     <link href="00_Why_Programming_files/remark-css-0.0.1/default.css" rel="stylesheet" />
     <link href="00_Why_Programming_files/remark-css-0.0.1/metropolis.css" rel="stylesheet" />
     <link href="00_Why_Programming_files/remark-css-0.0.1/metropolis-fonts.css" rel="stylesheet" />
@@ -12,8 +12,8 @@
     <link href="00_Why_Programming_files/xaringanExtra-clipboard-0.2.6/xaringanExtra-clipboard.css" rel="stylesheet" />
     <script src="00_Why_Programming_files/xaringanExtra-clipboard-0.2.6/xaringanExtra-clipboard.js"></script>
     <script>window.xaringanExtraClipboard(null, {"button":"Copy code <i class=\"fa fa-clipboard\"><\/i>","success":"Copied! <i class=\"fa fa-check\" style=\"color: #90BE6D\"><\/i>","error":"Not copied 😕 <i class=\"fa fa-times-circle\" style=\"color: #F94144\"><\/i>"})</script>
-    <link href="00_Why_Programming_files/font-awesome-6.4.2/css/all.min.css" rel="stylesheet" />
-    <link href="00_Why_Programming_files/font-awesome-6.4.2/css/v4-shims.min.css" rel="stylesheet" />
+    <link href="00_Why_Programming_files/font-awesome-6.2.1/css/all.min.css" rel="stylesheet" />
+    <link href="00_Why_Programming_files/font-awesome-6.2.1/css/v4-shims.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="styles.css" type="text/css" />
   </head>
   <body>
@@ -27,10 +27,10 @@ class: center, middle, inverse, title-slide
 ## Biology is a computational discipline
 ]
 .author[
-### Guillaume Falmagne
+### Diogo Melo
 ]
 .date[
-### Sept. 4th, 2023
+### Sept. 6th, 2023
 ]
 
 ---
@@ -40,19 +40,19 @@ class: center, middle, inverse, title-slide
 
 # Course structure
 
-- Guillaume Falmagne - [g.falmagne@princeton.edu](g.falmagne@princeton.edu)
-- Michelle White - [mw0425@princeton.edu](mw0425@princeton.edu)
+- Diogo Melo - [damelo@princeton.edu](damelo@princeton.edu)
+- Scott Wolf - [swwolf@princeton.edu](swwolf@princeton.edu)
 
 - Website: [eeb330.github.io](http://eeb330.github.io)
 
-- Two lectures per week (Mon and Wed, 3pm)
-  - Presentations and some in-class exercises
+- Two lectures per week 
+  - some presentations and some in class exercises
 
-- One precept per week with Michelle (Thu 10 and 11am)
+- One precept with Scott
 
 - Office hours:
-  - Guyot 104a, subject to change
-  - time TBD
+  - Guyot 301
+  - TBD
 
 ---
 
@@ -65,11 +65,11 @@ class: center, middle, inverse, title-slide
   - Class and precept participation (15%)
     - Participation and in-class quizzes
 
-  - Two coding projects (40%: 20% each)
+  - Two coding projects (35%)
     - Midterm and Final projects
-    - Around 2 weeks to complete them
+    - Around 2-3 weeks 
 
-  - Open-science exercise (15%)
+  - Open-science exercise (20%)
     - Small presentation during finals period reproducing the analysis and/or plots from a published paper. 
     - More details later in the course
 
@@ -89,7 +89,7 @@ class: center, middle, inverse, title-slide
 
 ![](figures/ioannidis.png)
 
----
+
 
 # Excel is very popular
 
@@ -185,7 +185,7 @@ Almiron, M. G., Lopes, B., Oliveira, A. L. C., Medeiros, A. C., &amp; Frery, A. 
 - R offers powerful visualization libraries, such as ggplot2.
 
 
-``` r
+```r
 library(ggplot2)
 library(cowplot)
 ggplot(iris, aes(Sepal.Width, Sepal.Length, color = Species)) + 
