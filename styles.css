@@ -9,4 +9,17 @@
     font-family: 'Source Code Pro', 'Lucida Console', Monaco, monospace;
     font-size: 80%;
     color: black
-  }
+}
+
+/* Two-column layout */
+.left-column {
+  width: 70%;
+  height: 92%;
+  float: left;
+  color: black
+}
+.right-column {
+  width: 29%;
+  float: right;
+  color: black
+}
