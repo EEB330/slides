@@ -1,8 +1,8 @@
 ---
 title: "Why should biologist learn programming?"
 subtitle: "Biology is a computational discipline"
-author: Guillaume Falmagne
-date: Sept. 4th, 2023
+author: Diogo Melo
+date: Sept. 6th, 2023
 runtime: static
 output:
   xaringan::moon_reader:
@@ -28,20 +28,19 @@ htmltools::tagList(
 
 # Course structure
 
-- Guillaume Falmagne - [g.falmagne@princeton.edu](g.falmagne@princeton.edu)
-- Michelle White - [mw0425@princeton.edu](mw0425@princeton.edu)
+- Diogo Melo - [damelo@princeton.edu](damelo@princeton.edu)
+- Scott Wolf - [swwolf@princeton.edu](swwolf@princeton.edu)
 
-- Website: [eeb330.github.io](http://eeb330.github.io). Contains schedule, [Google Calendar](https://calendar.google.com/calendar/u/1?cid=Y182NjA5NWU5ZTJkNjY3Y2Y2ZjQzMTdhMzU4Nzg2MTkwMDA0MDkyN2JkNWVjYjJlYTliOTgzOWUxZTI4OTFlZTM5QGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20), and lectures and precepts.
+- Website: [eeb330.github.io](http://eeb330.github.io)
 
-- Two lectures per week (Mon and Wed, 3pm)
-  - Presentations and some in-class exercises
+- Two lectures per week 
+  - some presentations and some in class exercises
 
-- One precept per week with Michelle (Thu 10 and 11am)
+- One precept with Scott
 
 - Office hours:
-  - Guyot 104a, by appointment
-  - This week: special office hour, Thursday 10am in place of the precept  
-    &rarr; **help installing** R + python + Rstudio/VsCode + git
+  - Guyot 301
+  - TBD
 
 ---
 
@@ -54,94 +53,31 @@ htmltools::tagList(
   - Class and precept participation (15%)
     - Participation and in-class quizzes
 
-  - Two coding projects (40%: 20% each)
+  - Two coding projects (35%)
     - Midterm and Final projects
-    - Around 2 weeks to complete them
+    - Around 2-3 weeks 
 
-  - Open-science exercise (15%)
+  - Open-science exercise (20%)
     - Small presentation during finals period reproducing the analysis and/or plots from a published paper. 
+    - More details later in the course
 
-
----
-class: inverse, center, middle
-
-# Why learn programming?
 
 ---
 
 # Modern biology is computational biology
 
-- Biology has become an eminently computational field &ndash; as many other fields!
-- Bioinformatics, statistics, handling large data sets = now basic tools of biology research and applications
+- Biology has become an eminently computational field
+- Bioinformatics, statistics, handling large data are now basic tools of biological practice
 
-![:scale 90%](figures/foamtree.png)
-
----
-
-# Central part of analysis pipeline
-
-&nbsp;&nbsp;
-
-.pull-left[
-What does a typical academic research project look like?
-- Ideation / research question
-- Literature review
-- Experiments (field or lab) and **data collection**
-- **Data analysis**
-- **Plotting results**
-- Writing paper, then submitting for publication
-
-Similarly important in industrial projects!
-]
-.pull-right[
-![:scale 100%](figures/pipeline_fancy.png)
-]
-
-**Need to be "fluent in coding" so that the science part stays at the center**
-
----
-# Exponentially growing data + computing power
-<div class='left' style='float:left;width:43%'>
-![:scale 82%](figures/globaldata.webp)
-![:scale 82%](figures/genomecost.jpg)
-</div>
-<div class='right' style='float:right;width:57%'>
-.center[
-![:scale 71%](figures/Mooreslaw.png)  
-]
-
-.left[
-- Easy to loose track of research goal and hypotheses
-- Earlier (excellent) biologists were not trained to treat this big data...  
-&rarr; lack of expertise in programming and statistics at this scale  
-&rarr; window of opportunity for fresh mindsets
-]
-</div>
-
-???
-Changed in last 10-20 years + researchers are constant learners
+![](figures/foamtree.png)
 
 ---
 
 # Replication crisis
 
-.pull-left[
-Need clean code to share in papers, to ease:
-- reproducibility of results
-  - "Most published findings are false"   
-  &ndash; also p-hacking
-- check of **correctness** (peer review)
-- post publication, community can:
-  - **Reuse** the code (Open Science)
-  - Modify and **extend** an analysis
+![](figures/ioannidis.png)
 
-![](figures/reproducibility.svg)
-]
-.pull-right[
-![:scale 110%](figures/ioannidis.png)
-]
 
----
 
 # Excel is very popular
 
@@ -149,55 +85,67 @@ Need clean code to share in papers, to ease:
 
 ---
 
-# Coding errors in spreadsheets reach far
+# A recent Excel debacle
 
+"Growth in the time of Debt" controversy
+
+Reinhart, Carmen M., and Kenneth S. Rogoff. 2010. American Economic Review, 100 (2): 573-78. DOI: 10.1257/aer.100.2.573
 .pull-left[
-*Growth in the time of Debt*  
-Reinhart and Rogoff, 2010, American Economic Review
 
 - Super influential, around 5k citations
 - Used to justify economic policy
-
-![:scale 65%](figures/figure2.png)
 ]
 .pull-right[
-*Does high public debt consistently stifle economic growth? A critique of Reinhart and Rogoff*  
-Thomas Herndon et al., 2014, Cambridge Journal of Economics
-
-![](figures/excel_error.png)
+![:scale 70%](figures/figure2.png)
 ]
 
----
-
-# Spreadsheet are not made for data science
-
-**Poor numerical accuracy**
-
-Almiron et al., 2010, Journal of Statistical Software
-
-![:scale 60%](figures/spreadsheet_tests.png)
-
-**Black box functions**  
-Poor knowledge/readability of the content of functions used in spreadsheets leads to bad science!
 
 ---
-class: inverse, center, middle
 
-# What and how to learn programming?
+# Coding errors in spreadsheets are common
+
+Thomas Herndon et al. "Does high public debt consistently stifle economic growth? A critique of Reinhart and Rogoff", Cambridge Journal of Economics, Volume 38, Issue 2, March 2014, Pages 257–279, https://doi.org/10.1093/cje/bet075
+
+![](figures/excel_error.png)
+
+---
+
+# Spreadsheet software have poor numerical accuracy
+
+Almiron, M. G., Lopes, B., Oliveira, A. L. C., Medeiros, A. C., & Frery, A. C. (2010). On the Numerical Accuracy of Spreadsheets. Journal of Statistical Software, 34(4), 1–29. https://doi.org/10.18637/jss.v034.i04
+
+![:scale 100%](figures/spreadsheet_tests.png)
+
+---
+
+# Code and analysis sharing
+
+.pull-left[
+- Reproducibility
+
+- Reuse
+
+- For academics: 
+  - Post-publication peer-review
+  - Community can modify and extend an analysis
+
+- Example from us: [github.com/wolfffff/exp_var](https://github.com/wolfffff/exp_var)
+]
+.pull-right[
+![:scale 70%](figures/repro_code.png)
+]
 
 ---
 
 # Bespoke Custom Analysis
 
 .pull-left[
-- Custom program for your custom analysis:
-  - is more likely to solve *your* exact question
-  - does what you designed it for 
-- Canned solutions might solve some other problem only *related* to what you really care about.
+- Programming allows you to tailor software for the specific problem you have.
 
-- Bespoke software solution can then be adapted to other situations via code sharing or generic packages:
-  - For you
-  - From you
+- Sophisticated, custom analysis is more likely solve the exact question you are asking.
+  - Canned solutions might solve some other problem that is only related to what you really care about.
+
+- Once a bespoke software solution exists, it can be adapted to other situations, via code sharing or generic packages.
 ]
 .pull-right[
 ![](figures/Tailor.png)
@@ -206,134 +154,111 @@ class: inverse, center, middle
 
 # Why R and/or python?
 
+- Great package ecosystem (CRAN, conda, bioconductor, ...)
+- Easy to learn
+- Good balance of easy-to-write and fast-to-run code
+- Both can easily call code from faster languages if needed
 
 .pull-left[
-
-- Great package ecosystem  
-(CRAN, conda, bioconductor, ...)
-- Easy to learn
-- Good balance of easy-to-write (and to read)  
-and fast-to-run code
-- Both can easily call code from faster languages  
-(e.g. C++) if needed
-- Widely used 
+  ![:scale 75%](figures/mamba.webp)
 ]
 .pull-right[
-  ![:scale 80%](figures/pythonxkcd.png)
+  ![:scale 60%](figures/CRANlogo.png)
 ]
 ---
 
 # Effective Visualization 
 
-- Visualization is pivotal for understanding and communicating data and results.
-
-.pull-left[
-- R offers great visualization libraries, such as ggplot2.
+- Visualization is essential for understanding and communicating data.
+- R offers powerful visualization libraries, such as ggplot2.
 
 ```{r iris plot, out.height = 300}
 library(ggplot2)
 library(cowplot)
-ggplot(iris, aes(Sepal.Width, Sepal.Length, color = Species)) +
+ggplot(iris, aes(Sepal.Width, Sepal.Length, color = Species)) + 
 geom_point() + stat_ellipse() + theme_cowplot()
 ```
-]
-.pull-right[
-- In Python: matplotlib
-
-![](figures/Matplotlib.png)
-]
 
 ---
+
 
 # Take home
 
 .pull-left[
-- Reproducible research ensures **transparency and verifiability**.
+- Reproducible research ensures transparency and verifiability.
 
-- Coding functions and your model yourself (in R, Python, ...) allows for **tailored analysis + independence and creativity** in methods.
+- R enables bespoke custom analysis and independence in model creation.
 
-- Effective visualization enhances **data understanding and communication**.
+- Effective visualization enhances data understanding and communication.
 
-- Sharing analytical tools and leveraging package ecosystems promotes **collaboration (Open Science)**.
+- Sharing analytical tools and leveraging package ecosystems promote collaboration.
 ]
 .pull-right[
 
 ### Suggested Readings
 
-- [**A (very) short introduction to R**](https://cran.r-project.org/doc/contrib/Torfs+Brauer-Short-R-Intro.pdf)
-- [**Python Introduction, W3schools**](https://www.w3schools.com/python/python_intro.asp)
-- [Python cheat sheet](https://perso.limsi.fr/pointal/_media/python:cours:mementopython3-english.pdf)
+- [A (very) short introduction to R](https://cran.r-project.org/doc/contrib/Torfs+Brauer-Short-R-Intro.pdf)
 - [British Ecological Society Guides](https://www.britishecologicalsociety.org/publications/guides-to/)
-- [Regular Expressions in R](https://r4ds.hadley.nz/regexps)
-- [Data Wrangling Cheat Sheet](https://www.rstudio.com/wp-content/uploads/2015/02/data-wrangling-cheatsheet.pdf)
 
-Longer texts
-
+Longer texts: 
 - [R for Data Science](https://r4ds.hadley.nz/)
 - [Bioinformatics Data Skills](https://vincebuffalo.com/book/)
 - [Advanced R](https://adv-r.hadley.nz/)
-- [Mastering Regular Expressions](http://regex.info/book.html)
-- [ggplot2 book](https://ggplot2-book.org/)
 ]
 
 ---
-class: inverse, center, middle
 
-# What to expect in this course?
-
----
-
-# Content to expect 
+# What are we covering?
 
 .pull-left[
-**What we are covering**
 - Basic interactions with a programming language
 - Version control
 - Some computer science concepts, like control flow and types
-- Data science skills, including basic statistics
+- Data science skills
 - Data visualization
-- Bioinformatics tools and genomic pipelines + sequence analysis
-- Using clusters
+- Bioinformatics tools and genomic sequence analysis
+- Using clusters and genomics pipelines
+- Some extra topics we can discuss (TBD)
+
+### Objective
+
+**To give you the independence to use (and create) tools for solving problems in biological science.**
+
 ]
 
 --
 
 .pull-right[
-**What we are *not* covering**
+### What are we not covering?
 
-- Advanced statistics and data analysis
-- Logics and algorithms
+- Statistics and data analysis
+- Algorithms
 - CS theory
 ]
 
 ---
 
-# Objectives of the course: teach you to teach yourself
+# How to draw an owl
 
-.pull-left[
-- Programming ***has to be*** learned by doing, googling, leaving the comfort zone
-
-![:scale 90%](figures/stackoverflow_lost.jpg)
-
-]
-.pull-right[
-
-- Goal of the course: **primer in multiple essential tools**, so that you:
-  - can code simple programs independently 
-  - get the confidence and skills to **navigate the jungle of available resources**
-  - can **learn yourself** the code to adress your specific questions in biological science
-  - do this faster thanks to shared experience
-
-![:scale 60%](figures/owl.png)
+.center[
+![:scale 50%](figures/owl.png)
 ]
 
 ---
-# Prerequisites: to be installed
 
-Check the website [eeb330.github.io](http://eeb330.github.io) for instructions to install:
-- R
-- Python
-- VsCode (preferred) *OR* Rstudio
-- Git and github account
+# Possible extra topics
 
-Help proposed Thursday 10am (Guyot 104a) if problems
+- By popular demand, we can cover some of these (maybe 3):
+
+  - Digital Typography
+  - Machine learning
+  - Parallel computing
+  - Interacting with lower level languages (C, FORTRAN)
+  - Writing fast code and profiling
+  - LLMs for development and testing
+  - Sequence alignment basics
+  - Finding new genes (Guest lecture)
+  - Analysis of count data for gene expression analysis
+  - Phylogenetic and evolutionary analysis
+  - Shiny apps
+  - Something else? Email us!
