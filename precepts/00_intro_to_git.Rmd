@@ -1,8 +1,8 @@
 ---
 title: "EEB330 -- Precept 00: R and Git"
 subtitle: "Basic programming in R and version control with git"
-author: Scott Wolf
-date: Sept. 13th, 2023
+author: Scott Wolf, Michelle White
+date: Sept. 12, 2024
 output: html_document
 ---
 
@@ -11,16 +11,16 @@ output: html_document
 
 
 
-Precepts can be found here: [https://eeb330.github.io/#Precepts](https://eeb330.github.io/#Precepts) and on GitHub in the [EEB330/slides](https://github.com/EEB330/slides/tree/main/precepts) repository.
+Precepts can be found here: [https://eeb330.github.io/#Precepts](https://eeb330.github.io/#Precepts).
 
 We're going to mostly be doing the precept problem sets during class, but I'll be posting them as well. If you don't finish during class, you can finish them on your own time and submit them to the appropriate assignment within 2 weeks to GitHub Classroom.
 # Introduction
 
-This precept is focused on getting started programming with R and utilzing git for version control -- including how we will submit assigments and projects throughout the semester.
+This precept is focused on getting started programming with R and Python and utilizing git for version control -- including how we will submit assigments and projects throughout the semester.
 
 # Getting started
 
-We support two IDEs in the course: RStudio and VS Code.  I'll be using VS Code for the precepts, but feel free to use whichever you prefer. VS Code is a bit more lightweight and extensible, but RStudio has a lot of nice features speficially for R.
+We support two IDEs in the course: RStudio and VS Code.  I'll be using VS Code for the precepts, but feel free to use whichever you prefer. VS Code is a bit more lightweight and extensible, but RStudio has a lot of nice features specifially for R.
 
 Before going forward, lets install the basic software we need: [R](https://cran.r-project.org/) and [git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git). 
 
@@ -28,18 +28,20 @@ Before going forward, lets install the basic software we need: [R](https://cran.
 
 
 #### VS Code
-[VS Code](https://code.visualstudio.com/). Once you've installed and lauched VS Code, you'll need to grab a few extensions. I'd recommend getting the [R Extension](https://code.visualstudio.com/docs/languages/r) at minimum.
+[VS Code](https://code.visualstudio.com/). Once you've installed and lauched VS Code, you'll need to grab a few extensions. I'd recommend getting the [R Extension](https://code.visualstudio.com/docs/languages/r)  and the [Python Extension](https://https://code.visualstudio.com/docs/languages/python) at minimum.
 
 #### RStudio
 [RStudio](https://rstudio.com/) 
 
-#### R
+#### R and Python
 
-Make sure that you're able to run basic R code like the following:
+Make sure that you're able to run basic R/Python code like the following:
 
 ```{r}
 print("Hello world!")
 ```
+
+**You will need to create two separate files to test each language.** One will be an R file, the other a Python file. Note that for this simple ```print``` statement, the syntax for R and Python is the same. As the course progresses, we will begin to learn important differences in the syntax of these two languages!
 
 ## Git
 
@@ -76,11 +78,11 @@ cd intro-to-git-{GITHUB_USERNAME}
 git checkout -b precept-1 # or what you want to call your branch
 ```
 
-### Working on the assignment
+### Working on the assignment in R
 
 For this assignment, you can just create an simple example R file containing some code and text. You can then commit and push your changes to the branch you created.
 
-__Running R code__: To run R code, you can hit cmd+enter while selecting the line or block of code you want to run.  You can also run the entire file by hitting shift+cmd+s. If you're working on windows, you can use ctrl instead of cmd.
+__Running R code__: To run R code (in RStudio or VSCode), you can hit cmd+enter while selecting the line or block of code you want to run (if no line(s) are selected, then just the line that your cursor is on will run).  You can also run the entire file by hitting cmd+shift+s or cmd+shift+enter. If you're working on windows, you can use ctrl instead of cmd. You can also just click the play button in the top-right corner of the VSCode editor to run the entire file!
 
 Our goal is to make a simple R  file for exploring the iris data set.
 
@@ -119,6 +121,52 @@ iris$Petal.Length.Class <- ifelse(iris$Petal.Length < 2, "Short",
 
 # View the initial rows of the modified dataset to see the added column
 head(iris)
+```
+
+### Working on the assignment in Python
+Now we will work with the same ```iris```dataset in Python. Unlike in R, ```iris``` is not a built-in dataset that is readily available for use. Thus, you will need to download the dataset as a .csv file from Canvas and add it to your current working directory for this example.
+
+__Running Python code__: To run Python code, you can hit shift+enter while selecting the line or block of code you want to run. Similarly to R, you can run an entire .py file by clicking the play button in VSCode.
+```{python}
+# ----- Loading and Exploring the iris dataset -----
+
+# Import the necessary libraries: pandas is used for data organization and manipulation, while matplotlib has functions useful for data visualization
+import pandas as pd
+import matplotlib.pyplot as plt
+
+# Read in the data and create a DataFrame variable called "iris"
+iris = pd.read_csv("iris.csv")
+
+# View the first few rows and the structure of the dataset, note the similarities and differences with the dataset in R
+print(iris.head())
+print(iris.info())
+
+# We can also generate summary statistics to get a sense of the data distribution, this time usually using the describe() function
+print(iris.describe())
+
+# ----- Data Visualization -----
+
+# Make a scatter plot of Sepal width against Sepal length
+plt.title("Sepal Width vs Sepal Length")
+plt.xlabel("Sepal Length (cm)")
+plt.ylabel("Sepal Width (cm)")
+
+groups = iris.groupby("Species")
+for name, group in groups:
+    plt.scatter(group["SepalLengthCm"], group["SepalWidthCm"], label = name, marker = "o", s = 30)
+
+plt.legend(loc = "upper right")
+plt.show()
+
+# Now try making a scatter plot of Petal width against Petal length!
+
+# ----- Modifying the Dataset -----
+
+# Add a new column 'PetalLengthClass' that classifies flowers based on petal length
+iris["PetalLengthClass"] = pd.cut(iris["PetalLengthCm"], bins = [iris["PetalLengthCm"].min(), 2, 5, iris["PetalLengthCm"].max()], labels = ["Short", "Medium", "Long"])
+
+# View the initial rows of the modified dataset
+print(iris.head())
 ```
 
 
