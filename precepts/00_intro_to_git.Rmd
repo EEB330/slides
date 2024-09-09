@@ -120,7 +120,7 @@ head(iris)
 ```
 
 ### Working on the assignment in Python
-Now we will work with the same ```iris```dataset in Python. Unlike in R, ```iris``` is not a built-in dataset that is readily available for use. Thus, you will need to download the dataset as a .csv file from Canvas and add it to your current working directory for this example.
+Now we will work with the same ```iris```dataset in Python. Unlike in R, ```iris``` is not a built-in dataset that is readily available for use. Thus, you will need to download the dataset from the assignment respository and add it to your current working directory for this example.
 
 __Running Python code__: To run Python code, you can hit shift+enter while selecting the line or block of code you want to run. Similarly to R, you can run an entire .py file by clicking the play button in VSCode.
 ```{python}
