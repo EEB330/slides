@@ -19,7 +19,30 @@
   color: black
 }
 .right-column {
-  width: 29%;
+  width: 28%;
   float: right;
   color: black
+}
+.left-column60 {
+  width: 60%;
+  height: 92%;
+  float: left;
+  color: black
+}
+.right-column60 {
+  width: 36%;
+  float: right;
+  color: black
+}
+
+h2  {
+  margin-top:1em;
+}
+
+h3  {
+  margin-top:0em;
+}
+
+h4  {
+  margin-top:0em;
 }
