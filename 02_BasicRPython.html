@@ -24,7 +24,7 @@ class: center, middle, inverse, title-slide
 ### Guillaume Falmagne
 ]
 .date[
-### Sept. 9th, 2023
+### <br> Sept. 9th, 2023
 ]
 
 ---
@@ -843,7 +843,7 @@ mat[:, 0] # First column
 ```
 
 ```
-## [1]  0.7506713  0.6758006 -2.5412010
+## [1]  0.6190229 -1.0478594  0.8224866
 ```
 
 ``` r
@@ -859,7 +859,7 @@ mat[:, 0] # First column
 ```
 
 ```
-## [1]  TRUE  TRUE FALSE
+## [1]  TRUE FALSE  TRUE
 ```
 
 ### Python
@@ -884,7 +884,7 @@ num_x
 ```
 
 ```
-## [1] "0.750671275907247" "0.675800575196318" "-2.54120098743327"
+## [1] "0.619022933787367" "-1.04785942949573" "0.822486581755124"
 ## [4] "a"
 ```
 
@@ -900,7 +900,7 @@ This is **impossible with numpy** (immutable type), but possible with Python lis
 
 ---
 
-# Factor vectors
+# R: Factor vectors
 
 - A factor is a data type used in R for categorical variables.
 - Kind of cross between numeric and character
@@ -921,13 +921,52 @@ color_factor &lt;- factor(color_vector)
 color_factor
 ```
 
-[1] Red   Blue  Green Red   Blue 
-Levels: Blue Green Red
+```
+## [1] Red   Blue  Green Red   Blue 
+## Levels: Blue Green Red
+```
 
+- Equivalent in Python, with `pandas`: `s = pandas.Series(["a","b","c","a"], dtype="category")`
+
+---
+# Python: dictionaries
+
+- Dictionaries are extremely practical for any **book-keeping** task
+- They **match pairs of values** of any type. Keys and values are **not** ordered.
+
+
+``` python
+dicto = {'first': 1, 'second': 2.0, 'my_third_object': 'not_an_int'}
+dicto.keys()
+```
+
+```
+## dict_keys(['first', 'second', 'my_third_object'])
+```
+
+``` python
+dicto.values()
+```
+
+```
+## dict_values([1, 2.0, 'not_an_int'])
+```
+
+``` python
+dicto['second']
+```
+
+```
+## 2.0
+```
+
+``` python
+dicto['first'] = [1, 5, 7]
+```
 
 ---
 
-# Names attributes
+# R: Names attributes
 
 .pull-left[
 - Vectors, matrices, list, and other objects can have names associated with their contents.
@@ -957,6 +996,9 @@ x
 ![:scale 60%](figures/attr-names-1.png)
 
 ![:scale 30%](figures/attr-names-2.png)
+
+- In Python, would need to use dictionaries for this functionality, but not recommended for numerical computations.  
+`dataframe` in `pandas` can get names for columns.
 ]
 
 ---
@@ -969,7 +1011,7 @@ x
 
 ``` r
 x &lt;- c(a = 1, b = 2, c = 3)
-x["a"]
+x["a"] # single brackets give you a list or vector
 ```
 
 ```
@@ -991,7 +1033,7 @@ x[c("c", "b")]
 
 ``` r
 l &lt;- list(a = 1, b = 2, c = 3)
-l[["a"]]
+l[["a"]] # double brackets give you a single element
 ```
 
 ```
@@ -1013,7 +1055,7 @@ l[c("c", "b")]
 ]
 ---
 
-# Dataframes
+# R: Dataframes
 
 
 .pull-left[
@@ -1038,6 +1080,14 @@ d1
 ## 2 5 4  b
 ## 3 6 3  c
 ```
+
+``` r
+names(d1)
+```
+
+```
+## [1] "x"  "y"  "id"
+```
 ]
 .pull-right[
 - Dataframes have 2 attributes:
@@ -1053,7 +1103,7 @@ df = data.frame(x = 1:3,
 
 ---
 
-# Dataframe columns
+# R: Dataframe columns
 
 - Data frame colums can also be indexed using the `$` operator
 - This operator can also create new columns
@@ -1120,14 +1170,68 @@ d1
 ]
 
 ---
+# Python: pandas dataframes
 
-# With and withing 
+.left-column60[
+- Very similar functions than R dataframes
+- `pandas` has enormous amounts of useful functionalities 
+- Equivalent of `rownames`: `df.index`
+
+
+``` python
+import pandas as pd 
+data = { # dictionaries is only one of the initialisation methods
+        'x' : [1, 5, 6], 
+        'y' : [2, 4, 3], 
+        'id' : ['a', 'b', 'c'], 
+        }
+#load data into a DataFrame object:
+df = pd.DataFrame(data)
+print(df)
+```
+
+```
+##    x  y id
+## 0  1  2  a
+## 1  5  4  b
+## 2  6  3  c
+```
+]
+.right-column60[
+- Can access row and columns,  
+both returning a `Series` object, equivalent of `numpy` array
+
+``` python
+df.loc[0] # row access.  
+```
+
+```
+## x     1
+## y     2
+## id    a
+## Name: 0, dtype: object
+```
+
+``` python
+df['id'] # column access.
+```
+
+```
+## 0    a
+## 1    b
+## 2    c
+## Name: id, dtype: object
+```
+]
+---
+
+# R: With and within
 
 .pull-left[
 - `with()` function
 
 - Used to evaluate expressions in the context of a specific dataset.
-- Helps to reduce redundancy when referring to data frame columns.
+- Helps to reduce text redundancy when referring to data frame columns.
 
 
 ``` r
@@ -1138,13 +1242,13 @@ df &lt;- data.frame(
 sum(df$x + df$y)
 ```
 
-[1] 1.807317
+[1] 3.011304
 
 ``` r
 with(df, sum(x + y))
 ```
 
-[1] 1.807317
+[1] 3.011304
 ]
 
 --
@@ -1165,12 +1269,12 @@ df_modified
 ```
 
 ```
-##            x         y         w          z
-## 1  1.0012639 0.5543821  2.002528  1.5556460
-## 2 -1.1480470 0.4094491 -2.296094 -0.7385979
-## 3 -0.5226808 0.4924610 -1.045362 -0.0302198
-## 4 -2.0326712 0.9633075 -4.065342 -1.0693638
-## 5  1.5476459 0.5422068  3.095292  2.0898527
+##            x          y          w          z
+## 1 -0.1354268 0.46231874 -0.2708537  0.3268919
+## 2 -0.5852593 0.80169689 -1.1705186  0.2164376
+## 3 -0.4887806 0.02713458 -0.9775612 -0.4616460
+## 4  0.5203009 0.84355611  1.0406017  1.3638570
+## 5  0.7842046 0.78155897  1.5684091  1.5657635
 ```
 ]
 
@@ -1178,13 +1282,11 @@ df_modified
 # Functions in R
 
 .pull-left[
-- Functions are small(ish) pieces of code that given a set of arguments produce some output
+- Functions are pieces of code producing some output from some set of arguments
 
-- Functions allow us to repeat the same procedure several times with different inputs without repeating code
+- Allows us to repeat the same procedure several times with different inputs without repeating code, so it improves conciseness and readability
 
-- Creating and using functions are an integral part of programming in R
-
-- Packages are mostly just groups of related functions
+- Packages are mostly just groups of related functions (and classes)
 
 - The help() function shows the help page for any function
 
@@ -1208,9 +1310,7 @@ mean(x = input)
 ## [1] NA
 ```
 
-- `NA` is a special object meaning "missing" value in R
-
-- We can deal with it using an argument of the mean function
+- We can deal with `NA` with another argument of the mean:
 
 
 ``` r
@@ -1227,6 +1327,8 @@ mean(x = input, na.rm = TRUE)
 
 # Creating Functions
 
+.pull-left[
+### R
 Functions can be defined using the `function()` keyword.
 
 
@@ -1252,6 +1354,28 @@ multiply(3, 2)
 ```
 ## [1] 6
 ```
+]
+.pull-right[
+### Python
+
+``` python
+def multiply(a, b):
+  return a * b
+multiply
+```
+
+```
+## &lt;function multiply at 0x7abf4cd03640&gt;
+```
+
+``` python
+multiply(3, 2)
+```
+
+```
+## 6
+```
+]
 
 ---
 
