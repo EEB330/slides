@@ -7,13 +7,10 @@ output: html_document
 ---
 
 # Precept intro
->__NOTE__: This precept has been modified from its original form for clarity. The original version can be found in the [EEB330/slides/precepts](https://github.com/EEB330/slides/blob/51fd3857a007b5c088995d47030cea570caee58d/precepts/00_r_and_git.Rmd). If you previous worked on the old version, all of the updated content should still apply and -- ideally -- clarify the workflow.
-
-
-
 Precepts can be found here: [https://eeb330.github.io/#Precepts](https://eeb330.github.io/#Precepts).
 
 We're going to mostly be doing the precept problem sets during class, but I'll be posting them as well. If you don't finish during class, you can finish them on your own time and submit them to the appropriate assignment within 2 weeks to GitHub Classroom.
+
 # Introduction
 
 This precept is focused on getting started programming with R and Python and utilizing git for version control -- including how we will submit assigments and projects throughout the semester.
@@ -25,7 +22,6 @@ We support two IDEs in the course: RStudio and VS Code.  I'll be using VS Code f
 Before going forward, lets install the basic software we need: [R](https://cran.r-project.org/) and [git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git). 
 
 > I recommend [Homebrew](https://brew.sh/) for Mac users, but you can also use the installers from the links provided.
-
 
 #### VS Code
 [VS Code](https://code.visualstudio.com/). Once you've installed and lauched VS Code, you'll need to grab a few extensions. I'd recommend getting the [R Extension](https://code.visualstudio.com/docs/languages/r)  and the [Python Extension](https://https://code.visualstudio.com/docs/languages/python) at minimum.
@@ -73,7 +69,7 @@ When you accept the assignment, it will create a private repository (only visibl
 To clone the repository, you'll need to copy the URL from the repository page.  You can do this by clicking the green "Code" button and copying the URL.  Then, in your terminal, you can run `git clone <URL>` to clone the repository to your local machine.
 
 ```{bash, eval=FALSE, engine="sh"}
-git clone https://github.com/EEB330/intro-to-git-{GITHUB_USERNAME}.git # Note that this can be found on the repository page under the green "Code" button after github has created the repository
+git clone https://classroom.github.com/a/6ke9Yk2-.git # Note that this can be found on the repository page under the green "Code" button after github has created the repository
 cd intro-to-git-{GITHUB_USERNAME}
 git checkout -b precept-1 # or what you want to call your branch
 ```
@@ -214,7 +210,7 @@ N/A
 
 # Submission
 
-For this precept, you'll just need to make a merge a PR with your changes. I'll be checking the PRs for the assignment to make sure you wrote __something__ in R and that you've made a well structured PR and merged.  If you have any questions, please let me know!
+For this precept, you'll just need to make a merged PR with your changes. I'll be checking the PRs for the assignment to make sure you wrote __something__ in R and Python and that you've made a well structured PR and merged.  If you have any questions, please let me know!
 
 
 
