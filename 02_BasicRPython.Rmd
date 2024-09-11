@@ -836,7 +836,7 @@ df_modified
 ]
 
 ---
-# Functions in R
+# Functions
 
 .pull-left[
 - Functions are pieces of code producing some output from some set of arguments
