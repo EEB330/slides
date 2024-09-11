@@ -170,6 +170,7 @@ This creates a local repository that points to the remote one!
 
 # Your day to day in a local repo
 
+.left-column60[
 1. Edit a file "script.R" (or several files)
 2. In the terminal, add the file to the staging area:
 ```bash
@@ -185,6 +186,10 @@ $ git commit -m "what happens in this commit?"
 ```
    - Without the `-m`, a text editor will open and ask for a "commit message," which is a description of everything that changed with that commit.
    - Describe what you did VERY accurately, then save the commit message file.
+]
+.right-column60[
+![:scale 100%](figures/gitpushcommitadd.webp)
+]
 
 ---
 
@@ -204,12 +209,17 @@ d4de5cd277c1977e74146aa2d4eb1a9d0323290a acctualy fast C++ implementation of RS
 ...
 ```
 
-- We can also see exactly what changed in each version, the difference between two versions, recover old versions...
+.left-column60[
+- We can also see exactly what changed in each version,  
+the difference between two versions, recover old versions...
 - Everything that was once committed can be recovered!
 - Example: wanna know what has changed in a file?
   - between your local version and the repo: `git diff my_file.R`
   - between two commits: `git diff commit1 commit2 -- my_file.R`
-
+]
+.right-column60[
+![:scale 100%](figures/git_commit_2x.png)
+]
 ---
 
 # Version control is for recovering the version you want
@@ -246,7 +256,7 @@ git will complain if you have local changes... My trick:
 ```
 $ git stash (sets aside your local changes)
 $ git pull
-$ git stash pop (add your local change on top of the pulled version)
+$ git stash pop (add your local change to the pulled version)
 ```
 
 - You have done great work (one or multiple commits) that you want to push on the cloud?  
@@ -256,7 +266,7 @@ $ git push (sends changes to the remote)
 ]
 --
 .pull-right[
-![:scale 60](figures/gitworkflow.avif)
+.right[![:scale 95%](figures/gitworkflow.avif)]
 ]
 
 ---
@@ -285,7 +295,7 @@ $ git branch testing
 
 # Picking a branch
 
-HEAD is who you are actually looking at.
+HEAD is who you are actually looking at. (Check what it points to with `git log`)
 
 ![:scale 50%](figures/head-to-master.png) 
 
@@ -315,7 +325,7 @@ $ git commit -a -m 'made a change in the testing branch'
 $ git checkout master
 ```
 
-But what happens now someone does a commit on the `master` branch??
+But what happens now if someone does a commit on the `master` branch??
 
 ---
 
@@ -344,7 +354,7 @@ $ git merge iss53
 
 * This will combine the modifications made in commit 4 with those made in commits 3 and 5.
 
-* This is where **conflicts** can happen -- and it's a big deal!  
+* This is a place where **conflicts** can happen -- and it's a big deal!  
 VsCode interface gives quite good guidance to solve them
 
 ---
@@ -357,8 +367,8 @@ VsCode interface gives quite good guidance to solve them
 ```
 $ git init
 $ git remote add origin git@github.com:gfalmagn/my_first_repo.git
-$ git fetch origin master
-$ git merge origin/master
+$ git fetch origin master 
+$ git merge origin/master 
 ```
 
 * Or...
@@ -366,8 +376,15 @@ $ git merge origin/master
 $ git init
 $ git remote add origin git@github.com:gfalmagn/my_first_repo.git
 $ git branch --set-upstream=origin/master master
-$ git pull
+$ git pull (pull = fetch + merge)
 ```
+
+* And to push my new locally created branch to the remote:
+```
+$ git branch new_branch
+$ git push -u origin new_branch
+```
+
 
 ---
 
@@ -382,6 +399,11 @@ So much more dark magic: `rebase`, `reset`, `fetch`, `fork`, `bisect`, `reflog`,
 .pull-right[
 ![:scale 60%](figures/gitxkcd.png)
 ]
+
+---
+
+# Summary
+![](figures/GitCommands-2.png)
 
 ---
 
