@@ -794,7 +794,7 @@ letter_grades
 
 ---
 
-# Common mistakes
+# Common mistake
 
 ### Not indexing the `results` object
 
@@ -846,67 +846,38 @@ Problem: at each iteration, `letter_grades` is fully replaced with a single grad
 
 ---
 
-# Do you want to access the index or the actual element
+# Access the index or the actual element?
  
-### The `1:length(x)` pattern
+When filling a vector with a loop from another vector, you might need to access either the index or the actual element of the vector.
 
 .pull-left[
+
+#### `seq_along` in R
 
 ``` r
 means &lt;- c(1, 50, 20)
 out &lt;- vector("list", length(means))
-for (i in 1:length(means)) {
-  # Double bracket [[i]] is needed to
-  # access the list element itself
-  out[[i]] &lt;- rnorm(3, means[[i]])
+# seq_along is preferred to 1:length(means)
+for (i in seq_along(means)) { 
+  out[[i]] &lt;- rnorm(4, means[[i]])
 }
 out
 ```
 
 ```
 ## [[1]]
-## [1]  1.0478847 -0.1045994  1.5390238
+## [1]  1.0478847 -0.1045994  1.5390238  1.5802063
 ## 
 ## [[2]]
-## [1] 50.58021 49.34250 51.55490
+## [1] 49.34250 51.55490 48.81236 50.15181
 ## 
 ## [[3]]
-## [1] 18.81236 20.15181 18.91387
+## [1] 18.91387 21.61337 20.03563 21.31496
 ```
 ]
 
 .pull-right[
-
-``` r
-*means &lt;- c()
-out &lt;- vector("list", length(means))
-for (i in 1:length(means)) {
-  out[[i]] &lt;- rnorm(10, means[[i]])
-}
-#&gt; Error in rnorm(10, means[[i]]): 
-#&gt; invalid arguments
-```
-
-
-``` r
-means &lt;- c()
-1:length(means)
-```
-
-```
-## [1] 1 0
-```
-
-**Use `seq_along` instead!**
-
-
-``` r
-for (i in seq_along(means)) {
-  out[[i]] &lt;- rnorm(10, means[[i]])
-}
-```
-]
-
+#### `enumerate` in Python
 
 ``` python
 mylist = ['a', 'b', 'c']
@@ -919,9 +890,12 @@ for i, e in enumerate(mylist):
 ## at index 1 find element b
 ## at index 2 find element c
 ```
+]
+
+
 ---
 
-# Next and break
+# Next/continue and break
 
 - `next` (in R) or `continue` (in Python) exits the current iteration.
 - `break` exits the entire loop.
@@ -958,18 +932,21 @@ while(condition) action
 repeat(action) 
 ```
 
- - You can rewrite any `for` loop to use `while` instead, 
+ - You can rewrite any `for` loop to use `while` instead, and any `while` loop to use `repeat`
  
- - and you can rewrite any `while` loop to use `repeat`, but the converses are not true. 
- 
-  ** `while` is more flexible than `for`, and `repeat` is more flexible than `while`** 
-  
-  - We should strive to use the least-flexible option, so use `for` when you can
+ - `while` is more flexible than `for`, and `repeat` is more flexible than `while`.  
+ But strive to use the least-flexible option (`for`)
 
   - `while` can be dangerous: risk of **infinite loops** if `while` condition always stays true
+    - `repeat` embraces the infinite loop... bad practice
 ]
 .pull-right[
-![:scale 70%](figures/while.png)
+```python
+while condition:
+    action 
+# repeat does not exist in Python
+```
+![:scale 60%](figures/while.png)
 ]
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>

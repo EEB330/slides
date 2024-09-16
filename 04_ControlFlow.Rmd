@@ -553,7 +553,7 @@ letter_grades
 
 ---
 
-# Common mistakes
+# Common mistake
 
 ### Not indexing the `results` object
 
@@ -590,56 +590,37 @@ Problem: at each iteration, `letter_grades` is fully replaced with a single grad
 
 ---
 
-# Do you want to access the index or the actual element
+# Access the index or the actual element?
  
-### The `1:length(x)` pattern
+When filling a vector with a loop from another vector, you might need to access either the index or the actual element of the vector.
 
 .pull-left[
+
+#### `seq_along` in R
 ```{r}
 means <- c(1, 50, 20)
 out <- vector("list", length(means))
-for (i in 1:length(means)) {
-  # Double bracket [[i]] is needed to
-  # access the list element itself
-  out[[i]] <- rnorm(3, means[[i]])
+# seq_along is preferred to 1:length(means)
+for (i in seq_along(means)) { 
+  out[[i]] <- rnorm(4, means[[i]])
 }
 out
 ```
 ]
 
 .pull-right[
-```{r, eval=FALSE}
-means <- c() #<<
-out <- vector("list", length(means))
-for (i in 1:length(means)) {
-  out[[i]] <- rnorm(10, means[[i]])
-}
-#> Error in rnorm(10, means[[i]]): 
-#> invalid arguments
-```
-
-```{r}
-means <- c()
-1:length(means)
-```
-
-**Use `seq_along` instead!**
-
-```{r}
-for (i in seq_along(means)) {
-  out[[i]] <- rnorm(10, means[[i]])
-}
-```
-]
-
+#### `enumerate` in Python
 ```{python}
 mylist = ['a', 'b', 'c']
 for i, e in enumerate(mylist):
     print('at index', i, 'find element', e)
 ```
+]
+
+
 ---
 
-# Next and break
+# Next/continue and break
 
 - `next` (in R) or `continue` (in Python) exits the current iteration.
 - `break` exits the entire loop.
@@ -669,16 +650,19 @@ while(condition) action
 repeat(action) 
 ```
 
- - You can rewrite any `for` loop to use `while` instead, 
+ - You can rewrite any `for` loop to use `while` instead, and any `while` loop to use `repeat`
  
- - and you can rewrite any `while` loop to use `repeat`, but the converses are not true. 
- 
-  ** `while` is more flexible than `for`, and `repeat` is more flexible than `while`** 
-  
-  - We should strive to use the least-flexible option, so use `for` when you can
+ - `while` is more flexible than `for`, and `repeat` is more flexible than `while`.  
+ But strive to use the least-flexible option (`for`)
 
   - `while` can be dangerous: risk of **infinite loops** if `while` condition always stays true
+    - `repeat` embraces the infinite loop... bad practice
 ]
 .pull-right[
-![:scale 70%](figures/while.png)
+```python
+while condition:
+    action 
+# repeat does not exist in Python
+```
+![:scale 60%](figures/while.png)
 ]
