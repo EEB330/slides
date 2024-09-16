@@ -9,7 +9,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 
-<meta name="author" content="Scott Wolf" />
+<meta name="author" content="Scott Wolf, Michelle White" />
 
 
 <title>EEB330 – Precept 01: Control flow</title>
@@ -351,31 +351,24 @@ display: none;
 
 <h1 class="title toc-ignore">EEB330 – Precept 01: Control flow</h1>
 <h3 class="subtitle">Simple control flow in R</h3>
-<h4 class="author">Scott Wolf</h4>
-<h4 class="date">Sept. 20th, 2023</h4>
+<h4 class="author">Scott Wolf, Michelle White</h4>
+<h4 class="date">Sept. 19th, 2024</h4>
 
 </div>
 
 
 <div id="pre-work" class="section level1">
 <h1>Pre work</h1>
-<div id="assignment-link-precept-2-intro-to-control-flow" class="section level2">
-<h2><a href="https://classroom.github.com/a/_i4k6vnv">Assignment Link –
-Precept 2: Intro to Control Flow</a></h2>
 <p>Make sure that you are comfortable with git and have a basic
-understanding of R. If you need a refresher, please see the <a href="https://eeb330.github.io/#Precepts">Precept 1</a> materials and
+understanding of R and Python. If you need a refresher, please see the
+<a href="https://eeb330.github.io/#Precepts">Precept 1</a> materials and
 external resources. Feel free to ask any remaining questions.</p>
 <p>Before coming to precept, you should have:</p>
 <ul>
-<li>A working installation of R and RStudio or VS Code</li>
+<li>A working installation of RStudio or VS Code</li>
 <li>A git repository for the precept. This git repository should be
-created using the precept assignment link.
-<ul>
-<li>In this repository, you should have with a development branch with a
-working R script (or R Markdown file) that prints “Hello world!”</li>
-</ul></li>
+created using the precept assignment link.</li>
 </ul>
-</div>
 </div>
 <div id="precept-2-introduction-to-control-flow-in-r" class="section level1">
 <h1>Precept 2 – Introduction to Control Flow in R</h1>
@@ -401,7 +394,9 @@ if (x &gt; 5) {
 <div id="loops" class="section level2">
 <h2>Loops</h2>
 <p>There are two primary loops in R - <code>for</code> and
-<code>while</code>.</p>
+<code>while</code>. <code>for</code> loops are used when the number of
+iterations is known, while <code>while</code> loops are used when the
+number of iterations is unknown and require an iterator variable.</p>
 <p><strong>For loop</strong></p>
 <pre class="r"><code>for (i in 1:5) {
      print(i)
@@ -426,7 +421,8 @@ while (counter &lt;= 5) {
 </div>
 <div id="functions" class="section level2">
 <h2>Functions</h2>
-<p>Functions are blocks of reusable code.</p>
+<p>Functions are blocks of reusable code. Functions are used to perform
+a specific task and are only run when they are called.</p>
 <pre class="r"><code>calculate_sum &lt;- function(a, b) {
      return(a + b)
 }
@@ -436,7 +432,9 @@ calculate_sum(3, 4)</code></pre>
 <div id="scoping" class="section level3">
 <h3>Scoping</h3>
 <p>Scoping refers to the visibility of variables. In R, there are two
-main scopes: global and local.</p>
+main scopes: global and local. Global variables are available throughout
+the entire script, while local variables are only available within the
+function or script in which they are defined.</p>
 <pre class="r"><code>global_var &lt;- 10
 
 function_with_scope &lt;- function() {
@@ -449,7 +447,10 @@ function_with_scope()</code></pre>
 </div>
 <div id="recursion" class="section level3">
 <h3>Recursion</h3>
-<p>A function that calls itself is known as a recursive function.</p>
+<p>A function that calls itself is known as a recursive function.
+Recursive function are only used for very specific problems, such as
+when you need to solve a problem that can be broken down into smaller,
+similar problems.</p>
 <pre class="r"><code>factorial &lt;- function(n) {
      if (n &lt;= 1) {
           return(1)
@@ -463,42 +464,144 @@ factorial(5)</code></pre>
 </div>
 </div>
 </div>
+<div id="precept-2-introduction-to-control-flow-in-python" class="section level1">
+<h1>Precept 2 – Introduction to Control Flow in Python</h1>
+<p>Control flows in Python determine the sequence in which the
+instructions are executed. This ability to control the flow of execution
+allows for more complex and flexible scripts.</p>
+<div id="basic-conditionals-1" class="section level2">
+<h2>Basic conditionals</h2>
+<p>In Python, the basic conditional statements are <code>if</code>,
+<code>else</code>, and <code>elif</code>. Here, the indentation is
+important for determining which code belongs to which conditional
+statement.</p>
+<pre class="python"><code>import numpy as np
+
+np.random.seed(10) # the random number generator will produce the same seed (seed #10) each time the script is run
+x = np.random.uniform(size = 1, low = 5, high = 10)
+
+if x &gt; 5:
+     
+     print(&quot;x is greater than 5&quot;)
+
+elif x &lt; 5:
+     
+     print(&quot;x is less than 5&quot;)
+
+else:
+     
+     print(&quot;x is equal to 5&quot;)</code></pre>
+<pre><code>## x is greater than 5</code></pre>
+</div>
+<div id="loops-1" class="section level2">
+<h2>Loops</h2>
+<p>There are two primary loops in Python - <code>for</code> and
+<code>while</code>. <code>for</code> loops are used when the number of
+iterations is known, while <code>while</code> loops are used when the
+number of iterations is unknown and require an iterator variable.</p>
+<p><strong>For loop</strong></p>
+<pre class="python"><code>for i in range(1,6):
+
+     print(i)</code></pre>
+<pre><code>## 1
+## 2
+## 3
+## 4
+## 5</code></pre>
+<p><strong>While loop</strong></p>
+<pre class="python"><code>counter = 1 # this is the iterator variable
+
+while counter &lt;= 5:
+
+     print(counter)
+     counter += 1 # the += operator is shorthand for counter = counter + 1</code></pre>
+<pre><code>## 1
+## 2
+## 3
+## 4
+## 5</code></pre>
+</div>
+<div id="functions-1" class="section level2">
+<h2>Functions</h2>
+<p>Functions are blocks of reusable code. Functions are used to perform
+a specific task and are only run when they are called.</p>
+<pre class="python"><code>def calculate_sum(a, b): # a and b are the function arguments
+
+     return a + b
+
+calculate_sum(3, 4) # this is where we call the function</code></pre>
+<pre><code>## 7</code></pre>
+<div id="scoping-1" class="section level3">
+<h3>Scoping</h3>
+<p>Scoping refers to the visibility of variables. In Python, there are
+two main scopes: global and local. Global variables are available
+throughout the entire script, while local variables are only available
+within the function or script in which they are defined.</p>
+<pre class="python"><code>global_var = 10
+
+def function_with_scope():
+
+     local_var = 5
+     return global_var + local_var # function_with_scope() has access to global_var even though it is not defined within the function
+
+function_with_scope()</code></pre>
+<pre><code>## 15</code></pre>
+</div>
+<div id="recursion-1" class="section level3">
+<h3>Recursion</h3>
+<p>A function that calls itself is known as a recursive function.
+Recursive function are only used for very specific problems, such as
+when you need to solve a problem that can be broken down into smaller,
+similar problems.</p>
+<pre class="python"><code>def factorial(n):
+
+     if n &lt;= 1:
+          return 1
+
+     else:
+          return n * factorial(n-1) # this is where factorial() calls itself
+
+factorial(5)</code></pre>
+<pre><code>## 120</code></pre>
+</div>
+</div>
+</div>
 <div id="submission" class="section level1">
 <h1>Submission</h1>
-<p>For this precept, please submit a single R Markdown file named
-containing the answers to the exercises found here and in the precept
-repostitory. Please make intermediate commits in your development branch
-as you write to get in the habit of committing often. You should commit
-at least once for each question. Finally, you should submit a pull
-request and merge your development branch into your main branch. As a
-reminder, once you merge this PR, your assignment will be marked as
-complete and may be graded.</p>
+<p>For this precept, please submit a single R file OR Python file
+containing the answers to the exercises found here. Please make
+intermediate commits in your development branch as you write to get in
+the habit of committing often. You should commit at least once for each
+question. Finally, you should submit a pull request and merge your
+development branch into your main branch. As a reminder, once you merge
+this PR, your assignment will be marked as complete and may be
+graded.</p>
 <div id="exercises" class="section level2">
 <h2>Exercises</h2>
 <div id="conditionals" class="section level3">
 <h3>1. Conditionals</h3>
-<p>Consider the vector:</p>
-<pre class="r"><code>grades &lt;- c(85, 77, 90, 65, 89, 72, 91, 68, 80)</code></pre>
+<p>Consider a vector (R) or list (Python) containing the values: 85, 77,
+90, 65, 89, 72, 91, 68, 80.</p>
 <p>Write a conditional script that:</p>
 <ol style="list-style-type: decimal">
 <li>Tags grades above 90 as “Excellent”</li>
 <li>Between 80 and 90 (inclusive) as “Good”</li>
 <li>Below 80 as “Fair”</li>
 </ol>
-<p>Store the result in a new vector called grade_tags. Ensure the order
-in grade_tags corresponds to the order of grades in the grades
-vector.</p>
+<p>Store the result in a new variable called grade_tags. Ensure the
+order in grade_tags corresponds to the order of grades in the grades
+vector, and print the result.</p>
 </div>
 <div id="for" class="section level3">
 <h3>2. For</h3>
 <p>Create a sequence of numbers from 3 to 15. Using a for loop, compute
-the cumulative product of these numbers.</p>
+the cumulative product of these numbers and print the results.</p>
 </div>
 <div id="while" class="section level3">
 <h3>3. While</h3>
 <p>Starting with a number 50, decrease it by 5% in every iteration using
 a while loop. Continue the iterations until the number goes below 20.
-Return the number of iterations it took.</p>
+Return and print the number of iterations it took.</p>
 </div>
 <div id="functions-with-conditionals-and-loops" class="section level3">
 <h3>4. Functions with conditionals and loops</h3>
@@ -506,16 +609,20 @@ Return the number of iterations it took.</p>
 value ‘s’ and an end value ‘e’. The function should sum all numbers from
 ‘s’ to ‘e’. However, if a number in the series is divisible by 3, it
 should be skipped.</p>
-<p><strong>Tip</strong>: The remainder operator <code>%%</code> returns
-the remainder of the division of two numbers:</p>
+<p><strong>Tip</strong>: The modulo operator (<code>%%</code> in R and
+<code>%</code> in Python) returns the remainder of the division of two
+numbers. As in R:</p>
 <pre class="r"><code>5%%2</code></pre>
 <pre><code>## [1] 1</code></pre>
+<pre class="python"><code>5%2</code></pre>
+<pre><code>## 1</code></pre>
 </div>
 <div id="recursive-functions" class="section level3">
 <h3>5. Recursive Functions</h3>
 <p>The Lucas series is a sequence of numbers similar to the Fibonacci
 series but starts with 2 and 1 instead of 0 and 1. Write a recursive
-function lucas that computes the nth value of the Lucas series.</p>
+function <code>lucas</code> that computes the nth value of the Lucas
+series.</p>
 </div>
 </div>
 </div>
