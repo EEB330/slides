@@ -15,6 +15,7 @@ Before coming to precept, you should have:
 
 * A working installation of RStudio or VS Code
 * A git repository for the precept. This git repository should be created using the precept assignment link. 
+* A draft branch in your assignment repository. ***Do not work in main!***
 
 # Precept 2 -- Introduction to Control Flow in R
 
@@ -30,8 +31,10 @@ x <- runif(1, 0, 10)
 
 if (x > 5) {
      print("x is greater than 5")
+
 } else if (x < 5) {
      print("x is less than 5")
+
 } else {
      print("x is equal to 5")
 }
@@ -52,7 +55,7 @@ for (i in 1:5) {
 **While loop**
 
 ```{r}
-counter <- 1
+counter <- 1 # this is the iterator variable
 
 while (counter <= 5) {
      print(counter)
@@ -65,23 +68,23 @@ while (counter <= 5) {
 Functions are blocks of reusable code. Functions are used to perform a specific task and are only run when they are called.
 
 ```{r}
-calculate_sum <- function(a, b) {
+calculate_sum <- function(a, b) { # a and b are the function arguments
      return(a + b)
 }
 
-calculate_sum(3, 4)
+calculate_sum(3, 4) # this is where we call the function
 ```
 
 ### Scoping
 
-Scoping refers to the visibility of variables. In R, there are two main scopes: global and local. Global variables are available throughout the entire script, while local variables are only available within the function or script in which they are defined.
+Scoping refers to the visibility of variables. In R, there are two main scopes: global and local. Global variables are accessible throughout the entire script, while local variables are only available within the function or script in which they are defined.
 
 ```{r}
 global_var <- 10
 
-function_with_scope <- function() {
+function_with_scope <- function() { 
   local_var <- 5
-  return(global_var + local_var)
+  return(global_var + local_var) # function_with_scope() has access to global_var even though it is not defined in the function
 }
 
 function_with_scope()
@@ -95,8 +98,9 @@ A function that calls itself is known as a recursive function. Recursive functio
 factorial <- function(n) {
      if (n <= 1) {
           return(1)
+
      } else {
-     return(n * factorial(n-1))
+     return(n * factorial(n-1)) # this is where factorial() calls itself
      }
 }
 
@@ -105,7 +109,7 @@ factorial(5)
 
 # Precept 2 -- Introduction to Control Flow in Python
 
-Control flows in Python determine the sequence in which the instructions are executed. This ability to control the flow of execution allows for more complex and flexible scripts. 
+This Python lesson will cover the same control flow basic as were demonstrated in R. These sections will be similar to those in R, with slight differences in syntax. Don't forget that R and Python are indexed differently (1 vs 0, respectively)!
 
 ## Basic conditionals
 
@@ -118,27 +122,23 @@ np.random.seed(10) # the random number generator will produce the same seed (see
 x = np.random.uniform(size = 1, low = 5, high = 10)
 
 if x > 5:
-     
      print("x is greater than 5")
 
 elif x < 5:
-     
      print("x is less than 5")
 
-else:
-     
+else: 
      print("x is equal to 5")
 ```
 
 ## Loops
 
-There are two primary loops in Python - `for` and `while`. `for` loops are used when the number of iterations is known, while `while` loops are used when the number of iterations is unknown and require an iterator variable.
+There are two primary loops in Python - `for` and `while`.
 
 **For loop**
 
 ```{python}
 for i in range(1,6):
-
      print(i)
 ```
 
@@ -148,18 +148,16 @@ for i in range(1,6):
 counter = 1 # this is the iterator variable
 
 while counter <= 5:
-
      print(counter)
      counter += 1 # the += operator is shorthand for counter = counter + 1
 ```
 
 ## Functions
 
-Functions are blocks of reusable code. Functions are used to perform a specific task and are only run when they are called.
+Functions are blocks of reusable code. 
 
 ```{python}
 def calculate_sum(a, b): # a and b are the function arguments
-
      return a + b
 
 calculate_sum(3, 4) # this is where we call the function
@@ -167,22 +165,20 @@ calculate_sum(3, 4) # this is where we call the function
 
 ### Scoping
 
-Scoping refers to the visibility of variables. In Python, there are two main scopes: global and local. Global variables are available throughout the entire script, while local variables are only available within the function or script in which they are defined.
-
+Scoping refers to the visibility of variables.
 ```{python}
 global_var = 10
 
 def function_with_scope():
-
      local_var = 5
-     return global_var + local_var # function_with_scope() has access to global_var even though it is not defined within the function
+     return global_var + local_var # function_with_scope() has access to global_var even though it is not defined in the function
 
 function_with_scope()
 ```
 
 ### Recursion
 
-A function that calls itself is known as a recursive function. Recursive function are only used for very specific problems, such as when you need to solve a problem that can be broken down into smaller, similar problems.
+A function that calls itself is known as a recursive function.
 
 ```{python}
 def factorial(n):
@@ -218,7 +214,7 @@ Store the result in a new variable called grade_tags. Ensure the order in grade_
 
 ### 2. For
 
-Create a sequence of numbers from 3 to 15. Using a for loop, compute the cumulative product of these numbers and print the results.
+Create a sequence of numbers from 3 to 15 (included). Using a for loop, compute the cumulative product of these numbers and print the results.
 
 
 ### 3. While
@@ -230,7 +226,7 @@ Starting with a number 50, decrease it by 5% in every iteration using a while lo
 
 Write a function named series_sum that accepts two arguments: a start value 's' and an end value 'e'. The function should sum all numbers from 's' to 'e'. However, if a number in the series is divisible by 3, it should be skipped. 
 
-**Tip**: The modulo operator (`%%` in R and `%` in Python) returns the remainder of the division of two numbers. As in R:
+**Tip**: The modulo operator (`%%` in R and `%` in Python) returns the remainder of the division of two numbers.
  
 ```{r}
 # as in R

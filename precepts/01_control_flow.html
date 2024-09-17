@@ -368,6 +368,8 @@ external resources. Feel free to ask any remaining questions.</p>
 <li>A working installation of RStudio or VS Code</li>
 <li>A git repository for the precept. This git repository should be
 created using the precept assignment link.</li>
+<li>A draft branch in your assignment repository. <strong><em>Do not
+work in main!</em></strong></li>
 </ul>
 </div>
 <div id="precept-2-introduction-to-control-flow-in-r" class="section level1">
@@ -384,8 +386,10 @@ x &lt;- runif(1, 0, 10)
 
 if (x &gt; 5) {
      print(&quot;x is greater than 5&quot;)
+
 } else if (x &lt; 5) {
      print(&quot;x is less than 5&quot;)
+
 } else {
      print(&quot;x is equal to 5&quot;)
 }</code></pre>
@@ -407,7 +411,7 @@ number of iterations is unknown and require an iterator variable.</p>
 ## [1] 4
 ## [1] 5</code></pre>
 <p><strong>While loop</strong></p>
-<pre class="r"><code>counter &lt;- 1
+<pre class="r"><code>counter &lt;- 1 # this is the iterator variable
 
 while (counter &lt;= 5) {
      print(counter)
@@ -423,23 +427,23 @@ while (counter &lt;= 5) {
 <h2>Functions</h2>
 <p>Functions are blocks of reusable code. Functions are used to perform
 a specific task and are only run when they are called.</p>
-<pre class="r"><code>calculate_sum &lt;- function(a, b) {
+<pre class="r"><code>calculate_sum &lt;- function(a, b) { # a and b are the function arguments
      return(a + b)
 }
 
-calculate_sum(3, 4)</code></pre>
+calculate_sum(3, 4) # this is where we call the function</code></pre>
 <pre><code>## [1] 7</code></pre>
 <div id="scoping" class="section level3">
 <h3>Scoping</h3>
 <p>Scoping refers to the visibility of variables. In R, there are two
-main scopes: global and local. Global variables are available throughout
-the entire script, while local variables are only available within the
-function or script in which they are defined.</p>
+main scopes: global and local. Global variables are accessible
+throughout the entire script, while local variables are only available
+within the function or script in which they are defined.</p>
 <pre class="r"><code>global_var &lt;- 10
 
-function_with_scope &lt;- function() {
+function_with_scope &lt;- function() { 
   local_var &lt;- 5
-  return(global_var + local_var)
+  return(global_var + local_var) # function_with_scope() has access to global_var even though it is not defined in the function
 }
 
 function_with_scope()</code></pre>
@@ -454,8 +458,9 @@ similar problems.</p>
 <pre class="r"><code>factorial &lt;- function(n) {
      if (n &lt;= 1) {
           return(1)
+
      } else {
-     return(n * factorial(n-1))
+     return(n * factorial(n-1)) # this is where factorial() calls itself
      }
 }
 
@@ -466,9 +471,10 @@ factorial(5)</code></pre>
 </div>
 <div id="precept-2-introduction-to-control-flow-in-python" class="section level1">
 <h1>Precept 2 – Introduction to Control Flow in Python</h1>
-<p>Control flows in Python determine the sequence in which the
-instructions are executed. This ability to control the flow of execution
-allows for more complex and flexible scripts.</p>
+<p>This Python lesson will cover the same control flow basic as were
+demonstrated in R. These sections will be similar to those in R, with
+slight differences in syntax. Don’t forget that R and Python are indexed
+differently (1 vs 0, respectively)!</p>
 <div id="basic-conditionals-1" class="section level2">
 <h2>Basic conditionals</h2>
 <p>In Python, the basic conditional statements are <code>if</code>,
@@ -481,27 +487,21 @@ np.random.seed(10) # the random number generator will produce the same seed (see
 x = np.random.uniform(size = 1, low = 5, high = 10)
 
 if x &gt; 5:
-     
      print(&quot;x is greater than 5&quot;)
 
 elif x &lt; 5:
-     
      print(&quot;x is less than 5&quot;)
 
-else:
-     
+else: 
      print(&quot;x is equal to 5&quot;)</code></pre>
 <pre><code>## x is greater than 5</code></pre>
 </div>
 <div id="loops-1" class="section level2">
 <h2>Loops</h2>
 <p>There are two primary loops in Python - <code>for</code> and
-<code>while</code>. <code>for</code> loops are used when the number of
-iterations is known, while <code>while</code> loops are used when the
-number of iterations is unknown and require an iterator variable.</p>
+<code>while</code>.</p>
 <p><strong>For loop</strong></p>
 <pre class="python"><code>for i in range(1,6):
-
      print(i)</code></pre>
 <pre><code>## 1
 ## 2
@@ -512,7 +512,6 @@ number of iterations is unknown and require an iterator variable.</p>
 <pre class="python"><code>counter = 1 # this is the iterator variable
 
 while counter &lt;= 5:
-
      print(counter)
      counter += 1 # the += operator is shorthand for counter = counter + 1</code></pre>
 <pre><code>## 1
@@ -523,36 +522,27 @@ while counter &lt;= 5:
 </div>
 <div id="functions-1" class="section level2">
 <h2>Functions</h2>
-<p>Functions are blocks of reusable code. Functions are used to perform
-a specific task and are only run when they are called.</p>
+<p>Functions are blocks of reusable code.</p>
 <pre class="python"><code>def calculate_sum(a, b): # a and b are the function arguments
-
      return a + b
 
 calculate_sum(3, 4) # this is where we call the function</code></pre>
 <pre><code>## 7</code></pre>
 <div id="scoping-1" class="section level3">
 <h3>Scoping</h3>
-<p>Scoping refers to the visibility of variables. In Python, there are
-two main scopes: global and local. Global variables are available
-throughout the entire script, while local variables are only available
-within the function or script in which they are defined.</p>
+<p>Scoping refers to the visibility of variables.</p>
 <pre class="python"><code>global_var = 10
 
 def function_with_scope():
-
      local_var = 5
-     return global_var + local_var # function_with_scope() has access to global_var even though it is not defined within the function
+     return global_var + local_var # function_with_scope() has access to global_var even though it is not defined in the function
 
 function_with_scope()</code></pre>
 <pre><code>## 15</code></pre>
 </div>
 <div id="recursion-1" class="section level3">
 <h3>Recursion</h3>
-<p>A function that calls itself is known as a recursive function.
-Recursive function are only used for very specific problems, such as
-when you need to solve a problem that can be broken down into smaller,
-similar problems.</p>
+<p>A function that calls itself is known as a recursive function.</p>
 <pre class="python"><code>def factorial(n):
 
      if n &lt;= 1:
@@ -594,8 +584,9 @@ vector, and print the result.</p>
 </div>
 <div id="for" class="section level3">
 <h3>2. For</h3>
-<p>Create a sequence of numbers from 3 to 15. Using a for loop, compute
-the cumulative product of these numbers and print the results.</p>
+<p>Create a sequence of numbers from 3 to 15 (included). Using a for
+loop, compute the cumulative product of these numbers and print the
+results.</p>
 </div>
 <div id="while" class="section level3">
 <h3>3. While</h3>
@@ -611,10 +602,12 @@ value ‘s’ and an end value ‘e’. The function should sum all numbers from
 should be skipped.</p>
 <p><strong>Tip</strong>: The modulo operator (<code>%%</code> in R and
 <code>%</code> in Python) returns the remainder of the division of two
-numbers. As in R:</p>
-<pre class="r"><code>5%%2</code></pre>
+numbers.</p>
+<pre class="r"><code># as in R
+5%%2</code></pre>
 <pre><code>## [1] 1</code></pre>
-<pre class="python"><code>5%2</code></pre>
+<pre class="python"><code># as in Python
+5%2</code></pre>
 <pre><code>## 1</code></pre>
 </div>
 <div id="recursive-functions" class="section level3">
