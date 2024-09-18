@@ -13,6 +13,7 @@ Make sure that you are comfortable with git and have a basic understanding of R 
 
 Before coming to precept, you should have:
 
+* Accepted the assignment [intro-to-control-flow](https://classroom.github.com/a/kLOR3dvS) from GitHub Classrooms.
 * A working installation of RStudio or VS Code
 * A git repository for the precept. This git repository should be created using the precept assignment link. 
 * A draft branch in your assignment repository. ***Do not work in main!***
