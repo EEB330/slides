@@ -1,0 +1,1540 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Functions</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Guillaume Falmagne" />
+    <script src="05_Functions_files/header-attrs-2.28/header-attrs.js"></script>
+    <link href="05_Functions_files/remark-css-0.0.1/default.css" rel="stylesheet" />
+    <link href="05_Functions_files/remark-css-0.0.1/metropolis.css" rel="stylesheet" />
+    <link href="05_Functions_files/remark-css-0.0.1/metropolis-fonts.css" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+.title[
+# Functions
+]
+.subtitle[
+## Environments and Scopes
+]
+.author[
+### Guillaume Falmagne
+]
+.date[
+### <br> Sept. 18th, 2023
+]
+
+---
+
+
+# Not our program?
+
+.center[
+![:scale 52%](figures\uselessteacher.png)]
+
+---
+
+
+
+# Example: Diversity metrics in ecology
+
+Diversity consists of two components: 
+
+- Species richness : the number of species in a community
+- Evenness: some species in a community are common, and others are rare 
+
+.center[
+![:scale 50%](figures/bubbles-sad-3in1.png)]
+
+.ref[ Adapted from https://www.davidzeleny.net/anadat-r/doku.php/en:div-ind]
+
+---
+
+# Simpson diversity index
+
+.pull-left[
+
+- Related to the Gini inequality index.
+
+- Defined as **the probability that two individuals sampled from the same population will be from the same species.**
+
+  - Given a list of individuals for each species: `\(\{n_1, n_2, \dots, n_k\}\)`
+
+  - First we define the proportion of each species: `\(p_i =  \frac{n_i}{\sum_{i=1}^k n_i}\)`
+
+  - The Simpson index is given by:
+
+$$
+D = \sum_{i=1}^k p_i^2
+$$
+]
+
+---
+
+# Shannon diversity index
+
+.pull-left[
+- Derived from information theory
+
+- Shannon's entropy is the micro-canonical entropy from statistical mechanics.
+
+- Measures the degree of uniformity in the probabilities of observing each species.
+
+  - Again, using the probabilities of observing each species: `\(p_i =  \frac{n_i}{\sum_{i=1}^k n_i}\)`
+
+  - The Shannon index is given by:
+
+
+$$
+H = -\sum_{i=1}^k p_i log(p_i)
+$$
+
+]
+---
+
+# Example dataset
+.pull-left[
+
+``` r
+species_n = c(a = 5, b = 1, c = 10, d = 3, 
+              e = 9, f = 10, g = 18, 
+              h = 22, i = 8, j = 8)
+*barplot(species_n)
+```
+
+&lt;img src="05_Functions_files/figure-html/unnamed-chunk-2-1.png" width="400px" /&gt;
+]
+.pull-right[
+
+``` python
+import numpy as np
+import matplotlib.pyplot as plt
+species_num = np.array([5, 1, 10, 3, 9, 
+                        10, 18, 22, 8, 8])
+species_name = ['a', 'b', 'c', 'd', 
+                'e', 'f', 'g', 'h', 'i', 'j']
+*plt.bar(species_name, species_num)
+plt.tight_layout()
+```
+
+&lt;img src="05_Functions_files/figure-html/unnamed-chunk-3-1.png" width="300px" /&gt;
+]
+---
+
+# Getting the proportions
+
+.pull-left[
+### Simpson 
+$$
+D = \sum_{i=1}^k p_i^2
+$$
+
+Calculate the total number of individuals
+
+
+``` r
+n_total = 0
+for(i in seq_along(species_n)){
+  n_total &lt;- n_total + species_n[i]
+}
+n_total
+```
+
+```
+##  a 
+## 94
+```
+
+
+``` python
+n_total = 0
+for number in species_num: # iterating on elements
+  n_total += number # += is a practical shortcut
+n_total
+```
+]
+.pull-right[
+### Shannon
+$$
+H = -\sum_{i=1}^k p_i log(p_i)
+$$
+
+Calculate the proportion of each species:
+
+``` r
+props = species_n / n_total
+round(props, 2) # Only print 2 decimal places
+```
+
+```
+##    a    b    c    d    e    f    g    h    i    j 
+## 0.05 0.01 0.11 0.03 0.10 0.11 0.19 0.23 0.09 0.09
+```
+
+Same in python with `np.round(props, 2)`
+]
+
+---
+
+# Simpson and Shannon
+
+.pull-left[
+Simpson index:
+ 
+
+``` r
+D = 0
+names(D) = "Simpson"
+for(i in seq_along(props)){
+  D = D + props[i]^2
+}
+D
+```
+
+```
+##   Simpson 
+## 0.1416931
+```
+
+
+``` python
+D = 0
+for p in props:
+  D += p
+```
+]
+
+.pull-right[
+Shannon index:
+ 
+
+``` r
+H = 0
+names(H) = "Shannon"
+for(i in seq_along(props)){
+  H = H - props[i] * log(props[i])
+}
+H
+```
+
+```
+##  Shannon 
+## 2.091482
+```
+
+
+``` python
+import math
+H = 0
+for p in props:
+  H -= p * math.log(p)
+```
+]
+---
+
+# What if there are unobserved species?
+
+.pull-left[
+
+``` r
+*species_n = c(a = NA, b = 1, c = 10, d = 3,
+              e = 9, f = 10, g = 18, 
+              h = 22, i = 8, j = 8)
+barplot(species_n) 
+```
+
+&lt;img src="05_Functions_files/figure-html/unnamed-chunk-11-1.png" width="400px" /&gt;
+]
+.pull-right[
+
+``` python
+import pandas as pd
+*data = {'number': [np.nan, 1, 10, 3, 9,
+                   10, 18, 22, 8, 8],
+        'name': ['a', 'b', 'c', 'd', 'e', 
+                 'f', 'g', 'h', 'i', 'j']}
+df = pd.DataFrame(data)
+df.plot.bar(x='name', y='number')
+```
+
+&lt;img src="05_Functions_files/figure-html/unnamed-chunk-12-1.png" width="350px" /&gt;
+]
+---
+
+# NA propagates
+
+.pull-left[
+
+``` r
+1 + NA
+```
+
+```
+## [1] NA
+```
+]
+.pull-right[
+
+``` python
+1 + np.nan
+```
+
+```
+## nan
+```
+]
+
+
+``` r
+n_total = 0
+for(i in seq_along(species_n)){
+  n_total &lt;- n_total + species_n[i]
+}
+n_total
+```
+
+```
+##  a 
+## NA
+```
+
+---
+
+# Dealing with zeros/NAs/nans
+
+.pull-left[
+#### Are there any?
+
+``` r
+head(species_n == 0, 5)
+```
+
+```
+##     a     b     c     d     e 
+##    NA FALSE FALSE FALSE FALSE
+```
+
+``` r
+head(is.na(species_n), 5)
+```
+
+```
+##     a     b     c     d     e 
+##  TRUE FALSE FALSE FALSE FALSE
+```
+
+``` python
+df.isnull()
+```
+
+```
+##    number   name
+## 0    True  False
+## 1   False  False
+## 2   False  False
+## 3   False  False
+## 4   False  False
+## 5   False  False
+## 6   False  False
+## 7   False  False
+## 8   False  False
+## 9   False  False
+```
+]
+.pull-right[
+#### How to remove them
+
+
+``` r
+(species_n &lt;- species_n[!is.na(species_n)])
+```
+
+```
+##  b  c  d  e  f  g  h  i  j 
+##  1 10  3  9 10 18 22  8  8
+```
+
+``` r
+(species_n &lt;- species_n[species_n != 0])
+```
+
+```
+##  b  c  d  e  f  g  h  i  j 
+##  1 10  3  9 10 18 22  8  8
+```
+
+``` python
+df.dropna()
+```
+
+```
+##    number name
+## 1     1.0    b
+## 2    10.0    c
+## 3     3.0    d
+## 4     9.0    e
+## 5    10.0    f
+## 6    18.0    g
+## 7    22.0    h
+## 8     8.0    i
+## 9     8.0    j
+```
+]
+
+---
+
+class: inverse, center, middle
+# Functions
+
+---
+
+# Good code architecture using functions
+
+Using functions (yours or library ones!) has several advantages:
+
+- **Modularity**: Think about the small steps that compose our solution;
+
+- **Testing**: Test each step **independently**;
+
+- Maintenance: Easier **bug detection** and updates;
+
+- Readability: Clear function **names convey intent**; a lot of repeated/similar code looses the reader
+
+- **Reuse**: good generic functions can be used wherever necessary.
+
+.center[
+![:scale 50%](figures/pythonfunctions.png)]
+
+---
+
+# Returning to the Diversity indexes
+
+.pull-left[
+Let's shorten and clarify everything by using  
+pre-defined functions!
+
+- Old script
+
+``` r
+species_n = c(a = 5, b = 1, c = 10, d = 3, e = 9, f = 10, g = 18, h = 22, i = 8, j = 8)
+n_total = 0
+for (i in seq_along(species_n)) {
+  n_total &lt;- n_total + species_n[i] 
+}
+props = species_n / n_total
+D = 0
+names(D) = "Simpson"
+for(i in seq_along(props)){
+  D = D + props[i]^2
+}
+D
+```
+
+```
+##   Simpson 
+## 0.1416931
+```
+]
+.pull-right[
+- New script, using functions for each task:
+
+``` r
+Simpson &lt;- function(x){
+  n = sum(x)
+  p = x/n
+  D = sum(p**2)
+  return(c(Simpson = D))
+}
+Simpson(species_n)
+```
+
+```
+##   Simpson 
+## 0.1416931
+```
+
+``` python
+import numpy as np
+def Simpson(x):
+  n = np.sum(x)
+  p = x/n
+  D = np.sum(p**2)
+  return D
+Simpson(species_num)
+```
+
+```
+## 0.1416930737890448
+```
+]
+
+
+---
+
+# Returning to the Diversity indexes
+
+.pull-left[
+Let's shorten and clarify everything by using  
+pre-defined functions!
+
+- Old script
+
+``` r
+species_n = c(a = 5, b = 1, c = 10, d = 3, e = 9, f = 10, g = 18, h = 22, i = 8, j = 8)
+*n_total = 0
+*for (i in seq_along(species_n)) {
+* n_total &lt;- n_total + species_n[i]
+*} 
+props = species_n / n_total
+D = 0
+names(D) = "Simpson"
+for(i in seq_along(props)){
+  D = D + props[i]^2
+}
+D
+```
+
+```
+##   Simpson 
+## 0.1416931
+```
+]
+.pull-right[
+- New script, using functions for each task:
+
+``` r
+Simpson &lt;- function(x){
+* n = sum(x)
+  p = x/n
+  D = sum(p**2)
+  return(c(Simpson = D))
+}
+Simpson(species_n)
+```
+
+```
+##   Simpson 
+## 0.1416931
+```
+
+``` python
+import numpy as np
+def Simpson(x):
+* n = np.sum(x)
+  p = x/n
+  D = np.sum(p**2)
+  return D
+Simpson(species_num)
+```
+
+```
+## 0.1416930737890448
+```
+]
+
+---
+
+# Returning to the Diversity indexes
+
+.pull-left[
+Let's shorten and clarify everything by using  
+pre-defined functions!
+
+- Old script
+
+``` r
+species_n = c(a = 5, b = 1, c = 10, d = 3, e = 9, f = 10, g = 18, h = 22, i = 8, j = 8)
+n_total = 0
+for (i in seq_along(species_n)) {
+  n_total &lt;- n_total + species_n[i] 
+}
+*props = species_n / n_total
+D = 0
+names(D) = "Simpson"
+for(i in seq_along(props)){
+  D = D + props[i]^2
+}
+D
+```
+
+```
+##   Simpson 
+## 0.1416931
+```
+]
+.pull-right[
+- New script, using functions for each task:
+
+``` r
+Simpson &lt;- function(x){
+  n = sum(x)
+* p = x/n
+  D = sum(p**2)
+  return(c(Simpson = D))
+}
+Simpson(species_n)
+```
+
+```
+##   Simpson 
+## 0.1416931
+```
+
+``` python
+import numpy as np
+def Simpson(x):
+  n = np.sum(x)
+* p = x/n
+  D = np.sum(p**2)
+  return D
+Simpson(species_num)
+```
+
+```
+## 0.1416930737890448
+```
+]
+
+
+---
+
+# Returning to the Diversity indexes
+
+.pull-left[
+Let's shorten and clarify everything by using  
+pre-defined functions!
+
+- Old script
+
+``` r
+species_n = c(a = 5, b = 1, c = 10, d = 3, e = 9, f = 10, g = 18, h = 22, i = 8, j = 8)
+n_total = 0
+for (i in seq_along(species_n)) {
+  n_total &lt;- n_total + species_n[i] 
+}
+props = species_n / n_total
+*D = 0
+*names(D) = "Simpson"
+*for(i in seq_along(props)){
+* D = D + props[i]^2
+*} 
+D
+```
+
+```
+##   Simpson 
+## 0.1416931
+```
+]
+.pull-right[
+- New script, using functions for each task:
+
+``` r
+Simpson &lt;- function(x){
+  n = sum(x)
+  p = x/n
+* D = sum(p**2)
+* return(c(Simpson = D))
+}
+Simpson(species_n)
+```
+
+```
+##   Simpson 
+## 0.1416931
+```
+
+``` python
+import numpy as np
+def Simpson(x):
+  n = np.sum(x)
+  p = x/n
+* D = np.sum(p**2)
+* return D
+Simpson(species_num)
+```
+
+```
+## 0.1416930737890448
+```
+]
+
+
+---
+
+# Returning to the Diversity indexes
+
+.pull-left[
+Let's shorten and clarify everything by using  
+pre-defined functions!
+
+- Old script
+
+``` r
+species_n = c(a = 5, b = 1, c = 10, d = 3, e = 9, f = 10, g = 18, h = 22, i = 8, j = 8)
+n_total = 0
+for (i in seq_along(species_n)) {
+  n_total &lt;- n_total + species_n[i] 
+}
+props = species_n / n_total
+D = 0
+names(D) = "Simpson"
+for(i in seq_along(props)){
+  D = D + props[i]^2
+}
+*D 
+```
+
+```
+##   Simpson 
+## 0.1416931
+```
+]
+.pull-right[
+- New script, using functions for each task:
+
+``` r
+Simpson &lt;- function(x){
+  n = sum(x)
+  p = x/n
+  D = sum(p**2)
+  return(c(Simpson = D))
+}
+*Simpson(species_n)
+```
+
+```
+##   Simpson 
+## 0.1416931
+```
+
+``` python
+import numpy as np
+def Simpson(x):
+  n = np.sum(x)
+  p = x/n
+  D = np.sum(p**2)
+  return D
+*Simpson(species_num)
+```
+
+```
+## 0.1416930737890448
+```
+]
+
+---
+
+# DRY (Don't Repeat Yourself) principle
+
+.pull-left[
+
+``` r
+Simpson &lt;- function(x){
+* n = sum(x)
+* p = x/n
+  D = sum(p^2)
+  return(c(Simpson = D))
+}
+
+Shannon &lt;- function(x){
+* n = sum(x)
+* p = x/n
+  H = -sum(p*log(p))
+  return(c(Shannon = H))
+}
+```
+]
+
+--
+
+.pull-right[
+
+``` r
+*getProb = function(x) x/sum(x)
+
+Simpson &lt;- function(x){
+  p = getProb(x)
+  D = sum(p^2)
+  return(c(Simpson = D))
+}
+
+Shannon &lt;- function(x){
+  p = getProb(x)
+  H = -sum(p*log(p))
+  return(c(Shannon = H))
+}
+```
+]
+
+---
+
+# Reading a help page
+
+.pull-left[
+```r
+?mean
+```
+  ![](figures/mean_help-1.png)
+]
+.pull-right[
+```python
+help(np.mean)
+```
+  ![:scale 75%](figures/helpmeanpython.png)
+]
+
+---
+# Almost everything in R is a function
+
+Inline operators are functions:
+
+
+``` r
+`+`(1, 2) # 1 + 2
+```
+
+```
+## [1] 3
+```
+
+``` r
+`==`(2, "a") # 1 == "a"
+```
+
+```
+## [1] FALSE
+```
+
+``` r
+`&lt;-`(a, 1) # a &lt;- 1
+a
+```
+
+```
+## [1] 1
+```
+
+Even the index bracket!
+
+
+``` r
+x = list(1, 2, "b")
+`[[`(x, 3) # x[[3]]
+```
+
+```
+## [1] "b"
+```
+
+---
+# Almost everything in R is a function
+![:scale 60%](figures/functionstofunctions.jpeg)
+
+---
+
+# R: Functions as first class objects
+
+Functions can be treated like any other object in R... Mostly no equivalent in Python!
+
+.pull-left[
+- Have a function return another function
+
+
+``` r
+sum_x &lt;- function(x) {
+  f &lt;- function(y) y + x
+  f
+}
+sum_4 = sum_x(4)
+sum_4(3)
+```
+
+```
+## [1] 7
+```
+
+- Make lists of functions:
+
+
+``` r
+fs = list(mean, median, var)
+x = 1:10
+c(fs[[1]](x), fs[[2]](x), fs[[3]](x))
+```
+
+```
+## [1] 5.500000 5.500000 9.166667
+```
+]
+.pull-right[
+  - Pass a function as an argument to another function:
+
+
+``` r
+goh &lt;- function(x, g, h){
+  h_x &lt;- h(x)
+  gh_x &lt;- g(h_x)
+  return(gh_x)
+}
+x = rexp(10)
+x
+```
+
+```
+##  [1] 0.1983368 0.6608953 0.2834910 0.0381919 0.4731766 1.4636271 0.3139846
+##  [8] 0.4101296 1.1915978 0.7148625
+```
+
+``` r
+square &lt;- function(x){x**2}
+goh(x, mean, square)
+```
+
+```
+## [1] 0.5121773
+```
+
+]
+
+---
+
+# Composing functions
+
+.pull-left[
+  - Using intermediate objects:
+
+
+``` r
+x = rexp(10)
+x_square = square(x)
+mean(x_square)
+```
+
+```
+## [1] 1.159238
+```
+
+- Nesting calls:
+
+
+``` r
+mean(square(x))
+```
+
+```
+## [1] 1.159238
+```
+]
+
+.pull-right[
+- Using the pipe operator:
+
+
+``` r
+x |&gt; square() |&gt; mean()
+```
+
+```
+## [1] 1.159238
+```
+]
+
+---
+
+
+# R: Parts of a function
+
+A function has three parts:
+
+- The `formals()`, the list of arguments that control how you call the function.
+
+- The `body()`, the code inside the function.
+
+- The `environment()` is similar akin to a **namespace** within which the function finds the names of variables.
+
+- Exceptions: functions that call C code directly (e.g. sum)
+
+.pull-left[
+
+``` r
+f &lt;- function(x, y) {
+  # A comment
+  x + y
+}
+
+formals(f)
+```
+
+```
+## $x
+## 
+## 
+## $y
+```
+]
+.pull-right[
+
+``` r
+body(f)
+```
+
+```
+## {
+##     x + y
+## }
+```
+
+``` r
+environment(f)
+```
+
+```
+## &lt;environment: R_GlobalEnv&gt;
+```
+]
+---
+
+# Formals
+
+.pull-left[
+
+- Arguments are called **by name or by position**.
+
+- Argument are matched first by name,  
+then by position.
+
+
+``` r
+x = rcauchy(100)
+mean(x)
+```
+
+```
+## [1] -0.8753587
+```
+
+``` r
+mean(x, trim = 0.1)
+```
+
+```
+## [1] -0.3381735
+```
+
+``` r
+mean(x, 0.1)
+```
+
+```
+## [1] -0.3381735
+```
+
+``` r
+mean(trim = 0.1, x)
+```
+
+```
+## [1] -0.3381735
+```
+]
+--
+.pull-right[
+- In Python: **cannot use a position argument after a named argument**
+
+``` python
+np.sum(axis=0, x) # syntax error
+```
+]
+
+---
+
+# Default arguments
+
+- In R and python, functions can have default arguments.
+
+- Default arguments are values that are automatically assigned to a function parameter if no value is provided by the user.
+
+
+``` r
+# Function with multiple default arguments
+calculate_area &lt;- function(length = 1, width = 1) {
+  length * width
+}
+
+# Call the function
+calculate_area()  # Uses both defaults
+```
+
+```
+## [1] 1
+```
+
+``` r
+calculate_area(4)  # Overrides length, uses default width
+```
+
+```
+## [1] 4
+```
+
+``` r
+calculate_area(4, 5)  # Overrides both length and width
+```
+
+```
+## [1] 20
+```
+
+---
+
+# R `...`, and python `*`
+
+.pull-left[
+- Special argument that can take **any number of additional arguments**.
+
+- Usually used to pass along arguments to other functions:
+
+
+``` r
+f &lt;- function(y, z) {
+  c(y = y, z = z)
+}
+
+g &lt;- function(x, ...) {
+  x + mean(f(...))
+}
+
+g(x = 1, y = 2, z = 3)
+```
+
+```
+## [1] 3.5
+```
+]
+.pull-right[
+- Python equivalent is `*` which unfolds the content of a *tuple* of arguments
+
+``` python
+def f(y,z):
+  return [y,z]
+
+def g(x, *p):
+  return x + np.mean(f(*p))
+
+g(1, 2, 3)
+```
+
+```
+## 3.5
+```
+]
+---
+
+# Functions and environments
+
+.pull-left[
+- Variables defined within the scope/environment of functions exist only inside the function
+
+- You can use the same variable name outside the function scope and it will be a completely different variable (masking), but it's bad practice
+
+
+``` r
+g &lt;- function() {
+  x &lt;- 1
+  y &lt;- 2
+  c(x, y)
+}
+x # error: undefined variable
+```
+]
+
+--
+
+.pull-right[
+- If a name isn’t defined inside a function, R looks one level up.
+
+``` r
+x &lt;- 2
+g &lt;- function() {
+  y &lt;- 1
+  c(x, y)
+}
+g()
+```
+
+```
+## [1] 2 1
+```
+
+- You can **always use more global variables** (defined outside of the present scope)
+]
+
+---
+
+# Further reading
+
+- [Advanced R: Object oriented programming](https://adv-r.hadley.nz/base-types.html)
+
+- [Advanced R: Functions](https://adv-r.hadley.nz/functions.html)
+
+- [Rcpp: Writing (fast) functions in C++](https://adv-r.hadley.nz/rcpp.html)
+
+- [Advanced R: Function factories](https://adv-r.hadley.nz/function-factories.html)
+
+---
+
+# Object-oriented programming in R
+
+- R functions can behave differently depending on the class of the inputs.
+
+- **R has a patchwork mess of several object-oriented programming** (OOP) paradigms: 
+
+  - S3: (or Simple S) is the oldest and most basic form of OOP in R. It lacks formal class definitions and methods, relying on naming conventions. Objects are typically lists with a class attribute. Methods are defined using functions with the class name in their names, e.g., print, summary.
+
+  - S4: is an improved version of S3, providing more formal class definitions and methods. Classes are defined using the setClass function, which allows more control over object structure. Methods are defined using setMethod and related functions. 
+
+  - Reference Classes (R5 or RC): R5 classes provide a more traditional OOP experience similar to languages like Java or C#. Classes are defined using the setRefClass function.
+
+  - R6: is an alternative to S3, S4, and reference classes, introduced through the R6 package. It provides a more modern, stateful, and user-friendly OOP experience. 
+
+Conclusion: **use Python if you want to define classes / use OOP!**
+
+---
+
+# Object-oriented programming: classes in Python
+
+- Classes are **data structures** similar to types, but can get as complex as wanted. They generally contain **attributes** (containing data) and **methods** (things to do on this data)
+- Python classes are much easier and versatile than in R:
+
+
+``` python
+class Person:
+  def __init__(self, name, age): # initialize attributes with some input data
+    self.name = name # these attributes can be public or private
+    self.age = age
+
+  def presentation(self): # the first argument of class methods should be "self"
+    print("Hello, my name is " + self.name)
+
+p1 = Person("John", 36) # initialization
+p1.presentation() 
+```
+
+```
+## Hello, my name is John
+```
+
+---
+
+# Python class usage
+
+
+``` python
+class Person:
+  def __init__(self, name, age): # initialize attributes with some input data
+    self.name = name # these attributes can be public or private
+    self.age = age
+
+  def __str__(self): # what the "print" function will output
+    return f"{self.name}({self.age})"
+
+  def presentation(self): # the first argument of class methods should be "self"
+    print("Hello, my name is " + self.name)
+
+  def birthday(self):
+    self.age += 1
+    print("Happy birthday!", self.name, 'is now', self.age, 'y.o.')
+```
+
+.pull-left[
+
+``` python
+p1 = Person("John", 36) # initialization
+print(p1)
+```
+
+```
+## John(36)
+```
+]
+.pull-right[
+
+``` python
+p1.age = 21 # I though John was older!
+p1.birthday()
+```
+
+```
+## Happy birthday! John is now 22 y.o.
+```
+]
+---
+
+# Crash-course in S3
+
+Let's make the simplest possible S3 function.
+
+- We need to define 3 functions:
+  1. A generic "empty" function with the name we want
+  1. A default method code
+  2. A method for some class
+
+
+``` r
+f &lt;- function(x, ...){
+  UseMethod("f")
+}
+f.default &lt;- function(x){
+  print(paste("This is the default method. x equals:", x))
+}
+f.list &lt;- function(x){
+  arg = deparse(substitute(x)) 
+  print(paste(arg , "is a list."))
+}
+```
+---
+
+# Calling the different methods
+
+
+``` r
+num = 17
+l1 = list(x = 1)
+f(num) 
+```
+
+```
+## [1] "This is the default method. x equals: 17"
+```
+
+``` r
+f(l1)
+```
+
+```
+## [1] "l1 is a list."
+```
+---
+
+# Creating your own methods
+
+You can also add your own methods 
+
+
+``` r
+print.my_class &lt;- function(x){
+  print("x is a my_class object")
+  print.default(num)
+}
+class(num) &lt;- "my_class"
+print(num)
+```
+
+```
+## [1] "x is a my_class object"
+## [1] 17
+## attr(,"class")
+## [1] "my_class"
+```
+---
+
+# Checking the existing methods of a function
+
+
+``` r
+methods("mean")
+```
+
+```
+##  [1] mean,ANY-method          mean,denseMatrix-method  mean,sparseMatrix-method
+##  [4] mean,sparseVector-method mean.Date                mean.default            
+##  [7] mean.difftime            mean.POSIXct             mean.POSIXlt            
+## [10] mean.quosure*            mean.vctrs_vctr*        
+## see '?methods' for accessing help and source code
+```
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script src="macros.js"></script>
+<script>var slideshow = remark.create({
+"highlightLines": true,
+"chakra": "libs/remark-latest.min.js",
+"ratio": "16:10"
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+// add `data-at-shortcutkeys` attribute to <body> to resolve conflicts with JAWS
+// screen reader (see PR #262)
+(function(d) {
+  let res = {};
+  d.querySelectorAll('.remark-help-content table tr').forEach(tr => {
+    const t = tr.querySelector('td:nth-child(2)').innerText;
+    tr.querySelectorAll('td:first-child .key').forEach(key => {
+      const k = key.innerText;
+      if (/^[a-z]$/.test(k)) res[k] = t;  // must be a single letter (key)
+    });
+  });
+  d.body.setAttribute('data-at-shortcutkeys', JSON.stringify(res));
+})(document);
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+(function(time) {
+  var d2 = function(number) {
+    return ('0' + number).slice(-2); // left-pad 0 to minutes/seconds
+  },
+
+  time_format = function(total) {
+    var secs = Math.abs(total) / 1000;
+    var h = Math.floor(secs / 3600);
+    var m = Math.floor(secs % 3600 / 60);
+    var s = Math.round(secs % 60);
+    var res = d2(m) + ':' + d2(s);
+    if (h > 0) res = h + ':' + res;
+    return res;  // [hh:]mm:ss
+  },
+
+  slide_number_div = function(i) {
+    return document.getElementsByClassName('remark-slide-number').item(i);
+  },
+
+  current_page_number = function(i) {
+    return slide_number_div(i).firstChild.textContent;  // text "i / N"
+  };
+
+  var timer = document.createElement('span'); timer.id = 'slide-time-left';
+  var time_left = time, k = slideshow.getCurrentSlideIndex(),
+      last_page_number = current_page_number(k);
+
+  setInterval(function() {
+    time_left = time_left - 1000;
+    timer.innerHTML = ' ' + time_format(time_left);
+    if (time_left < 0) timer.style.color = 'red';
+  }, 1000);
+
+  slide_number_div(k).appendChild(timer);
+
+  slideshow.on('showSlide', function(slide) {
+    var i = slide.getSlideIndex(), n = current_page_number(i);
+    // reset timer when a new slide is shown and the page number is changed
+    if (last_page_number !== n) {
+      time_left = time; last_page_number = n;
+      timer.innerHTML = ' ' + time_format(time); timer.style.color = null;
+    }
+    slide_number_div(i).appendChild(timer);
+  });
+})(60000);
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
