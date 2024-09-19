@@ -15,18 +15,14 @@ output:
       countdown: 60000
 ---
 
-class: inverse, center, middle
-# To analyze the data, you must first be the data
-
----
-
 # Basic data types 
 
 - Tabular
 
     - Most common type in ecology.
-    - Usually goes into a data.frame.
-    - Excel files, csv, tsv, fixed width...
+    - Usually goes into a data.frame (in R).
+    - Excel files, csv, tsv, ...
+    - But also yaml, json, pickle (in python), npy/npz (numpy), ...
 
 - Genomic data
 
@@ -46,33 +42,43 @@ class: inverse, center, middle
 head(iris)
 ```
 
+```{python}
+import pandas as pd
+iris = pd.read_csv("data/iris.csv")
+print(iris.head())
+```
 
 ---
 
+class: inverse, center, middle
+# R reading and writing
 
-# Reading tabular data
+---
+
+# R: various packages to read tabular data
 
 .pull-left[
 - Base functions:
-    - Output data.frames
-    - Names have `.` in them, e.g. read.table, read.csv
+    - Output `data.frames`
+    - Names have `.` in them, e.g. `read.table`, `read.csv`
 
 - `readr` package
-    - Mostly drop-in replacements for the base functions, but with some more (or less) sensible choices
-    - ties into the `tidyverse` groups of packages we will see later on
-        - there are super popular, so important to know.
-    - Names have `_` in them, e.g. read_delim, read_csv
+    - Replacements for the base functions, but with different choices
+    - ties into the `tidyverse` packages we will see later on (super popular)
+    - Names have `_` in them, e.g. `read_delim`, `read_csv`
 
 ]
 .pull-right[
 
 - `data.table` package
-    - Notable because it's `fread` function is so blazing fast it is sometimes the only choice for large data
+    - Very fast because uses `fread` function; sometimes the only choice for large data
 
 - `rio` package
-    - sort of jack of all traits magic package that attempts to figure out the correct way to read your data from the file extension
+    - sort of jack of all trades magic package that attempts to figure out the correct way to read your data from the file extension
     - Only has one generic `import` function that mostly get's it right.
 ]
+
+*Lesson*: Always **check with some examples/testing** that the reading function does what you want on your file!
 
 ---
 
@@ -80,7 +86,7 @@ head(iris)
 
 .pull-left[
 - General purpose table reading function.
-- Reads a file in table format and creates a data.frame.
+- Reads a file in table format and creates a `data.frame`.
 
 ```{r}
 # Basic Usage
@@ -111,21 +117,15 @@ data_csv2 <- read.csv2("my_data_european.csv")
 
 # readr package
 
-- Outputs a tibble, a kind of modern data.frame with some quirks
+- Outputs a `tibble`, a kind of modern `data.frame` with some quirks
     - does some smart figuring-out of column types
-    - avoids most conversions to factor
 
-```{r}
+```{r,message=FALSE,results='hide'}
 # Basic Usage
 library(readr)
 my_data_tbl <- read_delim("data/my_file.tsv", 
                            delim = "\t")
 ```
-
----
-
-# tibble data.frame
-
 ```{r}
 my_data_tbl
 ```
@@ -148,17 +148,14 @@ data_dt
 # Reading data of the interwebs
 
 ```{r} 
-input <- if (file.exists("flights14.csv")) {
-   "flights14.csv"
-} else {
-  "https://raw.githubusercontent.com/Rdatatable/data.table/master/vignettes/flights14.csv"
-}
+input <- "https://raw.githubusercontent.com/Rdatatable/data.table/master/vignettes/flights14.csv"
 flights <- fread(input)
 flights
 ```
+
 ---
 
-# Reasing generic data files
+# Reading generic data files
 
 ```{r}
 # Using the scan() function
@@ -198,6 +195,72 @@ For tabular data, we can use:
 export(df_object, file = "my_df.csv")
 ```
 ]
+
+---
+
+class: inverse, center, middle
+# Python reading and writing
+
+---
+
+# Accessing text files with Python
+
+- Less biology-specific packages, which simplifies the options = also less confusing. Super **easy to manipulate any kind of text**, beyond tables!
+
+- Simple `open` and `close` functions for accessing text files
+
+- `pandas` functions to access tables and many other specific file type.
+
+- Also `pickle` (binary files to be opened in Python only, can store any object in your code) and `npy`/`npz` in numpy
+
+```{python, eval=FALSE, message=FALSE}
+with open("data/my_file.csv", "r") as f: #"r" for reading
+    print(f.read()) # reads all
+    print(f.readlines()) # contains a list where each element is a line
+
+with open("data/newfile.txt", "w") as f: #"w" for writing. Use "a" to append to an existing file
+    f.write("This will be contained in the new file!")
+```
+
+---
+
+# Tabular data
+
+- Can read many file types with pandas, including `.csv`, and outputs a `dataframe`
+
+```{python}
+import pandas as pd
+df = pd.read_csv('data/my_file.csv')
+```
+
+- If using only numpy, can read and write `npy` files (or `npz`, the compressed version):
+
+```{python}
+import numpy as np
+np.save('data/arrayfile', np.array([1,2,3])) # use 'savez' for npz
+np.load('data/arrayfile.npy')
+```
+
+---
+# Writing python objects
+
+- Use `pickle` to write and read any type of python objects, in the form of a list
+
+```{python}
+import pickle
+class Person:
+  def __init__(self, name, age): 
+    self.name, self.age = name, age
+p_list = [Person("John", 36), Person("Mary", 38)]
+
+with open('data/persons.pickle', 'wb') as f: # 'w' for write, 'b' for binary
+    pickle.dump(p_list, f)
+
+with open('data/persons.pickle', 'rb') as f:
+    persons = pickle.load(f)
+print(persons)
+```
+
 
 ---
 
@@ -265,7 +328,7 @@ enumeration
 
 ---
 
-# Next Generaton Sequencing scheme
+# Next Generation Sequencing scheme
 
 .center[
 ![:scale 40%](figures/NGS-rainbow-sequence.webp)
@@ -275,7 +338,7 @@ enumeration
 
 ---
 
-# Next Generaton Sequencing scheme
+# Next Generation Sequencing scheme
 
 ![:scale 85%](figures/NGS.jpg)
 
@@ -330,7 +393,7 @@ This is the quality score rank:
 .ref[https://journals.sagepub.com/doi/10.1177/1099800417750746]
 ---
 
-# Shotgun assemmbly
+# Shotgun assembly
 
 .center[
 ![](figures/assembly.webp)
@@ -431,7 +494,7 @@ df_vcf
 ]
 
 .pull-right[
-- Alligned RNA reads that map to genes are contributed
+- Aligned RNA reads that map to genes are contributed
 
 - The counts are proportional to RNA expression
 

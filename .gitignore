@@ -51,3 +51,7 @@ rsconnect/
 .DS_Store
 
 .vscode/*
+
+data/newfile.txt
+data/arrayfile.npy
+data/persons.pickle
