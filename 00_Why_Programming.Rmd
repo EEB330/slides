@@ -2,7 +2,7 @@
 title: "Why should biologist learn programming?"
 subtitle: "Biology is a computational discipline"
 author: Guillaume Falmagne
-date: Sept. 4th, 2023
+date: Sept. 4th, 2024
 runtime: static
 output:
   xaringan::moon_reader:

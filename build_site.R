@@ -14,6 +14,7 @@ conflicts_prefer(dplyr::select)
 conflicts_prefer(dplyr::mutate)
 conflicts_prefer(dplyr::filter)
 conflicts_prefer(dplyr::summarise)
+conflicts_prefer(dplyr::count)
 
 ## Week 1
 #render("00_Why_Programming.Rmd")
@@ -23,10 +24,10 @@ conflicts_prefer(dplyr::summarise)
 #render("03_BasicGit.Rmd")
 ## Week 3
 #render("04_ControlFlow.Rmd")
-render("05_Functions.Rmd")
+#render("05_Functions.Rmd")
 ## Week 4
-#render("06_DataIO.Rmd")
-#render("07_RegularExpressions.Rmd")
+render("06_DataIO.Rmd")
+render("07_RegularExpressions.Rmd")
 ## Week 4
 #render("08_DataWrangling1.Rmd")
 #render("09_DataWrangling2.Rmd")

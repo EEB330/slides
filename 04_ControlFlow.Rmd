@@ -2,7 +2,7 @@
 title: "Control Flow"
 subtitle: "The building blocks of algorithms"
 author: Guillaume Falmagne
-date: <br> Sept. 16th, 2023
+date: <br> Sept. 16th, 2024
 runtime: static
 output:
   xaringan::moon_reader:

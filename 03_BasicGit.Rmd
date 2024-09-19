@@ -2,7 +2,7 @@
 title: "Version Control with git"
 subtitle: "Archival and collaboration"
 author: Guillaume Falmagne
-date: <br> Sept. 11, 2023
+date: <br> Sept. 11, 2024
 runtime: static
 output:
   xaringan::moon_reader:
