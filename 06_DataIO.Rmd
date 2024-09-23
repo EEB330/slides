@@ -1,7 +1,7 @@
 ---
 title: "Data I/O"
 subtitle: "Reading and writing biological data"
-author: Guillaume Falmagne, Scott Wolf, Diogo Melo
+author: Matt Black, Guillaume Falmagne, Scott Wolf, Diogo Melo
 date: <br> Sept. 23th, 2024
 runtime: static
 output:
@@ -212,6 +212,27 @@ class: inverse, center, middle
 - `pandas` functions to access tables and many other specific file type.
 
 - Also `pickle` (binary files to be opened in Python only, can store any object in your code) and `npy`/`npz` in numpy
+
+```{python, eval=FALSE, message=FALSE}
+f = open("data/my_file.csv", "r"). #"r" for reading (text)
+first_line = f.readlines()
+second_line = f.readlines()
+rest_of_lines = f.read()
+f.close()
+
+f = open("data/newfile.txt", "w") # "w" for writing
+f.write("This will be the first line in a new file!")
+f.close()
+```
+---
+
+# Context managers in Python
+
+- Opening and closing files as shown previously can be dangerous. 
+
+- If an error occurs before the file has been `close`d, resource may never be released.
+
+- Python has context managers to deal with this problem. 
 
 ```{python, eval=FALSE, message=FALSE}
 with open("data/my_file.csv", "r") as f: #"r" for reading

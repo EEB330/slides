@@ -3,8 +3,8 @@
   <head>
     <title>Data I/O</title>
     <meta charset="utf-8" />
-    <meta name="author" content="Guillaume Falmagne, Scott Wolf, Diogo Melo" />
-    <script src="06_DataIO_files/header-attrs-2.28/header-attrs.js"></script>
+    <meta name="author" content="Matt Black, Guillaume Falmagne, Scott Wolf, Diogo Melo" />
+    <script src="06_DataIO_files/header-attrs-2.26/header-attrs.js"></script>
     <link href="06_DataIO_files/remark-css-0.0.1/default.css" rel="stylesheet" />
     <link href="06_DataIO_files/remark-css-0.0.1/metropolis.css" rel="stylesheet" />
     <link href="06_DataIO_files/remark-css-0.0.1/metropolis-fonts.css" rel="stylesheet" />
@@ -21,7 +21,7 @@ class: center, middle, inverse, title-slide
 ## Reading and writing biological data
 ]
 .author[
-### Guillaume Falmagne, Scott Wolf, Diogo Melo
+### Matt Black, Guillaume Falmagne, Scott Wolf, Diogo Melo
 ]
 .date[
 ### <br> Sept. 23th, 2024
@@ -54,7 +54,7 @@ class: center, middle, inverse, title-slide
 # Tabular data
 
 
-``` r
+```r
 head(iris)
 ```
 
@@ -69,7 +69,7 @@ head(iris)
 ```
 
 
-``` python
+```python
 import pandas as pd
 iris = pd.read_csv("data/iris.csv")
 print(iris.head())
@@ -125,7 +125,7 @@ class: inverse, center, middle
 - Reads a file in table format and creates a `data.frame`.
 
 
-``` r
+```r
 # Basic Usage
 my_data &lt;- read.table("data/my_file.tsv", 
                       header = TRUE, 
@@ -168,14 +168,14 @@ data_csv2 &lt;- read.csv2("my_data_european.csv")
     - does some smart figuring-out of column types
 
 
-``` r
+```r
 # Basic Usage
 library(readr)
 my_data_tbl &lt;- read_delim("data/my_file.tsv", 
                            delim = "\t")
 ```
 
-``` r
+```r
 my_data_tbl
 ```
 
@@ -205,7 +205,7 @@ my_data_tbl
 - Can deal with datasets above 100GB easily
 
 
-``` r
+```r
 library(data.table)
 data_dt &lt;- fread("data/my_file.csv")
 data_dt
@@ -231,7 +231,7 @@ data_dt
 # Reading data of the interwebs
 
 
-``` r
+```r
 input &lt;- "https://raw.githubusercontent.com/Rdatatable/data.table/master/vignettes/flights14.csv"
 flights &lt;- fread(input)
 flights
@@ -271,7 +271,7 @@ flights
 # Reading generic data files
 
 
-``` r
+```r
 # Using the scan() function
 my_generic_file &lt;- scan("data/my_file.csv", character())
 
@@ -482,7 +482,29 @@ class: inverse, center, middle
 - Also `pickle` (binary files to be opened in Python only, can store any object in your code) and `npy`/`npz` in numpy
 
 
-``` python
+```python
+f = open("data/my_file.csv", "r"). #"r" for reading (text)
+first_line = f.readlines()
+second_line = f.readlines()
+rest_of_lines = f.read()
+f.close()
+
+f = open("data/newfile.txt", "w") # "w" for writing
+f.write("This will be the first line in a new file!")
+f.close()
+```
+---
+
+# Context managers in Python
+
+- Opening and closing files as shown previously can be dangerous. 
+
+- If an error occurs before the file has been `close`d, resource may never be released.
+
+- Python has context managers to deal with this problem. 
+
+
+```python
 with open("data/my_file.csv", "r") as f: #"r" for reading
     print(f.read()) # reads all
     print(f.readlines()) # contains a list where each element is a line
@@ -498,7 +520,7 @@ with open("data/newfile.txt", "w") as f: #"w" for writing. Use "a" to append to 
 - Can read many file types with pandas, including `.csv`, and outputs a `dataframe`
 
 
-``` python
+```python
 import pandas as pd
 df = pd.read_csv('data/my_file.csv')
 ```
@@ -506,7 +528,7 @@ df = pd.read_csv('data/my_file.csv')
 - If using only numpy, can read and write `npy` files (or `npz`, the compressed version):
 
 
-``` python
+```python
 import numpy as np
 np.save('data/arrayfile', np.array([1,2,3])) # use 'savez' for npz
 np.load('data/arrayfile.npy')
@@ -522,7 +544,7 @@ np.load('data/arrayfile.npy')
 - Use `pickle` to write and read any type of python objects, in the form of a list
 
 
-``` python
+```python
 import pickle
 class Person:
   def __init__(self, name, age): 
@@ -538,7 +560,7 @@ print(persons)
 ```
 
 ```
-## [&lt;__main__.Person object at 0x73232bfb2b60&gt;, &lt;__main__.Person object at 0x73232bfb35e0&gt;]
+## [&lt;__main__.Person object at 0x17abce210&gt;, &lt;__main__.Person object at 0x13880fec0&gt;]
 ```
 
 
@@ -723,7 +745,7 @@ This is the quality score rank:
 
 .pull-left[
 
-``` r
+```r
 library(vcfR)
 ```
 
@@ -736,7 +758,7 @@ library(vcfR)
 ##    *****       *****      *****       *****
 ```
 
-``` r
+```r
 vcf = read.vcfR("data/sample.vcf")
 ```
 
@@ -767,7 +789,7 @@ Processed variant: 9
 
 # Reading VCFs in R
 
-``` r
+```r
 str(vcf)
 ```
 
@@ -789,7 +811,7 @@ str(vcf)
 # Using fread
 
 
-``` r
+```r
 df_vcf = fread(file='data/sample.vcf', sep='\t', header = TRUE, skip = '#CHROM')
 df_vcf
 ```
@@ -865,7 +887,7 @@ df_vcf
 - The counts are proportional to RNA expression
 
 
-``` r
+```r
 counts &lt;- read.delim("https://raw.githubusercontent.com/ucdavis-bioinformatics-training/2018-June-RNA-Seq-Workshop/master/thursday/all_counts.txt")
 counts[1:10, 1:7]
 ```
