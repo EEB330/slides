@@ -534,3 +534,96 @@ We have two match-replace functions:
 x <- c("apple", "pear", "banana")
 str_replace_all(x, "[aeiou]", "-")
 ```
+
+---
+
+class: inverse, center, middle
+# Regular expressions in Python
+
+---
+
+# Regular expressions in general
+
+Regular expression syntax is shared between all programming languages.
+
+- Same basic rules (special characters, escape characters, etc.)
+- Same matching semantics
+
+Details of how to do string comparison, search, replacement vary language-to-language.
+
+- R: `stringr`
+- Python: `re`
+- Matlab: `regexp()`
+- Julia: `match()`
+
+---
+
+# The `re` library
+
+Python also has regex utilities -- they're in the `re` library.
+
+`re` ships with Python (don't need to install it)
+
+```{python, eval=FALSE, message=FALSE}
+import re
+```
+
+Python (`re`) and R (`stringr`) equivalents:
+
+| Function | R | Python|
+|----------|---|-------|
+| find (first) | `str_extract`|`re.search` |
+| find (all) | `str_extract_all` | `re.findall` |
+| find at beginning | `str_starts` | `re.match` |
+| replace (all) | `str_replace_all` | `re.sub` |
+
+---
+
+# Using the `re` library
+
+Some examples
+
+```{python, eval=TRUE, message=TRUE}
+import re
+email = "tony@tiremove_thisger.net"
+m = re.search("remove_this", email)
+print(m)
+email[:m.start()] + email[m.end():]
+```
+
+```{python, eval=TRUE, message=TRUE}
+import re
+re.findall(r'\bf[a-z]*', 'which foot or hand fell fastest')
+```
+
+---
+
+# Using `pandas`
+
+Can also do string extraction of `pandas` `Series` objects (think: dataframe columns)
+
+2 functions to know:
+  1. `extract` : return first match
+  2. `extractall` : return all matches
+  
+These functions return dataframes.
+
+```{python, eval=TRUE, message=TRUE}
+import pandas as pd
+s = pd.Series(['a1', 'b2', 'c3'])
+print(s.str.extract(r'([ab])')) # 1 option, return 1 column
+s.str.extract(r'([ab])(\d)') # 2 options, return 2 columns
+```
+
+---
+
+# Using `pandas`
+
+Can also do the same on dataframe columns. 
+
+```{python, eval=TRUE, message=TRUE}
+import pandas as pd
+iris = pd.read_csv('https://raw.githubusercontent.com/mwaskom/seaborn-data/master/iris.csv')
+print(iris.species.unique())
+pd.concat([iris['species'], iris.species.str.extract(r'(^v)')], axis=1)
+```
