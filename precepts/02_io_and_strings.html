@@ -9,7 +9,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 
-<meta name="author" content="Scott Wolf" />
+<meta name="author" content="Scott Wolf, Michelle White" />
 
 
 <title>EEB330 – Precept 02: Data IO and String Wrangling with Regex in R</title>
@@ -351,30 +351,26 @@ display: none;
 
 <h1 class="title toc-ignore">EEB330 – Precept 02: Data IO and String
 Wrangling with Regex in R</h1>
-<h4 class="author">Scott Wolf</h4>
-<h4 class="date">Sept. 27th, 2023</h4>
+<h4 class="author">Scott Wolf, Michelle White</h4>
+<h4 class="date">Sept. 26th, 2024</h4>
 
 </div>
 
 
-<div id="precept-3-github-classroom-assignment" class="section level2">
-<h2><a href="https://classroom.github.com/a/Jo_ERa0t">Precept 3 – GitHub
-Classroom Assignment</a></h2>
-</div>
 <div id="introduction" class="section level1">
 <h1>Introduction</h1>
 <p>In this document, we will explore two significant aspects of data
-analysis in R: Data Input/Output (IO) and String Wrangling with Regular
+analysis: Data Input/Output (IO) and String Wrangling with Regular
 Expressions (Regex). Data IO is fundamental as it’s the first step in
-the data analysis pipeline, where we read or load data into R from
-various sources. String wrangling, particularly using Regex, is vital
-when we are dealing with text data and need to extract, replace, or
-modify strings based on specific patterns.</p>
+the data analysis pipeline, where we read or load data from various
+sources. String wrangling, particularly using Regex, is vital when we
+are dealing with text data and need to extract, replace, or modify
+strings based on specific patterns.</p>
 </div>
 <div id="data-io-in-r" class="section level1">
 <h1>Data IO in R</h1>
-<p>Data in R can be read from various sources such as CSV files, Excel
-files, or databases. Below are some ways to read data into R.</p>
+<p>Data can be read from various sources such as CSV files, Excel files,
+or databases. Below are some ways to read data into R.</p>
 <div id="using-read.csv-from-base-r" class="section level2">
 <h2>Using <code>read.csv</code> from Base R</h2>
 <pre class="r"><code># Reading a CSV file using read.csv from base R
@@ -382,27 +378,97 @@ data_base_r &lt;- read.csv(&quot;places_in_princeton.csv&quot;)
 
 # Inspecting the first few rows of the data
 head(data_base_r)</code></pre>
+<pre><code>##   id                            name                                address
+## 1  1                     Nassau Hall     1 Nassau Hall, Princeton, NJ 08544
+## 2  2 Princeton University Art Museum            Elm Dr, Princeton, NJ 08544
+## 3  3           Albert Einstein House     112 Mercer St, Princeton, NJ 08540
+## 4  4        Princeton Public Library 65 Witherspoon St, Princeton, NJ 08542
+## 5  5         McCarter Theatre Center  91 University Pl, Princeton, NJ 08540
+## 6  6                   Marquand Park      68 Lovers Ln, Princeton, NJ 08540
+##                                             comment
+## 1                 Historical building in Princeton.
+## 2 A place with a vast and varied collection of art.
+## 3                      Albert Einstein&#39;s residence.
+## 4                    The hub of community learning.
+## 5            Famous for its performances and shows.
+## 6        A peaceful place to walk and enjoy nature.</code></pre>
 </div>
 <div id="using-read_csv-from-readr" class="section level2">
 <h2>Using <code>read_csv</code> from <code>readr</code></h2>
 <pre class="r"><code>pak::pkg_install(&quot;readr&quot;)
-library(readr)
-
-# Reading a CSV file using read_csv from readr package
-data_readr &lt;- read_csv(&quot;places_in_princeton.csv&quot;)
-
-# Inspecting the first few rows of the data
-head(data_readr)
-write_delim(data_readr, &quot;places_in_princeton.tsv&quot;, delim = &quot;\t&quot;)</code></pre>
+library(readr)</code></pre>
+<pre class="r"><code># Reading a CSV file using read_csv from readr package
+data_readr &lt;- read_csv(&quot;places_in_princeton.csv&quot;)</code></pre>
+<pre><code>## Rows: 20 Columns: 4
+## ── Column specification ────────────────────────────────────────────────────────────────────────────────────────────────
+## Delimiter: &quot;,&quot;
+## chr (3): name, address, comment
+## dbl (1): id
+## 
+## ℹ Use `spec()` to retrieve the full column specification for this data.
+## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+<pre class="r"><code># Inspecting the first few rows of the data
+head(data_readr)</code></pre>
+<pre><code>## # A tibble: 6 × 4
+##      id name                            address                          comment
+##   &lt;dbl&gt; &lt;chr&gt;                           &lt;chr&gt;                            &lt;chr&gt;  
+## 1     1 Nassau Hall                     1 Nassau Hall, Princeton, NJ 08… Histor…
+## 2     2 Princeton University Art Museum Elm Dr, Princeton, NJ 08544      A plac…
+## 3     3 Albert Einstein House           112 Mercer St, Princeton, NJ 08… Albert…
+## 4     4 Princeton Public Library        65 Witherspoon St, Princeton, N… The hu…
+## 5     5 McCarter Theatre Center         91 University Pl, Princeton, NJ… Famous…
+## 6     6 Marquand Park                   68 Lovers Ln, Princeton, NJ 085… A peac…</code></pre>
+<pre class="r"><code>write_delim(data_readr, &quot;places_in_princeton.tsv&quot;, delim = &quot;\t&quot;)</code></pre>
 </div>
 </div>
-<div id="string-wrangling-in-r" class="section level1">
-<h1>String Wrangling in R</h1>
-<div id="a-quick-regex-guide" class="section level2">
-<h2>A Quick Regex Guide</h2>
+<div id="data-io-in-python" class="section level1">
+<h1>Data IO in Python</h1>
+<p>Data can be read from various sources such as CSV files, Excel files,
+or databases. Below are some ways to read data into Python.</p>
+<div id="using-csv.reader-from-csv" class="section level2">
+<h2>Using <code>csv.reader</code> from <code>csv</code></h2>
+<pre class="python"><code># Reading a CSV file using csv.reader in Pythom
+import csv
+from itertools import islice
+
+with open(&quot;places_in_princeton.csv&quot;, mode = &quot;r&quot;) as file:
+  data = csv.reader(file)
+
+  # To print the data
+  for lines in islice(data,6):
+    print(lines) # notice how the first line here is the row of headers</code></pre>
+<pre><code>## [&#39;id&#39;, &#39;name&#39;, &#39;address&#39;, &#39;comment&#39;]
+## [&#39;1&#39;, &#39;Nassau Hall&#39;, &#39;1 Nassau Hall, Princeton, NJ 08544&#39;, &#39;Historical building in Princeton.&#39;]
+## [&#39;2&#39;, &#39;Princeton University Art Museum&#39;, &#39;Elm Dr, Princeton, NJ 08544&#39;, &#39;A place with a vast and varied collection of art.&#39;]
+## [&#39;3&#39;, &#39;Albert Einstein House&#39;, &#39;112 Mercer St, Princeton, NJ 08540&#39;, &quot;Albert Einstein&#39;s residence.&quot;]
+## [&#39;4&#39;, &#39;Princeton Public Library&#39;, &#39;65 Witherspoon St, Princeton, NJ 08542&#39;, &#39;The hub of community learning.&#39;]
+## [&#39;5&#39;, &#39;McCarter Theatre Center&#39;, &#39;91 University Pl, Princeton, NJ 08540&#39;, &#39;Famous for its performances and shows.&#39;]</code></pre>
+</div>
+<div id="using-read_csv-from-pandas" class="section level2">
+<h2>Using <code>read_csv</code> from <code>pandas</code></h2>
+<pre class="python"><code># Reading a CSV file using pandas in Python
+import pandas
+
+data = pandas.read_csv(&quot;places_in_princeton.csv&quot;)
+
+# Inspecting the first three rows of the data
+data.head(6)</code></pre>
+<pre><code>##    id  ...                                            comment
+## 0   1  ...                  Historical building in Princeton.
+## 1   2  ...  A place with a vast and varied collection of art.
+## 2   3  ...                       Albert Einstein&#39;s residence.
+## 3   4  ...                     The hub of community learning.
+## 4   5  ...             Famous for its performances and shows.
+## 5   6  ...         A peaceful place to walk and enjoy nature.
+## 
+## [6 rows x 4 columns]</code></pre>
+</div>
+</div>
+<div id="a-quick-regex-guide" class="section level1">
+<h1>A Quick Regex Guide</h1>
 <p>Regular Expressions (Regex) are a powerful tool to match and
-manipulate text. Here is a brief guide on some of the basic regex
-symbols and patterns with examples:</p>
+manipulate text and can be used across languages. Here is a brief guide
+on some of the basic regex symbols and patterns with examples:</p>
 <ul>
 <li><code>\\d</code>: Matches any digit.
 <ul>
@@ -484,20 +550,29 @@ preceding character or group.
 <p>By understanding and combining these patterns, you can create complex
 expressions to match a wide range of strings within your text data.</p>
 </div>
+<div id="string-wrangling-in-r" class="section level1">
+<h1>String Wrangling in R</h1>
 <div id="installing-and-loading-the-stringr-package" class="section level2">
-<h2>Installing and loading the stringr package</h2>
+<h2>Installing and loading the <code>stringr</code> package</h2>
 <pre class="r"><code>pak::pkg_install(&quot;stringr&quot;)
 library(stringr)</code></pre>
 </div>
 <div id="stringr-examples" class="section level2">
-<h2>stringr examples</h2>
+<h2><code>stringr</code> examples</h2>
 <p>Extracting digits from strings can be crucial to isolate specific
 numerical information such as prices or zip codes.</p>
 <pre class="r"><code>strings &lt;- c(&quot;123 Main St&quot;, &quot;Price: $200 0&quot;)
-digits &lt;- str_extract_all(strings, &quot;\\b\\d+\\b&quot;)</code></pre>
+digits &lt;- str_extract_all(strings, &quot;\\b\\d+\\b&quot;) # notice how only one backslash is needed for regex in Python
+
+digits</code></pre>
+<pre><code>## [[1]]
+## [1] &quot;123&quot;
+## 
+## [[2]]
+## [1] &quot;200&quot; &quot;0&quot;</code></pre>
 </div>
 <div id="tidyr-examples" class="section level2">
-<h2>tidyr examples</h2>
+<h2><code>tidyr</code> examples</h2>
 <p>Exampled pulled from: <a href="https://r4ds.hadley.nz/regexps#sec-extract-variables">https://r4ds.hadley.nz/regexps#sec-extract-variables</a></p>
 <pre class="r"><code>pak::pkg_install(&quot;tidyr&quot;)
 library(tidyr)</code></pre>
@@ -523,31 +598,103 @@ library(tidyr)</code></pre>
       age = &quot;[0-9]+&quot; # Match one or more digits and create a new column &#39;age&#39; with the matched value.
     )
   )</code></pre>
+<pre><code>## # A tibble: 7 × 3
+##   name     gender age  
+##   &lt;chr&gt;    &lt;chr&gt;  &lt;chr&gt;
+## 1 Sheryl   F      34   
+## 2 Kisha    F      45   
+## 3 Brandon  N      33   
+## 4 Sharon   F      38   
+## 5 Penny    F      58   
+## 6 Justin   M      41   
+## 7 Patricia F      84</code></pre>
+</div>
+</div>
+<div id="string-wrangling-in-python" class="section level1">
+<h1>String Wrangling in Python</h1>
+<div id="examples-with-the-re-library" class="section level2">
+<h2>examples with the <code>re</code> library</h2>
+<p>Extracting digits from strings can be crucial to isolate specific
+numerical information such as prices or zip codes.</p>
+<pre class="python"><code>import re
+
+strings = [&quot;123 Main St&quot;, &quot;Price: $200 0&quot;]
+digits = re.findall(r&quot;\b\d+\b&quot;, str(strings))
+
+digits</code></pre>
+<pre><code>## [&#39;123&#39;, &#39;200&#39;, &#39;0&#39;]</code></pre>
+</div>
+<div id="pandas-examples" class="section level2">
+<h2><code>pandas</code> examples</h2>
+<pre class="python"><code>import pandas as pd
+
+# Create a pandas series
+sr = pd.Series([
+  &quot;&lt;Sheryl&gt;-F_34&quot;,
+  &quot;&lt;Kisha&gt;-F_45&quot;,
+  &quot;&lt;Brandon&gt;-N_33&quot;,
+  &quot;&lt;Sharon&gt;-F_38&quot;,
+  &quot;&lt;Penny&gt;-F_58&quot;,
+  &quot;&lt;Justin&gt;-M_41&quot;,
+  &quot;&lt;Patricia&gt;-F_84&quot;,
+])</code></pre>
+<pre class="python"><code># Pattern breakdown:
+# &lt;(.+)&gt;: captures any characters (except newline character) inside the angle brackets
+# -([FMN]): returns a match for any of the characters F, M, or N after the hyphen
+# _(\d+): returns a match where the string contains digits after the underscore
+
+df = sr.str.extract(r&quot;&lt;(.+)&gt;-([FMN])_(\d+)&quot;)
+
+# Assign column names
+df.columns = [&quot;name&quot;, &quot;gender&quot;, &quot;age&quot;]
+
+# Convert &quot;age&quot; column to integer type
+df[&quot;age&quot;] = df[&quot;age&quot;].astype(int)
+
+df</code></pre>
+<pre><code>##        name gender  age
+## 0    Sheryl      F   34
+## 1     Kisha      F   45
+## 2   Brandon      N   33
+## 3    Sharon      F   38
+## 4     Penny      F   58
+## 5    Justin      M   41
+## 6  Patricia      F   84</code></pre>
 </div>
 </div>
 <div id="exercises" class="section level1">
 <h1>Exercises</h1>
 <div id="exercise-1-reading-tsv-files" class="section level2">
 <h2>Exercise 1: Reading TSV Files</h2>
-<p>A TSV file, <code>places_in_princeton.tsv</code>, uses a tab
+<ul>
+<li>A TSV file, <code>places_in_princeton.tsv</code>, uses a tab
 character as a delimiter between values. Your task is to read this file
-into R using an appropriate reading function.</p>
+into R or Python using an appropriate reading function.</li>
+</ul>
 </div>
 <div id="exercise-2.-regex-to-english" class="section level2">
 <h2>Exercise 2. Regex to English</h2>
-<p>Explain what this regex patters does: “\d+[-]\d+[-]\d+\s” in words.
-What is an example of something it matches?</p>
+<ul>
+<li>Explain what this regex patters does: “\d+[-]\d+[-]\d+\s” in words.
+What is an example of something it matches? Leave your response as a
+comment block in your working script or file.</li>
+</ul>
 </div>
 <div id="exercise-3-extracting-the-parts-of-an-address" class="section level2">
 <h2>Exercise 3: Extracting the parts of an address</h2>
 <p>With the address column from the data from Exercise 1, we can extract
 ZIP codes as follows:</p>
-<pre class="r"><code>zip_codes &lt;- str_extract(data_tsv_readr$address, &quot;\\b\\d{5}(?:-\\d{4})?\\b&quot;)</code></pre>
-<p>Now, extract the street address from the address string and search
+<pre class="r"><code># in R
+zip_codes &lt;- str_extract(data_tsv_readr$address, &quot;\\b\\d{5}(?:-\\d{4})?\\b&quot;)</code></pre>
+<pre class="python"><code># in Python
+zip_codes = data_tsv_readr[&quot;address&quot;].str.extract(r&quot;\b\d{5}(?:-\d{4})?\b&quot;)</code></pre>
+<ul>
+<li>Now, extract the street address from the address string and search
 each comment for the word “Famous” to determine which locations are
-famous in Princeton. Follow this up by searching for “historic” Make
+famous in Princeton. Follow this up by searching for “historic.” Make
 sure that your search is case-insensitive and captures when historic is
-a substring as well, like “historical”.</p>
+a substring as well, like in “historical”.</li>
+</ul>
 </div>
 <div id="exercise-4-more-string-extraction" class="section level2">
 <h2>Exercise 4: More string extraction</h2>
@@ -558,23 +705,24 @@ number.</li>
 column.</li>
 </ul>
 </div>
-<div id="exercise-5-baby-names" class="section level2">
-<h2>Exercise 5: Baby names</h2>
-<pre class="r"><code>pak::pkg_install(&quot;babynames&quot;)
-library(babynames)</code></pre>
-<p>To view baby names,</p>
-<pre class="r"><code>head(babynames)</code></pre>
+<div id="exercise-5-place-names" class="section level2">
+<h2>Exercise 5: Place names</h2>
 <ul>
-<li>What baby name has the most vowels? What name has the highest
-proportion of vowels? (Hint: what is the denominator?)</li>
+<li>Which Princeton place name has the most vowels? What name has the
+highest proportion of vowels? (Hint: what is the denominator?)</li>
 </ul>
 </div>
-<div id="exercise-6-extracting-month-day-year-from-the-date_strings-defined-below" class="section level2">
-<h2>Exercise 6: Extracting month, day, year from the date_strings
-defined below:</h2>
-<pre class="r"><code>pak::pkg_install(&quot;nycflights13&quot;)
-library(nycflights13)</code></pre>
+<div id="exercise-6-extracting-month-day-year-from-a-date-variable" class="section level2">
+<h2>Exercise 6: Extracting month, day, year from a date variable</h2>
+<p>Create a dataframe called <code>flights</code> from
+<code>nycflights.csv</code> and create the following variable
+<code>date_strings</code>:</p>
 <pre class="r"><code>date_strings &lt;- paste(flights$year, flights$month, flights$day, sep = &quot;-&quot;)</code></pre>
+<pre class="python"><code>date_strings = flights[[&quot;year&quot;, &quot;month&quot;, &quot;day&quot;]].agg(&quot;-&quot;.join, axis = 1)</code></pre>
+<ul>
+<li>Extract the months, days, and years from your new variable into
+three separate variables for each date component</li>
+</ul>
 </div>
 </div>
 
