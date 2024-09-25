@@ -5,6 +5,8 @@ date: Sept. 26th, 2024
 output: html_document
 ---
 
+This week's assignment can be found [here](https://classroom.github.com/a/vJYNBKR0).
+
 # Introduction
 
 In this document, we will explore two significant aspects of data analysis: Data Input/Output (IO) and String Wrangling with Regular Expressions (Regex). Data IO is fundamental as it’s the first step in the data analysis pipeline, where we read or load data from various sources. String wrangling, particularly using Regex, is vital when we are dealing with text data and need to extract, replace, or modify strings based on specific patterns.
