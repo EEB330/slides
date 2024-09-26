@@ -1,6 +1,6 @@
 ---
-title: "EEB330 -- Precept 00: R and Git"
-subtitle: "Basic programming in R and version control with git"
+title: "EEB330 -- Precept 00: Intro to git"
+subtitle: "Basic programming in R and Python and version control with git"
 author: Scott Wolf, Michelle White
 date: Sept. 12, 2024
 output: html_document
