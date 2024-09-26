@@ -686,9 +686,9 @@ comment block in your working script or file.</li>
 <p>With the address column from the data from Exercise 1, we can extract
 ZIP codes as follows:</p>
 <pre class="r"><code># in R
-zip_codes &lt;- str_extract(data_tsv_readr$address, &quot;\\b\\d{5}(?:-\\d{4})?\\b&quot;)</code></pre>
+zip_codes &lt;- str_extract(data_tsv$address, &quot;\\b\\d{5}(?:-\\d{4})?\\b&quot;)</code></pre>
 <pre class="python"><code># in Python
-zip_codes = data_tsv_readr[&quot;address&quot;].str.extract(r&quot;\b\d{5}(?:-\d{4})?\b&quot;)</code></pre>
+zip_codes = data_tsv[&quot;address&quot;].str.extract(r&quot;\b\d{5}(?:-\d{4})?\b&quot;)</code></pre>
 <ul>
 <li>Now, extract the street address from the address string and search
 each comment for the word “Famous” to determine which locations are
