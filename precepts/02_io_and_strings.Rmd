@@ -232,7 +232,7 @@ zip_codes <- str_extract(data_tsv$address, "\\b\\d{5}(?:-\\d{4})?\\b")
 
 ```{python, eval = FALSE}
 # in Python
-zip_codes = data_tsv["address"].str.extract(r"\b\d{5}(?:-\d{4})?\b")
+zip_codes = data_tsv["address"].str.extract(r"\b(\d{5}(?:-\d{4})?)\b")
 ```
 
 * Now, extract the street address from the address string and search each comment for the word "Famous" to determine which locations are famous in Princeton. Follow this up by searching for "historic." Make sure that your search is case-insensitive and captures when historic is a substring as well, like in "historical".

@@ -398,6 +398,7 @@ head(data_base_r)</code></pre>
 <h2>Using <code>read_csv</code> from <code>readr</code></h2>
 <pre class="r"><code>pak::pkg_install(&quot;readr&quot;)
 library(readr)</code></pre>
+<pre><code>## Warning: package &#39;readr&#39; was built under R version 4.3.3</code></pre>
 <pre class="r"><code># Reading a CSV file using read_csv from readr package
 data_readr &lt;- read_csv(&quot;places_in_princeton.csv&quot;)</code></pre>
 <pre><code>## Rows: 20 Columns: 4
@@ -577,6 +578,7 @@ digits</code></pre>
 <p>Exampled pulled from: <a href="https://r4ds.hadley.nz/regexps#sec-extract-variables">https://r4ds.hadley.nz/regexps#sec-extract-variables</a></p>
 <pre class="r"><code>pak::pkg_install(&quot;tidyr&quot;)
 library(tidyr)</code></pre>
+<pre><code>## Warning: package &#39;tidyr&#39; was built under R version 4.3.3</code></pre>
 <pre class="r"><code>df &lt;- tribble(
   ~str,
   &quot;&lt;Sheryl&gt;-F_34&quot;,
@@ -688,7 +690,7 @@ ZIP codes as follows:</p>
 <pre class="r"><code># in R
 zip_codes &lt;- str_extract(data_tsv$address, &quot;\\b\\d{5}(?:-\\d{4})?\\b&quot;)</code></pre>
 <pre class="python"><code># in Python
-zip_codes = data_tsv[&quot;address&quot;].str.extract(r&quot;\b\d{5}(?:-\d{4})?\b&quot;)</code></pre>
+zip_codes = data_tsv[&quot;address&quot;].str.extract(r&quot;\b(\d{5}(?:-\d{4})?)\b&quot;)</code></pre>
 <ul>
 <li>Now, extract the street address from the address string and search
 each comment for the word “Famous” to determine which locations are
