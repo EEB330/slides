@@ -1,0 +1,261 @@
+---
+title: "EEB330 -- Precept 03: Data IO and String Wrangling with Regex in R"
+author: Scott Wolf, Michelle White
+date: Sept. 26th, 2024
+output: html_document
+---
+
+This week's assignment can be found [here](https://classroom.github.com/a/vJYNBKR0).
+
+# Introduction
+
+In this document, we will explore two significant aspects of data analysis: Data Input/Output (IO) and String Wrangling with Regular Expressions (Regex). Data IO is fundamental as it’s the first step in the data analysis pipeline, where we read or load data from various sources. String wrangling, particularly using Regex, is vital when we are dealing with text data and need to extract, replace, or modify strings based on specific patterns.
+
+# Data IO in R
+
+Data can be read from various sources such as CSV files, Excel files, or databases. Below are some ways to read data into R.
+
+## Using `read.csv` from Base R
+
+```{r}
+# Reading a CSV file using read.csv from base R
+data_base_r <- read.csv("places_in_princeton.csv")
+
+# Inspecting the first few rows of the data
+head(data_base_r)
+```
+
+## Using `read_csv` from `readr`
+
+```{r, message = FALSE}
+pak::pkg_install("readr")
+library(readr)
+```
+
+```{r}
+# Reading a CSV file using read_csv from readr package
+data_readr <- read_csv("places_in_princeton.csv")
+
+# Inspecting the first few rows of the data
+head(data_readr)
+write_delim(data_readr, "places_in_princeton.tsv", delim = "\t")
+```
+
+# Data IO in Python
+
+Data can be read from various sources such as CSV files, Excel files, or databases. Below are some ways to read data into Python.
+
+## Using `csv.reader` from `csv`
+
+```{python}
+# Reading a CSV file using csv.reader in Pythom
+import csv
+from itertools import islice
+
+with open("places_in_princeton.csv", mode = "r") as file:
+  data = csv.reader(file)
+
+  # To print the data
+  for lines in islice(data,6):
+    print(lines) # notice how the first line here is the row of headers
+```
+
+## Using `read_csv` from `pandas`
+
+```{python}
+# Reading a CSV file using pandas in Python
+import pandas
+
+data = pandas.read_csv("places_in_princeton.csv")
+
+# Inspecting the first three rows of the data
+data.head(6)
+```
+
+# A Quick Regex Guide
+
+Regular Expressions (Regex) are a powerful tool to match and manipulate text and can be used across languages. Here is a brief guide on some of the basic regex symbols and patterns with examples:
+
+- `\\d`: Matches any digit.
+  - Example: `"\\d"` will match any single digit like `5` in `"Price: $5"`.
+- `\\w`: Matches any word character (alphanumeric + underscore).
+  - Example: `"\\w"` will match any single word character like `a` in `"apple"`.
+- `\\b`: Word boundary.
+  - Example: `"\\bword\\b"` will match the word `"word"` but not `"swordfish"`.
+- `+`: Matches one or more of the preceding character or group.
+  - Example: `"\\d+"` will match one or more digits like `123` in `"123 apples"`.
+- `*`: Matches zero or more of the preceding character or group.
+  - Example: `"a*"` will match any number of consecutive `a`'s, including none, as in `"baaa!"`.
+- `(?:)`: Non-capturing group.
+  - Example: `"\\d(?:\\.\\d)?"` will match `1` or `1.5` but not `.5`.
+- `^`: Start of a line.
+  - Example: `"^Start"` will match any line that begins with the word `"Start"`.
+- `$`: End of a line.
+  - Example: `"end$"` will match any line that ends with the word `"end"`.
+- `[]`: Defines a character class.
+  - Example: `"[aeiou]"` will match any vowel in `"apple"`.
+- `|`: Acts as an OR operator.
+  - Example: `"apple|orange"` will match either `"apple"` or `"orange"` in a given text.
+- `\\s`: Matches any whitespace character.
+  - Example: `"\\s"` will match the space in `"apple orange"`.
+- `{n}`: Matches exactly `n` occurrences of the preceding character or group.
+  - Example: `"\\d{3}"` will match `123` in `"12345"`.
+- `{n,}`: Matches `n` or more occurrences of the preceding character or group.
+  - Example: `"\\d{2,}"` will match `123` in `"12345"`, but not `1`.
+- `{n,m}`: Matches between `n` and `m` occurrences of the preceding character or group.
+  - Example: `"\\d{2,4}"` will match `123` and `12` in `"12345"`.
+
+By understanding and combining these patterns, you can create complex expressions to match a wide range of strings within your text data.
+
+# String Wrangling in R
+
+## Installing and loading the `stringr` package
+
+```{r, message = FALSE, warning = FALSE}
+pak::pkg_install("stringr")
+library(stringr)
+```
+
+## `stringr` examples
+
+Extracting digits from strings can be crucial to isolate specific numerical information such as prices or zip codes.
+```{r}
+strings <- c("123 Main St", "Price: $200 0")
+digits <- str_extract_all(strings, "\\b\\d+\\b") # notice how only one backslash is needed for regex in Python
+
+digits
+```
+
+## `tidyr` examples
+
+Exampled pulled from: [https://r4ds.hadley.nz/regexps#sec-extract-variables](https://r4ds.hadley.nz/regexps#sec-extract-variables)
+
+```{r, message = FALSE}
+pak::pkg_install("tidyr")
+library(tidyr)
+```
+
+```{r}
+df <- tribble(
+  ~str,
+  "<Sheryl>-F_34",
+  "<Kisha>-F_45",
+  "<Brandon>-N_33",
+  "<Sharon>-F_38",
+  "<Penny>-F_58",
+  "<Justin>-M_41",
+  "<Patricia>-F_84",
+)
+```
+
+```{r}
+df |>
+  separate_wider_regex(
+    str,
+    patterns = c(
+      "<", # Match the literal character '<'.
+      name = "[A-Za-z]+", # Match one or more alphabets (upper or lower case) and create a new column 'name' with the matched value.
+      ">-", # Match the literal string '>-'.
+      gender = ".", # Match any single character (except newline) and create a new column 'gender' with the matched value.
+      "_", # Match the literal character '_'.
+      age = "[0-9]+" # Match one or more digits and create a new column 'age' with the matched value.
+    )
+  )
+```
+
+# String Wrangling in Python
+
+## `re` examples
+
+Extracting digits from strings can be crucial to isolate specific numerical information such as prices or zip codes.
+```{python}
+import re
+
+strings = ["123 Main St", "Price: $200 0"]
+digits = re.findall(r"\b\d+\b", str(strings))
+
+digits
+```
+
+## `pandas` examples
+
+```{python}
+import pandas as pd
+
+# Create a pandas series
+sr = pd.Series([
+  "<Sheryl>-F_34",
+  "<Kisha>-F_45",
+  "<Brandon>-N_33",
+  "<Sharon>-F_38",
+  "<Penny>-F_58",
+  "<Justin>-M_41",
+  "<Patricia>-F_84",
+])
+```
+
+```{python}
+# Pattern breakdown:
+# <(.+)>: captures any characters (except newline character) inside the angle brackets
+# -([FMN]): returns a match for any of the characters F, M, or N after the hyphen
+# _(\d+): returns a match where the string contains digits after the underscore
+
+df = sr.str.extract(r"<(.+)>-([FMN])_(\d+)")
+
+# Assign column names
+df.columns = ["name", "gender", "age"]
+
+# Convert "age" column to integer type
+df["age"] = df["age"].astype(int)
+
+df
+```
+
+# Exercises
+
+## Exercise 1: Reading TSV Files
+
+* A TSV file, `places_in_princeton.tsv`, uses a tab character as a delimiter between values. Your task is to read this file into R or Python using an appropriate reading function.
+    
+## Exercise 2. Regex to English
+
+* Explain what this regex patters does: "\\d+[-]\\d+[-]\\d+\\s" in words. What is an example of something it matches? Leave your response as a comment block in your working script or file.
+
+## Exercise 3: Extracting the parts of an address
+
+With the address column from the data from Exercise 1, we can extract ZIP codes as follows:
+
+```{r, eval = FALSE}
+# in R
+zip_codes <- str_extract(data_tsv$address, "\\b\\d{5}(?:-\\d{4})?\\b")
+```
+
+```{python, eval = FALSE}
+# in Python
+zip_codes = data_tsv["address"].str.extract(r"\b(\d{5}(?:-\d{4})?)\b")
+```
+
+* Now, extract the street address from the address string and search each comment for the word "Famous" to determine which locations are famous in Princeton. Follow this up by searching for "historic." Make sure that your search is case-insensitive and captures when historic is a substring as well, like in "historical".
+
+## Exercise 4: More string extraction
+
+* Identify locations with a number in their names and extract that number.
+* Extract all words starting with 'a' or 'A' from the comment column.
+
+## Exercise 5: Place names
+
+* Which Princeton place name has the most vowels? What name has the highest proportion of vowels? (Hint: what is the denominator?)
+
+## Exercise 6: Extracting month, day, year from a date variable
+
+Create a dataframe called `flights` from `nycflights.csv` and create the following variable `date_strings`:
+
+```{r, eval = FALSE}
+date_strings <- paste(flights$year, flights$month, flights$day, sep = "-")
+```
+
+```{python, eval = FALSE}
+date_strings = flights[["year", "month", "day"]].agg("-".join, axis = 1)
+```
+
+* Extract the months, days, and years from your new variable into three separate variables for each date component
