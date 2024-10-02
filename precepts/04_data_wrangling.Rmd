@@ -84,63 +84,6 @@ rank <- billboard3 %>%
 glimpse(rank)
 ```
 
-## Joins
-In this section, we will join the `flights` dataset with the `weather` dataset from the `nycflights13` package to analyze how weather conditions might have affected the flights.
-
-Make sure you have installed and loaded `nycflights13`!
-```{r}
-library(nycflights13)  # R has built-in datasets that can be loaded directly from a library
-```
-
-#### Inner Join
-In an inner join, only the rows with matching keys in both data frames are returned. Rows with non-matching keys are excluded from the result. It's useful when you want to join datasets based on common key columns, and you are only interested in rows with matching keys in both datasets.
-
-```{r}
-# Perform an inner join between `flights` and `weather` datasets.
-flights_weather_inner_joined <- inner_join(flights, weather,by=c("year", "month", "day", "hour", "origin"))
-```
-
-#### Left Join
-A left join returns all rows from the left dataset and the matched rows from the right dataset. If there is no match found in the right dataset, then the result will contain `NA`. Use a left join when you want to retain all records from the "left" dataset, and add matching records from the "right" dataset where available.
-```{r}
-# Perform a left join between `flights` and `weather` datasets.
-flights_weather_left_joined <- left_join(flights, weather, by=c("year", "month", "day", "hour", "origin"))
-```
-
-#### Right Join
-In a right join, all rows from the right dataset and the matched rows from the left dataset are returned. If there is no match found in the left dataset, then the result will contain `NA`. It is the opposite of a left join and is used when you want to retain all records from the "right" dataset.
-```{r}
-# Perform a right join between `flights` and `weather` datasets.
-flights_weather_right_joined <- right_join(flights, weather, by=c("year", "month", "day", "hour", "origin"))
-```
-
-#### Full Join
-A full join returns all rows when there is a match in either the left or right dataset. If there is no match found in either dataset, then the result will contain `NA`. It is useful when you want to retain all records from both datasets.
-```{r}
-# Perform a full join between `flights` and `weather` datasets.
-flights_weather_full_joined <- full_join(flights, weather, by=c("year", "month", "day", "hour", "origin"))
-head(flights_weather_full_joined)
-```
-
-#### Using Joins to Analyze the Data
-```{r}
-# Use the inner joined dataset to calculate the average departure delay for flights with precipitation greater than 0.5.
-average_delay_per_condition <- flights_weather_inner_joined %>%
-  group_by(precip > 0.5) %>%
-  summarise(Average_Departure_Delay = mean(dep_delay, na.rm = TRUE))
-
-average_delay_per_condition
-```
-
-#### Anti Join
-An anti join returns rows from the left dataset where there are no matching keys in the right dataset. It's useful for identifying records in one dataset that do not have a counterpart in another dataset.
-```{r}
-# Perform an anti join between `flights` and `weather` datasets.
-flights_weather_anti_joined <- anti_join(flights, weather, by=c("year", "month", "day", "hour", "origin"))
-
-head(flights_weather_anti_joined)
-```
-
 # Data Wrangling with Python
 
 ```{python, message = FALSE}
@@ -207,59 +150,101 @@ rank = billboard3.merge(song, on = ["artist", "track"])[["song_id", "date", "wee
 rank
 ```
 
-## Merges
-In this section, we will merge the `flights` dataset with the `weather` dataset from the `nycflights13` package to analyze how weather conditions might have affected the flights.
+## Joins/Merges
+In this section, we will join the `flights` dataset with the `weather` dataset from the `nycflights13` R package to analyze how weather conditions might have affected the flights.
 
 Make sure you have loaded in `flights.csv` and `weather.csv`!
+```{r}
+library(nycflights13)  # R has built-in datasets that can be loaded directly from a library
+```
+
 ```{python}
 import pandas as pd
 flights = pd.read_csv("flights.csv")
 weather = pd.read_csv("weather.csv")
 ```
 
-#### Inner Merge
-In an inner merge, only the rows with matching keys in both data frames are returned. Rows with non-matching keys are excluded from the result. It's useful when you want to merge datasets based on common key columns, and you are only interested in rows with matching keys in both datasets.
+#### Inner Join
+In an inner join, only the rows with matching keys in both data frames are returned. Rows with non-matching keys are excluded from the result. It's useful when you want to join datasets based on common key columns, and you are only interested in rows with matching keys in both datasets.
+```{r}
+# R example
+flights_weather_inner_joined <- inner_join(flights, weather,by=c("year", "month", "day", "hour", "origin"))
+```
 
 ```{python}
-# Perform an inner merge between `flights` and `weather` datasets.
+# Python example
 flights_weather_inner_merged = pd.merge(flights, weather, how = "inner", on = ["year", "month", "day", "hour", "origin"])
 ```
 
-#### Left Merge
-A left merge returns all rows from the left dataset and the matched rows from the right dataset. If there is no match found in the right dataset, then the result will contain `NA`. Use a left merge when you want to retain all records from the "left" dataset, and add matching records from the "right" dataset where available.
+#### Left Join
+A left join returns all rows from the left dataset and the matched rows from the right dataset. If there is no match found in the right dataset, then the result will contain `NA`. Use a left join when you want to retain all records from the "left" dataset, and add matching records from the "right" dataset where available.
+```{r}
+# R example
+flights_weather_left_joined <- left_join(flights, weather, by=c("year", "month", "day", "hour", "origin"))
+```
+
 ```{python}
-# Perform a left merge between `flights` and `weather` datasets.
+# Python example
 flights_weather_left_merged = pd.merge(flights, weather, how = "left", on = ["year", "month", "day", "hour", "origin"])
 ```
 
-#### Right Merge
-In a right merge, all rows from the right dataset and the matched rows from the left dataset are returned. If there is no match found in the left dataset, then the result will contain `NA`. It is the opposite of a left merge and is used when you want to retain all records from the "right" dataset.
+#### Right Join
+In a right join, all rows from the right dataset and the matched rows from the left dataset are returned. If there is no match found in the left dataset, then the result will contain `NA`. It is the opposite of a left join and is used when you want to retain all records from the "right" dataset.
+```{r}
+# R example
+flights_weather_right_joined <- right_join(flights, weather, by=c("year", "month", "day", "hour", "origin"))
+```
+
 ```{python}
-# Perform a right merge between `flights` and `weather` datasets.
+# Python example
 flights_weather_right_merged = pd.merge(flights, weather, how = "right", on = ["year", "month", "day", "hour", "origin"])
 ```
 
-#### Full Merge
-A full merge returns all rows when there is a match in either the left or right dataset. If there is no match found in either dataset, then the result will contain `NA`. It is useful when you want to retain all records from both datasets.
+#### Full Join
+A full join returns all rows when there is a match in either the left or right dataset. If there is no match found in either dataset, then the result will contain `NA`. It is useful when you want to retain all records from both datasets.
+```{r}
+# R example
+flights_weather_full_joined <- full_join(flights, weather, by=c("year", "month", "day", "hour", "origin"))
+head(flights_weather_full_joined)
+```
+
 ```{python}
-# Perform a full merge between `flights` and `weather` datasets.
+# Python example
 flights_weather_full_merged = pd.merge(flights, weather, how = "outer", on = ["year", "month", "day", "hour", "origin"])
 
 flights_weather_full_merged.head()
 ```
 
-#### Using Merges to Analyze the Data
+#### Using Joins to Analyze the Data
+Use the inner joined dataset to calculate the average departure delay for flights with precipitation greater than 0.5.
+```{r}
+# R example
+average_delay_per_condition <- flights_weather_inner_joined %>%
+  group_by(precip > 0.5) %>%
+  summarise(Average_Departure_Delay = mean(dep_delay, na.rm = TRUE))
+
+average_delay_per_condition
+```
+
 ```{python}
-# Use the inner merged dataset to calculate the average departure delay for flights with precipitation greater than 0.5.
+# Python example
 average_delay_per_condition = flights_weather_inner_merged.groupby(flights_weather_inner_merged["precip"] > 0.5).agg(Average_Departure_Delay = ("dep_delay", "mean"))
 
 average_delay_per_condition
 ```
 
-#### Anti Merge
-An anti merge returns rows from the left dataset where there are no matching keys in the right dataset. It's useful for identifying records in one dataset that do not have a counterpart in another dataset.
+#### Anti Join
+An anti join returns rows from the left dataset where there are no matching keys in the right dataset. It's useful for identifying records in one dataset that do not have a counterpart in another dataset.
+```{r}
+# R example
+flights_weather_anti_joined <- anti_join(flights, weather, by=c("year", "month", "day", "hour", "origin"))
+
+head(flights_weather_anti_joined)
+```
+
+In Python, the indicator parameter shows which dataset the row came from and is needed for anti-merge.
 ```{python}
-# The indicator argument shows which dataset the row came from and is needed for anti-merge.
+# Python example
 flights_weather_left_merged = pd.merge(flights, weather, how = "left", on = ["year", "month", "day", "hour", "origin"], indicator = True) 
 flights_weather_anti_merged = flights_weather_left_merged[(flights_weather_left_merged["_merge"] == "left_only")].drop("_merge", axis = 1)
 flights_weather_anti_merged_cleaned = flights_weather_anti_merged.dropna(axis = 1, how = 'all')

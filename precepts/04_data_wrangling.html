@@ -512,107 +512,6 @@ glimpse(rank)</code></pre>
 ## $ week    &lt;int&gt; 1, 2, 3, 4, 5, 6, 7, 1, 2, 3, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 1…
 ## $ rank    &lt;dbl&gt; 87, 82, 72, 77, 87, 94, 99, 91, 87, 92, 81, 70, 68, 67, 66, 57…</code></pre>
 </div>
-<div id="joins" class="section level2">
-<h2>Joins</h2>
-<p>In this section, we will join the <code>flights</code> dataset with
-the <code>weather</code> dataset from the <code>nycflights13</code>
-package to analyze how weather conditions might have affected the
-flights.</p>
-<p>Make sure you have installed and loaded
-<code>nycflights13</code>!</p>
-<pre class="r"><code>library(nycflights13)  # R has built-in datasets that can be loaded directly from a library</code></pre>
-<pre><code>## Warning: package &#39;nycflights13&#39; was built under R version 4.3.3</code></pre>
-<div id="inner-join" class="section level4">
-<h4>Inner Join</h4>
-<p>In an inner join, only the rows with matching keys in both data
-frames are returned. Rows with non-matching keys are excluded from the
-result. It’s useful when you want to join datasets based on common key
-columns, and you are only interested in rows with matching keys in both
-datasets.</p>
-<pre class="r"><code># Perform an inner join between `flights` and `weather` datasets.
-flights_weather_inner_joined &lt;- inner_join(flights, weather,by=c(&quot;year&quot;, &quot;month&quot;, &quot;day&quot;, &quot;hour&quot;, &quot;origin&quot;))</code></pre>
-</div>
-<div id="left-join" class="section level4">
-<h4>Left Join</h4>
-<p>A left join returns all rows from the left dataset and the matched
-rows from the right dataset. If there is no match found in the right
-dataset, then the result will contain <code>NA</code>. Use a left join
-when you want to retain all records from the “left” dataset, and add
-matching records from the “right” dataset where available.</p>
-<pre class="r"><code># Perform a left join between `flights` and `weather` datasets.
-flights_weather_left_joined &lt;- left_join(flights, weather, by=c(&quot;year&quot;, &quot;month&quot;, &quot;day&quot;, &quot;hour&quot;, &quot;origin&quot;))</code></pre>
-</div>
-<div id="right-join" class="section level4">
-<h4>Right Join</h4>
-<p>In a right join, all rows from the right dataset and the matched rows
-from the left dataset are returned. If there is no match found in the
-left dataset, then the result will contain <code>NA</code>. It is the
-opposite of a left join and is used when you want to retain all records
-from the “right” dataset.</p>
-<pre class="r"><code># Perform a right join between `flights` and `weather` datasets.
-flights_weather_right_joined &lt;- right_join(flights, weather, by=c(&quot;year&quot;, &quot;month&quot;, &quot;day&quot;, &quot;hour&quot;, &quot;origin&quot;))</code></pre>
-</div>
-<div id="full-join" class="section level4">
-<h4>Full Join</h4>
-<p>A full join returns all rows when there is a match in either the left
-or right dataset. If there is no match found in either dataset, then the
-result will contain <code>NA</code>. It is useful when you want to
-retain all records from both datasets.</p>
-<pre class="r"><code># Perform a full join between `flights` and `weather` datasets.
-flights_weather_full_joined &lt;- full_join(flights, weather, by=c(&quot;year&quot;, &quot;month&quot;, &quot;day&quot;, &quot;hour&quot;, &quot;origin&quot;))
-head(flights_weather_full_joined)</code></pre>
-<pre><code>## # A tibble: 6 × 29
-##    year month   day dep_time sched_dep_time dep_delay arr_time sched_arr_time
-##   &lt;int&gt; &lt;int&gt; &lt;int&gt;    &lt;int&gt;          &lt;int&gt;     &lt;dbl&gt;    &lt;int&gt;          &lt;int&gt;
-## 1  2013     1     1      517            515         2      830            819
-## 2  2013     1     1      533            529         4      850            830
-## 3  2013     1     1      542            540         2      923            850
-## 4  2013     1     1      544            545        -1     1004           1022
-## 5  2013     1     1      554            600        -6      812            837
-## 6  2013     1     1      554            558        -4      740            728
-## # ℹ 21 more variables: arr_delay &lt;dbl&gt;, carrier &lt;chr&gt;, flight &lt;int&gt;,
-## #   tailnum &lt;chr&gt;, origin &lt;chr&gt;, dest &lt;chr&gt;, air_time &lt;dbl&gt;, distance &lt;dbl&gt;,
-## #   hour &lt;dbl&gt;, minute &lt;dbl&gt;, time_hour.x &lt;dttm&gt;, temp &lt;dbl&gt;, dewp &lt;dbl&gt;,
-## #   humid &lt;dbl&gt;, wind_dir &lt;dbl&gt;, wind_speed &lt;dbl&gt;, wind_gust &lt;dbl&gt;,
-## #   precip &lt;dbl&gt;, pressure &lt;dbl&gt;, visib &lt;dbl&gt;, time_hour.y &lt;dttm&gt;</code></pre>
-</div>
-<div id="using-joins-to-analyze-the-data" class="section level4">
-<h4>Using Joins to Analyze the Data</h4>
-<pre class="r"><code># Use the inner joined dataset to calculate the average departure delay for flights with precipitation greater than 0.5.
-average_delay_per_condition &lt;- flights_weather_inner_joined %&gt;%
-  group_by(precip &gt; 0.5) %&gt;%
-  summarise(Average_Departure_Delay = mean(dep_delay, na.rm = TRUE))
-
-average_delay_per_condition</code></pre>
-<pre><code>## # A tibble: 2 × 2
-##   `precip &gt; 0.5` Average_Departure_Delay
-##   &lt;lgl&gt;                            &lt;dbl&gt;
-## 1 FALSE                             12.6
-## 2 TRUE                              48.8</code></pre>
-</div>
-<div id="anti-join" class="section level4">
-<h4>Anti Join</h4>
-<p>An anti join returns rows from the left dataset where there are no
-matching keys in the right dataset. It’s useful for identifying records
-in one dataset that do not have a counterpart in another dataset.</p>
-<pre class="r"><code># Perform an anti join between `flights` and `weather` datasets.
-flights_weather_anti_joined &lt;- anti_join(flights, weather, by=c(&quot;year&quot;, &quot;month&quot;, &quot;day&quot;, &quot;hour&quot;, &quot;origin&quot;))
-
-head(flights_weather_anti_joined)</code></pre>
-<pre><code>## # A tibble: 6 × 19
-##    year month   day dep_time sched_dep_time dep_delay arr_time sched_arr_time
-##   &lt;int&gt; &lt;int&gt; &lt;int&gt;    &lt;int&gt;          &lt;int&gt;     &lt;dbl&gt;    &lt;int&gt;          &lt;int&gt;
-## 1  2013     1     1     1153           1200        -7     1450           1529
-## 2  2013     1     1     1154           1200        -6     1253           1306
-## 3  2013     1     1     1155           1200        -5     1517           1510
-## 4  2013     1     1     1155           1200        -5     1312           1315
-## 5  2013     1     1     1157           1200        -3     1452           1456
-## 6  2013     1     1     1158           1200        -2     1256           1300
-## # ℹ 11 more variables: arr_delay &lt;dbl&gt;, carrier &lt;chr&gt;, flight &lt;int&gt;,
-## #   tailnum &lt;chr&gt;, origin &lt;chr&gt;, dest &lt;chr&gt;, air_time &lt;dbl&gt;, distance &lt;dbl&gt;,
-## #   hour &lt;dbl&gt;, minute &lt;dbl&gt;, time_hour &lt;dttm&gt;</code></pre>
-</div>
-</div>
 </div>
 <div id="data-wrangling-with-python" class="section level1">
 <h1>Data Wrangling with Python</h1>
@@ -764,54 +663,79 @@ rank</code></pre>
 ## 
 ## [24092 rows x 4 columns]</code></pre>
 </div>
-<div id="merges" class="section level2">
-<h2>Merges</h2>
-<p>In this section, we will merge the <code>flights</code> dataset with
-the <code>weather</code> dataset from the <code>nycflights13</code>
+<div id="joinsmerges" class="section level2">
+<h2>Joins/Merges</h2>
+<p>In this section, we will join the <code>flights</code> dataset with
+the <code>weather</code> dataset from the <code>nycflights13</code> R
 package to analyze how weather conditions might have affected the
 flights.</p>
 <p>Make sure you have loaded in <code>flights.csv</code> and
 <code>weather.csv</code>!</p>
+<pre class="r"><code>library(nycflights13)  # R has built-in datasets that can be loaded directly from a library</code></pre>
+<pre><code>## Warning: package &#39;nycflights13&#39; was built under R version 4.3.3</code></pre>
 <pre class="python"><code>import pandas as pd
 flights = pd.read_csv(&quot;flights.csv&quot;)
 weather = pd.read_csv(&quot;weather.csv&quot;)</code></pre>
-<div id="inner-merge" class="section level4">
-<h4>Inner Merge</h4>
-<p>In an inner merge, only the rows with matching keys in both data
+<div id="inner-join" class="section level4">
+<h4>Inner Join</h4>
+<p>In an inner join, only the rows with matching keys in both data
 frames are returned. Rows with non-matching keys are excluded from the
-result. It’s useful when you want to merge datasets based on common key
+result. It’s useful when you want to join datasets based on common key
 columns, and you are only interested in rows with matching keys in both
 datasets.</p>
-<pre class="python"><code># Perform an inner merge between `flights` and `weather` datasets.
+<pre class="r"><code># R example
+flights_weather_inner_joined &lt;- inner_join(flights, weather,by=c(&quot;year&quot;, &quot;month&quot;, &quot;day&quot;, &quot;hour&quot;, &quot;origin&quot;))</code></pre>
+<pre class="python"><code># Python example
 flights_weather_inner_merged = pd.merge(flights, weather, how = &quot;inner&quot;, on = [&quot;year&quot;, &quot;month&quot;, &quot;day&quot;, &quot;hour&quot;, &quot;origin&quot;])</code></pre>
 </div>
-<div id="left-merge" class="section level4">
-<h4>Left Merge</h4>
-<p>A left merge returns all rows from the left dataset and the matched
+<div id="left-join" class="section level4">
+<h4>Left Join</h4>
+<p>A left join returns all rows from the left dataset and the matched
 rows from the right dataset. If there is no match found in the right
-dataset, then the result will contain <code>NA</code>. Use a left merge
+dataset, then the result will contain <code>NA</code>. Use a left join
 when you want to retain all records from the “left” dataset, and add
 matching records from the “right” dataset where available.</p>
-<pre class="python"><code># Perform a left merge between `flights` and `weather` datasets.
+<pre class="r"><code># R example
+flights_weather_left_joined &lt;- left_join(flights, weather, by=c(&quot;year&quot;, &quot;month&quot;, &quot;day&quot;, &quot;hour&quot;, &quot;origin&quot;))</code></pre>
+<pre class="python"><code># Python example
 flights_weather_left_merged = pd.merge(flights, weather, how = &quot;left&quot;, on = [&quot;year&quot;, &quot;month&quot;, &quot;day&quot;, &quot;hour&quot;, &quot;origin&quot;])</code></pre>
 </div>
-<div id="right-merge" class="section level4">
-<h4>Right Merge</h4>
-<p>In a right merge, all rows from the right dataset and the matched
-rows from the left dataset are returned. If there is no match found in
-the left dataset, then the result will contain <code>NA</code>. It is
-the opposite of a left merge and is used when you want to retain all
-records from the “right” dataset.</p>
-<pre class="python"><code># Perform a right merge between `flights` and `weather` datasets.
+<div id="right-join" class="section level4">
+<h4>Right Join</h4>
+<p>In a right join, all rows from the right dataset and the matched rows
+from the left dataset are returned. If there is no match found in the
+left dataset, then the result will contain <code>NA</code>. It is the
+opposite of a left join and is used when you want to retain all records
+from the “right” dataset.</p>
+<pre class="r"><code># R example
+flights_weather_right_joined &lt;- right_join(flights, weather, by=c(&quot;year&quot;, &quot;month&quot;, &quot;day&quot;, &quot;hour&quot;, &quot;origin&quot;))</code></pre>
+<pre class="python"><code># Python example
 flights_weather_right_merged = pd.merge(flights, weather, how = &quot;right&quot;, on = [&quot;year&quot;, &quot;month&quot;, &quot;day&quot;, &quot;hour&quot;, &quot;origin&quot;])</code></pre>
 </div>
-<div id="full-merge" class="section level4">
-<h4>Full Merge</h4>
-<p>A full merge returns all rows when there is a match in either the
-left or right dataset. If there is no match found in either dataset,
-then the result will contain <code>NA</code>. It is useful when you want
-to retain all records from both datasets.</p>
-<pre class="python"><code># Perform a full merge between `flights` and `weather` datasets.
+<div id="full-join" class="section level4">
+<h4>Full Join</h4>
+<p>A full join returns all rows when there is a match in either the left
+or right dataset. If there is no match found in either dataset, then the
+result will contain <code>NA</code>. It is useful when you want to
+retain all records from both datasets.</p>
+<pre class="r"><code># R example
+flights_weather_full_joined &lt;- full_join(flights, weather, by=c(&quot;year&quot;, &quot;month&quot;, &quot;day&quot;, &quot;hour&quot;, &quot;origin&quot;))
+head(flights_weather_full_joined)</code></pre>
+<pre><code>## # A tibble: 6 × 29
+##    year month   day dep_time sched_dep_time dep_delay arr_time sched_arr_time
+##   &lt;int&gt; &lt;int&gt; &lt;int&gt;    &lt;int&gt;          &lt;int&gt;     &lt;dbl&gt;    &lt;int&gt;          &lt;int&gt;
+## 1  2013     1     1      517            515         2      830            819
+## 2  2013     1     1      533            529         4      850            830
+## 3  2013     1     1      542            540         2      923            850
+## 4  2013     1     1      544            545        -1     1004           1022
+## 5  2013     1     1      554            600        -6      812            837
+## 6  2013     1     1      554            558        -4      740            728
+## # ℹ 21 more variables: arr_delay &lt;dbl&gt;, carrier &lt;chr&gt;, flight &lt;int&gt;,
+## #   tailnum &lt;chr&gt;, origin &lt;chr&gt;, dest &lt;chr&gt;, air_time &lt;dbl&gt;, distance &lt;dbl&gt;,
+## #   hour &lt;dbl&gt;, minute &lt;dbl&gt;, time_hour.x &lt;dttm&gt;, temp &lt;dbl&gt;, dewp &lt;dbl&gt;,
+## #   humid &lt;dbl&gt;, wind_dir &lt;dbl&gt;, wind_speed &lt;dbl&gt;, wind_gust &lt;dbl&gt;,
+## #   precip &lt;dbl&gt;, pressure &lt;dbl&gt;, visib &lt;dbl&gt;, time_hour.y &lt;dttm&gt;</code></pre>
+<pre class="python"><code># Python example
 flights_weather_full_merged = pd.merge(flights, weather, how = &quot;outer&quot;, on = [&quot;year&quot;, &quot;month&quot;, &quot;day&quot;, &quot;hour&quot;, &quot;origin&quot;])
 
 flights_weather_full_merged.head()</code></pre>
@@ -824,9 +748,22 @@ flights_weather_full_merged.head()</code></pre>
 ## 
 ## [5 rows x 29 columns]</code></pre>
 </div>
-<div id="using-merges-to-analyze-the-data" class="section level4">
-<h4>Using Merges to Analyze the Data</h4>
-<pre class="python"><code># Use the inner merged dataset to calculate the average departure delay for flights with precipitation greater than 0.5.
+<div id="using-joins-to-analyze-the-data" class="section level4">
+<h4>Using Joins to Analyze the Data</h4>
+<p>Use the inner joined dataset to calculate the average departure delay
+for flights with precipitation greater than 0.5.</p>
+<pre class="r"><code># R example
+average_delay_per_condition &lt;- flights_weather_inner_joined %&gt;%
+  group_by(precip &gt; 0.5) %&gt;%
+  summarise(Average_Departure_Delay = mean(dep_delay, na.rm = TRUE))
+
+average_delay_per_condition</code></pre>
+<pre><code>## # A tibble: 2 × 2
+##   `precip &gt; 0.5` Average_Departure_Delay
+##   &lt;lgl&gt;                            &lt;dbl&gt;
+## 1 FALSE                             12.6
+## 2 TRUE                              48.8</code></pre>
+<pre class="python"><code># Python example
 average_delay_per_condition = flights_weather_inner_merged.groupby(flights_weather_inner_merged[&quot;precip&quot;] &gt; 0.5).agg(Average_Departure_Delay = (&quot;dep_delay&quot;, &quot;mean&quot;))
 
 average_delay_per_condition</code></pre>
@@ -835,12 +772,30 @@ average_delay_per_condition</code></pre>
 ## False                 12.619899
 ## True                  48.800000</code></pre>
 </div>
-<div id="anti-merge" class="section level4">
-<h4>Anti Merge</h4>
-<p>An anti merge returns rows from the left dataset where there are no
+<div id="anti-join" class="section level4">
+<h4>Anti Join</h4>
+<p>An anti join returns rows from the left dataset where there are no
 matching keys in the right dataset. It’s useful for identifying records
 in one dataset that do not have a counterpart in another dataset.</p>
-<pre class="python"><code># The indicator argument shows which dataset the row came from and is needed for anti-merge.
+<pre class="r"><code># R example
+flights_weather_anti_joined &lt;- anti_join(flights, weather, by=c(&quot;year&quot;, &quot;month&quot;, &quot;day&quot;, &quot;hour&quot;, &quot;origin&quot;))
+
+head(flights_weather_anti_joined)</code></pre>
+<pre><code>## # A tibble: 6 × 19
+##    year month   day dep_time sched_dep_time dep_delay arr_time sched_arr_time
+##   &lt;int&gt; &lt;int&gt; &lt;int&gt;    &lt;int&gt;          &lt;int&gt;     &lt;dbl&gt;    &lt;int&gt;          &lt;int&gt;
+## 1  2013     1     1     1153           1200        -7     1450           1529
+## 2  2013     1     1     1154           1200        -6     1253           1306
+## 3  2013     1     1     1155           1200        -5     1517           1510
+## 4  2013     1     1     1155           1200        -5     1312           1315
+## 5  2013     1     1     1157           1200        -3     1452           1456
+## 6  2013     1     1     1158           1200        -2     1256           1300
+## # ℹ 11 more variables: arr_delay &lt;dbl&gt;, carrier &lt;chr&gt;, flight &lt;int&gt;,
+## #   tailnum &lt;chr&gt;, origin &lt;chr&gt;, dest &lt;chr&gt;, air_time &lt;dbl&gt;, distance &lt;dbl&gt;,
+## #   hour &lt;dbl&gt;, minute &lt;dbl&gt;, time_hour &lt;dttm&gt;</code></pre>
+<p>In Python, the indicator parameter shows which dataset the row came
+from and is needed for anti-merge.</p>
+<pre class="python"><code># Python example
 flights_weather_left_merged = pd.merge(flights, weather, how = &quot;left&quot;, on = [&quot;year&quot;, &quot;month&quot;, &quot;day&quot;, &quot;hour&quot;, &quot;origin&quot;], indicator = True) 
 flights_weather_anti_merged = flights_weather_left_merged[(flights_weather_left_merged[&quot;_merge&quot;] == &quot;left_only&quot;)].drop(&quot;_merge&quot;, axis = 1)
 flights_weather_anti_merged_cleaned = flights_weather_anti_merged.dropna(axis = 1, how = &#39;all&#39;)
