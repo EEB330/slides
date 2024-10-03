@@ -9,7 +9,7 @@ output: html_document
 # Precept intro
 Precepts can be found here: [https://eeb330.github.io/#Precepts](https://eeb330.github.io/#Precepts).
 
-We're going to mostly be doing the precept problem sets during class, but I'll be posting them as well. If you don't finish during class, you can finish them on your own time and submit them to the appropriate assignment within 2 weeks to GitHub Classroom.
+We're going to mostly be doing the precept problem sets during class, but I'll be posting them as well. If you don't finish during class, you can finish them on your own time and submit them to the appropriate assignment in 1 week to GitHub Classroom.
 
 # Introduction
 
