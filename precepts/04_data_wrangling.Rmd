@@ -117,12 +117,12 @@ Next, the `transform` function is utilized to create and modify variables within
 
 - **`lambda x: x.str.replace("wk", "").astype(int)`**: Converts the `week` column to integer by removing the "wk" prefix from the values in the `week` column and then coercing them to integer.
 - **`pd.to_timedelta(7 * (billboard2["week"] - 1), unit = "D")`**: Calculates a new `date` column by adding the number of weeks (converted to days) to the `date.entered` column, allowing tracking of the specific date related to each week"s data.
-- **`date.entered = NULL`**: Removes the original `date.entered` column after the new `date` column has been created.
+- **`drop(columns = ["date.entered"])`**: Removes the original `date.entered` column after the new `date` column has been created.
 
 ```{python}
 billboard2["week"] = billboard2["week"].transform(lambda x: x.str.replace("wk", "").astype(int))
 billboard2["date"] = pd.to_datetime(billboard2["date.entered"]) + pd.to_timedelta(7 * (billboard2["week"] - 1), unit = "D")
-billboard3 = billboard2.drop(columns=["date.entered"])
+billboard3 = billboard2.drop(columns = ["date.entered"])
 
 billboard3
 ```
@@ -242,7 +242,7 @@ flights_weather_anti_joined <- anti_join(flights, weather, by=c("year", "month",
 head(flights_weather_anti_joined)
 ```
 
-In Python, the indicator parameter shows which dataset the row came from and is needed for anti-merge.
+In Python, the anti merge operation can be achieved by performing a left merge and then filtering out the rows that have no match in the right dataset. The `indicator` parameter is set to `True` to create the `_merge` column. The `_merge` column is used to identify the rows that have no match in the right dataset with the value `left_only`.
 ```{python}
 # Python example
 flights_weather_left_merged = pd.merge(flights, weather, how = "left", on = ["year", "month", "day", "hour", "origin"], indicator = True) 

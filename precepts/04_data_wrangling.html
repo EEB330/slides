@@ -370,6 +370,8 @@ data example</a>.</p>
 <pre><code>## Warning: package &#39;pak&#39; was built under R version 4.3.3</code></pre>
 <pre class="r"><code>pak::pkg_install(&quot;tidyverse&quot;)
 library(tidyverse)</code></pre>
+<pre><code>## Warning: package &#39;tidyr&#39; was built under R version 4.3.3</code></pre>
+<pre><code>## Warning: package &#39;readr&#39; was built under R version 4.3.3</code></pre>
 <pre><code>## Warning: package &#39;stringr&#39; was built under R version 4.3.3</code></pre>
 <pre class="r"><code># Visualizing the structure of the data to understand it better
 head(billboard) # billboard is a dataset that comes with the tidyr package</code></pre>
@@ -575,13 +577,13 @@ them to integer.</li>
 Calculates a new <code>date</code> column by adding the number of weeks
 (converted to days) to the <code>date.entered</code> column, allowing
 tracking of the specific date related to each week”s data.</li>
-<li><strong><code>date.entered = NULL</code></strong>: Removes the
-original <code>date.entered</code> column after the new
+<li><strong><code>drop(columns = [&quot;date.entered&quot;])</code></strong>:
+Removes the original <code>date.entered</code> column after the new
 <code>date</code> column has been created.</li>
 </ul>
 <pre class="python"><code>billboard2[&quot;week&quot;] = billboard2[&quot;week&quot;].transform(lambda x: x.str.replace(&quot;wk&quot;, &quot;&quot;).astype(int))
 billboard2[&quot;date&quot;] = pd.to_datetime(billboard2[&quot;date.entered&quot;]) + pd.to_timedelta(7 * (billboard2[&quot;week&quot;] - 1), unit = &quot;D&quot;)
-billboard3 = billboard2.drop(columns=[&quot;date.entered&quot;])
+billboard3 = billboard2.drop(columns = [&quot;date.entered&quot;])
 
 billboard3</code></pre>
 <pre><code>##                  artist                    track  week  rank       date
@@ -650,15 +652,15 @@ song</code></pre>
 rank</code></pre>
 <pre><code>##        song_id       date  week  rank
 ## 0            1 2000-02-26     1  87.0
-## 1            1 2000-03-04     2  82.0
-## 2            1 2000-03-11     3  72.0
-## 3            1 2000-03-18     4  77.0
-## 4            1 2000-03-25     5  87.0
+## 1            2 2000-09-02     1  91.0
+## 2            3 2000-04-08     1  81.0
+## 3            4 2000-10-21     1  76.0
+## 4            5 2000-04-15     1  57.0
 ## ...        ...        ...   ...   ...
-## 24087      317 2001-09-08    72   NaN
-## 24088      317 2001-09-15    73   NaN
-## 24089      317 2001-09-22    74   NaN
-## 24090      317 2001-09-29    75   NaN
+## 24087      313 2001-10-06    76   NaN
+## 24088      314 2001-09-08    76   NaN
+## 24089      315 2001-08-25    76   NaN
+## 24090      316 2002-02-09    76   NaN
 ## 24091      317 2001-10-06    76   NaN
 ## 
 ## [24092 rows x 4 columns]</code></pre>
@@ -740,11 +742,11 @@ flights_weather_full_merged = pd.merge(flights, weather, how = &quot;outer&quot;
 
 flights_weather_full_merged.head()</code></pre>
 <pre><code>##    year  month  day  dep_time  sched_dep_time  ...  wind_gust  precip  pressure  visib          time_hour_y
-## 0  2013      1    1     517.0           515.0  ...        NaN     0.0    1011.9   10.0  2013-01-01 05:00:00
-## 1  2013      1    1     554.0           558.0  ...        NaN     0.0    1011.9   10.0  2013-01-01 05:00:00
-## 2  2013      1    1     533.0           529.0  ...   21.86482     0.0    1011.4   10.0  2013-01-01 05:00:00
-## 3  2013      1    1     542.0           540.0  ...        NaN     0.0    1012.1   10.0  2013-01-01 05:00:00
-## 4  2013      1    1     544.0           545.0  ...        NaN     0.0    1012.1   10.0  2013-01-01 05:00:00
+## 0  2013      1    1       NaN             NaN  ...        NaN     0.0    1012.0   10.0  2013-01-01 01:00:00
+## 1  2013      1    1       NaN             NaN  ...        NaN     0.0    1012.6   10.0  2013-01-01 01:00:00
+## 2  2013      1    1       NaN             NaN  ...    23.0156     0.0    1011.9   10.0  2013-01-01 01:00:00
+## 3  2013      1    1       NaN             NaN  ...        NaN     0.0    1012.3   10.0  2013-01-01 02:00:00
+## 4  2013      1    1       NaN             NaN  ...        NaN     0.0    1012.4   10.0  2013-01-01 02:00:00
 ## 
 ## [5 rows x 29 columns]</code></pre>
 </div>
@@ -793,8 +795,12 @@ head(flights_weather_anti_joined)</code></pre>
 ## # ℹ 11 more variables: arr_delay &lt;dbl&gt;, carrier &lt;chr&gt;, flight &lt;int&gt;,
 ## #   tailnum &lt;chr&gt;, origin &lt;chr&gt;, dest &lt;chr&gt;, air_time &lt;dbl&gt;, distance &lt;dbl&gt;,
 ## #   hour &lt;dbl&gt;, minute &lt;dbl&gt;, time_hour &lt;dttm&gt;</code></pre>
-<p>In Python, the indicator parameter shows which dataset the row came
-from and is needed for anti-merge.</p>
+<p>In Python, the anti merge operation can be achieved by performing a
+left merge and then filtering out the rows that have no match in the
+right dataset. The <code>indicator</code> parameter is set to
+<code>True</code> to create the <code>_merge</code> column. The
+<code>_merge</code> column is used to identify the rows that have no
+match in the right dataset with the value <code>left_only</code>.</p>
 <pre class="python"><code># Python example
 flights_weather_left_merged = pd.merge(flights, weather, how = &quot;left&quot;, on = [&quot;year&quot;, &quot;month&quot;, &quot;day&quot;, &quot;hour&quot;, &quot;origin&quot;], indicator = True) 
 flights_weather_anti_merged = flights_weather_left_merged[(flights_weather_left_merged[&quot;_merge&quot;] == &quot;left_only&quot;)].drop(&quot;_merge&quot;, axis = 1)
