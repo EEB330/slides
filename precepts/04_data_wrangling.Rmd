@@ -5,6 +5,8 @@ date: Oct. 3, 2024
 output: html_document
 ---
 
+## [GitHub Classroom Assignment](https://classroom.github.com/a/ku6jldbD)
+
 > **Reminder** If you have not installed pak, do so now.  You can install it from CRAN with `install.packages("pak")` Once installed, load it with `library(pak)`.
 
 # Data Wrangling with R
