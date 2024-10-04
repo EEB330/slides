@@ -272,7 +272,7 @@ Please see the [nycflights13"s documentation](https://cran.r-project.org/web/pac
 - **Expected Output:** A `data.frame` with a single row showing the average air time in hours and the number of flights from JFK to LAX.
 
 
-### Exercise 3 -- Joining/Merging
+### Exercise 3 -- Wrangling Airport Data
 
 - **Task:** Using the `airports` dataset, report the frequency of the time zones of destinations in descending order. Additionally, find an example of an airport with a missing time zone and report the name of the airport, explaining how you checked for it.
 - **Expected Output:** 
