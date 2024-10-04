@@ -274,7 +274,7 @@ Please see the [nycflights13"s documentation](https://cran.r-project.org/web/pac
 
 ### Exercise 3 -- Joining/Merging
 
-- **Task:** Perform an inner join between the `airports` and `flights` data sets on the `faa` and `dest` columns, respectively. Then, report the frequency of the time zones of destinations in descending order. Additionally, find an example of an airport with a missing time zone and report the name of the airport, explaining how you checked for it.
+- **Task:** Using the `airports` dataset, report the frequency of the time zones of destinations in descending order. Additionally, find an example of an airport with a missing time zone and report the name of the airport, explaining how you checked for it.
 - **Expected Output:** 
    1. A `data.frame` listing the time zones by frequency in descending order.
    2. The name of at least one airport with a missing time zone and the code used to identify it.
