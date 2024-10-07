@@ -100,6 +100,7 @@ flights %>%
   summarise(mean_delay = mean(arr_delay, 
                               na.rm = TRUE))
 ```
+
 ]
 .pull-right[
 - With `group_by`, this is a powerful function:
@@ -111,6 +112,7 @@ flights %>%
                          na.rm = TRUE)) %>%
   print(n = 9)
 ```
+]
 
 ---
 

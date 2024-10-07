@@ -1,0 +1,765 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Split Apply Combine</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Guillaume Falmagne" />
+    <script src="10_SplitApplyCombine_files/header-attrs-2.28/header-attrs.js"></script>
+    <link href="10_SplitApplyCombine_files/remark-css-0.0.1/default.css" rel="stylesheet" />
+    <link href="10_SplitApplyCombine_files/remark-css-0.0.1/metropolis.css" rel="stylesheet" />
+    <link href="10_SplitApplyCombine_files/remark-css-0.0.1/metropolis-fonts.css" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+.title[
+# Split Apply Combine
+]
+.subtitle[
+## Avoidings loops!
+]
+.author[
+### Guillaume Falmagne
+]
+.date[
+### <br> Oct. 7th, 2023
+]
+
+---
+
+
+
+class: inverse, center, middle
+# Loops are slow in R (and Python)
+
+---
+
+class: left, top
+background-image: url(figures/splitApplyCombine.png)
+background-position: center middle
+background-size:  70%
+
+# Split-apply-combine scheme
+
+---
+
+# The apply family of functions in R 
+
+- Meant to make using functions along object easy
+
+- Several types, depending on the input and output type
+
+    - `apply`: along dimensions of an array
+    - `lapply`: along the elements of a vector or list, returns a list
+    - `sapply`: along the elements of a vector or list, returns a vector (if possible)
+    - `tapply`: along the elements of a vector, grouped by a factor vector
+
+- These differ in how the "split" part of Split-Apply-Combine is represented
+
+- These are not always "type stable": the output format can change depending on the function we use
+
+- Equivalent in Python: mainly `df.apply(some_function)` or `dfcolumn.map(function)`, though sometimes tricky (and does not work `inplace`). 
+  - For `numpy` arrays, simple functions are implemented in numpy -- use the `axis=` argument in them!
+
+---
+# apply in vectors and array
+
+- General structure: 
+```r
+apply(X = array or matrix, 
+          MARGIN = dimension that is kept, 
+          FUN = function that is used)
+```
+.center[
+![](figures/arrays.jpeg)
+]
+---
+
+# apply in vectors and array
+
+- General structure: 
+```r
+apply(X = array or matrix, 
+          MARGIN = dimension that is kept, 
+          FUN = function that is used)
+```
+
+
+``` r
+data(iris)
+# Extract the numeric values as a matrix
+iris_num = as.matrix(iris[,1:4])
+
+# calculate column means
+apply(iris_num, 2, mean)
+```
+
+```
+## Sepal.Length  Sepal.Width Petal.Length  Petal.Width 
+##     5.843333     3.057333     3.758000     1.199333
+```
+
+``` r
+# This is so common there is a fast dedicated function:
+colMeans(iris_num)
+```
+
+- In numpy, simply: `somearray.mean(axis=n)`. **BEWARE**, here `n` is the axis that is averaged on/disappears!
+
+---
+
+# At least one array during this course...
+
+- The `iris3` dataset has the same data as in the `iris` dataframe, but in an array format
+
+- It has 3 dimensions
+    - Dim 1, rows, indexed individuals
+    - Dim 2, columns, indexes traits
+    - Dim 3, that lacks a common name, holds species
+
+
+``` r
+dim(iris3)
+```
+
+```
+## [1] 50  4  3
+```
+--
+
+- To calculate the variance per trait per species
+
+
+``` r
+apply(iris3, c(2, 3), var)
+```
+
+```
+##              Setosa Versicolor  Virginica
+## Sepal L. 0.12424898 0.26643265 0.40434286
+## Sepal W. 0.14368980 0.09846939 0.10400408
+## Petal L. 0.03015918 0.22081633 0.30458776
+## Petal W. 0.01110612 0.03910612 0.07543265
+```
+---
+
+# `tapply`, old school `group_by`
+
+- General structure: 
+```r
+tapply(X = vector,
+          MARGIN = grouping_vector, 
+          FUN = function that is used)
+```
+
+
+``` r
+sepal_means = tapply(iris$Petal.Length, iris$Species, mean)
+sepal_means
+```
+
+```
+##     setosa versicolor  virginica 
+##      1.462      4.260      5.552
+```
+
+- Pandas: go back to `iris.groupby('Length').apply('mean')`. Also look into `df.agg({'col_name':function, ...})`
+
+---
+
+# `lapply`, the super useful generic function for lists
+
+
+- General structure: 
+```r
+lapply(X = vector or list,
+           FUN = function that is used)
+```
+
+
+``` r
+# List all the csv files in the current folder
+my_csvs = dir(pattern = "\\.csv$")
+
+# Apply the read.csv function to each file
+input_dfs = lapply(my_csvs, read.csv)
+
+# Check out the dimensions of the inputed data.frames
+lapply(input_dfs, dim)
+```
+
+```
+## list()
+```
+
+
+---
+
+class: inverse, center, middle
+# Modern Alternatives to apply functions
+
+---
+
+# The evolution of the apply family: `plyr`
+
+- The `plyr` package is an early tidyverse precursor that provides more intuitive, type stable, replacements for the apply family of functions.
+
+- Functions have a generic naming scheme: `..ply()`
+
+.pull-left[
+  - The first letter defines the input format:
+    - `l.ply()` - receives a list
+    - `d.ply()` - receives a data.frame
+    - `a.ply()` - receives an array
+] 
+--
+.pull-right[
+  - The second letter defines the output format:
+    - `.lply()` - outputs a list
+    - `.dply()` - outputs a data.frame
+    - `.aply()` - outputs an array
+] 
+--
+
+``` r
+library(plyr)
+adply(iris3, 3, colMeans) # Array to data.frame
+```
+
+```
+##           X1 Sepal L. Sepal W. Petal L. Petal W.
+## 1     Setosa    5.006    3.428    1.462    0.246
+## 2 Versicolor    5.936    2.770    4.260    1.326
+## 3  Virginica    6.588    2.974    5.552    2.026
+```
+---
+
+# `l.ply`
+
+- Lists are naturaly segregated, so we only need to pass an input list and a function
+
+
+``` r
+library(plyr)
+simple_list &lt;- list('zero' = rnorm(5), 
+                    'five' = rnorm(5, 5), 
+                    'ten' = rnorm(5, 10))
+simple_list
+```
+
+```
+## $zero
+## [1]  0.3562968 -0.4646366  1.0384107 -1.2643824  1.2090958
+## 
+## $five
+## [1] 6.041002 3.587299 6.024406 4.596798 5.170229
+## 
+## $ten
+## [1]  9.677742 10.760693  8.750475 10.477779  9.178989
+```
+
+``` r
+laply(simple_list, mean)
+```
+
+```
+## [1] 0.1749569 5.0839468 9.7691354
+```
+
+---
+
+# Type conversions using `plyr`
+
+- The plyr functions are convenient for converting objects:
+- To convert out list to a data.frame, use `ldply`:
+
+``` r
+ldply(simple_list)
+```
+
+```
+##    .id        V1         V2       V3        V4       V5
+## 1 zero 0.3562968 -0.4646366 1.038411 -1.264382 1.209096
+## 2 five 6.0410018  3.5872988 6.024406  4.596798 5.170229
+## 3  ten 9.6777417 10.7606930 8.750475 10.477779 9.178989
+```
+
+- Or to an array, using `laply`:
+
+
+``` r
+laply(simple_list, identity) # for arrays we need the identity() function
+```
+
+```
+##              1          2        3         4        5
+## [1,] 0.3562968 -0.4646366 1.038411 -1.264382 1.209096
+## [2,] 6.0410018  3.5872988 6.024406  4.596798 5.170229
+## [3,] 9.6777417 10.7606930 8.750475 10.477779 9.178989
+```
+
+- Python: simply use the list as argument to a `np.array()` or `pd.DataFrame` initializer
+
+---
+
+# `a.ply` functions
+
+- Arrays lack a natural division, so we need to specify the dimensions to apply the functions using the second argument
+
+
+``` r
+aaply(iris3, 3, colMeans)
+```
+
+```
+##             
+## X1           Sepal L. Sepal W. Petal L. Petal W.
+##   Setosa        5.006    3.428    1.462    0.246
+##   Versicolor    5.936    2.770    4.260    1.326
+##   Virginica     6.588    2.974    5.552    2.026
+```
+
+---
+
+# `d.ply` is mostly obsolete
+
+- Any time you feel the urge to use plyr to work on a data.frame, you should probably use the tidyverse functions we saw last week
+
+- `dplyr`, the tidyverse package that holds all the data.frame manipulation functions is a more modern version of `ddply`
+
+---
+
+# Parallel computing for the masses
+
+- `plyr` is old, but it is the easy way to run parallel code in R. The parallel interface in `plyr` is dead simple
+
+1. Just load a parallel computation package, 
+2. tell it how many threads you want to use, 
+3. and use the `plyr` functions with the `.parallel = TRUE` argument
+
+`library(doMC)`
+
+
+``` r
+registerDoMC(8)
+
+system.time(x &lt;- llply(1:10000, function(x) rnorm(10), .parallel = FALSE))
+```
+
+```
+##    user  system elapsed 
+##    0.01    0.00    0.01
+```
+
+``` r
+system.time(x &lt;- llply(1:10000, function(x) rnorm(10), .parallel = TRUE))
+```
+
+```
+##    user  system elapsed 
+##   0.598   0.188   0.531
+```
+
+---
+
+# Running a parallel bootstrap
+
+
+``` r
+runGLM &lt;- function(arg){
+  x &lt;- iris[which(iris[,5] != "setosa"), c(1,5)]
+  ind &lt;- sample(100, 100, replace=TRUE)
+  result1 &lt;- glm(x[ind,2]~x[ind,1], family=binomial(logit))   # the '~' is used for a "formula" 
+  coefficients(result1)
+}
+```
+
+- This computation is complex enough that it is worth using the extra cores
+
+
+``` r
+system.time(x &lt;- llply(1:1000, runGLM, .parallel = FALSE))
+```
+
+```
+##    user  system elapsed 
+##   0.771   0.003   0.774
+```
+
+``` r
+system.time(x &lt;- llply(1:1000, runGLM, .parallel = TRUE))
+```
+
+```
+##    user  system elapsed 
+##   1.149   0.356   0.292
+```
+
+---
+
+class: inverse, center, middle
+# Post-Modern Alternatives to apply functions
+
+---
+
+
+# Back into the tidyverse with `purrr`
+
+- Functions for applying a function over a vector
+
+- Great error messages
+
+- Basic function is `map`
+
+.pull-left[
+
+
+``` r
+triple &lt;- function(x) x * 3
+map(1:3, triple)
+```
+
+```
+## [[1]]
+## [1] 3
+## 
+## [[2]]
+## [1] 6
+## 
+## [[3]]
+## [1] 9
+```
+]
+.pull-right[
+  ![:scale 50%](figures/purrr.png)
+]
+
+---
+
+background-image: url(figures/map.png)
+background-position: middle center
+background-size:  50%
+# Visualizing `map`
+
+---
+
+
+background-image: url(figures/map-arg.png)
+background-position: middle center
+background-size:  50%
+# Additional arguments get repeated
+
+---
+
+
+background-image: url(figures/map-arg-recycle.png)
+background-position: middle center
+background-size:  50%
+# Additional arguments get repeated 
+
+- Even vectors get repeated
+
+---
+
+background-image: url(figures/map2.png)
+background-position: middle center
+background-size:  50%
+# If you have two lists of arguments, `map2`
+
+---
+
+background-image: url(figures/pmap-3.png)
+background-position: middle center
+background-size:  50%
+# After that, `pmap`
+
+- For `pmap`, the inputs should be wrapped in a list
+
+---
+
+background-image: url(figures/pmap-arg.png)
+background-position: middle center
+background-size:  50%
+# All these functions allow common arguments
+
+---
+
+# Type stable functions
+
+- You usually know the type of the output you expect
+
+- There are some functions that guarantee that outcome:
+
+  - `map_int`: returns a `int` vector
+
+  - `map_dbl`: returns a `numeric` vector
+
+  - `map_lgl`: returns a `logical` vector
+
+  - `map_vec`: returns a vector of the simplest possible type
+
+- These throw great comprehensible errors when the output type is unexpected
+
+- [Purrr Cheat Sheet](https://rstudio.github.io/cheatsheets/purrr.pdf)
+
+- [Functional programming](https://adv-r.hadley.nz/functionals.html)
+
+---
+
+# `purrr` in the tidyverse
+
+
+``` r
+library(purrr)
+
+mtcars |&gt; 
+  split(mtcars$cyl) |&gt;  # from base R
+  map(\(df) lm(mpg ~ wt, data = df)) |&gt;  # \(df) is a shortcut for function(df)
+  map(summary) |&gt;
+  map_dbl("r.squared")  # R^2 is one of the outputs of the summary from the linear model fit
+```
+
+```
+##         4         6         8 
+## 0.5086326 0.4645102 0.4229655
+```
+
+---
+
+background-image: url(figures/reduce.png)
+background-position: middle center
+background-size:  50%
+# Reduce
+
+
+
+---
+
+background-image: url(figures/walk.png)
+background-position: middle center
+background-size:  35%
+# `walk` and `walk2`, for the side effects
+
+- Side effects are things that happen in a program that do not alter any object.
+  - Showing a plot 
+  - Outputing a file (`export`, `write_csv`)
+  - Printing to the console (`cat`, `print`)
+
+---
+
+background-image: url(figures/walk2.png)
+background-position: middle center
+background-size:  40%
+# `walk` and `walk2`, for the side effects
+
+- Side effects are things that happen in a program that do not alter any object.
+  - Showing a plot 
+  - Outputing a file (`export`, `write_csv`)
+  - Printing to the console (`cat`, `print`)
+
+---
+
+# walk2 for outputing files
+
+
+``` r
+# Split the iris data.set into 3 parts
+iris_list = split(iris, iris$Species)
+
+# Create the appropriate file names:
+iris_out_files = paste0("iris-", names(iris_list), ".csv")
+
+# Use the walk2 function to write the files
+walk2(iris_list, iris_out_files, write_csv)
+
+# Check that the files were created
+dir(pattern = "iris")
+```
+
+```
+## [1] "iris-setosa.csv"     "iris-versicolor.csv" "iris-virginica.csv"
+```
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script src="macros.js"></script>
+<script>var slideshow = remark.create({
+"highlightLines": true,
+"chakra": "libs/remark-latest.min.js",
+"ratio": "16:10"
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+// add `data-at-shortcutkeys` attribute to <body> to resolve conflicts with JAWS
+// screen reader (see PR #262)
+(function(d) {
+  let res = {};
+  d.querySelectorAll('.remark-help-content table tr').forEach(tr => {
+    const t = tr.querySelector('td:nth-child(2)').innerText;
+    tr.querySelectorAll('td:first-child .key').forEach(key => {
+      const k = key.innerText;
+      if (/^[a-z]$/.test(k)) res[k] = t;  // must be a single letter (key)
+    });
+  });
+  d.body.setAttribute('data-at-shortcutkeys', JSON.stringify(res));
+})(document);
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+(function(time) {
+  var d2 = function(number) {
+    return ('0' + number).slice(-2); // left-pad 0 to minutes/seconds
+  },
+
+  time_format = function(total) {
+    var secs = Math.abs(total) / 1000;
+    var h = Math.floor(secs / 3600);
+    var m = Math.floor(secs % 3600 / 60);
+    var s = Math.round(secs % 60);
+    var res = d2(m) + ':' + d2(s);
+    if (h > 0) res = h + ':' + res;
+    return res;  // [hh:]mm:ss
+  },
+
+  slide_number_div = function(i) {
+    return document.getElementsByClassName('remark-slide-number').item(i);
+  },
+
+  current_page_number = function(i) {
+    return slide_number_div(i).firstChild.textContent;  // text "i / N"
+  };
+
+  var timer = document.createElement('span'); timer.id = 'slide-time-left';
+  var time_left = time, k = slideshow.getCurrentSlideIndex(),
+      last_page_number = current_page_number(k);
+
+  setInterval(function() {
+    time_left = time_left - 1000;
+    timer.innerHTML = ' ' + time_format(time_left);
+    if (time_left < 0) timer.style.color = 'red';
+  }, 1000);
+
+  slide_number_div(k).appendChild(timer);
+
+  slideshow.on('showSlide', function(slide) {
+    var i = slide.getSlideIndex(), n = current_page_number(i);
+    // reset timer when a new slide is shown and the page number is changed
+    if (last_page_number !== n) {
+      time_left = time; last_page_number = n;
+      timer.innerHTML = ' ' + time_format(time); timer.style.color = null;
+    }
+    slide_number_div(i).appendChild(timer);
+  });
+})(60000);
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

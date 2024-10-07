@@ -33,9 +33,9 @@ conflicts_prefer(dplyr::summarize)
 #render("07_RegularExpressions.Rmd")
 ## Week 4
 #render("08_DataWrangling1.Rmd")
-render("09_DataWrangling2.Rmd")
+#render("09_DataWrangling2.Rmd")
 ## Week 5
-#render("10_SplitApplyCombine.Rmd")
+render("10_SplitApplyCombine.Rmd")
 ## Week 6
 # render("12_GrammarOfGraphics.Rmd")
 
