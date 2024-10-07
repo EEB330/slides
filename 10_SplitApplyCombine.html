@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="" xml:lang="">
   <head>
-    <title>Split Apply Combine</title>
+    <title>Applyong and mapping functions</title>
     <meta charset="utf-8" />
     <meta name="author" content="Guillaume Falmagne" />
     <script src="10_SplitApplyCombine_files/header-attrs-2.28/header-attrs.js"></script>
@@ -15,10 +15,10 @@
 class: center, middle, inverse, title-slide
 
 .title[
-# Split Apply Combine
+# Applyong and mapping functions
 ]
 .subtitle[
-## Avoidings loops!
+## Avoidings loops! – Split Apply Combine
 ]
 .author[
 ### Guillaume Falmagne
@@ -251,13 +251,13 @@ simple_list
 
 ```
 ## $zero
-## [1]  0.3562968 -0.4646366  1.0384107 -1.2643824  1.2090958
+## [1]  0.4315625 -0.8129847  0.4320722 -0.4182812  0.2801960
 ## 
 ## $five
-## [1] 6.041002 3.587299 6.024406 4.596798 5.170229
+## [1] 5.026150 5.167334 4.117727 2.927309 4.227760
 ## 
 ## $ten
-## [1]  9.677742 10.760693  8.750475 10.477779  9.178989
+## [1] 10.971430  9.139683  9.429977 10.085677 10.792252
 ```
 
 ``` r
@@ -265,7 +265,7 @@ laply(simple_list, mean)
 ```
 
 ```
-## [1] 0.1749569 5.0839468 9.7691354
+## [1] -0.01748703  4.29325611 10.08380365
 ```
 
 ---
@@ -280,10 +280,10 @@ ldply(simple_list)
 ```
 
 ```
-##    .id        V1         V2       V3        V4       V5
-## 1 zero 0.3562968 -0.4646366 1.038411 -1.264382 1.209096
-## 2 five 6.0410018  3.5872988 6.024406  4.596798 5.170229
-## 3  ten 9.6777417 10.7606930 8.750475 10.477779 9.178989
+##    .id         V1         V2        V3         V4        V5
+## 1 zero  0.4315625 -0.8129847 0.4320722 -0.4182812  0.280196
+## 2 five  5.0261504  5.1673342 4.1177267  2.9273091  4.227760
+## 3  ten 10.9714300  9.1396827 9.4299772 10.0856768 10.792252
 ```
 
 - Or to an array, using `laply`:
@@ -294,10 +294,10 @@ laply(simple_list, identity) # for arrays we need the identity() function
 ```
 
 ```
-##              1          2        3         4        5
-## [1,] 0.3562968 -0.4646366 1.038411 -1.264382 1.209096
-## [2,] 6.0410018  3.5872988 6.024406  4.596798 5.170229
-## [3,] 9.6777417 10.7606930 8.750475 10.477779 9.178989
+##               1          2         3          4         5
+## [1,]  0.4315625 -0.8129847 0.4320722 -0.4182812  0.280196
+## [2,]  5.0261504  5.1673342 4.1177267  2.9273091  4.227760
+## [3,] 10.9714300  9.1396827 9.4299772 10.0856768 10.792252
 ```
 
 - Python: simply use the list as argument to a `np.array()` or `pd.DataFrame` initializer
@@ -359,7 +359,7 @@ system.time(x &lt;- llply(1:10000, function(x) rnorm(10), .parallel = TRUE))
 
 ```
 ##    user  system elapsed 
-##   0.598   0.188   0.531
+##   0.606   0.177   0.530
 ```
 
 ---
@@ -385,7 +385,7 @@ system.time(x &lt;- llply(1:1000, runGLM, .parallel = FALSE))
 
 ```
 ##    user  system elapsed 
-##   0.771   0.003   0.774
+##   0.746   0.006   0.752
 ```
 
 ``` r
@@ -394,7 +394,7 @@ system.time(x &lt;- llply(1:1000, runGLM, .parallel = TRUE))
 
 ```
 ##    user  system elapsed 
-##   1.149   0.356   0.292
+##   1.124   0.369   0.274
 ```
 
 ---

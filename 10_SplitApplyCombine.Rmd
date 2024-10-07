@@ -1,6 +1,6 @@
 ---
-title: "Split Apply Combine"
-subtitle: "Avoidings loops!" 
+title: "Applyong and mapping functions"
+subtitle: "Avoidings loops! -- Split Apply Combine" 
 author: Guillaume Falmagne
 date: <br> Oct. 7th, 2023
 runtime: static
@@ -420,7 +420,7 @@ background-size:  40%
 
 # walk2 for outputing files
 
-```r
+```{r}
 # Split the iris data.set into 3 parts
 iris_list = split(iris, iris$Species)
 
