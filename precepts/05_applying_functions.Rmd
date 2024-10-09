@@ -1,0 +1,269 @@
+---
+title: "EEB330 -- Precept 05: Applying Functions"
+author: Michelle White
+date: Oct. 10, 2024
+output: html_document
+---
+
+## [GitHub Classroom Assignment](https://classroom.github.com/a/ku6jldbD)
+# *For this assignment you will submit BOTH R and Python code, preferably in two separate files*
+
+# Applying Functions in R
+
+Examples from [R for Ecology](https://www.rforecology.com/post/how-to-use-apply-functions/).
+```{r, message = FALSE, warning = FALSE}
+library(pak)
+pak::pkg_install("tidyverse")
+library(tidyverse)
+
+pak::pkg_install("purrr")
+library(purrr)
+```
+
+First, let's create a sample dataset to work with. This dataset will have columns with the heights of five plants after 0, 10, and 20 days of growth. Each row represents an individual plant.
+```{r}
+plant_data <- data.frame(
+  plant_id = c(1, 2, 3, 4, 5),
+  day_0 = c(10, 12, 9, 11, 10),
+  day_10 = c(15, 18, 14, 16, 15),
+  day_20 = c(20, 24, 19, 22, 20)
+)
+
+head(plant_data)
+```
+
+## Using `apply` for Row and Column Calculations
+
+Let's practice the `apply` function. We will calculate the mean height of each plant across the three time points by setting `MARGIN = 1`. The result will contain an average for each individual, and the original columns will effectively disappear. The same result can be accomplished with the `rowMeans()` function, which can be more intuitive and easier to use.
+```{r}
+# Calculating the mean height for each row in the data frame
+row_means <- apply(plant_data[, 2:4], MARGIN = 1, mean)
+
+# View row means
+row_means
+```
+
+Next, let's use `apply` to calculate the variance within each column of the dataset. By setting `MARGIN = 2` and setting out function to `var`, we will create a new vector with the variance of each column. The result will only have one row and will retain the original column names.
+```{r}
+# Calculating the variance for each column in the data frame
+col_vars <- apply(plant_data[, 2:4], 2, var) # the MARGIN parameter name can be left out if the arguments are in the correct order
+
+# View the column variances
+col_vars
+```
+
+Finally, `apply` can be used to perform your own custom functions. In this example, we will calculate the range of each plant heights by subtracting the minimum height from the maximum height. The result will be a vector with the range of plant heights for each time point.
+```{r}
+# Creating the range function
+get_range <- function(x) {
+  return(max(x) - min(x))
+}
+
+# Calculating the range of plant heights for each time point
+height_ranges <- apply(plant_data[, 2:4], 2, get_range)
+
+# View the plant height ranges
+height_ranges
+```
+
+## Using `tapply` for Grouped Calculations
+
+Remember, `tapply` is the old school `group_by`. `tapply` is used to apply a function to subsets of a vector based on a factor. In this example, we will calculate the mean height of each plant across time points.
+```{r}
+# First, pivot the data into long format so that we have a factor (plant_id) to work with
+plant_data_long <- plant_data %>%
+  pivot_longer(cols = -plant_id, names_to = "day", values_to = "height")
+
+# Use sub() to remove the "height_" prefix from the day column
+plant_data_long$day <- sub("day_", "", plant_data_long$day)
+
+# View the long-format data
+head(plant_data_long)
+```
+
+Now we can use the `plant_id` factor to calculate the mean height of each plant across time points. Notice that the result is the same as the one obtained with `apply` that resulted in `row_means` in the previous section. The usage depends on the format of the data and the desired output.
+```{r}
+# Calculate the mean height of each plant across time points
+height_means <- tapply(plant_data_long$height, plant_data_long$plant_id, mean)
+
+# View the mean heights
+height_means
+```
+
+## Using `lapply` and `sapply` for Lists
+Before we practice using `lapply` and `sapply`, let's create a list of vectors to work with. Each vector contains data on different plant attributes.
+```{r}
+# Set seed for reproducibility
+set.seed(123)
+
+# Create a list of vectors with plant data
+plant_list <- list(
+  height = rnorm(10, 10, 2),
+  weight = rnorm(10, 5, 1),
+  leaf_count = rpois(10, 20) # rpois generates random numbers from a Poisson distribution
+)
+
+# View the list
+plant_list
+```
+
+Now, let's use `lapply` to calculate the mean of each vector in the list. The result will be a list of means for each attribute. We could use the `mean` function directly, or even use a `for` loop, but this example demonstrates the elegance of `lapply`.
+```{r}
+# Calculate the mean of each attribute in the list
+plant_means <- lapply(plant_list, mean)
+
+# View the means
+plant_means
+```
+
+Lastly, we will use `sapply` to simplify the output of the previous calculation. The result will be a vector with the means of each attribute, which can be easier to work with than a list.
+```{r}
+# Calculate the mean of each attribute in the list using sapply
+plant_means_vector <- sapply(plant_list, mean)
+
+# View the simplified means
+plant_means_vector
+```
+
+# Applying Functions in Python
+## Alternatives to R's `apply` Functions in Python
+
+Let's re-create the original plant heights dataset in Python. We will use the `pandas` library to create a DataFrame with the same structure as the R dataset.
+```{python}
+import pandas as pd
+```
+
+```{python}
+plant_data = pd.DataFrame({
+    'plant_id': [1, 2, 3, 4, 5],
+    'day_0': [10, 12, 9, 11, 10],
+    'day_10': [15, 18, 14, 16, 15],
+    'day_20': [20, 24, 19, 22, 20]
+})
+```
+
+Instead of using `apply`, we will use the `axis` parameter to define the direction of the operation. Here, we will calculate the mean height of each plant across the three time points.
+```{python}
+# Calculate the mean height for each row in the data frame
+row_means = plant_data.iloc[:, 1:].mean(axis = 1)
+
+# View the row means
+row_means
+```
+
+Next, we will calculate the variance within each column of the dataset. By setting `axis = 0`, we will calculate the variance for each column.
+```{python}
+# Calculate the variance for each column in the data frame
+col_vars = plant_data.iloc[:, 1:].var(axis = 0)
+
+# View the column variances
+col_vars
+```
+
+Python even has its own `apply` function that allows use to perform custom operations. In this example, we will calculate the range of each plant heights for each time point.
+```{python}
+# Calculate the range of plant heights for each time point
+height_ranges = plant_data.iloc[:, 1:].apply(lambda x: x.max() - x.min(), axis = 0)
+
+# View the plant height ranges
+height_ranges
+```
+
+## Using `groupby` for Grouped Calculations
+Python has no  `tapply` function, but we can use `groupby` to perform similar operations as we learned last week. In this example, we will calculate the mean height of each plant across time points.
+```{python}
+# First, pivot the data into long format so that we have a factor (plant_id) to work with
+plant_data_long = plant_data.melt(id_vars = 'plant_id', var_name = 'day', value_name = 'height')
+
+# View the long-format data
+plant_data_long.head()
+```
+
+Now we can use the `plant_id` factor to calculate the mean height of each plant across time points. Again, we get the same result as using `mean` with `axis = 1` in the previous section.
+```{python}
+# Calculate the mean height of each plant across time points
+height_means = plant_data_long.groupby('plant_id')['height'].mean()
+
+# View the mean heights
+height_means
+```
+
+Finally, we can accomplish the same result with `agg`.
+```{python}
+# Calculate the mean height of each plant across time points using agg
+height_means_agg = plant_data_long.groupby('plant_id').agg({'height': 'mean'})
+
+# View the mean heights
+height_means_agg
+```
+
+# Using `map` Functions from the `purrr` Package in R
+
+Now let's use a short example to demonstrate the usage of `map`. `map` applies the same function to each element of a list or vector. In this example, we will calculate the square root of each element in a vector containing integers 1 through 10.
+```{r}
+print(class(1:10))
+sqrts = map_dbl(1:10, sqrt)
+
+sqrts
+```
+
+Next, let's take the original vector of integers and add a constant to each element. We will define a function that accepts two arguments and adds them together.
+```{r}
+add_nums <- function(x, y) {
+  return(x + y)
+}
+
+added_constant = map(1:10, add_nums, 5)
+
+added_constant
+```
+
+Next, let's take the original vector of integers and add another *vector* of constants to *each* element. We will use the same custom function as in the previous example.
+```{r}
+added_vector = map(1:10, add_nums, 1:10)
+
+added_vector
+```
+
+Finally, let's take the original vector of integers and add them to another vector of integers, element-wise. Here, the lengths of the two vectors must be the same, and the function will be applied to each pair of elements.
+```{r}
+element_wise_addition = map2(1:10, 1:10, add_nums) # map2 is needed to map over two inputs
+
+element_wise_addition
+```
+
+## Exercises
+
+### Exercise 1 -- Exploring 2D Automobile Data *in Python*
+- **Task 1:** Calculate the mean and variance of the `displacement`, `horsepower`, and `weight` columns in the "auto-mpg.csv" dataset.
+- **Expected Output:** Two data frames, one with the mean values and the other with the variance values for the specified columns (1 row and 3 columns, each).
+
+- **Task 2:** Calculate the average mpg for each car manufacturer in the dataset. Which manufacturer has the highest average mpg? Note: you can treat abbreviations as unique manufacturers.
+- **Expected Output:** The name of the manufacturer with the highest average mpg.
+
+
+### Exercise 2 -- Explorting 3D Iris Data *in R*
+
+The `iris3` dataset can be loaded into R using the following command:
+```{r, eval = FALSE}
+data(iris3)
+```
+
+- **Task 1:** Calculate the average sepal length, sepal width, and petal length across individuals for each species in the `iris` dataset.
+- **Expected Output:** A `data.frame` with the average values for each species.
+
+- **Task 2:** Define a function `sepal_area` that calculates the sepal area (`length * width`) for each individual in the dataset. Apply this function to the appropriate columns and create a new column to store the values. Finally, report the variance in sepal area for each species.
+- **Expected Output:** A `data.frame` with the variance in sepal area for each species (1 row and 3 columns)
+
+
+### Exercise 3 -- Learning to `purrr` *in R*
+
+- **Task 1:** Using the following line of code:
+```{r, eval = FALSE}
+result = map(1:10, your_function_here, 1:100)
+```
+Create a function `add_mean` that, when replacing `your_function_here`, adds the mean of the vector `1:100` to each element in `1:10`.
+- **Expected Output:** The vector `result` with the correct values.
+
+- **Task 2:** Perform element-wise division between the vectors `1:10` and `91:100` where `1:10` is the divisor and store the results in a new vector `quotients`.
+- **Expected Output:** The `quotients` vector with the correct values.
