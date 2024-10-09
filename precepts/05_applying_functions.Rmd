@@ -5,8 +5,9 @@ date: Oct. 10, 2024
 output: html_document
 ---
 
-## [GitHub Classroom Assignment](https://classroom.github.com/a/ku6jldbD)
-# *For this assignment you will submit BOTH R and Python code, preferably in two separate files*
+## [GitHub Classroom Assignment](https://classroom.github.com/a/6FxoVxt3)
+- *For this assignment you will submit BOTH R and Python code, preferably in two separate files*
+- *You will have two full weeks to complete this assignment*
 
 # Applying Functions in R
 
@@ -93,7 +94,7 @@ height_means
 ## Using `lapply` and `sapply` for Lists
 Before we practice using `lapply` and `sapply`, let's create a list of vectors to work with. Each vector contains data on different plant attributes.
 ```{r}
-# Set seed for reproducibility
+# Fix the random seed so that we obtain the same results in each run
 set.seed(123)
 
 # Create a list of vectors with plant data
@@ -128,7 +129,7 @@ plant_means_vector
 # Applying Functions in Python
 ## Alternatives to R's `apply` Functions in Python
 
-Let's re-create the original plant heights dataset in Python. We will use the `pandas` library to create a DataFrame with the same structure as the R dataset.
+Let's re-create the original plant heights dataset in Python.
 ```{python}
 import pandas as pd
 ```
@@ -142,10 +143,10 @@ plant_data = pd.DataFrame({
 })
 ```
 
-Instead of using `apply`, we will use the `axis` parameter to define the direction of the operation. Here, we will calculate the mean height of each plant across the three time points.
+Instead of using `apply`, we will use the `axis` parameter to define the direction of the operation. Here, we will calculate the mean height of each plant across the three time points. By setting `axis = 1`, we are "sqeezing" the columns and they will essentially disappear.
 ```{python}
 # Calculate the mean height for each row in the data frame
-row_means = plant_data.iloc[:, 1:].mean(axis = 1)
+row_means = plant_data.iloc[:, 1:].mean(axis = 1) # iloc allows direct indexing in the data frame
 
 # View the row means
 row_means
@@ -213,7 +214,7 @@ add_nums <- function(x, y) {
   return(x + y)
 }
 
-added_constant = map(1:10, add_nums, 5)
+added_constant = map(1:10, add_nums, 5) # the number 5 will be added to each vector element
 
 added_constant
 ```
@@ -236,13 +237,13 @@ element_wise_addition
 
 ### Exercise 1 -- Exploring 2D Automobile Data *in Python*
 - **Task 1:** Calculate the mean and variance of the `displacement`, `horsepower`, and `weight` columns in the "auto-mpg.csv" dataset.
-- **Expected Output:** Two data frames, one with the mean values and the other with the variance values for the specified columns (1 row and 3 columns, each).
+- **Expected Output:** A `data.frame` with the means and variances for each indicated column.
 
 - **Task 2:** Calculate the average mpg for each car manufacturer in the dataset. Which manufacturer has the highest average mpg? Note: you can treat abbreviations as unique manufacturers.
 - **Expected Output:** The name of the manufacturer with the highest average mpg.
 
 
-### Exercise 2 -- Explorting 3D Iris Data *in R*
+### Exercise 2 -- Exploring 3D Iris Data *in R*
 
 The `iris3` dataset can be loaded into R using the following command:
 ```{r, eval = FALSE}
@@ -253,7 +254,7 @@ data(iris3)
 - **Expected Output:** A `data.frame` with the average values for each species.
 
 - **Task 2:** Define a function `sepal_area` that calculates the sepal area (`length * width`) for each individual in the dataset. Apply this function to the appropriate columns and create a new column to store the values. Finally, report the variance in sepal area for each species.
-- **Expected Output:** A `data.frame` with the variance in sepal area for each species (1 row and 3 columns)
+- **Expected Output:** A `data.frame` with the variance in sepal area for each species.
 
 
 ### Exercise 3 -- Learning to `purrr` *in R*
@@ -263,6 +264,7 @@ data(iris3)
 result = map(1:10, your_function_here, 1:100)
 ```
 Create a function `add_mean` that, when replacing `your_function_here`, adds the mean of the vector `1:100` to each element in `1:10`.
+
 - **Expected Output:** The vector `result` with the correct values.
 
 - **Task 2:** Perform element-wise division between the vectors `1:10` and `91:100` where `1:10` is the divisor and store the results in a new vector `quotients`.

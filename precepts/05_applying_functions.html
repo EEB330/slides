@@ -359,12 +359,14 @@ Functions</h1>
 
 
 <div id="github-classroom-assignment" class="section level2">
-<h2><a href="https://classroom.github.com/a/ku6jldbD">GitHub Classroom
+<h2><a href="https://classroom.github.com/a/6FxoVxt3">GitHub Classroom
 Assignment</a></h2>
-</div>
-<div id="for-this-assignment-you-will-submit-both-r-and-python-code-preferably-in-two-separate-files" class="section level1">
-<h1><em>For this assignment you will submit BOTH R and Python code,
-preferably in two separate files</em></h1>
+<ul>
+<li><em>For this assignment you will submit BOTH R and Python code,
+preferably in two separate files</em></li>
+<li><em>You will have two full weeks to complete this
+assignment</em></li>
+</ul>
 </div>
 <div id="applying-functions-in-r" class="section level1">
 <h1>Applying Functions in R</h1>
@@ -479,7 +481,7 @@ height_means</code></pre>
 <p>Before we practice using <code>lapply</code> and <code>sapply</code>,
 let’s create a list of vectors to work with. Each vector contains data
 on different plant attributes.</p>
-<pre class="r"><code># Set seed for reproducibility
+<pre class="r"><code># Fix the random seed so that we obtain the same results in each run
 set.seed(123)
 
 # Create a list of vectors with plant data
@@ -535,9 +537,7 @@ plant_means_vector</code></pre>
 <h1>Applying Functions in Python</h1>
 <div id="alternatives-to-rs-apply-functions-in-python" class="section level2">
 <h2>Alternatives to R’s <code>apply</code> Functions in Python</h2>
-<p>Let’s re-create the original plant heights dataset in Python. We will
-use the <code>pandas</code> library to create a DataFrame with the same
-structure as the R dataset.</p>
+<p>Let’s re-create the original plant heights dataset in Python.</p>
 <pre class="python"><code>import pandas as pd</code></pre>
 <pre class="python"><code>plant_data = pd.DataFrame({
     &#39;plant_id&#39;: [1, 2, 3, 4, 5],
@@ -548,9 +548,10 @@ structure as the R dataset.</p>
 <p>Instead of using <code>apply</code>, we will use the
 <code>axis</code> parameter to define the direction of the operation.
 Here, we will calculate the mean height of each plant across the three
-time points.</p>
+time points. By setting <code>axis = 1</code>, we are “sqeezing” the
+columns and they will essentially disappear.</p>
 <pre class="python"><code># Calculate the mean height for each row in the data frame
-row_means = plant_data.iloc[:, 1:].mean(axis = 1)
+row_means = plant_data.iloc[:, 1:].mean(axis = 1) # iloc allows direct indexing in the data frame
 
 # View the row means
 row_means</code></pre>
@@ -655,7 +656,7 @@ and adds them together.</p>
   return(x + y)
 }
 
-added_constant = map(1:10, add_nums, 5)
+added_constant = map(1:10, add_nums, 5) # the number 5 will be added to each vector element
 
 added_constant</code></pre>
 <pre><code>## [[1]]
@@ -766,9 +767,8 @@ element_wise_addition</code></pre>
 <li><p><strong>Task 1:</strong> Calculate the mean and variance of the
 <code>displacement</code>, <code>horsepower</code>, and
 <code>weight</code> columns in the “auto-mpg.csv” dataset.</p></li>
-<li><p><strong>Expected Output:</strong> Two data frames, one with the
-mean values and the other with the variance values for the specified
-columns (1 row and 3 columns, each).</p></li>
+<li><p><strong>Expected Output:</strong> A <code>data.frame</code> with
+the means and variances for each indicated column.</p></li>
 <li><p><strong>Task 2:</strong> Calculate the average mpg for each car
 manufacturer in the dataset. Which manufacturer has the highest average
 mpg? Note: you can treat abbreviations as unique manufacturers.</p></li>
@@ -776,8 +776,8 @@ mpg? Note: you can treat abbreviations as unique manufacturers.</p></li>
 with the highest average mpg.</p></li>
 </ul>
 </div>
-<div id="exercise-2-explorting-3d-iris-data-in-r" class="section level3">
-<h3>Exercise 2 – Explorting 3D Iris Data <em>in R</em></h3>
+<div id="exercise-2-exploring-3d-iris-data-in-r" class="section level3">
+<h3>Exercise 2 – Exploring 3D Iris Data <em>in R</em></h3>
 <p>The <code>iris3</code> dataset can be loaded into R using the
 following command:</p>
 <pre class="r"><code>data(iris3)</code></pre>
@@ -794,8 +794,7 @@ this function to the appropriate columns and create a new column to
 store the values. Finally, report the variance in sepal area for each
 species.</p></li>
 <li><p><strong>Expected Output:</strong> A <code>data.frame</code> with
-the variance in sepal area for each species (1 row and 3
-columns)</p></li>
+the variance in sepal area for each species.</p></li>
 </ul>
 </div>
 <div id="exercise-3-learning-to-purrr-in-r" class="section level3">
@@ -806,16 +805,16 @@ columns)</p></li>
 <pre class="r"><code>result = map(1:10, your_function_here, 1:100)</code></pre>
 <p>Create a function <code>add_mean</code> that, when replacing
 <code>your_function_here</code>, adds the mean of the vector
-<code>1:100</code> to each element in <code>1:10</code>. -
-<strong>Expected Output:</strong> The vector <code>result</code> with
-the correct values.</p>
+<code>1:100</code> to each element in <code>1:10</code>.</p>
 <ul>
-<li><strong>Task 2:</strong> Perform element-wise division between the
-vectors <code>1:10</code> and <code>91:100</code> where
+<li><p><strong>Expected Output:</strong> The vector <code>result</code>
+with the correct values.</p></li>
+<li><p><strong>Task 2:</strong> Perform element-wise division between
+the vectors <code>1:10</code> and <code>91:100</code> where
 <code>1:10</code> is the divisor and store the results in a new vector
-<code>quotients</code>.</li>
-<li><strong>Expected Output:</strong> The <code>quotients</code> vector
-with the correct values.</li>
+<code>quotients</code>.</p></li>
+<li><p><strong>Expected Output:</strong> The <code>quotients</code>
+vector with the correct values.</p></li>
 </ul>
 </div>
 </div>
