@@ -250,7 +250,7 @@ The `iris3` dataset can be loaded into R using the following command:
 data(iris3)
 ```
 
-- **Task 1:** Calculate the average sepal length, sepal width, and petal length across individuals for each species in the `iris` dataset.
+- **Task 1:** Calculate the average sepal length, sepal width, and petal length across individuals for each species in the `iris3` dataset.
 - **Expected Output:** A `data.frame` with the average values for each species.
 
 - **Task 2:** Define a function `sepal_area` that calculates the sepal area (`length * width`) for each individual in the dataset. Apply this function to the appropriate columns and create a new column to store the values. Finally, report the variance in sepal area for each species.
