@@ -15,3 +15,15 @@
 * +15 for completing question 4 with accuracy
 * +15 for completing question 5 with accuracy
 * -5 for each error in questions 1-5
+
+# Precept 3 Rubric (Data IO and String Wrangling):
+* +5 for creating assignment repository
+* +10 for creating a draft branch
+* +10 for merging with main
+* +10 for completing question 1 with accuracy
+* +10 for completing question 2 with accuracy
+* +15 for completing question 3 with accuracy
+* +15 for completing question 4 with accuracy
+* +15 for completing question 5 with accuracy
+* +10 for completing question 6 with accuracy
+* -5 for each error in questions 1-6
