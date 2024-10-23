@@ -1,0 +1,861 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Grammar of Graphics</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Guillaume Falmagne" />
+    <script src="12_GrammarOfGraphics_files/header-attrs-2.28/header-attrs.js"></script>
+    <link href="12_GrammarOfGraphics_files/remark-css-0.0.1/default.css" rel="stylesheet" />
+    <link href="12_GrammarOfGraphics_files/remark-css-0.0.1/metropolis.css" rel="stylesheet" />
+    <link href="12_GrammarOfGraphics_files/remark-css-0.0.1/metropolis-fonts.css" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+.title[
+# Grammar of Graphics
+]
+.subtitle[
+## Building plots in ggplot2 (and matplotlib equivalents)
+]
+.author[
+### Guillaume Falmagne
+]
+.date[
+### Oct. 23th, 2024
+]
+
+---
+
+
+
+class: inverse, center, middle
+# Probably our most useful topic
+
+---
+
+# Grammar or Graphics
+
+.pull-left[
+- The main idea is to create a general framework to represent plots, instead of having many single use functions
+
+- ggplot2 is an implementation of the grammar of graphics:
+  - [https://ggplot2-book.org/](https://ggplot2-book.org/)
+  - [https://ggplot2.tidyverse.org/reference/](https://ggplot2.tidyverse.org/reference/)
+]
+.pull-right[
+  ![:scale 70%](figures/gg_book.jpg)
+]
+
+---
+
+class: left, top
+background-image: url(figures/gg_layers_described.png)
+background-position: center middle
+background-size:  100%
+
+# Layers
+
+---
+
+class: left, top
+background-image: url(figures/grammar-of-graphics.png)
+background-position: center middle
+background-size:  90%
+
+# Conceptual mapping
+
+---
+
+# Normal plots vs GG plots
+
+.pull-left[
+
+### Base plots
+
+- Literal description of the graphical elements
+- Manual choice of:
+  - colors, shapes, legends ...
+
+
+``` r
+n = 60
+x = rnorm(n)
+z = sample(c(0, 1), n, replace = TRUE)
+y = 1 + x + 2 * z + rnorm(n, sd = 0.5)
+
+# Main plot:
+plot(x, y, pch = 19)
+# The red points:
+points(x[z == 1], y[z == 1], 
+       col = "red", pch = 19)
+# The legend
+legend(max(x)-0.5, min(y)+0.5,
+       legend = c("z==0", "z==1"), 
+       col = c("black", "red"), 
+       pch = 19)
+```
+
+]
+.pull-right[
+
+### GG plots
+
+- Instead of describing the graphical elements, we describe the mapping of variables and graphical elements
+
+
+``` r
+library(ggplot2)
+df = data.frame(x, y, z = factor(z))
+ggplot(df, aes(x, y, color = z)) + 
+  geom_point()
+```
+
+### matplotlib
+
+``` python
+import matplotlib.pyplot as plt
+# where z and y are numpy arrays
+plt.scatter(x, y, 
+            c=np.where(z == 0, 'black', 'red'), 
+            label='z')
+plt.legend()
+```
+]
+
+---
+
+# Data layer
+
+.pull-left[
+- Contains the actual information displayed in the plot
+
+- Always assigned to the `data` argument on the ggplot2 functions
+
+- Always a data.frame
+
+- Fits well in the tidy data principles
+
+- Requires all the wrangling we saw in the previous lectures
+]
+.pull-right[
+```r
+ggplot(data = mpg) + ...
+
+# or
+
+ggplot(mpg) + ...
+
+# or
+
+ggplot() + 
+  geom_something(data = mpg)
+```
+]
+
+### pandas can "replace" matplotlib for simple plotting (less flexible)
+
+``` python
+x = np.linspace(0, 10, 100)
+y = np.random.normal(0, 1, 100)
+df = pd.DataFrame({'x': x, 'y': y})
+df.plot.scatter(x='x', y='y', c='blue') # directly use dataframe columns as arguments
+```
+
+
+---
+
+# Mapping (aesthetics layer)
+
+.pull-left[
+- Aesthetic mapping: Link variables in data to graphical properties in the geometry
+  - mapping argument = always an `aes()` function call
+  - arguments of `aes()` must dataframe columns
+
+- Golden ggplot rule:
+    - things that **vary** with the data are set _inside_ `aes`
+    - things that **don't vary** with the data are set _outside_ `aes`
+
+]
+.pull-right[
+```r
+ggplot(data = mpg, 
+       mapping = aes(x = displ, y = hwy)) + ...
+
+# or
+ggplot(mpg, 
+       aes(x = displ, y = hwy)) + ...
+
+# or
+ggplot(mpg) + 
+  geom_something(aes(x = displ, y = hwy))
+
+# or
+ggplot() + 
+  geom_something(data = mpg,
+                 aes(x = displ, y = hwy))
+
+```
+]
+
+---
+
+# Scales
+
+.pull-left[
+- Scales translate data into actual visual things
+  - Categories → Color, fill, shape, linetype, ...
+  - Numbers → Position, color, fill, size, ...
+  -  ...
+
+-  Imply a specific interpretation of values:
+  - discrete, continuous, etc.
+  - if the variable properties are incompatible with the scale, you get an error
+```r
+ggplot(data = mpg, 
+       mapping = aes(x = displ, y = hwy,
+                     color = year, 
+                     shape = drv)) + ...
+```
+]
+.pull-right[
+### matplotlib
+
+Pass arguments like `color=`, `size=`, `marker=`, `alpha=`, `label=`,  
+
+in functions like `plt.scatter()`, `plt.plot()`, `plt.bar()`, `plt.hist()`, etc.
+
+
+``` python
+plt.scatter(mpg['displ'], mpg['hwy'], 
+            # c is short for color
+            c=mpg['year'],
+            # cmap is the color map = color scale
+            cmap='viridis',
+            marker='o')
+```
+]
+
+---
+
+# Geometries
+
+.pull-left[
+- What graphical representations for the input aesthetics?
+  - a number of points, `geom_point
+  - a line, `geom_line`
+  - a single polygon, `geom_polygon`
+  - or something else entirely? `geom_raster`
+
+**Minimal ggplot**: data, mapping, geometry.  
+(Everything else has default values)
+
+### matplotlib
+`plt.scatter()`  
+`plt.plot()`  
+`plt.bar()`  
+`plt.hist()`  
+2D heat maps: `plt.pcolor()`, `plt.pcolormesh()`, `plt.imshow()`
+]
+
+.pull-right[
+
+``` r
+library(ggplot2)
+ggplot(mpg, 
+       aes(x = displ, y = hwy, shape = drv)) + 
+  geom_point()
+```
+
+&lt;img src="12_GrammarOfGraphics_files/figure-html/unnamed-chunk-6-1.png" width="75%" /&gt;
+]
+---
+
+# Geometries
+
+- Some geoms only need a single mapping and will calculate the rest for you
+
+.pull-left[
+
+``` r
+ggplot(faithful) + 
+  geom_histogram(aes(x = eruptions))
+```
+
+```
+## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
+```
+
+&lt;img src="12_GrammarOfGraphics_files/figure-html/unnamed-chunk-7-1.png" width="70%" /&gt;
+]
+.pull-right[
+  &lt;/br&gt;
+  &lt;/br&gt;
+  &lt;/br&gt;
+  &lt;/br&gt;
+  &lt;/br&gt;
+### matplotlib
+
+``` python
+import matplotlib.pyplot as plt
+plt.hist(faithful['eruptions'])
+```
+]
+
+---
+
+# Statistics
+
+.pull-left[
+- Even though data is tidy, it might need treatment/transformation before displaying, e.g.:
+  - **bar chart or histogram**: Count number of observations in each
+category or bin
+  - **boxplot**: Calculate summary statistics
+- Is implicit in many plot-types but can often be done explicitly
+  - Check the help file!
+
+### seaborn
+
+``` python
+import seaborn as sns
+sns.boxplot(x='drv', y='hwy', data=mpg)
+```
+]
+.pull-right[
+
+``` r
+ggplot(data = mpg, aes(x = drv, y = hwy)) + 
+  geom_boxplot()
+```
+
+![](12_GrammarOfGraphics_files/figure-html/unnamed-chunk-10-1.png)&lt;!-- --&gt;
+]
+
+---
+
+# Default stats
+.pull-left[
+- Each `stat_` has an associated `geom_`
+- Each `geom_` has an associated `stat_`  
+This is why new data (`count`) can appear when using 
+`geom_bar()`.
+
+### matplotlib
+The equivalent of `stat_` would usually be to collect output of the plotting function
+
+``` python
+counts, bins, patches = 
+    plt.hist(faithful['eruptions'])
+```
+]
+.pull-right[
+
+``` r
+ggplot(mpg) + 
+  geom_bar(aes(x = class))
+```
+
+&lt;img src="12_GrammarOfGraphics_files/figure-html/unnamed-chunk-12-1.png" width="95%" /&gt;
+]
+
+---
+
+# Pre calculating stats
+
+- The stat can be overwritten.
+- If we have precomputed count we do not want any additional computations to perform and we use the `identity` stat to leave the  data alone
+
+.pull-left[
+
+``` r
+library(dplyr)
+mpg_counted &lt;- mpg %&gt;% 
+  count(class, name = 'count')
+ggplot(mpg_counted) + 
+  geom_bar(aes(x = class, y = count), 
+           stat = 'identity')
+```
+]
+.pull-right[
+&lt;img src="12_GrammarOfGraphics_files/figure-html/unnamed-chunk-14-1.png" width="90%" /&gt;
+]
+---
+
+# Pre calculating stats 
+
+- Most obvious geom+stat combinations have a dedicated geom constructor.
+- The alias for the one in the previous slide is `geom_col()`
+
+
+``` r
+ggplot(mpg_counted) + 
+  geom_col(aes(x = class, y = count))
+```
+
+&lt;img src="12_GrammarOfGraphics_files/figure-html/unnamed-chunk-15-1.png" width="35%" /&gt;
+
+---
+
+# Accessing calculated stats with `after_stat` 
+
+- Values calculated by the stat is available with the `after_stat()` function 
+inside `aes()`. 
+- You can do all sorts of computations inside that.
+
+.pull-left[
+
+``` r
+ggplot(mpg) + 
+  geom_bar(
+    aes(x = class, 
+        y = after_stat(100 * count / sum(count))
+       ))
+```
+
+### matplotlib
+
+``` python
+import seaborn as sns
+sns.barplot(
+  data=100* mpg['class'].value_counts(normalize=True), 
+  x='class', y='percentage')
+```
+]
+.pull-right[
+&lt;img src="12_GrammarOfGraphics_files/figure-html/unnamed-chunk-18-1.png" width="90%" /&gt;
+]
+---
+
+
+# Facets
+
+.pull-left[
+- Define the number of panels with equal
+logic and split data among them…
+- Small multiples
+- Allows you to look at small subsets of
+your data in separate plots
+- Panel layout may carry meaning
+- `facet_wrap()`
+
+- seaborn equivalent: `sns.FacetGrid()`
+
+``` python
+import seaborn as sns
+g = sns.FacetGrid(mpg, col="cyl")
+g.map(sns.boxplot, "drv", "hwy")
+```
+]
+.pull-right[
+
+``` r
+ggplot(mpg, aes(x = drv, y = hwy)) + 
+  geom_boxplot() + facet_wrap(~cyl)
+```
+
+![](12_GrammarOfGraphics_files/figure-html/unnamed-chunk-20-1.png)&lt;!-- --&gt;
+]
+
+---
+
+# Facets
+
+.pull-left[
+- Define the number of panels with equal
+logic and split data among them…
+- Small multiples
+- Allows you to look at small subsets of
+your data in separate plots
+- Panel layout may carry meaning
+- Could have used it in the midterm...
+
+&lt;/br&gt;
+- seaborn
+
+``` python
+g = sns.FacetGrid(mpg, col="cyl", row="year")
+g.map(sns.boxplot, "drv", "hwy")
+```
+]
+.pull-right[
+
+``` r
+ggplot(mpg, aes(x = displ, y = hwy)) + 
+  geom_point() + facet_grid(year~cyl) 
+```
+
+![](12_GrammarOfGraphics_files/figure-html/unnamed-chunk-22-1.png)&lt;!-- --&gt;
+]
+
+---
+
+# Coordinates
+
+.pull-left[
+- Positional aesthetics are special.
+  1. Variables are mapped, scaled, applied
+to a geometry
+  2. But in the end, the position values are
+interpreted by a coordinate system
+- Defines the physical mapping of the
+aesthetics to the paper
+
+- Transformations can be applied to the coordinates to produce different plots
+  - log scales
+  - polar coordinates
+  - map coordinates
+]
+.pull-right[
+```r
+ggplot(diamonds, aes(carat, price)) + 
+  geom_point() + 
+  # coord_cartesian(xlim = c(0, 1))
+  # coord_fixed() # fixed ratio
+  # coord_flip()
+  # coord_trans(y = "log")
+
+ggplot(mpg, aes(x = class)) + geom_bar + 
+  coord_cartesian(ylim = c(0, 40))
+
+ggplot(mpg, aes(x = class)) + geom_bar() + 
+  coord_polar(theta = "y") + 
+  expand_limits(y = 70) # guarantees that a value is present
+```
+
+### matplotlib
+
+``` python
+plt.xticks(rotation=90)
+plt.xlim() # or ylim
+ax.set_xlim([min,max]) # same but on axis
+```
+]
+
+---
+
+# Combining plots
+
+We have two good options for creating panels with several plots:
+
+- [`cowplot`](https://cran.r-project.org/web/packages/cowplot/vignettes/introduction.html) package
+  - has the plot_grid() function which has good defaults
+  - can take lists of plots
+  - can set plot labels
+
+```r
+library(cowplot)
+p1 &lt;- ggplot() + ...
+p2 &lt;- ggplot() + ...
+plot_grid(p1, p2)
+```
+
+.pull-left[
+- [`patchwork`](https://patchwork.data-imaginist.com/) package, allows:
+  - plot composition using math notation
+  - complex composition using string guides
+
+```r
+library(patchwork)
+p1 &lt;- ggplot() + ...
+p2 &lt;- ggplot() + ...
+p1 + p2 # horizontal
+p1 / p2 # vertical
+```
+]
+.pull-right[
+### matplotlib
+
+``` python
+fig, axs = plt.subplots(3, 2) # (n_x, n_y)
+axs[0, 0].plot(x, y)
+```
+- then tools for spacing, common axes, etc.
+]
+---
+
+# Adding more than one geometry
+
+.pull-left[
+
+
+``` r
+ggplot(faithful,
+ aes(x = eruptions, y = waiting)) +
+ geom_density_2d() + # Order matters! 
+ geom_point() # This puts points on top of lines
+```
+
+&lt;img src="12_GrammarOfGraphics_files/figure-html/unnamed-chunk-25-1.png" width="90%" /&gt;
+]
+.pull-right[
+### matplotlib
+
+``` python
+plt.scatter(x, y) # points
+plt.plot(x, y) # lines
+```
+]
+---
+
+
+# Themes
+
+.pull-left[
+  - Everything related to the look of the plot
+
+    - Font sizes
+    - Background
+    - Axis lines
+    - ...
+
+]
+
+.pull-right[
+- Many pre-baked solutions
+    - [`ggthemes`](https://yutannihilation.github.io/allYourFigureAreBelongToUs/ggthemes/) package
+    - [`cowplot`](https://cran.r-project.org/web/packages/cowplot/vignettes/introduction.html) package
+
+]
+
+``` r
+library(ggplot2)
+library(cowplot)
+library(ggthemes)
+p = ggplot(mpg, aes(x = displ, y = hwy, color = drv)) + 
+  geom_point(size = 2) 
+plot_grid(p + theme_cowplot(16), p + theme_excel(), p + theme_tufte(), p + theme_wsj())
+```
+
+### matplotlib
+
+``` python
+plt.xlabel('x axis title', fontsize=12)
+plt.legend(fontsize=12)
+...
+```
+
+---
+
+# Exercise - changing points
+
+1. Modify the code below to make the points larger squares and slightly transparent.
+
+  - Hint 1: transparency is controlled with `alpha`, and shape with `shape`
+  - Hint 2: remember the difference between mapping and setting aesthetics
+
+2. Add a line that separates the two point distributions. See `?geom_abline` for 
+how to draw straight lines from a slope and intercept.
+
+
+``` r
+ggplot(faithful) + 
+  geom_point(aes(x = eruptions, y = waiting))
+```
+---
+
+# Exercises - using `stat_`
+
+- While most people use `geom_*()` when adding layers, it is just as valid to add 
+a `stat_*()` with an attached geom. Look at `geom_bar()` and figure out which
+stat it uses as default. Then modify the code to use the stat directly instead
+(i.e. adding `stat_*()` instead of `geom_bar()`)
+
+
+``` r
+ggplot(mpg) + 
+  geom_bar(aes(x = class))
+```
+
+- Use `stat_summary()` to add a red dot at the mean `hwy` for each group
+   - Hint: You will need to change the default geom of `stat_summary()`
+
+
+``` r
+ggplot(mpg, aes(x = class, y = hwy)) + 
+  geom_jitter(width = 0.2)
+```
+
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script src="macros.js"></script>
+<script>var slideshow = remark.create({
+"highlightLines": true,
+"chakra": "libs/remark-latest.min.js",
+"ratio": "16:10"
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+// add `data-at-shortcutkeys` attribute to <body> to resolve conflicts with JAWS
+// screen reader (see PR #262)
+(function(d) {
+  let res = {};
+  d.querySelectorAll('.remark-help-content table tr').forEach(tr => {
+    const t = tr.querySelector('td:nth-child(2)').innerText;
+    tr.querySelectorAll('td:first-child .key').forEach(key => {
+      const k = key.innerText;
+      if (/^[a-z]$/.test(k)) res[k] = t;  // must be a single letter (key)
+    });
+  });
+  d.body.setAttribute('data-at-shortcutkeys', JSON.stringify(res));
+})(document);
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+(function(time) {
+  var d2 = function(number) {
+    return ('0' + number).slice(-2); // left-pad 0 to minutes/seconds
+  },
+
+  time_format = function(total) {
+    var secs = Math.abs(total) / 1000;
+    var h = Math.floor(secs / 3600);
+    var m = Math.floor(secs % 3600 / 60);
+    var s = Math.round(secs % 60);
+    var res = d2(m) + ':' + d2(s);
+    if (h > 0) res = h + ':' + res;
+    return res;  // [hh:]mm:ss
+  },
+
+  slide_number_div = function(i) {
+    return document.getElementsByClassName('remark-slide-number').item(i);
+  },
+
+  current_page_number = function(i) {
+    return slide_number_div(i).firstChild.textContent;  // text "i / N"
+  };
+
+  var timer = document.createElement('span'); timer.id = 'slide-time-left';
+  var time_left = time, k = slideshow.getCurrentSlideIndex(),
+      last_page_number = current_page_number(k);
+
+  setInterval(function() {
+    time_left = time_left - 1000;
+    timer.innerHTML = ' ' + time_format(time_left);
+    if (time_left < 0) timer.style.color = 'red';
+  }, 1000);
+
+  slide_number_div(k).appendChild(timer);
+
+  slideshow.on('showSlide', function(slide) {
+    var i = slide.getSlideIndex(), n = current_page_number(i);
+    // reset timer when a new slide is shown and the page number is changed
+    if (last_page_number !== n) {
+      time_left = time; last_page_number = n;
+      timer.innerHTML = ' ' + time_format(time); timer.style.color = null;
+    }
+    slide_number_div(i).appendChild(timer);
+  });
+})(60000);
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

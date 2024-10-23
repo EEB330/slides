@@ -35,12 +35,12 @@ conflicts_prefer(dplyr::summarize)
 #render("08_DataWrangling1.Rmd")
 #render("09_DataWrangling2.Rmd")
 ## Week 5
-render("10_SplitApplyCombine.Rmd")
+#render("10_SplitApplyCombine.Rmd")
 ## Week 6
-# render("12_GrammarOfGraphics.Rmd")
+render("12_GrammarOfGraphics.Rmd")
 
 ## Week 7
-# render("13_GrammarOfGraphics2.Rmd")
+#render("13_GrammarOfGraphics2.Rmd")
 # render("14_MakingPlots.Rmd")
 
 # render("17_WorkingServer.Rmd")
