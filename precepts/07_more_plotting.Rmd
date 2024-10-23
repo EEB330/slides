@@ -1,7 +1,7 @@
 ---
 title: "EEB330 -- Precept 06: Plotting from Scratch"
-author: Scott Wolf
-date: Nov. 1, 2023
+author: Scott Wolf, Michelle White
+date: Oct. 24, 2024
 output: html_document
 ---
 

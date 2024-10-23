@@ -1,3 +1,3 @@
 library(rmarkdown)
 
-render("04_data_wrangling.Rmd")
+render("06_plotting.Rmd")
