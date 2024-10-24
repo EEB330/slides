@@ -5,14 +5,15 @@ date: Oct. 24, 2024
 output: html_document
 ---
 
-## [GitHub Classroom Assignment](https://classroom.github.com/a/tasc0bYF)
+## [GitHub Classroom Assignment](https://classroom.github.com/a/kCg_EfG5)
 - Check out the cheat sheet for ggplot2: [Data Visualization with ggplot2: CHEAT SHEET](https://rstudio.github.io/cheatsheets/html/data-visualization.html)
 - Similarly for matplotlib: [Matplotlib for Beginners: CHEAT SHEET](https://matplotlib.org/cheatsheets/_images/handout-beginner.png)
-- *Choose one language (R or Python) to complete the exercises.*
+- *Choose one language (R or Python) to complete the exercises, but complete the first exercise in the opposite language. Submit separate files for each language.*
 - *Deadline is back to one week from the original precept date.*
 - *Please save each plot as an image (.png or .jpg) and upload them to your GitHub repository (4 images total).*
 
 ```{r, echo = T, message = F, results = "hide", warning = F}
+# R
 library(pak)
 packages <- c("ggplot2", "cowplot", "ggthemes", "patchwork")
 pak::pkg_install(packages)
@@ -21,6 +22,7 @@ lapply(packages, require, character.only = TRUE)
 ```
 
 ```{python, echo = T, message = F}
+# Python
 import matplotlib.pyplot as plt
 import seaborn as sns
 import pandas as pd
@@ -42,11 +44,13 @@ mpg = pd.read_csv("mpg.csv")
 
 Initial Plot: A simple bar plot displaying the number of cars for each class in the mpg dataset.
 ```{r, fig.show='hide'}
+# R
 ggplot(data = mpg, aes(x = class)) +
   geom_bar()
 ```
 
 ```{python, fig.show='hide'}
+# Python
 sorted_mpg = mpg['class'].value_counts().sort_index()
 plt.bar(sorted_mpg.index, sorted_mpg.values)
 ```
@@ -64,11 +68,13 @@ plt.bar(sorted_mpg.index, sorted_mpg.values)
 
 Initial Plot: A histogram showcasing the distribution of highway miles per gallon (hwy) from the mpg dataset.
 ```{r, fig.show='hide'}
+# R
 ggplot(data = mpg, aes(x = hwy)) + 
   geom_histogram()
 ```
 
 ```{python, fig.show='hide'}
+# Python
 plt.hist(mpg['hwy'], bins = 30)
 ```
 
@@ -86,11 +92,13 @@ plt.hist(mpg['hwy'], bins = 30)
 
 Initial Plot: A scatter plot illustrating the relationship between engine displacement (displ) and highway MPG (hwy).
 ```{r, fig.show='hide'}
+# R
 ggplot(data = mpg, aes(x = displ, y = hwy)) + 
   geom_point()
 ```
 
 ```{python, fig.show='hide'}
+# Python
 sns.scatterplot(data = mpg, x = 'displ', y = 'hwy')
 ```
 
@@ -114,6 +122,7 @@ sns.scatterplot(data = mpg, x = 'displ', y = 'hwy')
 - **Expected Output:** A plot with the above specifications.
 
 ```{r, fig.show='hide'}
+# R
 plot1 <- ggplot(data = mpg, aes(x = manufacturer, y = cty)) +
   geom_boxplot()
 
@@ -122,6 +131,7 @@ plot2 <- ggplot(data = mpg, aes(x = manufacturer, y = hwy)) +
 ```
 
 ```{python, fig.show='hide'}
+# Python
 plot1 = sns.boxplot(data = mpg, x = 'manufacturer', y = 'cty')
 
 plot2 = sns.boxplot(data = mpg, x = 'manufacturer', y = 'hwy')

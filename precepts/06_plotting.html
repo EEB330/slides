@@ -358,26 +358,29 @@ display: none;
 
 
 <div id="github-classroom-assignment" class="section level2">
-<h2><a href="https://classroom.github.com/a/tasc0bYF">GitHub Classroom
+<h2><a href="https://classroom.github.com/a/kCg_EfG5">GitHub Classroom
 Assignment</a></h2>
 <ul>
 <li>Check out the cheat sheet for ggplot2: <a href="https://rstudio.github.io/cheatsheets/html/data-visualization.html">Data
 Visualization with ggplot2: CHEAT SHEET</a></li>
 <li>Similarly for matplotlib: <a href="https://matplotlib.org/cheatsheets/_images/handout-beginner.png">Matplotlib
 for Beginners: CHEAT SHEET</a></li>
-<li><em>Choose one language (R or Python) to complete the
-exercises.</em></li>
+<li><em>Choose one language (R or Python) to complete the exercises, but
+complete the first exercise in the opposite language. Submit separate
+files for each language.</em></li>
 <li><em>Deadline is back to one week from the original precept
 date.</em></li>
 <li><em>Please save each plot as an image (.png or .jpg) and upload them
 to your GitHub repository (4 images total).</em></li>
 </ul>
-<pre class="r"><code>library(pak)
+<pre class="r"><code># R
+library(pak)
 packages &lt;- c(&quot;ggplot2&quot;, &quot;cowplot&quot;, &quot;ggthemes&quot;, &quot;patchwork&quot;)
 pak::pkg_install(packages)
 
 lapply(packages, require, character.only = TRUE)</code></pre>
-<pre class="python"><code>import matplotlib.pyplot as plt
+<pre class="python"><code># Python
+import matplotlib.pyplot as plt
 import seaborn as sns
 import pandas as pd
 
@@ -400,9 +403,11 @@ specifications.</li>
 </ul>
 <p>Initial Plot: A simple bar plot displaying the number of cars for
 each class in the mpg dataset.</p>
-<pre class="r"><code>ggplot(data = mpg, aes(x = class)) +
+<pre class="r"><code># R
+ggplot(data = mpg, aes(x = class)) +
   geom_bar()</code></pre>
-<pre class="python"><code>sorted_mpg = mpg[&#39;class&#39;].value_counts().sort_index()
+<pre class="python"><code># Python
+sorted_mpg = mpg[&#39;class&#39;].value_counts().sort_index()
 plt.bar(sorted_mpg.index, sorted_mpg.values)</code></pre>
 </div>
 <div id="exercise-2-histogram-modification" class="section level3">
@@ -420,10 +425,12 @@ specifications.</li>
 </ul>
 <p>Initial Plot: A histogram showcasing the distribution of highway
 miles per gallon (hwy) from the mpg dataset.</p>
-<pre class="r"><code>ggplot(data = mpg, aes(x = hwy)) + 
+<pre class="r"><code># R
+ggplot(data = mpg, aes(x = hwy)) + 
   geom_histogram()</code></pre>
 <pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
-<pre class="python"><code>plt.hist(mpg[&#39;hwy&#39;], bins = 30)</code></pre>
+<pre class="python"><code># Python
+plt.hist(mpg[&#39;hwy&#39;], bins = 30)</code></pre>
 </div>
 <div id="exercise-3-scatter-plot-with-facets" class="section level3">
 <h3>Exercise 3 – Scatter Plot with Facets</h3>
@@ -445,9 +452,11 @@ specifications.</li>
 </ul>
 <p>Initial Plot: A scatter plot illustrating the relationship between
 engine displacement (displ) and highway MPG (hwy).</p>
-<pre class="r"><code>ggplot(data = mpg, aes(x = displ, y = hwy)) + 
+<pre class="r"><code># R
+ggplot(data = mpg, aes(x = displ, y = hwy)) + 
   geom_point()</code></pre>
-<pre class="python"><code>sns.scatterplot(data = mpg, x = &#39;displ&#39;, y = &#39;hwy&#39;)</code></pre>
+<pre class="python"><code># Python
+sns.scatterplot(data = mpg, x = &#39;displ&#39;, y = &#39;hwy&#39;)</code></pre>
 </div>
 <div id="exercise-4-enhanced-boxplots-using-after_stat-and-patchwork" class="section level3">
 <h3>Exercise 4: Enhanced Boxplots using after_stat() and patchwork</h3>
@@ -481,12 +490,14 @@ library (R) or <code>subplots</code> (Python).</li>
 <li><strong>Expected Output:</strong> A plot with the above
 specifications.</li>
 </ul>
-<pre class="r"><code>plot1 &lt;- ggplot(data = mpg, aes(x = manufacturer, y = cty)) +
+<pre class="r"><code># R
+plot1 &lt;- ggplot(data = mpg, aes(x = manufacturer, y = cty)) +
   geom_boxplot()
 
 plot2 &lt;- ggplot(data = mpg, aes(x = manufacturer, y = hwy)) +
   geom_boxplot()</code></pre>
-<pre class="python"><code>plot1 = sns.boxplot(data = mpg, x = &#39;manufacturer&#39;, y = &#39;cty&#39;)
+<pre class="python"><code># Python
+plot1 = sns.boxplot(data = mpg, x = &#39;manufacturer&#39;, y = &#39;cty&#39;)
 
 plot2 = sns.boxplot(data = mpg, x = &#39;manufacturer&#39;, y = &#39;hwy&#39;)</code></pre>
 </div>
