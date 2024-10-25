@@ -85,7 +85,7 @@ plt.hist(mpg['hwy'], bins = 30)
    * Add a title: "Engine Displacement vs. Highway MPG".
    * Change the x-axis label to "Engine Size (liters)" and y-axis label to "Highway MPG".
    * Color the points by class and shape them by the type of drive (e.g., 4wd, fwd, rwd).
-   * Add a smooth trend line (with standard error) to the plot. Consider adjusting the alpha of the points for clarity.
+   * Add a smooth trend line (with standard error or confidence interval) to the plot. Consider adjusting the alpha of the points for clarity.
    * Facet the plot by cyl (number of cylinders) in a 2x2 grid format.
 
 - **Expected Output:** An updated plot with the above specifications.
