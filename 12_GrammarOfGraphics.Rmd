@@ -2,6 +2,7 @@
 title: "Grammar of Graphics"
 subtitle: "Building plots in ggplot2 (and matplotlib equivalents)" 
 author: Guillaume Falmagne
+<\br>
 date: Oct. 23th, 2024
 runtime: static
 output:
