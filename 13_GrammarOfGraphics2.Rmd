@@ -13,6 +13,21 @@ output:
       beforeInit: "macros.js"
       ratio: "16:10"
       countdown: 60000
+
+---
+
+# How many hours will you spend on plot aesthetics in a PhD...
+![:scale 35%](figures/myplots.jpeg)
+
+- There are a lot of (good or bad) choices to make when plotting
+![](figures/NicePlots.webp)
+
+---
+
+# R and python will be your friend and your foe!
+
+![:scale 50%](figures/mspaint.png)
+
 ---
 
 class: inverse, center, middle
