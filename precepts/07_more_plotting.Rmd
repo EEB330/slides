@@ -5,6 +5,9 @@ date: Oct. 31, 2024
 output: html_document
 ---
 
+## [GitHub Classroom Link](https://classroom.github.com/a/a1s6cxEJ)
+* Deadline is 1 week from today
+* Choose one language to complete all exercises
 
 ## Exercises
 
