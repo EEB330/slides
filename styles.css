@@ -34,6 +34,26 @@
   float: right;
   color: black
 }
+.negspace60
+{
+  margin-top: -60px;
+}
+.negspace100
+{
+  margin-top: -100px;
+}
+.negspace200
+{
+  margin-top: -200px;
+}
+.negspace50
+{
+  margin-top: -50px;
+}
+.negspace40
+{
+  margin-top: -40px;
+}
 
 h2  {
   margin-top:1em;
@@ -46,3 +66,5 @@ h3  {
 h4  {
   margin-top:0em;
 }
+
+.phantom{color:white}
