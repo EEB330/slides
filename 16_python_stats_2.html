@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Python for Statistics and Data Science (part 2)</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Guillaume Falmagne" />
+    <script src="16_python_stats_2_files/header-attrs-2.28/header-attrs.js"></script>
+    <link href="16_python_stats_2_files/remark-css-0.0.1/default.css" rel="stylesheet" />
+    <link href="16_python_stats_2_files/remark-css-0.0.1/metropolis.css" rel="stylesheet" />
+    <link href="16_python_stats_2_files/remark-css-0.0.1/metropolis-fonts.css" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+.title[
+# Python for Statistics and Data Science (part 2)
+]
+.subtitle[
+## Models, regressions and machine learning
+]
+.author[
+### Guillaume Falmagne
+]
+.date[
+### <br>Nov. 6th, 2024
+]
+
+---
+
+
+# Roles of a model
+
+A model can have two main roles:
+
+- **Understanding**:  
+usually some physically-motivated, minimal equations that pinpoint a key phenomenon/mechanism   
+&amp;rarr; Generally fit the data with a model with a few parameters, where the role of each parameter is "human-readable"
+
+- **Description/prediction**:  
+the goal here is to have a model that fits the data very well,  
+and maybe predict future outcomes, even if it involves many parameters that are hard to interpret  
+&amp;rarr; This is where machine learning and dimensional reduction techniques are best
+
+---
+
+# Simplest linear fit/regression
+
+.negspace10[
+Multiple options (in `scipy` or `numpy`) exist for the simplest and most common fit/regression: a line
+]
+
+.negspace20[
+.pull-left[
+
+``` python
+import scipy as sc
+tips = sns.load_dataset("tips")
+x = tips['total_bill']
+y = tips['tip']
+# numpy polynomial fit (1 is the degree)
+*f = np.polyfit(x, y, 1)
+fit_function = np.poly1d(f)
+y_pred1 = fit_function(x)
+# OR scipy.stats
+slope, intercept, r_value, p_value, std_err = 
+*   sc.stats.linregress(x, y)
+y_pred2 = intercept + slope * x
+# OR scipy.optimize
+*param, cov = sc.optimize.curve_fit(
+*            lambda x, a, b: a+b*x,   x, y)
+y_pred3 = param[0] + param[1] * x
+
+plt.figure()
+tips.plot.scatter(x='total_bill', y='tip', c='sex', colormap='viridis')
+plt.plot(x, y_pred1, 'r--')
+plt.plot(x, y_pred2, 'b--')
+plt.plot(x, y_pred3, 'g--') # overlaps other lines
+```
+]
+.pull-right[
+&lt;img src="16_python_stats_2_files/figure-html/unnamed-chunk-2-1.png" width="672" /&gt;
+]
+]
+
+---
+
+# More complex curve fitting (1)
+
+.pull-left[    
+
+``` python
+netflix_df = pd.read_csv("data/netflix_titles.csv") # "https://raw.githubusercontent.com/EEB330/slides/main/16_intro_to_python_2/data/netflix_titles.csv"
+cut = (netflix_df['release_year'] &gt;= 1950) &amp; (netflix_df['release_year'] &lt; 2022)
+
+def exponential(x, a, b):
+    return a * np.exp(b * (x-1950))
+
+plt.figure()
+t = np.linspace(1950, 2022, 72)
+n,_,_ = plt.hist(netflix_df['release_year'][cut], bins=t)
+
+*param, cov = sc.optimize.curve_fit(
+*   exponential,
+*   (t[:-1]+0.5)[:-3], n[:-3],
+    p0=[1, 0.1])
+plt.plot(t[:-3], exponential(t, *param)[:-3], 'r--')
+
+#plt.yscale('log')
+plt.xlabel("Year")
+plt.ylabel("Number of movies")
+```
+]
+.pull-right[
+&lt;img src="16_python_stats_2_files/figure-html/unnamed-chunk-4-3.png" width="100%" /&gt;
+]
+
+
+---
+
+# More complex curve fitting (1)
+
+Probably better to do a linear fit of `\(log(n)\)` rather than an exponential fit of `\(n\)`, to account for low values!
+
+.pull-left[    
+
+``` python
+netflix_df = pd.read_csv("data/netflix_titles.csv") # "https://raw.githubusercontent.com/EEB330/slides/main/16_intro_to_python_2/data/netflix_titles.csv"
+cut = (netflix_df['release_year'] &gt;= 1950) &amp; (netflix_df['release_year'] &lt; 2022)
+
+def exponential(x, a, b):
+    return a * np.exp(b * (x-1950))
+
+plt.figure()
+t = np.linspace(1950, 2022, 72)
+n,_,_ = plt.hist(netflix_df['release_year'][cut], bins=t)
+
+*param, cov = sc.optimize.curve_fit(
+*   exponential,
+*   (t[:-1]+0.5)[:-3], n[:-3],
+    p0=[1, 0.1])
+plt.plot(t[:-3], exponential(t, *param)[:-3], 'r--')
+
+plt.yscale('log')
+plt.xlabel("Year")
+plt.ylabel("Number of movies")
+```
+]
+.pull-right[
+&lt;img src="16_python_stats_2_files/figure-html/unnamed-chunk-6-5.png" width="100%" /&gt;
+]
+
+
+---
+
+# More complex curve fitting (2)
+
+More complex situations can sometimes be fitted with a physically-motivated model
+
+.pull-left[    
+
+``` python
+x = np.linspace(0, 120, 120)
+noise = 0.4*np.random.normal(size=120)
+y = 0.1*x + np.sin(x / np.pi) + noise
+
+plt.figure()
+plt.plot(x, y)
+```
+]
+.pull-right[
+&lt;img src="16_python_stats_2_files/figure-html/unnamed-chunk-8-7.png" width="100%" /&gt;
+]
+
+---
+# More complex curve fitting (2)
+
+More complex situations can sometimes be fitted with a physically-motivated model
+
+.pull-left[    
+
+``` python
+def my_func(x, a, b, c):
+    return a*x + b*np.sin(x / (c*np.pi))
+
+param, cov = sc.optimize.curve_fit(my_func, x, y)
+param # [0.10068761 0.96933067 0.9978456]
+
+plt.figure()
+plt.plot(x, y)
+plt.plot(x, my_func(x, *param))
+```
+
+The optimisation algorithm usually uses a **gradient descent** method to find the best parameters.  
+The quantity that is minimized is *usually* the sum of the squared differences between the data and the model (similar to `\(\chi^2\)`).  
+It can also be **likelihood estimators** (more Bayesian approach)
+]
+.pull-right[
+&lt;img src="16_python_stats_2_files/figure-html/unnamed-chunk-10-9.png" width="100%" /&gt;
+]
+
+---
+
+# Solving differential equations
+
+Many models are actually not about functions, but about **relations between functions and their derivatives**.  
+This is the realm of **differential equations**. Let's solve numerically `\(\frac{dy}{dt} = -2y\)`
+
+.pull-left[    
+
+``` python
+from scipy.integrate import odeint
+
+# Define the ODE function dy/dt = -2y
+def dydt(y, t):
+    return -2 * y
+
+# Initial condition and time points
+y0 = 1  
+t = np.linspace(0, 5, 100) 
+
+# Solve the ODE using odeint
+y_numerical = odeint(dydt, y0, t)
+# Analytical solution for comparison
+y_analytical = y0 * np.exp(-2 * t)
+
+plt.plot(t, y_numerical, label='Numerical Solution (odeint)', color='blue')
+plt.plot(t, y_analytical, 'r--', label='Analytical Solution')
+plt.xlabel('t')
+```
+]
+.pull-right[
+&lt;img src="16_python_stats_2_files/figure-html/unnamed-chunk-12-11.png" width="100%" /&gt;
+]
+
+---
+
+# Machine Learning Approaches Overview
+
+Machine learning can be used to get an extensive description of highly dimensional data
+
+- **Multilinear Regression** (not strictly ML): can model confounding variables to discriminate causality and causation
+
+- **Dimensionality Reduction**:
+    - **PCA** (Principal Component Analysis): Reduces dataset dimensions while retaining most variance.
+    - **t-SNE** (t-Distributed Stochastic Neighbor Embedding): Projects high-dimensional data to 2D/3D.
+
+- **Classification** and Clustering:
+    - **K-Nearest Neighbors** (KNN): Classifies based on nearest labeled examples. Also see **K-Means Clustering**
+    - **Decision Trees** &amp; Random Forests: Tree-based methods for classification and regression.
+    - Ensemble Methods (e.g., Boosting, Bagging): Combines multiple models (e.g. trees).
+
+- **Neural Networks** and Deep Learning
+    - **Convolutional** Neural Networks (CNNs): Specialized for image processing and spatial data.
+    - **Recurrent** Neural Networks (RNNs): Useful for sequential data, like time series.
+    - Transformers &amp; **Large Language Models** (LLMs): Powerful architectures for NLP tasks, e.g., ChatGPT, BERT.
+
+---
+
+# Multilinear Regression example
+
+.left-column60[    
+
+``` python
+from sklearn.datasets import fetch_california_housing
+data = fetch_california_housing()
+
+X = data.data  # Features (9 variables)
+y = data.target  # Target variable (housing prices)
+
+# Add an intercept column to X in the linear model
+X_with_intercept = np.column_stack((np.ones(X.shape[0]), X))
+
+# linear regression using scipy's least-squares solver
+# beta contains the 9 coefficients of the linear model
+beta, _, _, _ = np.linalg.lstsq(X_with_intercept, y, 
+                                rcond=None) 
+# Predictions
+y_pred = X_with_intercept @ beta # Matrix multiplication
+
+plt.scatter(y, y_pred, alpha=0.5, color="blue")
+plt.xlabel("Actual Prices")
+plt.ylabel("Predicted Prices")
+plt.title("Multiple Linear Regression: Predicted vs. Actual Prices")
+plt.plot([y.min(), y.max()], [y.min(), y.max()], 'r--')  # Line for perfect prediction
+plt.show()
+```
+]
+.right-column60[
+&lt;img src="16_python_stats_2_files/figure-html/unnamed-chunk-14-13.png" width="100%" /&gt;
+]
+
+---
+
+# A more complex model: gradient-boosted decision trees
+
+.negspace60[
+
+``` python
+import numpy as np
+from sklearn.model_selection import train_test_split
+from sklearn.datasets import load_iris
+from xgboost import XGBClassifier
+from sklearn.metrics import accuracy_score
+
+# Load the Iris dataset
+data = load_iris()
+X = data.data  # Features
+y = data.target  # Target variable (species)
+
+# Split the data into training and testing sets (80% train, 20% test)
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+# Initialize the XGBoost classifier
+model = XGBClassifier(use_label_encoder=False, eval_metric='mlogloss')
+
+# Train the model on the training data
+model.fit(X_train, y_train)
+
+# Predict on the test set
+y_pred = model.predict(X_test)
+
+# Calculate and print the accuracy
+accuracy = accuracy_score(y_test, y_pred)
+print(f"Accuracy: {accuracy:.2f}")
+```
+]
+
+Then the problem of interpretability... Use SHAPley additive values!
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script src="macros.js"></script>
+<script>var slideshow = remark.create({
+"highlightLines": true,
+"chakra": "libs/remark-latest.min.js",
+"ratio": "16:10"
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+// add `data-at-shortcutkeys` attribute to <body> to resolve conflicts with JAWS
+// screen reader (see PR #262)
+(function(d) {
+  let res = {};
+  d.querySelectorAll('.remark-help-content table tr').forEach(tr => {
+    const t = tr.querySelector('td:nth-child(2)').innerText;
+    tr.querySelectorAll('td:first-child .key').forEach(key => {
+      const k = key.innerText;
+      if (/^[a-z]$/.test(k)) res[k] = t;  // must be a single letter (key)
+    });
+  });
+  d.body.setAttribute('data-at-shortcutkeys', JSON.stringify(res));
+})(document);
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+(function(time) {
+  var d2 = function(number) {
+    return ('0' + number).slice(-2); // left-pad 0 to minutes/seconds
+  },
+
+  time_format = function(total) {
+    var secs = Math.abs(total) / 1000;
+    var h = Math.floor(secs / 3600);
+    var m = Math.floor(secs % 3600 / 60);
+    var s = Math.round(secs % 60);
+    var res = d2(m) + ':' + d2(s);
+    if (h > 0) res = h + ':' + res;
+    return res;  // [hh:]mm:ss
+  },
+
+  slide_number_div = function(i) {
+    return document.getElementsByClassName('remark-slide-number').item(i);
+  },
+
+  current_page_number = function(i) {
+    return slide_number_div(i).firstChild.textContent;  // text "i / N"
+  };
+
+  var timer = document.createElement('span'); timer.id = 'slide-time-left';
+  var time_left = time, k = slideshow.getCurrentSlideIndex(),
+      last_page_number = current_page_number(k);
+
+  setInterval(function() {
+    time_left = time_left - 1000;
+    timer.innerHTML = ' ' + time_format(time_left);
+    if (time_left < 0) timer.style.color = 'red';
+  }, 1000);
+
+  slide_number_div(k).appendChild(timer);
+
+  slideshow.on('showSlide', function(slide) {
+    var i = slide.getSlideIndex(), n = current_page_number(i);
+    // reset timer when a new slide is shown and the page number is changed
+    if (last_page_number !== n) {
+      time_left = time; last_page_number = n;
+      timer.innerHTML = ' ' + time_format(time); timer.style.color = null;
+    }
+    slide_number_div(i).appendChild(timer);
+  });
+})(60000);
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
