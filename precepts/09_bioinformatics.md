@@ -1,5 +1,7 @@
 # Intro to HPC and Bioinformatics Precept
 
+## [GitHub Assignment Link](https://classroom.github.com/a/VKt1DM4c)
+
 *This assignment will be completed excusively in Python
 *This assignment will be due TWO weeks from the date of assignment
 
