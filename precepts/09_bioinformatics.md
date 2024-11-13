@@ -17,7 +17,7 @@ Follow the guide for [accessing the Adroit cluster](https://researchcomputing.pr
 
 - **Objective**: Learn to access the Adroit HPC cluster and clone a repository.
 - **Tasks**:
-    1. Use SSH to connect to the Adroit cluster. If you encounter a "Corrupted MAC" error, amend your SSH command: `ssh -m hmac-sha2-512 <YourNetID>@della.princeton.edu`
+    1. Use SSH to connect to the Adroit cluster. If you encounter a "Corrupted MAC" error, amend your SSH command: `ssh -m hmac-sha2-512 <YourNetID>@adroit.princeton.edu`
     2. Authenticate with GitHub! This may end up being a bit tricky. You may need to generate an SSH key and add it to your GitHub account. See [this guide](https://docs.github.com/en/github/authenticating-to-github/connecting-to-github-with-ssh) for more information.
     3. Navigate to your working folder: /scratch/network/[your YourNetID]
     4. Clone the desired repository: `git clone [your assignment repository URL]`.
