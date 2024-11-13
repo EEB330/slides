@@ -1,47 +1,9 @@
-<!DOCTYPE html>
-    <html>
-    <head>
-        <meta charset="UTF-8">
-        <title>Intro to HPC and Bioinformatics Precept</title>
-        <style>
-/* From extension vscode.github */
-/*---------------------------------------------------------------------------------------------
- *  Copyright (c) Microsoft Corporation. All rights reserved.
- *  Licensed under the MIT License. See License.txt in the project root for license information.
- *--------------------------------------------------------------------------------------------*/
-
-.vscode-dark img[src$=\#gh-light-mode-only],
-.vscode-light img[src$=\#gh-dark-mode-only] {
-	display: none;
+<html><head><style>body {
+   color: black;
 }
-
-</style>
-        
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
-<style>
-            body {
-                font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', system-ui, 'Ubuntu', 'Droid Sans', sans-serif;
-                font-size: 14px;
-                line-height: 1.6;
-            }
-        </style>
-        <style>
-.task-list-item {
-    list-style-type: none;
-}
-
-.task-list-item-checkbox {
-    margin-left: -20px;
-    vertical-align: middle;
-    pointer-events: none;
-}
-</style>
-        
-    </head>
-    <body class="vscode-body vscode-light">
-        <h1 id="intro-to-hpc-and-bioinformatics-precept">Intro to HPC and Bioinformatics Precept</h1>
-<h2 id="github-assignment-link"><a href="https://classroom.github.com/a/1bsNes94">GitHub Assignment Link</a></h2>
+</style></head><body><h1 id="intro-to-hpc-and-bioinformatics-precept">Intro to HPC and Bioinformatics Precept</h1>
+<p><em>This assignment will be completed excusively in Python
+</em>This assignment will be due TWO weeks from the date of assignment</p>
 <h2 id="overview">Overview</h2>
 <p>This precept will introduce you to the Adroit HPC cluster and basic bioinformatics tools. You will learn how to access the Adroit cluster, clone a repository, and run basic bioinformatics analyses. You will also learn how to use the <code>vcftools</code> tool to examine a Variant Call Format (VCF) file.</p>
 <p>Make sure you document the commands you use to complete the exercises. Submitting a text file with these commands is sufficient.</p>
@@ -49,10 +11,10 @@
 <p>Follow the guide for <a href="https://researchcomputing.princeton.edu/systems/adroit#access">accessing the Adroit cluster</a>.</p>
 <ul>
 <li><strong>Objective</strong>: Learn to access the Adroit HPC cluster and clone a repository.</li>
-<li><strong>Tasks</strong>:
-<ol>
-<li>Use SSH to connect to the Adroit cluster.</li>
+<li><strong>Tasks</strong>:<ol>
+<li>Use SSH to connect to the Adroit cluster. If you encounter a &quot;Corrupted MAC&quot; error, amend your SSH command: <code>ssh -m hmac-sha2-512 &lt;YourNetID&gt;@della.princeton.edu</code></li>
 <li>Authenticate with GitHub! This may end up being a bit tricky. You may need to generate an SSH key and add it to your GitHub account. See <a href="https://docs.github.com/en/github/authenticating-to-github/connecting-to-github-with-ssh">this guide</a> for more information.</li>
+<li>Navigate to your working folder: /scratch/network/[your YourNetID]</li>
 <li>Clone the desired repository: <code>git clone [your assignment repository URL]</code>.</li>
 </ol>
 </li>
@@ -60,10 +22,9 @@
 <h2 id="exercise-2-inspecting-the-vcf-file">Exercise 2: Inspecting the VCF File</h2>
 <ul>
 <li><strong>Objective</strong>: Gain experience in handling Variant Call Format (VCF) files.</li>
-<li><strong>Tasks</strong>:
-<ol>
-<li>View the available modules on the Adroit cluster.</li>
-<li>Load the <code>anaconda3</code> module.</li>
+<li><strong>Tasks</strong>:<ol>
+<li>View the available modules on the Adroit cluster online.</li>
+<li>Load the <code>anaconda3</code> module: <code>module load anaconda3/2024.2</code></li>
 <li>Create a new conda environment: <code>conda create -n [environment name]</code>.</li>
 <li>Activate the new environment: <code>conda activate [environment name]</code>.</li>
 <li>Install <code>vcftools</code> in the new environment: <code>conda install -c bioconda vcftools</code>.</li>
@@ -74,26 +35,16 @@
 </ul>
 <h2 id="exercise-3-measuring-individual-missingness-and-simple-filtering">Exercise 3: Measuring Individual Missingness and Simple Filtering</h2>
 <ul>
-<li>
-<p><strong>Objective</strong>: Learn to use <code>vcftools</code> to measure missingness and filter on minor allele frequency.</p>
-</li>
-<li>
-<p><strong>Tasks</strong>:</p>
-<ol>
+<li><strong>Objective</strong>: Learn to use <code>vcftools</code> to measure missingness and filter on minor allele frequency.</li>
+<li><strong>Tasks</strong>:<ol>
 <li>Use <code>vcftools</code> to measure the missingness of each individual.</li>
 <li>Use <code>vcftools</code> to filter to sites with a minor allele frequency of at least 0.1.</li>
 <li>Repeat the missingness calculation on the new VCF file.</li>
 </ol>
 </li>
-<li>
-<p><strong>Output</strong>: The missingness of each individual before and after filtering. Please include the commands you used to generate these values.</p>
+<li><p><strong>Output</strong>: The missingness of each individual before and after filtering. Please include the commands you used to generate these values.</p>
 </li>
-<li>
-<p><strong>Optional</strong>: Plot the missingness of each individual before and after filtering.</p>
+<li><p><strong>Optional</strong>: Plot the missingness of each individual before and after filtering.</p>
 </li>
 </ul>
-
-        
-        
-    </body>
-    </html>
+</body></html>

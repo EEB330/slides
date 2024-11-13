@@ -1,6 +1,7 @@
 # Intro to HPC and Bioinformatics Precept
 
-## [GitHub Assignment Link](https://classroom.github.com/a/1bsNes94)
+*This assignment will be completed excusively in Python
+*This assignment will be due TWO weeks from the date of assignment
 
 ## Overview
 
@@ -14,15 +15,16 @@ Follow the guide for [accessing the Adroit cluster](https://researchcomputing.pr
 
 - **Objective**: Learn to access the Adroit HPC cluster and clone a repository.
 - **Tasks**:
-    1. Use SSH to connect to the Adroit cluster.
+    1. Use SSH to connect to the Adroit cluster. If you encounter a "Corrupted MAC" error, amend your SSH command: `ssh -m hmac-sha2-512 <YourNetID>@della.princeton.edu`
     2. Authenticate with GitHub! This may end up being a bit tricky. You may need to generate an SSH key and add it to your GitHub account. See [this guide](https://docs.github.com/en/github/authenticating-to-github/connecting-to-github-with-ssh) for more information.
-    3. Clone the desired repository: `git clone [your assignment repository URL]`.
+    3. Navigate to your working folder: /scratch/network/[your YourNetID]
+    4. Clone the desired repository: `git clone [your assignment repository URL]`.
 
 ## Exercise 2: Inspecting the VCF File
 - **Objective**: Gain experience in handling Variant Call Format (VCF) files.
 - **Tasks**:
-    1. View the available modules on the Adroit cluster.
-    2. Load the `anaconda3` module.
+    1. View the available modules on the Adroit cluster online.
+    2. Load the `anaconda3` module: `module load anaconda3/2024.2`
     3. Create a new conda environment: `conda create -n [environment name]`.
     4. Activate the new environment: `conda activate [environment name]`.
     5. Install `vcftools` in the new environment: `conda install -c bioconda vcftools`.
