@@ -1,6 +1,7 @@
 # Intro to Snakemake Precept
 
-##[GitHub Classroom Assignment Link](https://classroom.github.com/a/QRyGulzo)
+*This assignment is technically completed entirely in Python
+*This assignment is due 1 week after precept
 
 ## Overview
 
@@ -20,14 +21,14 @@ Follow the guide for [accessing the Adroit cluster](https://researchcomputing.pr
 
 ## Exercise 2: Running a Snakemake Pipeline on Adroit
 
-In this exercise, you will run an example Snakemake pipeline that converts FASTQ files to VCF format. The base and data for this Snakemake workflow can be found at `/scratch/swwolf/snakemake_workflow/fastq_2_VCF` on Adroit.
+In this exercise, you will run an example Snakemake pipeline that converts FASTQ files to VCF format. The base and data for this Snakemake workflow can be found at `/scratch/network/mw0425/fastq_2_VCF` on Adroit.
 
 - **Objective**: Learn to run a Snakemake pipeline.
 - **Tasks**:
-    1. Load anaconda (`module load anaconda3/2023.9`) and create an environment for snakemake `conda env create -f /scratch/swwolf/snakemake_workflow/fastq_2_VCF/bioinformatics.yml`.
+    1. Load anaconda (`module load anaconda3/2024.2`) and create an environment for snakemake `conda env create -f /scratch/network/mw0425/fastq_2_VCF/bioinformatics.yml`.
     2. Activate the environment with `conda activate bioinformatics`.
-    3. Copy the directory `/scratch/swwolf/snakemake_workflow/fastq_2_VCF` to your home folder (`cp -r /scratch/swwolf/snakemake_workflow/fastq_2_VCF ~`)
-    4. Move the the fastq_2_VCF folder (`cd ~/fastq_2_VCF`
+    3. Copy the directory `/scratch/network/mw0425/fastq_2_VCF` to your home folder (`cp -r /scratch/network/mw0425/fastq_2_VCF .`)
+    4. Move the the fastq_2_VCF folder (`cd fastq_2_VCF`)
     5. Examine the Snakemake file to understand the workflow steps. You can open the file in vscode, open the file in a terminal based text editor like vim or emacs `vim Snakefile` or `emacs Snakefile` or `nano Snakefile`, or just look at the file contents with `cat Snakefile`
     6. Run the Snakemake pipeline: `snakemake --cores [number_of_cores]`.
     7. Verify the output to ensure the pipeline ran successfully.
