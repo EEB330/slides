@@ -1,5 +1,7 @@
 # Intro to Snakemake Precept
 
+##[GitHub Classroom Assignment Link](https://classroom.github.com/a/37Wfn6Us)
+
 **This assignment is technically completed entirely in Python.**
 **This assignment is due 2 weeks after precept.**
 
