@@ -1,7 +1,7 @@
 # Intro to Snakemake Precept
 
-*This assignment is technically completed entirely in Python
-*This assignment is due 1 week after precept
+**This assignment is technically completed entirely in Python.**
+**This assignment is due 2 weeks after precept.**
 
 ## Overview
 
