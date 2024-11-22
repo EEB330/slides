@@ -2,7 +2,7 @@
    color: black;
 }
 </style></head><body><h1 id="intro-to-snakemake-precept">Intro to Snakemake Precept</h1>
-<p>##<a href="https://classroom.github.com/a/37Wfn6Us">GitHub Classroom Assignment Link</a></p>
+<h2 id="-github-classroom-assignment-link-https-classroom-github-com-a-37wfn6us-"><a href="https://classroom.github.com/a/37Wfn6Us">GitHub Classroom Assignment Link</a></h2>
 <p><strong>This assignment is technically completed entirely in Python.</strong>
 <strong>This assignment is due 2 weeks after precept.</strong></p>
 <h2 id="overview">Overview</h2>
@@ -14,7 +14,8 @@
 <li><strong>Objective</strong>: Access the Adroit HPC cluster and clone a repository.</li>
 <li><strong>Tasks</strong>:<ol>
 <li>Use SSH to connect to the Adroit cluster.</li>
-<li>Authenticate with GitHub! This may be a bit tricky. You may need to generate an SSH key and add it to your GitHub account. See <a href="https://docs.github.com/en/github/authenticating-to-github/connecting-to-github-with-ssh">this guide</a> for more information.</li>
+<li>Authenticate with GitHub. This is the same as Exercise 1 in the Bioinformatics precept. If you haven&#39;t already, you may need to generate an SSH key and add it to your GitHub account. See <a href="https://docs.github.com/en/github/authenticating-to-github/connecting-to-github-with-ssh">this guide</a> for more information.</li>
+<li>Navigate to your scratch directory!: <code>cd /scratch/network/[PUID]</code></li>
 <li>Clone the repository: <code>git clone [your assignment repository URL]</code>.</li>
 </ol>
 </li>
@@ -24,12 +25,15 @@
 <ul>
 <li><strong>Objective</strong>: Learn to run a Snakemake pipeline.</li>
 <li><strong>Tasks</strong>:<ol>
-<li>Load anaconda (<code>module load anaconda3/2024.2</code>) and create an environment for snakemake <code>conda env create -f /scratch/network/mw0425/fastq_2_VCF/bioinformatics.yml</code>.</li>
+<li>Load anaconda (<code>module load anaconda3/2024.2</code>) and create an environment for snakemake <code>conda env create -f /scratch/network/swwolf/fastq_2_VCF/bioinformatics.yml</code>.</li>
 <li>Activate the environment with <code>conda activate bioinformatics</code>.</li>
-<li>Copy the directory <code>/scratch/network/mw0425/fastq_2_VCF</code> to your home folder (<code>cp -r /scratch/network/mw0425/fastq_2_VCF .</code>)</li>
-<li>Move the the fastq_2_VCF folder (<code>cd fastq_2_VCF</code>)</li>
-<li>Examine the Snakemake file to understand the workflow steps. You can open the file in vscode, open the file in a terminal based text editor like vim or emacs <code>vim Snakefile</code> or <code>emacs Snakefile</code> or <code>nano Snakefile</code>, or just look at the file contents with <code>cat Snakefile</code></li>
-<li>Run the Snakemake pipeline: <code>snakemake --cores [number_of_cores]</code>.</li>
+<li>Copy the directory <code>/scratch/network/swwolf/fastq_2_VCF</code> to your home folder (<code>cp -r /scratch/network/swwolf/fastq_2_VCF .</code>) <strong>Don&#39;t forget the period at the end</strong></li>
+<li>You may get some warnings that your permission was denied while copying over some <code>metadata</code> files, you can safely ignore these warnings</li>
+<li>Move into the fastq_2_VCF folder (<code>cd fastq_2_VCF</code>)</li>
+<li>Delete all files and folders except the following: 1. <code>bioinformatics.yml</code>, 2. <code>Snakefile</code>, 3. <code>ref_genome</code>, and 4. <code>fastq</code></li>
+<li>Files can be deleted with the <code>rm</code> command and folders can be deleted with the <code>rm -r</code> command</li>
+<li>Examine the Snakemake file to understand the workflow steps. You can open the file in vscode, open the file in a terminal based text editor like vim or emacs <code>vim Snakefile</code> or <code>emacs Snakefile</code> or <code>nano Snakefile</code></li>
+<li>Run the Snakemake pipeline: <code>snakemake --cores [number_of_cores]</code> (2-4 cores is reasonable and will take a few hours, leave your computer on!)</li>
 <li>Verify the output to ensure the pipeline ran successfully.</li>
 </ol>
 </li>
@@ -46,5 +50,5 @@
 </ol>
 </li>
 </ul>
-<p>Remember to document all changes and any observations you make while completing these exercises.</p>
+<p>Remember to document all changes and any observations you make while completing these exercises. Your final submission will be a text file containing these documented changes. You will submit this text file like usual using <code>git</code>, but you should remain on the Adroit remote server while doing so (this is where you cloned your repository anyway).</p>
 </body></html>
