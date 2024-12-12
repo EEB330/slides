@@ -47,8 +47,8 @@ conflicts_prefer(dplyr::summarize)
 #render("15_python_stats.Rmd")
 # render("16_python_stats_2.Rmd")
 
-render("17_ResearchComputing.Rmd")
-# render("23_ComputerAgeStats.Rmd")
+# render("17_ResearchComputing.Rmd")
+render("23_ComputerAgeStats.Rmd")
 
 # ## Precepts
 # ## Week 2

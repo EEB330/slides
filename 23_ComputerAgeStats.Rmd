@@ -224,7 +224,7 @@ sap_data %>%
 # The logic of a permutation test
 
 .pull-left[
-1. Determine a statistc of interest
+1. Determine a statistic of interest
 2. Calculate the statistic for the observed data
 3. Randomly permute the data
 4. Calculate the statistic for the permuted data
