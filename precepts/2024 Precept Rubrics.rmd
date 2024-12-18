@@ -57,3 +57,21 @@
 * +15 for completing question 3 with accuracy
 * +15 for completing question 4 with accuracy
 * -5 for each error in questions 1-4
+
+# Precept 7 Rubric (Plotting from Scratch)
+* +5 for creating assignment repository
+* +10 for creating a draft branch
+* +10 for merging with main
+* +25 for completing question 1 with accuracy
+* +25 for completing question 2 with accuracy
+* +25 for completing question 3 with accuracy
+* -5 for each error in questions 1-4
+
+# Precept 8 Rubric (Statistics in Python)
+* +5 for creating assignment repository
+* +10 for creating a draft branch
+* +10 for merging with main
+* +25 for completing question 1 with accuracy
+* +25 for completing question 2 with accuracy
+* +25 for completing question 3 with accuracy
+* -5 for each error in questions 1-4
